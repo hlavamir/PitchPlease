@@ -1,0 +1,45 @@
+*Pick And Place List
+*Company=
+*Author=
+*eMail=
+*
+*Project=pitch_please_191222
+*Date=23:20:29
+*CreatedBy=Fritzing 0.9.3b.04.19.5c895d327c44a3114e5fcc9d8260daf0cbb52806
+*
+*
+*Coordinates in mm, always center of component
+*Origin 0/0=Lower left corner of PCB
+*Rotation in degree (0-360, math. pos.)
+*
+*No;Value;Package;X;Y;Rotation;Side;Name
+1;220;THT;17.8587;-49.0436;90;Bottom;RLED10
+2;47;THT;22.9478;-19.8358;180;Bottom;RLED01
+3;;TO220 [THT];35.6387;-31.5176;0;Bottom;T4
+4;47;THT;22.9387;-29.9936;180;Bottom;RLED41
+5;220;THT;22.9387;-49.0436;90;Bottom;RLED00
+6;220;THT;33.0987;-49.0436;90;Bottom;RLED50
+7;;TO220 [THT];35.6478;-21.3598;0;Bottom;T0
+8;;;8.37698;-15.1413;-90;Bottom;TXT1
+9;;;26.7487;-38.6606;90;Bottom;Arduino
+10;;THT;16.9417;-2.56159;-90;Bottom;B  G  R  +
+11;;5 mm [THT];12.7789;-38.1926;180;Bottom;STATUS
+12;47;THT;22.9387;-14.7536;180;Bottom;RLED11
+13;;;2.61864;-3.32369;0;Bottom;Hole3
+14;220;THT;28.0187;-49.0436;-90;Bottom;RS
+15;;;50.8786;-3.32369;0;Bottom;Hole4
+16;;;2.61874;-54.1236;0;Bottom;Hole5
+17;47;THT;22.9387;-24.9136;180;Bottom;RLED51
+18;;TO220 [THT];35.6387;-36.5976;0;Bottom;T3
+19;220;THT;12.7787;-49.0436;90;Bottom;RLED20
+20;220;THT;38.1787;-49.0436;90;Bottom;RLED40
+21;;;3.82057;-50.5289;0;Bottom;TXT1
+22;47;THT;22.9387;-9.67359;180;Bottom;RLED21
+23;;THT;36.9516;-2.56156;-90;Bottom;B  G  R  +
+24;220;THT;43.2587;-49.0436;90;Bottom;RLED30
+25;;TO220 [THT];35.6387;-26.4376;0;Bottom;T5
+26;;TO220 [THT];35.6387;-16.2776;0;Bottom;T1
+27;;;9.97704;-12.1145;-90;Bottom;TXT1
+28;;;5.59787;-49.1375;0;Bottom;TXT1
+29;;TO220 [THT];35.6387;-11.1976;0;Bottom;T2
+30;47;THT;22.9387;-35.0736;180;Bottom;RLED31

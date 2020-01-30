@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document xmlns:p="property" Id="GB2VxUl5VdhM5rsl5IbjQg" Authors="vvvv group" LicenseUrl="https://www.gnu.org/licenses/lgpl.html" ProjectUrl="http://vvvv.org/" LanguageVersion="2019.1.0-0090-gf3b63593c6" Version="0.128" IsTrusted="true">
+  <NugetDependency Id="RKFCmk1Lg5EP3I4IQegLTw" Location="VL.CoreLib" Version="0.35.21" />
+  <NugetDependency Id="U2JwHqMJLyGLDs97lM6eZ6" Location="VL.CoreLib.VVVV" Version="0.35.21" />
+  <Patch Id="Th8hpfHvBF4Lk6VOwDCc9D">
+    <Canvas Id="NtZT52Xp5qNOXK0fF2H7kv" DefaultCategory="VVVV.Value" BordersChecked="false" CanvasType="FullCategory">
+      <!--
+
+    ************************ DelegateDemo ************************
+
+-->
+      <Node Name="DelegateDemo" Bounds="153,200" Id="TSttkfeJHQSN5gkEF54G9o" Summary="Basic stateful template with one in/out">
+        <p:NodeReference>
+          <Choice Kind="ContainerDefinition" Name="Process" />
+          <FullNameCategoryReference ID="Primitive" />
+        </p:NodeReference>
+        <Patch Id="CzjSvRY5dvXQDxmAOA8mZj">
+          <Patch Id="ESJZDDS0I02LAWDOx9RJVV" Name="Create" />
+          <Patch Id="OkqGvJfa3PDOppp4PFQghD" Name="Update">
+            <Pin Id="DDMam647hT6QJuSC1ceDIC" Name="Condition" Kind="InputPin" />
+            <Pin Id="GrY0sqpeAxQQYYXcnpb3sr" Name="Result 2" Kind="OutputPin" />
+            <Pin Id="JrwbwyuHYc9MhChSJRETQK" Name="Argument" Kind="InputPin" />
+          </Patch>
+          <Canvas Id="C4yd3S6BFv9NWqJ2WO3OFi" BordersChecked="false" CanvasType="Group">
+            <Node Bounds="352,448,45,13" Id="Ph6USTwBkjsN36GSywpfei">
+              <p:NodeReference LastCategoryFullName="Control" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationNode" Name="Switch" />
+                <CategoryReference Kind="Category" Name="Control" />
+              </p:NodeReference>
+              <Pin Id="U78bMZzeAClQJooAwar5pL" Name="Condition" Kind="InputPin" />
+              <Pin Id="Tat0S0lv0bdQVE0EMrB73m" Name="False" Kind="InputPin" />
+              <Pin Id="BLVelBUYF4CPBl4LAMIH3X" Name="True" Kind="InputPin" />
+              <Pin Id="BwxsuF9fpYgPXSa1UHFDR3" Name="Output" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="415,126,93,148" Id="Rqp3Du1G2wzO6mM0u1sD5h">
+              <p:NodeReference LastCategoryFullName="Primitive">
+                <Choice Kind="RegionFlag" Name="Region" Fixed="true" />
+                <Choice Kind="ApplicationRegion" Name="Delegate" />
+              </p:NodeReference>
+              <Pin Id="Cq8qdiWRFicP66ph6Vq9Jv" Name="Functionality" Kind="OutputPin" />
+              <Patch Id="TwsqzrH0qWeNr4W9VwlxZ3">
+                <Node Bounds="431,188,65,13" Id="SGGcoVVhwL2PMaQnvTzRnw">
+                  <p:NodeReference LastCategoryFullName="Color.RGBA" LastSymbolSource="CoreLibBasics.vl">
+                    <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                    <Choice Kind="OperationNode" Name="FromHSL" />
+                    <CategoryReference Kind="Category" Name="RGBA" />
+                  </p:NodeReference>
+                  <Pin Id="GSjUCtOjotcOht71e76Wtj" Name="Hue" Kind="InputPin" />
+                  <Pin Id="IlDvNmLsCUdL30qS3JuNGL" Name="Saturation" Kind="InputPin" />
+                  <Pin Id="KEH5EBJozTxMQsEU8Cj1ov" Name="Lightness" Kind="InputPin" />
+                  <Pin Id="ADxGyswDXY6Ls3PK4oIVh2" Name="Alpha" Kind="InputPin" />
+                  <Pin Id="UGELkpNdwd2Ltv99lgPxLv" Name="Result" Kind="OutputPin" />
+                </Node>
+                <ControlPoint Id="JUpSpyIHvRePXVDCC4d9rH" Bounds="435,255" />
+                <ControlPoint Id="SlrcSwCjJ4TLmfezgPSMw0" Bounds="429,142" />
+                <Pin Id="MtrtXNYswwnOQKTI464kcO" Name="Hue" Kind="InputPin" />
+                <Pin Id="Bs9QKNf8BFbNKTBYhwzBzq" Name="Result" Kind="OutputPin" />
+              </Patch>
+            </Node>
+            <Node Bounds="556,140,90,132" Id="LrSkD3wjyPXLBj31Eb4AKd">
+              <p:NodeReference LastCategoryFullName="Primitive">
+                <Choice Kind="RegionFlag" Name="Region" Fixed="true" />
+                <Choice Kind="ApplicationRegion" Name="Delegate" />
+              </p:NodeReference>
+              <Pin Id="I7groHHgij8MTnlALDQhj0" Name="Functionality" Kind="OutputPin" />
+              <Patch Id="Ea129j6BczLO6rd7a7eJiM">
+                <Node Bounds="569,190,65,13" Id="K4aMxFuzjTyPpMKXnwFkmV">
+                  <p:NodeReference LastCategoryFullName="Color.RGBA" LastSymbolSource="CoreLibBasics.vl">
+                    <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                    <Choice Kind="OperationNode" Name="RGBA (Join)" />
+                    <CategoryReference Kind="Category" Name="RGBA" />
+                  </p:NodeReference>
+                  <Pin Id="JLkRli5tQWGLcXpzQL7JS1" Name="Red" Kind="InputPin" />
+                  <Pin Id="MRCDSrbyBrUP6l0KbEWKgB" Name="Green" Kind="InputPin" />
+                  <Pin Id="BJzjbv8JeMRNJeoDbyzCi8" Name="Blue" Kind="InputPin" />
+                  <Pin Id="MSksx4mFT7yQaftHOO2aqq" Name="Alpha" Kind="InputPin" />
+                  <Pin Id="JCtE6IooWEyOtA3liiCB2T" Name="Result" Kind="OutputPin" />
+                </Node>
+                <ControlPoint Id="BuDQ3JDJpyFNYY2QLXCTnn" Bounds="570,253" />
+                <ControlPoint Id="CnODoiz4VugPFbgJQi9uze" Bounds="572,156" />
+                <Pin Id="RiXYGugrvhhOWStpFrjdGw" Name="Red" Kind="InputPin" />
+                <Pin Id="NMIhGnf6xNiPGogG2yklKl" Name="Result" Kind="OutputPin" />
+              </Patch>
+            </Node>
+            <ControlPoint Id="H450xi39iAyQbrmlo9pWK3" Bounds="247,135" />
+            <Node Bounds="352,495,72,22" Id="H1kmesp61boQNXVAbnZFho">
+              <p:NodeReference LastCategoryFullName="Primitive.Delegates.Delegate (1 -&gt; 1)" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="OperationNode" Name="Invoke" />
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <FullNameCategoryReference ID="Primitive.Delegates.Delegate (1 -&gt; 1)" />
+              </p:NodeReference>
+              <Pin Id="EIQWeN2sTx3QZdkGAIFx8P" Name="Input" Kind="StateInputPin" />
+              <Pin Id="MadCTdHX9OcQCFy7Hbfpn7" Name="Arg" Kind="InputPin" />
+              <Pin Id="GC3VwXkSNDONGm6bHBsqjH" Name="Result" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="IeYE9OtdJXxP45yLBrpsK0" Bounds="353,571" />
+            <ControlPoint Id="BwRHWTjBYEpMMORN57HBZw" Bounds="433,466" />
+            <Pad Id="P4LlvbTxXN2L9orxAZHZCK" Bounds="543,332" ShowValueBox="true" isIOBox="true" Value="The two delegates take one Float32 argument and return a color from it">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="AKuBDSxSZJ9Nt800ihYQhF" Bounds="543,356" ShowValueBox="true" isIOBox="true" Value="So this becomes interesting when you want to apply different functions">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="UGJyn2VY31AOTIBcBwre6w" Bounds="436,513" ShowValueBox="true" isIOBox="true" Value="&lt; Invoke takes either delegate and invokes/executes it ">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="KFM8rS7IkLlLkQrMjLMcG0" Bounds="444,530" ShowValueBox="true" isIOBox="true" Value="by handing it over the argument and returning its result">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="NLjXfkEGDm1LvVuavaMsvh" Bounds="542,375" ShowValueBox="true" isIOBox="true" Value="that have the same signature (ie. number and type of inputs and outputs)">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="RL2Xq7CuianOtg8KAh3nDK" Bounds="543,396" ShowValueBox="true" isIOBox="true" Value="but different implementations, at a place in a patch">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="Kd1u2VEAoGPNRI4dejmy5R" Bounds="543,416" ShowValueBox="true" isIOBox="true" Value="but don't want to put all implementations there. ">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+          </Canvas>
+          <ProcessDefinition Id="FHNLl8GWgcVOJzRkkPI83E">
+            <Fragment Id="MRFnVwHDf0WOO7H3jKbCxI" Patch="ESJZDDS0I02LAWDOx9RJVV" Enabled="true" />
+            <Fragment Id="PulIQZQ5YLtPp6C2yvbTNE" Patch="OkqGvJfa3PDOppp4PFQghD" Enabled="true" />
+          </ProcessDefinition>
+          <Link Id="H9WuTtRg6dqQYug30kSZKb" Ids="Cq8qdiWRFicP66ph6Vq9Jv,Tat0S0lv0bdQVE0EMrB73m" />
+          <Link Id="NPZZPIV7hEZOkWDzmc2Vhf" Ids="I7groHHgij8MTnlALDQhj0,BLVelBUYF4CPBl4LAMIH3X" />
+          <Link Id="PvqUqBUjLjXLIPBlYqQW2m" Ids="H450xi39iAyQbrmlo9pWK3,U78bMZzeAClQJooAwar5pL" />
+          <Link Id="K9GwVmfvNyEMosAPbqaZO2" Ids="DDMam647hT6QJuSC1ceDIC,H450xi39iAyQbrmlo9pWK3" IsHidden="true" />
+          <Link Id="MFyWLXJo22vO9Hof7mPd1h" Ids="UGELkpNdwd2Ltv99lgPxLv,JUpSpyIHvRePXVDCC4d9rH" />
+          <Link Id="K18wm8c51jGP9n5JK4M1py" Ids="JUpSpyIHvRePXVDCC4d9rH,Bs9QKNf8BFbNKTBYhwzBzq" IsHidden="true" />
+          <Link Id="QPWA0dUJWGdL6QIeSXTajU" Ids="JCtE6IooWEyOtA3liiCB2T,BuDQ3JDJpyFNYY2QLXCTnn" />
+          <Link Id="UDrsTwg663gL7Jxk4GmSfX" Ids="BuDQ3JDJpyFNYY2QLXCTnn,NMIhGnf6xNiPGogG2yklKl" IsHidden="true" />
+          <Link Id="E69Kv9MR7QrL0rqszLszhu" Ids="BwxsuF9fpYgPXSa1UHFDR3,EIQWeN2sTx3QZdkGAIFx8P" />
+          <Link Id="U6fWnDWuNf6N08ttJAfSjq" Ids="GC3VwXkSNDONGm6bHBsqjH,IeYE9OtdJXxP45yLBrpsK0" />
+          <Link Id="MnHjzRdmushM22PuhOqSvh" Ids="IeYE9OtdJXxP45yLBrpsK0,GrY0sqpeAxQQYYXcnpb3sr" IsHidden="true" />
+          <Link Id="KhgtlXwG8TKL5Fx726rc66" Ids="SlrcSwCjJ4TLmfezgPSMw0,GSjUCtOjotcOht71e76Wtj" />
+          <Link Id="R8OrTgqMwhPMBxr89Ft5DH" Ids="MtrtXNYswwnOQKTI464kcO,SlrcSwCjJ4TLmfezgPSMw0" IsHidden="true" />
+          <Link Id="VpPtW5POeB5OgKAtN0mMAk" Ids="CnODoiz4VugPFbgJQi9uze,JLkRli5tQWGLcXpzQL7JS1" />
+          <Link Id="UrnkoERWyGyOSAPVjgo12L" Ids="RiXYGugrvhhOWStpFrjdGw,CnODoiz4VugPFbgJQi9uze" IsHidden="true" />
+          <Link Id="DfpXMexKMXIOBeS4IinZB8" Ids="BwRHWTjBYEpMMORN57HBZw,MadCTdHX9OcQCFy7Hbfpn7" />
+          <Link Id="PRcrWDhLGouOZ3mg3fDWer" Ids="JrwbwyuHYc9MhChSJRETQK,BwRHWTjBYEpMMORN57HBZw" IsHidden="true" />
+        </Patch>
+      </Node>
+    </Canvas>
+    <!--
+
+    ************************ Application ************************
+
+-->
+    <Node Name="Application" Bounds="100,100" Id="AwfQhoFnMf3PFsKOPrRVsP">
+      <p:NodeReference>
+        <Choice Kind="ContainerDefinition" Name="Process" />
+        <FullNameCategoryReference ID="Primitive" />
+      </p:NodeReference>
+      <Patch Id="Nuu8A8eIui7PGRxzWwfQGK">
+        <Canvas Id="NW7kKAYMyQEL9S1xEMWnKq" BordersChecked="false" CanvasType="Group" />
+        <Patch Id="HHXnmqwcxCoONM2eQ0AVOe" Name="Create" />
+        <Patch Id="MMRhhR7CED6LUy60omtPwl" Name="Update" />
+        <ProcessDefinition Id="TPUqQKGZEo0LMqignHVWqC">
+          <Fragment Id="LB9rnAiw6azPlX48SvoHR9" Patch="HHXnmqwcxCoONM2eQ0AVOe" Enabled="true" />
+          <Fragment Id="DKaHpmhxR73MunwF3JA9xN" Patch="MMRhhR7CED6LUy60omtPwl" Enabled="true" />
+        </ProcessDefinition>
+      </Patch>
+    </Node>
+  </Patch>
+  <NugetDependency Id="LWeHm6WEs8IL4ii1bqKuru" Location="VL.IO.TUIO" Version="0.47.83-g6637963cdf" />
+</Document>

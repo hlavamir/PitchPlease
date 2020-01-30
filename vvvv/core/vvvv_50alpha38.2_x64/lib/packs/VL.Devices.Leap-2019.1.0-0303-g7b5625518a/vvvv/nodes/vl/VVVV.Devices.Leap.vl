@@ -1,0 +1,1281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document xmlns:p="property" Id="LgGctDfgW2PMBe5fii5LXw" Summary="vvvvrapper for Leap VL Nodes" Authors="dominikKoller, vvvv group" LicenseUrl="https://www.gnu.org/licenses/lgpl.html" ProjectUrl="http://vvvv.org/" LanguageVersion="2019.1.0-0090-gf3b63593c6" Version="0.128" IsTrusted="true">
+  <NugetDependency Id="RYLBV3aWiMLPnwIhAQexDX" Location="VL.CoreLib" Version="0.35.33" />
+  <Patch Id="FRSiE2uUOCUQFRUdEZJlyG">
+    <Canvas Id="FCxVvCF9jifM2J7sGVAd17" DefaultCategory="VVVV.Leap" CanvasType="FullCategory">
+      <!--
+
+    ************************ Gestures (Observable) ************************
+
+-->
+      <Node Name="Gestures (Observable)" Bounds="427,199" Id="NYK3Khq2CORO7xLQjba13A" Summary="Gets all gestures since the last frame.">
+        <p:NodeReference>
+          <Choice Kind="ContainerDefinition" Name="Patch" />
+          <FullNameCategoryReference ID="Primitive" />
+        </p:NodeReference>
+        <Patch Id="IhEwYRb5iYvPHUDcyC7slJ">
+          <Patch Id="Gc4Yyyzy3vxLBpPvrsoEi7" Name="Create" />
+          <Patch Id="CHx9j45paR1MWJGjzlo13y" Name="Update">
+            <Pin Id="OA4zyNWFcmTM7BG2H9FsTA" Name="Gestures" Kind="OutputPin" />
+            <Pin Id="SKUiw5xr6DJMDriGbSOhHk" Name="Observable" Kind="InputPin" />
+          </Patch>
+          <Canvas Id="ORAUiWI9GYAOhJpysF4LCG" CanvasType="Group">
+            <Node Bounds="404,219,66,13" Id="IACJFwnxIrUORgrWoVOJ7I">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="ProcessNode" Name="Gestures (Observable)" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="Uh74BrHCnrFP1eKmocQOsl" Name="Observable" Kind="InputPin" />
+              <Pin Id="FYC1TT02crBPcxk3ws99TF" Name="Gestures" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="Ozg59kzjq65MeRHVy41i0d" Bounds="403,175" />
+            <ControlPoint Id="GsXAFFiXa5QMY7ueb5guva" Bounds="401,259" />
+          </Canvas>
+          <Link Id="SVvZtPTXNbrOLfByjPU0z0" Ids="SKUiw5xr6DJMDriGbSOhHk,Ozg59kzjq65MeRHVy41i0d" IsHidden="true" />
+          <Link Id="FykQLIhm5gKNHhvBqVx8Lb" Ids="GsXAFFiXa5QMY7ueb5guva,OA4zyNWFcmTM7BG2H9FsTA" IsHidden="true" />
+          <Link Id="LfOA0GjF0ZmQXsX1pHZood" Ids="Ozg59kzjq65MeRHVy41i0d,Uh74BrHCnrFP1eKmocQOsl" />
+          <Link Id="MJVVwjcDxfyNQEKq3nBOdb" Ids="FYC1TT02crBPcxk3ws99TF,GsXAFFiXa5QMY7ueb5guva" />
+          <ProcessDefinition Id="Tz1yApCXvJcN52Po1NkyrQ">
+            <Fragment Id="EAyo2pjxZYNOonuZ60rfo8" Patch="Gc4Yyyzy3vxLBpPvrsoEi7" Enabled="true" />
+            <Fragment Id="GajwHDIdEmRLksdqPuxJo2" Patch="CHx9j45paR1MWJGjzlo13y" Enabled="true" />
+          </ProcessDefinition>
+        </Patch>
+      </Node>
+      <!--
+
+    ************************ Keep ************************
+
+-->
+      <Node Name="Keep" Bounds="277,199" Id="P9o04DV4m75PSkj7NpK2Y0" Summary="Keeps Leap gestures in storage after they disappeared for a given time">
+        <p:NodeReference>
+          <Choice Kind="ContainerDefinition" Name="Patch" />
+          <FullNameCategoryReference ID="Primitive" />
+        </p:NodeReference>
+        <Patch Id="K9FyybDg3Q1QFUlAxcF01x">
+          <Patch Id="Pxcb27sDmilQavjYF0tPPz" Name="Create" />
+          <Patch Id="VTqzTjhUHHmMrRD3GSPAOf" Name="Update">
+            <Pin Id="TNICwuOK08eOTuQXJ41zdo" Name="Gesture" Kind="InputPin" />
+            <Pin Id="GTmPjkT3orDP5lGYwwKhwU" Name="Gestures" Kind="OutputPin" />
+            <Pin Id="JNaqQjwMOofLgJCiG6jQrZ" Name="Keep Time" Kind="InputPin" />
+            <Pin Id="UaNBwrJgsQBQGqqAKshXNR" Name="Kept" Kind="OutputPin" />
+          </Patch>
+          <Canvas Id="JMu3JyE9bMWNs1Ke97aEbw" CanvasType="Group">
+            <Node Bounds="308,205,48,13" Id="Io05DCXtA2kLgxZppxKiHn">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="ProcessNode" Name="Keep" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="VrPsIaLMlPHN0MTNODTZk5" Name="Gesture" Kind="InputPin" />
+              <Pin Id="SmX8IX1Z2PmO2bCVuUC8pb" Name="Keep Time" Kind="InputPin" />
+              <Pin Id="LQyk31JPUX0P7nCraOMi0L" Name="Gestures" Kind="OutputPin" />
+              <Pin Id="RaL0YH47Z2BL8tmPMAgA8M" Name="Kept" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="OqUoXAvXEFEQdSYRn9KlN4" Bounds="307,171" />
+            <ControlPoint Id="KNZT4ISqbCUOmCjwjDVpna" Bounds="377,171" />
+            <ControlPoint Id="T2vqRG9RTAwMADryd9R3VM" Bounds="309,246" />
+            <ControlPoint Id="LB4bYq7yQPGNZKSYiMY8JC" Bounds="383,246" />
+          </Canvas>
+          <Link Id="QmR7cdCV4MhNhYVCDZgYSC" Ids="TNICwuOK08eOTuQXJ41zdo,OqUoXAvXEFEQdSYRn9KlN4" IsHidden="true" />
+          <Link Id="BuKQsugnsz6PRvaboTwrX2" Ids="JNaqQjwMOofLgJCiG6jQrZ,KNZT4ISqbCUOmCjwjDVpna" IsHidden="true" />
+          <Link Id="VqirZzgn4JMO4BvCw9VChY" Ids="T2vqRG9RTAwMADryd9R3VM,GTmPjkT3orDP5lGYwwKhwU" IsHidden="true" />
+          <Link Id="FaVpReOz3M1PU55xWvhALf" Ids="LB4bYq7yQPGNZKSYiMY8JC,UaNBwrJgsQBQGqqAKshXNR" IsHidden="true" />
+          <Link Id="AFJvWFU7Tl8NWNY9ysx5FK" Ids="OqUoXAvXEFEQdSYRn9KlN4,VrPsIaLMlPHN0MTNODTZk5" />
+          <Link Id="JASUwli5LJuPCom4OwjBgM" Ids="KNZT4ISqbCUOmCjwjDVpna,SmX8IX1Z2PmO2bCVuUC8pb" />
+          <Link Id="AaIDGG55I6PPL19aw3wUtX" Ids="LQyk31JPUX0P7nCraOMi0L,T2vqRG9RTAwMADryd9R3VM" />
+          <Link Id="JnNFxH4fVzvOlDwvSqKtny" Ids="RaL0YH47Z2BL8tmPMAgA8M,LB4bYq7yQPGNZKSYiMY8JC" />
+          <ProcessDefinition Id="OMARIrexZisLkw9SrltwKE">
+            <Fragment Id="R8VfDv64lWnQAJAjNaAfph" Patch="Pxcb27sDmilQavjYF0tPPz" Enabled="true" />
+            <Fragment Id="MNfnQoyLkm5MAqTE8pIDMd" Patch="VTqzTjhUHHmMrRD3GSPAOf" Enabled="true" />
+          </ProcessDefinition>
+        </Patch>
+      </Node>
+      <!--
+
+    ************************ LastFrame ************************
+
+-->
+      <Node Name="LastFrame" Bounds="105,200" Id="KFsm1xbal8tPO6DaawyQ2Z" Summary="Last frame of Leap trackingdata">
+        <p:NodeReference>
+          <Choice Kind="ContainerDefinition" Name="Patch" />
+          <FullNameCategoryReference ID="Primitive" />
+        </p:NodeReference>
+        <Patch Id="BpELrigfujIPYMOJsJhSCG">
+          <Patch Id="G8q33HNr7a4OaJ8Xn975nK" Name="Create" />
+          <Patch Id="GWApcgGmppKP58Z5GgiLMO" Name="Update">
+            <Pin Id="GjrozQFqHF8LPOSqNbtFpI" Name="Frame" Kind="OutputPin" />
+            <Pin Id="NhWpVsGo9QTQXKCCs4NyBI" Name="Observable" Kind="InputPin" />
+            <Pin Id="MuGlecVjcEtMls2Nxo9Pxb" Name="Hands" Kind="OutputPin" />
+            <Pin Id="GtyFl2Kb2bXQQYK0WLKo9O" Name="Gestures" Kind="OutputPin" />
+            <Pin Id="OdjQ9ndvP7PQGFgGF037ri" Name="Images" Kind="OutputPin" />
+          </Patch>
+          <Canvas Id="IWB7gjRJnXtQX4Z8VVHXSh" CanvasType="Group">
+            <Node Bounds="417,256,73,13" Id="IGhzTB2iBsoLo6MjQn6lib">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="ProcessNode" Name="LastFrame" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="AsOXdyFYbDVMrJGhJRBAub" Name="Observable" Kind="InputPin" />
+              <Pin Id="Kfm2SkyiOQmOvtlehX72bp" Name="Frame" Kind="OutputPin" />
+              <Pin Id="VZMgMb2veNfNl6UuEuwa97" Name="Hands" Kind="OutputPin" />
+              <Pin Id="GQG9AvlPNz8O2ezxS95mhc" Name="Gestures" Kind="OutputPin" />
+              <Pin Id="UQUlPrtSDyDOv2BbBbW8eW" Name="Images" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="RBBvbDelFjbNqgGVVEtXTI" Bounds="414,223" />
+            <ControlPoint Id="QsppA2sZcMwMHQzsRXOScR" Bounds="412,305" />
+            <ControlPoint Id="DjXsYRPuNC2MAxkCUHg2pM" Bounds="484,305" />
+            <ControlPoint Id="N5zPcHOxqbhL0zO2yvZCH4" Bounds="555,305" />
+            <ControlPoint Id="IW6Y2evpfF1LCc2ibPNODP" Bounds="630,305" />
+          </Canvas>
+          <Link Id="Fz0EbED470ZLWz5vR9DQ5m" Ids="NhWpVsGo9QTQXKCCs4NyBI,RBBvbDelFjbNqgGVVEtXTI" IsHidden="true" />
+          <Link Id="Cu2AsfbaFRSMpw3Yj3ldct" Ids="QsppA2sZcMwMHQzsRXOScR,GjrozQFqHF8LPOSqNbtFpI" IsHidden="true" />
+          <Link Id="DHMDczyfRTgPEUjrGejOnW" Ids="DjXsYRPuNC2MAxkCUHg2pM,MuGlecVjcEtMls2Nxo9Pxb" IsHidden="true" />
+          <Link Id="MtpwFikpdLvOzp8yhvK0GX" Ids="N5zPcHOxqbhL0zO2yvZCH4,GtyFl2Kb2bXQQYK0WLKo9O" IsHidden="true" />
+          <Link Id="IC9tt2ZLCIcMNpUKaZBUln" Ids="IW6Y2evpfF1LCc2ibPNODP,OdjQ9ndvP7PQGFgGF037ri" IsHidden="true" />
+          <Link Id="F6nI9V0hOFJMEjMT0r7fEC" Ids="RBBvbDelFjbNqgGVVEtXTI,AsOXdyFYbDVMrJGhJRBAub" />
+          <Link Id="RqWOW8FYv94N7yxso9sMkf" Ids="VZMgMb2veNfNl6UuEuwa97,DjXsYRPuNC2MAxkCUHg2pM" />
+          <Link Id="BYPbHcKKERHNZlLA6F2yyU" Ids="GQG9AvlPNz8O2ezxS95mhc,N5zPcHOxqbhL0zO2yvZCH4" />
+          <Link Id="QwqHOUqulUoL92ZFv0AjLJ" Ids="UQUlPrtSDyDOv2BbBbW8eW,IW6Y2evpfF1LCc2ibPNODP" />
+          <Link Id="PHYiPAn7Z78OnY2iUt5Nwl" Ids="Kfm2SkyiOQmOvtlehX72bp,QsppA2sZcMwMHQzsRXOScR" />
+          <ProcessDefinition Id="GvhJLwkyuCcOW1ocsJn4Hu">
+            <Fragment Id="CcZazpcfl69L1bwY0hR3w9" Patch="G8q33HNr7a4OaJ8Xn975nK" Enabled="true" />
+            <Fragment Id="SHNEQCJZSvUPey4OdR2Y5E" Patch="GWApcgGmppKP58Z5GgiLMO" Enabled="true" />
+          </ProcessDefinition>
+        </Patch>
+      </Node>
+      <!--
+
+    ************************ Leap ************************
+
+-->
+      <Node Name="Leap" Category="VVVV.Devices" Bounds="102,132" Id="QzBFNYpuswUOQnvnj15O5u" Summary="Leap Handtracking" Tags="tracking,hand,finger">
+        <p:NodeReference>
+          <Choice Kind="ContainerDefinition" Name="Patch" />
+          <FullNameCategoryReference ID="Primitive" />
+        </p:NodeReference>
+        <Patch Id="AH8KzCrgsu8NoXs10QjIBV">
+          <Patch Id="AQxyCe8cvUSOr7lh1KmQbL" Name="Create" />
+          <Patch Id="AFqzR2pz9eWPNoh4o8sFSk" Name="Update" ParticipatingElements="LNuFAroOX4lNqiMpnERxru,TU7YO6QCenoNC95uW97wNh" ManuallySortedPins="true">
+            <Pin Id="DpN11LAaztBQLMqZ9elXgB" Name="Enable Data in Background" Kind="InputPin" />
+            <Pin Id="TLPhEgrBCt5NMFbJ9ghb9B" Name="Enable Images" Kind="InputPin" />
+            <Pin Id="UQ19z8jy6pOOFJauOKgC7T" Name="Enable Head Mount Optimization" Kind="InputPin" />
+            <Pin Id="AoNfq9EMZjjLJ3DykO1Ek1" Name="Swipe Gesture" Kind="InputPin" />
+            <Pin Id="KzWlfxFbJOhMhnk7b0pGXD" Name="Circle Gesture" Kind="InputPin" />
+            <Pin Id="BOTw7riKqzSMk8j98J3jkr" Name="Screen Tap Gesture" Kind="InputPin" />
+            <Pin Id="JEzu6pYZ7RsN3CjTXgDfrI" Name="Key Tap Gesture" Kind="InputPin" />
+            <Pin Id="VuiewnMJI4APmF0sj7qFDA" Name="Enabled" Kind="InputPin" />
+            <Pin Id="KTzv5zWN02QLOGTC9757lQ" Name="Frame" Kind="OutputPin" />
+            <Pin Id="VjIsVBW69bSP5eHcSWZzHK" Name="Tip Positions" Kind="OutputPin" />
+            <Pin Id="Cm8oHTwMiXwMknZhoA1WF5" Name="Tip Directions" Kind="OutputPin" />
+            <Pin Id="QzE73HPodPcOfp1VLiXIdI" Name="Palm Positions" Kind="OutputPin" />
+            <Pin Id="NLm1R5PuhO9Oe7UIuY5wHV" Name="Palm Normals" Kind="OutputPin" />
+            <Pin Id="LXOHvJRPhIcM1joicTBjhR" Name="Images Enabled" Kind="OutputPin" />
+            <Pin Id="VqGoVQ3EIz3PekTrHV9Eps" Name="Data in Background Enabled" Kind="OutputPin" />
+            <Pin Id="ApfPhnPBeQlPjAal5F7m40" Name="Head Mount Optimization Enabled" Kind="OutputPin" />
+            <Pin Id="JnyKURgEEORPYBOkWbPrUD" Name="Devices" Kind="OutputPin" />
+            <Pin Id="JlRLC6e1V1nLkH7qpnDYTi" Name="IsServiceConnected" Kind="OutputPin" />
+            <Pin Id="QQkL15Yuu1HLQOU7LSB5OV" Name="Is Connected" Kind="OutputPin" />
+          </Patch>
+          <Canvas Id="M5RZnPkqv6xM2aSrkduZE3" CanvasType="Group">
+            <Node Bounds="339,235,145,13" Id="B1iNbIivHVyNhPEYRWd5Za">
+              <p:NodeReference LastCategoryFullName="Devices" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="ProcessNode" Name="Leap" />
+                <CategoryReference Kind="Category" Name="Devices" />
+              </p:NodeReference>
+              <Pin Id="GGhmIihwIxBPQ3HxXOduL1" Name="Enable Data in Background" Kind="InputPin" />
+              <Pin Id="SV1cc4wSaWZOCFXRYmN62a" Name="Enable Images" Kind="InputPin" />
+              <Pin Id="SV8nG9gQ0njPfSfy7AmK59" Name="Enable Head Mount Optimization" Kind="InputPin" />
+              <Pin Id="CuYX0kKHyxyPaXsSvx20WR" Name="Swipe Gesture" Kind="InputPin" />
+              <Pin Id="M8IdyFKXQXyQc9TmwNfZAS" Name="Circle Gesture" Kind="InputPin" />
+              <Pin Id="PbJRHKWrDyUPab47dH8vpP" Name="Screen Tap Gesture" Kind="InputPin" />
+              <Pin Id="MYN7DCjnVIOMMAAjKPERFE" Name="Key Tap Gesture" Kind="InputPin" />
+              <Pin Id="F4CvP25iMlpMzrRiVakYdV" Name="Enabled" Kind="InputPin" />
+              <Pin Id="V7SoJolx23ZOEgqE8kpIxk" Name="Frame" Kind="OutputPin" />
+              <Pin Id="RhW74wBDBT0Lip0QDPQ7OO" Name="Is Connected" Kind="OutputPin" />
+              <Pin Id="OfhSm8YZ0b5PbEgjCfWcXP" Name="IsServiceConnected" Kind="OutputPin" />
+              <Pin Id="KulUFtSxwqlMAwzhtgRZ9G" Name="Devices" Kind="OutputPin" />
+              <Pin Id="FS9PyJ4eGb8OA8SqPmgFRP" Name="Data in Background Enabled" Kind="OutputPin" />
+              <Pin Id="VlNfk66s9DeMwB9pdXKSCK" Name="Images Enabled" Kind="OutputPin" />
+              <Pin Id="LKX7cJjr6M4NYhmtCp4XUo" Name="Head Mount Optimization Enabled" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="337,449,73,13" Id="JQXiUsPZ1TyPYJQVM0J1ga">
+              <p:NodeReference LastCategoryFullName="VVVV.Leap" LastSymbolSource="VVVV.Devices.Leap.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="ProcessNode" Name="LastFrame" />
+                <CategoryReference Kind="Category" Name="Leap" NeedsToBeDirectParent="true">
+                  <p:OuterCategoryReference Kind="Category" Name="VVVV" NeedsToBeDirectParent="true" />
+                </CategoryReference>
+              </p:NodeReference>
+              <Pin Id="KdA2nLDdNJ4O6skqBbEbeR" Name="Observable" Kind="InputPin" />
+              <Pin Id="PBKCRqW1QBOOq5UNGj0SlA" Name="Frame" Kind="OutputPin" />
+              <Pin Id="QO93p9AhuvRMOa73S7e6p9" Name="Hands" Kind="OutputPin" />
+              <Pin Id="CkBkjnSyO4OPQ8ODoudpPC" Name="Gestures" Kind="OutputPin" />
+              <Pin Id="Jyl3CGmXNNMLiay2UY3a2i" Name="Images" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="315,849,58,22" Id="LNuFAroOX4lNqiMpnERxru">
+              <p:NodeReference LastCategoryFullName="Collections.Builder.SpreadBuilder" LastSymbolSource="VL.Collections.vl">
+                <Choice Kind="OperationNode" Name="ToSpread" />
+                <FullNameCategoryReference ID="Collections.Builder.SpreadBuilder" />
+              </p:NodeReference>
+              <Pin Id="QTxVk7QMwgOQZCX67MztBg" Name="Input" Kind="InputPin" />
+              <Pin Id="EEo8NOkHBwYQb3U6Gms3ME" Name="Output" Kind="OutputPin" />
+              <Pin Id="MkY8Nth5R6OMdklShpovAU" Name="Result" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="552,846,58,22" Id="TU7YO6QCenoNC95uW97wNh">
+              <p:NodeReference LastCategoryFullName="Collections.Builder.SpreadBuilder" LastSymbolSource="VL.Collections.vl">
+                <Choice Kind="OperationNode" Name="ToSpread" />
+                <FullNameCategoryReference ID="Collections.Builder.SpreadBuilder" />
+              </p:NodeReference>
+              <Pin Id="URhOH9htBjDMIPAmZATW6i" Name="Input" Kind="InputPin" />
+              <Pin Id="LxtL1YML4VjQAu7xmAXHER" Name="Output" Kind="OutputPin" />
+              <Pin Id="PeyR7OZQhl8NT81TSir2Yw" Name="Result" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="250,501,680,307" Id="LXtRz0C9NAbO2uvrb58oi8">
+              <p:NodeReference LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="ApplicationStatefulRegion" Name="ForEach" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+              </p:NodeReference>
+              <ControlPoint Id="Ol3ksG5x7AMOqqpi8H7ykI" Bounds="265,507" Name="Pointable Tips" Alignment="Top" />
+              <ControlPoint Id="IF5cqtyhYk7Om8XvD2oMdQ" Bounds="654,507" Name="Pointable Velos" Alignment="Top" />
+              <ControlPoint Id="UtaZ6AhBAJLOJbXRBWm3I5" Bounds="357,507" Name="Hand" Alignment="Top" />
+              <ControlPoint Id="TUOoVJcP8DzOiKULKqTxgM" Bounds="316,802" Name="Pointable Tips" Alignment="Bottom" />
+              <ControlPoint Id="TS1S85wmHOcNiSpQH8LJlu" Bounds="553,802" Name="Pointable Velos" Alignment="Bottom" />
+              <ControlPoint Id="Fr2Iz9jbTa1LcgMIU1HcAc" Bounds="693,802" Name="Palm Position" Alignment="Bottom" />
+              <ControlPoint Id="LSkg6uPnsEgO4WESyPQRnj" Bounds="861,802" Name="Palm Normal" Alignment="Bottom" />
+              <Pin Id="JrZwFd6AWXXM0sN4DV9bGK" Name="Break" Kind="OutputPin" />
+              <Patch Id="D5Yl5U4CzDWOYQqvC832Cc">
+                <Node Bounds="359,524,365,13" Id="LgaQQxRwBLmNybCb6Ht2Jk">
+                  <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                    <Choice Kind="OperationNode" Name="Hand" />
+                    <CategoryReference Kind="Category" Name="Leap" />
+                  </p:NodeReference>
+                  <Pin Id="A1yqiqKnWyqM4W6znckhqw" Name="Hand" Kind="InputPin" />
+                  <Pin Id="KaxPMgaqCOOP60xy4HSUtF" Name="Arm" Kind="OutputPin" />
+                  <Pin Id="H6wyB5rgCB5N9i7m3gVTR5" Name="Fingers" Kind="OutputPin" />
+                  <Pin Id="AIBkVZeoSJTN3jpjMA9NCs" Name="Tools" Kind="OutputPin" />
+                  <Pin Id="GVIUu2IWlZTOWcz8FbNJBD" Name="Pointables" Kind="OutputPin" />
+                  <Pin Id="NkVjEec8NexMculWpjDyOa" Name="Basis" Kind="OutputPin" />
+                  <Pin Id="D62q3bm4egNMgmUMz9Tmac" Name="Direction" Kind="OutputPin" />
+                  <Pin Id="RnZafnNfok7LxUrOSG7h78" Name="Palm Position" Kind="OutputPin" />
+                  <Pin Id="CUKpBV8OaF3P3VgGBzCh3x" Name="Palm Normal" Kind="OutputPin" />
+                  <Pin Id="StDVr7zKdlbMQS3UxAfDJ9" Name="Palm Velocity" Kind="OutputPin" />
+                  <Pin Id="GAcZYWdkxEfNjLpxdfEwf6" Name="Palm Width" Kind="OutputPin" />
+                  <Pin Id="KIrLmynrYMhNLdZZxVfBHV" Name="Wrist Position" Kind="OutputPin" />
+                  <Pin Id="DrJ4icFoZolQCJ5KPgnrOy" Name="Sphere Center" Kind="OutputPin" />
+                  <Pin Id="HPot0O97UVqNm5y0362SQP" Name="Sphere Radius" Kind="OutputPin" />
+                  <Pin Id="LGdSukpziscO0qD6zCikD4" Name="Confidence" Kind="OutputPin" />
+                  <Pin Id="LvEK2oa0T3kL9tF1ZnImrn" Name="Grab Strength" Kind="OutputPin" />
+                  <Pin Id="TaTT74RzUJVLHFQSgTQvza" Name="Pinch Strength" Kind="OutputPin" />
+                  <Pin Id="QQBbWWtdU5HM6zDfC4I2Vl" Name="Id" Kind="OutputPin" />
+                  <Pin Id="VX8940TQZh9Npt6S23B11m" Name="Is Left" Kind="OutputPin" />
+                  <Pin Id="SFte2JtNqYJL027WxWcnC9" Name="Time Visible" Kind="OutputPin" />
+                </Node>
+                <Node Bounds="314,718,73,22" Id="Sz48V60XvQcOBZuMuzWZL8">
+                  <p:NodeReference LastCategoryFullName="Collections.Builder.SpreadBuilder" LastSymbolSource="VL.Collections.vl">
+                    <Choice Kind="OperationNode" Name="AddRange" />
+                    <FullNameCategoryReference ID="Collections.Builder.SpreadBuilder" />
+                  </p:NodeReference>
+                  <Pin Id="TeBnwLuDZMVOyxr90BNPgJ" Name="Input" Kind="InputPin" />
+                  <Pin Id="EddfC7lDzr3NQwozG2E4oo" Name="Items" Kind="InputPin" />
+                  <Pin Id="GrVKchhlxf3PJaQwSK9U1K" Name="Apply" Kind="ApplyPin" />
+                  <Pin Id="JYJv6um37i4Pqi5lHqWNhj" Name="Output" Kind="OutputPin" />
+                </Node>
+                <Node Bounds="546,740,73,22" Id="N8O1yyj5RkqOv0CnuWvr2e">
+                  <p:NodeReference LastCategoryFullName="Collections.Builder.SpreadBuilder" LastSymbolSource="VL.Collections.vl">
+                    <Choice Kind="OperationNode" Name="AddRange" />
+                    <FullNameCategoryReference ID="Collections.Builder.SpreadBuilder" />
+                  </p:NodeReference>
+                  <Pin Id="VsjhNRhpz6NP7ew5DLMz19" Name="Input" Kind="InputPin" />
+                  <Pin Id="Fp3rnbyeO5zQZ3YWEjEnrJ" Name="Items" Kind="InputPin" />
+                  <Pin Id="IH0vsIzWtOyPNwYKgPUEi8" Name="Apply" Kind="ApplyPin" />
+                  <Pin Id="KINupGiRNYmPhPOJerpquD" Name="Output" Kind="OutputPin" />
+                </Node>
+                <Node Bounds="348,564,207,97" Id="PHdYmH6hCY4QcJjFnmJODK">
+                  <p:NodeReference LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                    <Choice Kind="ApplicationStatefulRegion" Name="ForEach" />
+                    <CategoryReference Kind="Category" Name="Primitive" />
+                  </p:NodeReference>
+                  <ControlPoint Id="QNCdXeA7FrgOVuodIvSgIX" Bounds="403,570" Name="Input" Alignment="Top" />
+                  <ControlPoint Id="VFNebP3stn5OHi33XpJosn" Bounds="363,655" Name="TipPosition" Alignment="Bottom" />
+                  <ControlPoint Id="T0U6NCDWMKpPEFWLb85Dhh" Bounds="503,655" Name="Direction" Alignment="Bottom" />
+                  <Pin Id="LpRgC5RfcmqLzfAWflZnPv" Name="Break" Kind="OutputPin" />
+                  <Patch Id="VwricNhG5I4MM6qOYSN0lb">
+                    <Node Bounds="377,616,165,13" Id="Ee1zWsTRVX4NlW9WckP3NS">
+                      <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                        <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                        <Choice Kind="OperationNode" Name="Pointable" />
+                        <CategoryReference Kind="Category" Name="Leap" />
+                        <CategoryReference Kind="Category" Name="Leap" NeedsToBeDirectParent="true">
+                          <p:OuterCategoryReference Kind="Category" Name="Devices" NeedsToBeDirectParent="true" />
+                        </CategoryReference>
+                      </p:NodeReference>
+                      <Pin Id="JHRsIV7Eoj2NVOgzBsj8kQ" Name="Pointable" Kind="InputPin" />
+                      <Pin Id="P2myIubG54PO30kb1pL4QR" Name="TipPosition" Kind="OutputPin" />
+                      <Pin Id="M8GR5fGJ8q5QKPZwR6KfFT" Name="Direction" Kind="OutputPin" />
+                      <Pin Id="IyMF3t7CRHUPG4fcGyR6Oi" Name="TipVelocity" Kind="OutputPin" />
+                      <Pin Id="EbAW9Wwv3aeLan2Ye0esQZ" Name="Width" Kind="OutputPin" />
+                      <Pin Id="JUSLzQxp3OGPU3pfbITs1M" Name="Length" Kind="OutputPin" />
+                      <Pin Id="B7wh4PkLYikQI8GahzMpZk" Name="Is Extended" Kind="OutputPin" />
+                      <Pin Id="LpvPJudbdstOWKusHr4CGv" Name="Is Tool" Kind="OutputPin" />
+                      <Pin Id="NySm4JFTc2oMbS5XF2rUNn" Name="Time Visible" Kind="OutputPin" />
+                      <Pin Id="IUHFmaI5iiFQCskmNsvacn" Name="Id" Kind="OutputPin" />
+                    </Node>
+                    <Patch Id="BfgqRsIptr4PuuSqFga0qe" Name="Create" />
+                    <Patch Id="GkNrP3eXzUWQbWht9aBgtF" Name="Update" ParticipatingElements="Ee1zWsTRVX4NlW9WckP3NS" />
+                    <Patch Id="V8n7QmeA1wvQThGhpEfY5N" Name="Dispose" />
+                  </Patch>
+                </Node>
+                <Patch Id="CLRMh7JTlYROJhojtZWn6Z" Name="Create" />
+                <Patch Id="Rn8xrlezi06OotTXPAmWL1" Name="Update" ParticipatingElements="LgaQQxRwBLmNybCb6Ht2Jk,Sz48V60XvQcOBZuMuzWZL8,N8O1yyj5RkqOv0CnuWvr2e" />
+                <Patch Id="FLejU14w1rxPCcJ3yDMpDv" Name="Dispose" />
+              </Patch>
+            </Node>
+            <ControlPoint Id="ByHJ7vWf6rpNh3hbDIDGAq" Bounds="68,133" />
+            <ControlPoint Id="RdiViObEZpgNmCpnUvna7B" Bounds="223,133" />
+            <ControlPoint Id="VqB53kRF94XO3wLtXJcaKI" Bounds="320,133" />
+            <ControlPoint Id="JiUAa6zWqQAOiZdVYguNjY" Bounds="504,133" />
+            <ControlPoint Id="Q93TsHZIO2QLALBcM6delw" Bounds="599,133" />
+            <ControlPoint Id="RmfH6evlIQ5NIXtYs0xhP9" Bounds="694,133" />
+            <ControlPoint Id="M9RjpnbQyi0MtJYiCquVBY" Bounds="814,133" />
+            <ControlPoint Id="CMC83tCvcMgNoha59ZiKxc" Bounds="920,133" />
+            <ControlPoint Id="NcJ9uyOOnSiNhsIiO2oY5Z" Bounds="186,335" />
+            <ControlPoint Id="Gv9YZtfdfI2OJaoiyZurv5" Bounds="317,891" />
+            <ControlPoint Id="UnbTgOItHmkLgesEXZc2sA" Bounds="588,889" />
+            <ControlPoint Id="DW23h1xJxfTOsC6GRjqEEf" Bounds="701,886" />
+            <ControlPoint Id="PMxOZQ7g1OfP8RKAdoSVa4" Bounds="844,886" />
+            <ControlPoint Id="CBti153Q5eJOGVWjUjHRsF" Bounds="368,333" />
+            <ControlPoint Id="VKTYrsRmjO3Pg2tG1pi43A" Bounds="458,333" />
+            <ControlPoint Id="Iij3sUMnATkPmY5CugM5dh" Bounds="578,333" />
+            <ControlPoint Id="Dg4ojWwj1CTQaRIKFwsjzZ" Bounds="643,333" />
+            <ControlPoint Id="UPkNeyyNnFBOTUePBt7V4Q" Bounds="804,333" />
+            <ControlPoint Id="EXVamwcl3BaLjFXrJK5aKL" Bounds="907,333" />
+          </Canvas>
+          <Link Id="IbrNRUfmF2mL84vhZmYQxt" Ids="Ol3ksG5x7AMOqqpi8H7ykI,TUOoVJcP8DzOiKULKqTxgM" IsFeedback="true" />
+          <Link Id="J2pM6PUd2KTNKzhDsDDl2T" Ids="IF5cqtyhYk7Om8XvD2oMdQ,TS1S85wmHOcNiSpQH8LJlu" IsFeedback="true" />
+          <Link Id="D6aEwtXjVyhMxzhLYya8hV" Ids="DpN11LAaztBQLMqZ9elXgB,ByHJ7vWf6rpNh3hbDIDGAq" IsHidden="true" />
+          <Link Id="DNIfXp0lTb8Lxukx4nJ2gZ" Ids="TLPhEgrBCt5NMFbJ9ghb9B,RdiViObEZpgNmCpnUvna7B" IsHidden="true" />
+          <Link Id="EUiHL9REox0LlMlEplrEKE" Ids="UQ19z8jy6pOOFJauOKgC7T,VqB53kRF94XO3wLtXJcaKI" IsHidden="true" />
+          <Link Id="Deoj1kUezDwLV5mYtRKKYN" Ids="AoNfq9EMZjjLJ3DykO1Ek1,JiUAa6zWqQAOiZdVYguNjY" IsHidden="true" />
+          <Link Id="Un8YxwQJqr9Mw1oJ27YoTX" Ids="KzWlfxFbJOhMhnk7b0pGXD,Q93TsHZIO2QLALBcM6delw" IsHidden="true" />
+          <Link Id="ScoNbLzMpYnLuS599O3DkO" Ids="BOTw7riKqzSMk8j98J3jkr,RmfH6evlIQ5NIXtYs0xhP9" IsHidden="true" />
+          <Link Id="QIIz2CNDCDHLy255LuhwHt" Ids="JEzu6pYZ7RsN3CjTXgDfrI,M9RjpnbQyi0MtJYiCquVBY" IsHidden="true" />
+          <Link Id="HiRi6VUifbtNgqDo4jbUH4" Ids="VuiewnMJI4APmF0sj7qFDA,CMC83tCvcMgNoha59ZiKxc" IsHidden="true" />
+          <Link Id="RCiNjazTjEqO3ymuuyUc7l" Ids="NcJ9uyOOnSiNhsIiO2oY5Z,KTzv5zWN02QLOGTC9757lQ" IsHidden="true" />
+          <Link Id="SqASmIiqSbgM034ajdwr2z" Ids="Gv9YZtfdfI2OJaoiyZurv5,VjIsVBW69bSP5eHcSWZzHK" IsHidden="true" />
+          <Link Id="RjNEU71N8HdLssYqYxuSba" Ids="UnbTgOItHmkLgesEXZc2sA,Cm8oHTwMiXwMknZhoA1WF5" IsHidden="true" />
+          <Link Id="PwvUmvu4GSWMS0sJkDDvQO" Ids="DW23h1xJxfTOsC6GRjqEEf,QzE73HPodPcOfp1VLiXIdI" IsHidden="true" />
+          <Link Id="R4RlDviHa4AMoANviN1ZRY" Ids="PMxOZQ7g1OfP8RKAdoSVa4,NLm1R5PuhO9Oe7UIuY5wHV" IsHidden="true" />
+          <Link Id="KtnqTbG86SmP3m0oEhs7o1" Ids="CBti153Q5eJOGVWjUjHRsF,QQkL15Yuu1HLQOU7LSB5OV" IsHidden="true" />
+          <Link Id="IkYQ1l1K443NZXjcxO3Pja" Ids="VKTYrsRmjO3Pg2tG1pi43A,JlRLC6e1V1nLkH7qpnDYTi" IsHidden="true" />
+          <Link Id="RnClvDJy9vLNn1oDKFycT3" Ids="Iij3sUMnATkPmY5CugM5dh,JnyKURgEEORPYBOkWbPrUD" IsHidden="true" />
+          <Link Id="FbOsSif3kZuLUUH2yqrC6m" Ids="Dg4ojWwj1CTQaRIKFwsjzZ,VqGoVQ3EIz3PekTrHV9Eps" IsHidden="true" />
+          <Link Id="Vr5WuE29B48LXC5xuPtohR" Ids="UPkNeyyNnFBOTUePBt7V4Q,LXOHvJRPhIcM1joicTBjhR" IsHidden="true" />
+          <Link Id="SMd6txXVLZfLA5ldkbiciK" Ids="EXVamwcl3BaLjFXrJK5aKL,ApfPhnPBeQlPjAal5F7m40" IsHidden="true" />
+          <Link Id="LtwO1EglNCBMkSYnQhiwMn" Ids="ByHJ7vWf6rpNh3hbDIDGAq,GGhmIihwIxBPQ3HxXOduL1" />
+          <Link Id="TbLYNBkbdutLcmeihL9HNF" Ids="RdiViObEZpgNmCpnUvna7B,SV1cc4wSaWZOCFXRYmN62a" />
+          <Link Id="BrS6VB8PkR5PBDkLG3Yfxf" Ids="VqB53kRF94XO3wLtXJcaKI,SV8nG9gQ0njPfSfy7AmK59" />
+          <Link Id="MMdjV4nH6STLimIyI43xVk" Ids="JiUAa6zWqQAOiZdVYguNjY,CuYX0kKHyxyPaXsSvx20WR" />
+          <Link Id="J9ppfbzPUmlQTg12ghYk5e" Ids="Q93TsHZIO2QLALBcM6delw,M8IdyFKXQXyQc9TmwNfZAS" />
+          <Link Id="ItrITa3xMfuLFanHzYHHA2" Ids="RmfH6evlIQ5NIXtYs0xhP9,PbJRHKWrDyUPab47dH8vpP" />
+          <Link Id="RqYFQkWOAWDQV8eefA0LGJ" Ids="M9RjpnbQyi0MtJYiCquVBY,MYN7DCjnVIOMMAAjKPERFE" />
+          <Link Id="UuU3vgz9Y7WOCSmcc5bLJx" Ids="V7SoJolx23ZOEgqE8kpIxk,NcJ9uyOOnSiNhsIiO2oY5Z" />
+          <Link Id="JNLW3taz76hLM5M4H90wlu" Ids="RhW74wBDBT0Lip0QDPQ7OO,CBti153Q5eJOGVWjUjHRsF" />
+          <Link Id="Kmv12FrZ0dtOiTCpdqltCx" Ids="OfhSm8YZ0b5PbEgjCfWcXP,VKTYrsRmjO3Pg2tG1pi43A" />
+          <Link Id="EzEOVo64HtkLOI5OUetrq5" Ids="KulUFtSxwqlMAwzhtgRZ9G,Iij3sUMnATkPmY5CugM5dh" />
+          <Link Id="U9vCcgSFVlNLYDjwXB6Dtp" Ids="FS9PyJ4eGb8OA8SqPmgFRP,Dg4ojWwj1CTQaRIKFwsjzZ" />
+          <Link Id="HwfHJDa5Lo4OJukZrbsAEo" Ids="VlNfk66s9DeMwB9pdXKSCK,UPkNeyyNnFBOTUePBt7V4Q" />
+          <Link Id="E7CFsxhK3BHNzFMy1WXxyB" Ids="LKX7cJjr6M4NYhmtCp4XUo,EXVamwcl3BaLjFXrJK5aKL" />
+          <Link Id="B9GwaMqNQ47QFWo1rMu30y" Ids="CMC83tCvcMgNoha59ZiKxc,F4CvP25iMlpMzrRiVakYdV" />
+          <Link Id="EipE92AhvMnP84sJSXhXkj" Ids="V7SoJolx23ZOEgqE8kpIxk,KdA2nLDdNJ4O6skqBbEbeR" />
+          <Link Id="AYQn0TOCYpFOZjYZJvwfLr" Ids="QO93p9AhuvRMOa73S7e6p9,UtaZ6AhBAJLOJbXRBWm3I5" />
+          <Link Id="LYPNOHYW2vYLMks7q8j58l" Ids="Fr2Iz9jbTa1LcgMIU1HcAc,DW23h1xJxfTOsC6GRjqEEf" />
+          <Link Id="COpKU3WATa1Li6pQduKzpT" Ids="LSkg6uPnsEgO4WESyPQRnj,PMxOZQ7g1OfP8RKAdoSVa4" />
+          <Link Id="IWHoGrPxv1nP56zNKhFPA6" Ids="TUOoVJcP8DzOiKULKqTxgM,QTxVk7QMwgOQZCX67MztBg" />
+          <Link Id="KjZbScw2cxwPgfUyXAZQpB" Ids="MkY8Nth5R6OMdklShpovAU,Gv9YZtfdfI2OJaoiyZurv5" />
+          <Link Id="CPhGx99L5uqQRJjiU00G5X" Ids="PeyR7OZQhl8NT81TSir2Yw,UnbTgOItHmkLgesEXZc2sA" />
+          <Link Id="T7Z8JQ3Gc7MOD1eO29srPY" Ids="TS1S85wmHOcNiSpQH8LJlu,URhOH9htBjDMIPAmZATW6i" />
+          <Link Id="FG96hEvich5MqTC7mmF9Tz" Ids="UtaZ6AhBAJLOJbXRBWm3I5,A1yqiqKnWyqM4W6znckhqw" />
+          <Link Id="Tu5CeKQDNcdNrIMEOsbIl0" Ids="CUKpBV8OaF3P3VgGBzCh3x,LSkg6uPnsEgO4WESyPQRnj" />
+          <Link Id="BfNZiLGb62pQWF0tiMxqbq" Ids="GVIUu2IWlZTOWcz8FbNJBD,QNCdXeA7FrgOVuodIvSgIX" />
+          <Link Id="JJlZrMMtWDkNgOzEenKxPB" Ids="Ol3ksG5x7AMOqqpi8H7ykI,TeBnwLuDZMVOyxr90BNPgJ" />
+          <Link Id="DEAJbGO6hNSNQLlCqQVQJr" Ids="VFNebP3stn5OHi33XpJosn,EddfC7lDzr3NQwozG2E4oo" />
+          <Link Id="BlG0n0F6EzWNoh2aixXqlJ" Ids="IF5cqtyhYk7Om8XvD2oMdQ,VsjhNRhpz6NP7ew5DLMz19" />
+          <Link Id="UspUdaMQdfLPndkRiPuZjk" Ids="T0U6NCDWMKpPEFWLb85Dhh,Fp3rnbyeO5zQZ3YWEjEnrJ" />
+          <Link Id="QV2c5o6fXhGMJ1IELzPPeo" Ids="RnZafnNfok7LxUrOSG7h78,Fr2Iz9jbTa1LcgMIU1HcAc" />
+          <Link Id="MmEMwSuKHQCNQ6sIYCDTaG" Ids="QNCdXeA7FrgOVuodIvSgIX,JHRsIV7Eoj2NVOgzBsj8kQ" />
+          <Link Id="GxfPLvDvwrNN6sXwDumg5E" Ids="M8GR5fGJ8q5QKPZwR6KfFT,T0U6NCDWMKpPEFWLb85Dhh" />
+          <Link Id="Gc0M32fF8ndLdS08VeLwt5" Ids="P2myIubG54PO30kb1pL4QR,VFNebP3stn5OHi33XpJosn" />
+          <ProcessDefinition Id="UgZi5Y5pz91P8zbaRQCpmT">
+            <Fragment Id="MpFRJlRUOWsNmv1Y7zDPEj" Patch="AQxyCe8cvUSOr7lh1KmQbL" Enabled="true" />
+            <Fragment Id="AtsF09JP2SePDDX7JTfvW2" Patch="AFqzR2pz9eWPNoh4o8sFSk" Enabled="true" />
+          </ProcessDefinition>
+          <Link Id="H3NA3GFHcHJNXvHxPbuV7x" Ids="KINupGiRNYmPhPOJerpquD,TS1S85wmHOcNiSpQH8LJlu" />
+          <Link Id="LMaFsLSphPrLRfWnxYt68q" Ids="JYJv6um37i4Pqi5lHqWNhj,TUOoVJcP8DzOiKULKqTxgM" />
+        </Patch>
+      </Node>
+      <Canvas Id="CRiCKpZehkIM3MsPxQrwaZ" Name="Selectors" Position="229,300" DefaultCategory="VVVV.Leap" CanvasType="Group">
+        <!--
+
+    ************************ SelectHands ************************
+
+-->
+        <Node Name="SelectHands" Bounds="304,413,136,174" Id="BmVhBddK4oZOut206wAf10">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="CuUrvODJEHWPzCK5zdUjV6">
+            <Node Bounds="319,526,82,13" Id="MxpnSoPonMQO0feLV4WnLG">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="SelectHands" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="JYSFwrq9h5cOo5wln4alUm" Name="Hands" Kind="InputPin" />
+              <Pin Id="EcGDtPgysiKQadfFhEewkm" Name="Type" Kind="InputPin" />
+              <Pin Id="LkmbO089YfJPxezIEHZZM9" Name="Fingers" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="319,476,77,22" Id="C6RBTfJ1Pf8OF6dm7wbS1R">
+              <p:NodeReference LastCategoryFullName="Collections.Spread" LastSymbolSource="VL.Collections.vl">
+                <Choice Kind="OperationNode" Name="FromSequence" />
+                <FullNameCategoryReference ID="Collections.Spread" />
+              </p:NodeReference>
+              <Pin Id="Pe8FnyqJI01PCPdE2K0Vi7" Name="Input" Kind="InputPin" />
+              <Pin Id="VZEKhdyGrlVMX5qeko3F0B" Name="Result" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="RTnzVUDG0mDP3IjwzdPnhy" Bounds="318,429" />
+            <ControlPoint Id="RcWIgTLxEF6Qb9dPJkzDh8" Bounds="400,429" />
+            <ControlPoint Id="ELj2a8xB7qvLg0V30GBMDI" Bounds="318,568" />
+            <Link Id="MB3wJrFo6SWOB0hafHeNm5" Ids="VZEKhdyGrlVMX5qeko3F0B,JYSFwrq9h5cOo5wln4alUm" />
+            <Link Id="Nx1Gr9zwVp5PwPemZ00VRv" Ids="RTnzVUDG0mDP3IjwzdPnhy,Pe8FnyqJI01PCPdE2K0Vi7" />
+            <Link Id="NmX7xToR2lcNwOXjFhFQem" Ids="RcWIgTLxEF6Qb9dPJkzDh8,EcGDtPgysiKQadfFhEewkm" />
+            <Link Id="TCQGfuhWzdbPTKRMTio286" Ids="LkmbO089YfJPxezIEHZZM9,ELj2a8xB7qvLg0V30GBMDI" />
+            <Link Id="JeJOXMNBU5dOEZEQWbfcJC" Ids="K4eOUwGiH1HPksgQSuC2Is,RTnzVUDG0mDP3IjwzdPnhy" IsHidden="true" />
+            <Link Id="Lf3DviiEnbhPphc41NBIZi" Ids="EGtWtfHlxgXL2iJGh34UlN,RcWIgTLxEF6Qb9dPJkzDh8" IsHidden="true" />
+            <Link Id="Gxxk2s0Z9ouO8NtLgz7Rmr" Ids="ELj2a8xB7qvLg0V30GBMDI,KEQoWs3vlwWNjVFGPwxJKp" IsHidden="true" />
+            <Pin Id="K4eOUwGiH1HPksgQSuC2Is" Name="Hands" Kind="InputPin" />
+            <Pin Id="KEQoWs3vlwWNjVFGPwxJKp" Name="Hands" Kind="OutputPin" />
+            <Pin Id="EGtWtfHlxgXL2iJGh34UlN" Name="Side" Kind="InputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ SelectFingers ************************
+
+-->
+        <Node Name="SelectFingers" Bounds="295,667,170,182" Id="TekVIQkve35P2b5jqC2Cdx">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="IcjMqg5NSqvNIB5nBT1NHa">
+            <Node Bounds="308,770,87,13" Id="Mhh9bVm07UmNZeEJq28Gel">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="SelectFingers" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="AwD22VRoQN0LOT8x80ozZg" Name="Fingers" Kind="InputPin" />
+              <Pin Id="TOfe7hDFKSiP5Uy8EjaAMy" Name="Type" Kind="InputPin" />
+              <Pin Id="EYnQJBJIr2QORXFFSxA7iC" Name="Fingers" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="307,717,77,22" Id="Te7Cwf3Wtn9PBTBvk5d4Hc">
+              <p:NodeReference LastCategoryFullName="Collections.Spread" LastSymbolSource="VL.Collections.vl">
+                <Choice Kind="OperationNode" Name="FromSequence" />
+                <FullNameCategoryReference ID="Collections.Spread" />
+              </p:NodeReference>
+              <Pin Id="BK2NAfTPiSGNdJ0QYu10to" Name="Input" Kind="InputPin" />
+              <Pin Id="VwnGAjjHWiXMKTHuISgcKA" Name="Result" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="Ux8QzQiCvoFNSiqhRDGozk" Bounds="311,683" />
+            <ControlPoint Id="LhHdelSQJAhL6IvYBB0mts" Bounds="393,683" />
+            <ControlPoint Id="TYyesGQu0juQHY61z6aClS" Bounds="311,830" />
+            <Link Id="N0R6OGQRJxUPLC3OV6lkud" Ids="LhHdelSQJAhL6IvYBB0mts,TOfe7hDFKSiP5Uy8EjaAMy" />
+            <Link Id="RB90U5ipayNLtRMTE7YEFM" Ids="EYnQJBJIr2QORXFFSxA7iC,TYyesGQu0juQHY61z6aClS" />
+            <Link Id="Conu05iko9GLJHNE76op2n" Ids="Ux8QzQiCvoFNSiqhRDGozk,BK2NAfTPiSGNdJ0QYu10to" />
+            <Link Id="Npjl1QX7vJILcBA9FkbQfp" Ids="VwnGAjjHWiXMKTHuISgcKA,AwD22VRoQN0LOT8x80ozZg" />
+            <Link Id="K6PFJHc0MllOPxjTNeuQFa" Ids="HYGFy5Y4OWbM5iwNsZUG6A,Ux8QzQiCvoFNSiqhRDGozk" IsHidden="true" />
+            <Link Id="FXVLxH3v5S3NGo0hbeLDRO" Ids="RzNYLT3KJjtQEpijCOBLem,LhHdelSQJAhL6IvYBB0mts" IsHidden="true" />
+            <Link Id="S95QuNiV8MZMFaEREdXnrc" Ids="TYyesGQu0juQHY61z6aClS,KjcA4DUmysiOrjQev0kktI" IsHidden="true" />
+            <Pin Id="HYGFy5Y4OWbM5iwNsZUG6A" Name="Fingers" Kind="InputPin" />
+            <Pin Id="KjcA4DUmysiOrjQev0kktI" Name="Fingers" Kind="OutputPin" />
+            <Pin Id="RzNYLT3KJjtQEpijCOBLem" Name="FingerType" Kind="InputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ SelectBones ************************
+
+-->
+        <Node Name="SelectBones" Bounds="293,155,154,208" Id="H8GZDG5Ej9ELFoAngVJBxe">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="Vmjs97Lm7xbQGYVZbyedq1">
+            <Node Bounds="308,286,80,13" Id="NG20RuXv9w7PqPaly20EEv">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="SelectBones" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="LFLVlderHjDNQE8pfmgfqF" Name="Bones" Kind="InputPin" />
+              <Pin Id="KxNZnCy6Yv2LIEw1kekFHD" Name="Type" Kind="InputPin" />
+              <Pin Id="UT5uHzzygXuNRWFnqvkmOt" Name="Bones" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="308,240,77,22" Id="KeZdw3FHLSCNVYEggBye4y">
+              <p:NodeReference LastCategoryFullName="Collections.Spread" LastSymbolSource="VL.Collections.vl">
+                <Choice Kind="OperationNode" Name="FromSequence" />
+                <FullNameCategoryReference ID="Collections.Spread" />
+              </p:NodeReference>
+              <Pin Id="UVDdsDqJGkBMOJAP6Z0uUA" Name="Input" Kind="InputPin" />
+              <Pin Id="NpHXlDjPOYoPl1dEyPFDuO" Name="Result" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="F3n7ILOPM8JMO8BWgjid8g" Bounds="307,171" />
+            <ControlPoint Id="OAMF7PssuDVNcd5JcpgjlT" Bounds="381,171" />
+            <ControlPoint Id="O4Y4MhRu7osMcIog6TArfn" Bounds="307,344" />
+            <Link Id="Tjp3tcD1XhqOYI56sfzq17" Ids="OAMF7PssuDVNcd5JcpgjlT,KxNZnCy6Yv2LIEw1kekFHD" />
+            <Link Id="HS0zSTtQwbGNsyVAxPhaKl" Ids="UT5uHzzygXuNRWFnqvkmOt,O4Y4MhRu7osMcIog6TArfn" />
+            <Link Id="MmG7NAetX8sPIwLobzDiGM" Ids="F3n7ILOPM8JMO8BWgjid8g,UVDdsDqJGkBMOJAP6Z0uUA" />
+            <Link Id="DK9J3cakZLBNCRiAJIwBEf" Ids="NpHXlDjPOYoPl1dEyPFDuO,LFLVlderHjDNQE8pfmgfqF" />
+            <Link Id="N2dQl4fCgbjQWc1nxz25lt" Ids="JBjmkhR2ebCPnbtcKfi3Tx,F3n7ILOPM8JMO8BWgjid8g" IsHidden="true" />
+            <Link Id="L7WXqUsJB2wO0AtgsAQPj8" Ids="SrtxeBllKttPsNZI8HSCh4,OAMF7PssuDVNcd5JcpgjlT" IsHidden="true" />
+            <Link Id="KqAWpLbvAArQAgo8SOc2PH" Ids="O4Y4MhRu7osMcIog6TArfn,EKVy2FWbfOFPGKPfpJBWHc" IsHidden="true" />
+            <Pin Id="JBjmkhR2ebCPnbtcKfi3Tx" Name="Bones" Kind="InputPin" />
+            <Pin Id="EKVy2FWbfOFPGKPfpJBWHc" Name="Bones" Kind="OutputPin" />
+            <Pin Id="SrtxeBllKttPsNZI8HSCh4" Name="BoneType" Kind="InputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ SelectFingers (Position) ************************
+
+-->
+        <Node Name="SelectFingers (Position)" Bounds="509,670,154,182" Id="GroLOKCo29RL5Bokdiq1ei">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="KlqJ7hRGDFNP60tNoMJJKN">
+            <Node Bounds="524,763,87,13" Id="B2RRf0ulPCbQAGsnZI3FtB">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="SelectFingers (Position)" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="VOMod4Fu7RaNK5UpLpB8wR" Name="Fingers" Kind="InputPin" />
+              <Pin Id="TEVdy026RIIMNBqZxRmg9q" Name="Position" Kind="InputPin" />
+              <Pin Id="TXRzPtItVZxMu4kDofty0a" Name="Fingers" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="524,722,77,22" Id="Kft8qUlOZYsNr8o6EGjrGf">
+              <p:NodeReference LastCategoryFullName="Collections.Spread" LastSymbolSource="VL.Collections.vl">
+                <Choice Kind="OperationNode" Name="FromSequence" />
+                <FullNameCategoryReference ID="Collections.Spread" />
+              </p:NodeReference>
+              <Pin Id="NNyKliOYBlxN6Q7jGtptzu" Name="Input" Kind="InputPin" />
+              <Pin Id="MA3wbsvARDTNLuaTnyGv8Z" Name="Result" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="Ph0revEbTOVOroMEhk0VDd" Bounds="523,686" />
+            <ControlPoint Id="UAIwPRUHU7HNzb7GQunfPU" Bounds="605,686" />
+            <ControlPoint Id="LlSxB55xrgyM9CfgSscDPT" Bounds="523,833" />
+            <Link Id="DpzAWVGaYvaNuEdQALXRuj" Ids="Ph0revEbTOVOroMEhk0VDd,NNyKliOYBlxN6Q7jGtptzu" />
+            <Link Id="IdfiQwhERMrOxc6dimx44Z" Ids="MA3wbsvARDTNLuaTnyGv8Z,VOMod4Fu7RaNK5UpLpB8wR" />
+            <Link Id="SdHk64IW3dcNxOgbb1OU8J" Ids="UAIwPRUHU7HNzb7GQunfPU,TEVdy026RIIMNBqZxRmg9q" />
+            <Link Id="Kv3JAdgtELPL9BR8LTcqsg" Ids="TXRzPtItVZxMu4kDofty0a,LlSxB55xrgyM9CfgSscDPT" />
+            <Link Id="ISPwbj1bO2pPUSKaSeFJ24" Ids="L6sqZDJr5eFNHwNqvCojvF,Ph0revEbTOVOroMEhk0VDd" IsHidden="true" />
+            <Link Id="FXo0beuxRj1MuScXftweoF" Ids="KXaavVdpgM2OtV0m7GZHF6,UAIwPRUHU7HNzb7GQunfPU" IsHidden="true" />
+            <Link Id="HL3HfWC84CkPedEEzus0jV" Ids="LlSxB55xrgyM9CfgSscDPT,CrKoRSTwRiXNjWfZqhR5Hf" IsHidden="true" />
+            <Pin Id="L6sqZDJr5eFNHwNqvCojvF" Name="Fingers" Kind="InputPin" />
+            <Pin Id="CrKoRSTwRiXNjWfZqhR5Hf" Name="Fingers" Kind="OutputPin" />
+            <Pin Id="KXaavVdpgM2OtV0m7GZHF6" Name="Position" Kind="InputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ SelectHands (Position) ************************
+
+-->
+        <Node Name="SelectHands (Position)" Bounds="490,417,170,167" Id="Hz7Bcaqb7NtM7Kg8lNzmp8">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="VOxWWxhVWuJNAocNYc8Lpm">
+            <Node Bounds="507,523,82,13" Id="IxB0rFfwNGPPpU5m7clYiS">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="SelectHands (Position)" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="CUT5RaXNXzINaXYrNWXCRv" Name="Hands" Kind="InputPin" />
+              <Pin Id="IGxZFCQxl0pPIIHCEWq8mj" Name="Position" Kind="InputPin" />
+              <Pin Id="QuecFr3fAYdLVBA6zrfGAc" Name="Hands" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="507,473,77,22" Id="SYzZW5Ev2DRO1xA46ikxgK">
+              <p:NodeReference LastCategoryFullName="Collections.Spread" LastSymbolSource="VL.Collections.vl">
+                <Choice Kind="OperationNode" Name="FromSequence" />
+                <FullNameCategoryReference ID="Collections.Spread" />
+              </p:NodeReference>
+              <Pin Id="F8hKMKBJshRM64ljv4gOEC" Name="Input" Kind="InputPin" />
+              <Pin Id="DKXXaLrrKhrOMqVLPCrY7p" Name="Result" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="ChweT9NF0C4PEYnPbLG5OX" Bounds="504,433" />
+            <ControlPoint Id="PATWs9unp8WOQXsYLAOkAp" Bounds="602,433" />
+            <ControlPoint Id="Qlnls47npbcLatoaos0UjR" Bounds="506,565" />
+            <Link Id="LimL5pWf17cL4Q4qDYmijj" Ids="ChweT9NF0C4PEYnPbLG5OX,F8hKMKBJshRM64ljv4gOEC" />
+            <Link Id="LWIhfvKSsNGO5jhLbyUIDN" Ids="DKXXaLrrKhrOMqVLPCrY7p,CUT5RaXNXzINaXYrNWXCRv" />
+            <Link Id="LSJEBt3sWqbQcBFbwkTKRT" Ids="QuecFr3fAYdLVBA6zrfGAc,Qlnls47npbcLatoaos0UjR" />
+            <Link Id="I6QG8MCXDeNNTLGWzFIP0i" Ids="PATWs9unp8WOQXsYLAOkAp,IGxZFCQxl0pPIIHCEWq8mj" />
+            <Link Id="QZ3e6KiW6TcOuBF0X9ugLN" Ids="DNHICNh3H1lOY9G0fPintZ,ChweT9NF0C4PEYnPbLG5OX" IsHidden="true" />
+            <Link Id="NANh2Nu1O71MSVBfW7dAT5" Ids="SQEFQiLRyx5QZ3V9Bo5lIg,PATWs9unp8WOQXsYLAOkAp" IsHidden="true" />
+            <Link Id="OIbg9oM5EtWPrFS3dtUap4" Ids="Qlnls47npbcLatoaos0UjR,HpfeftI2fs4McmbBOW1hIU" IsHidden="true" />
+            <Pin Id="DNHICNh3H1lOY9G0fPintZ" Name="Hands" Kind="InputPin" />
+            <Pin Id="HpfeftI2fs4McmbBOW1hIU" Name="Hands" Kind="OutputPin" />
+            <Pin Id="SQEFQiLRyx5QZ3V9Bo5lIg" Name="Position" Kind="InputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ SelectBones (Position) ************************
+
+-->
+        <Node Name="SelectBones (Position)" Bounds="487,159,148,166" Id="Fni0m61oSHAMtfBFwnMKUK">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="UYQoMr8e1hLLxLPQ26zuWc">
+            <Node Bounds="504,265,80,13" Id="Rte4cp5NaP5L41KfnNjmnb">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="SelectBones (Position)" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="SP5B94XDmKoOEq3Dkdl5mY" Name="Bones" Kind="InputPin" />
+              <Pin Id="QlHZTHtpPRJQMdmklydtp9" Name="Position" Kind="InputPin" />
+              <Pin Id="DOb5VBxy3BGPphrilXq7mR" Name="Bones" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="504,214,77,22" Id="Ul4gR1R5R6KP7G20BiuuT7">
+              <p:NodeReference LastCategoryFullName="Collections.Spread" LastSymbolSource="VL.Collections.vl">
+                <Choice Kind="OperationNode" Name="FromSequence" />
+                <FullNameCategoryReference ID="Collections.Spread" />
+              </p:NodeReference>
+              <Pin Id="D1fhGQxwAbsP4MUv2Gn149" Name="Input" Kind="InputPin" />
+              <Pin Id="P8h7UVAR2VDPt8SOQdSTHN" Name="Result" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="IM7etYaHZBAPw2DvkBny2x" Bounds="501,175" />
+            <ControlPoint Id="SiafFD21ov0QWjyafn6Kdp" Bounds="577,175" />
+            <ControlPoint Id="MjzAkw4sTgZOJknwMDPo7X" Bounds="503,306" />
+            <Link Id="OAFnUUssNXhMMimYUcgs5p" Ids="IM7etYaHZBAPw2DvkBny2x,D1fhGQxwAbsP4MUv2Gn149" />
+            <Link Id="OBe6oO6u9gjPF0fTUw05By" Ids="SiafFD21ov0QWjyafn6Kdp,QlHZTHtpPRJQMdmklydtp9" />
+            <Link Id="QHm18KUudoUMQhi6NkiyWn" Ids="DOb5VBxy3BGPphrilXq7mR,MjzAkw4sTgZOJknwMDPo7X" />
+            <Link Id="PoXzKm4w7ZJP4FVk0y9vrc" Ids="P8h7UVAR2VDPt8SOQdSTHN,SP5B94XDmKoOEq3Dkdl5mY" />
+            <Link Id="I6gihmuTpgVMcD0JKIInJM" Ids="VHqOkWgqp8qLAiYMVfx3mK,IM7etYaHZBAPw2DvkBny2x" IsHidden="true" />
+            <Link Id="LNm5Vd5a9zfLBVpKrR5rA0" Ids="DEGgWvCXljuPkLfEYkLc71,SiafFD21ov0QWjyafn6Kdp" IsHidden="true" />
+            <Link Id="Umatdj3O1AUPH01HKrPvkH" Ids="MjzAkw4sTgZOJknwMDPo7X,MWsmft8QZSoOxRZ3N2y1Fe" IsHidden="true" />
+            <Pin Id="VHqOkWgqp8qLAiYMVfx3mK" Name="Bones" Kind="InputPin" />
+            <Pin Id="MWsmft8QZSoOxRZ3N2y1Fe" Name="Bones" Kind="OutputPin" />
+            <Pin Id="DEGgWvCXljuPkLfEYkLc71" Name="Position" Kind="InputPin" />
+          </Patch>
+        </Node>
+      </Canvas>
+      <Canvas Id="LlxbRz5mqkvNHD71waCdjL" Name="Serialize" Position="355,301" DefaultCategory="VVVV.Leap" CanvasType="Group">
+        <!--
+
+    ************************ FromRaw ************************
+
+-->
+        <Node Name="FromRaw" Bounds="371,328,169,180" Id="MLlX2u1tH1mL50f2MPsP6i">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="GticZsFTjiCLO2JysSRHyG" ManuallySortedPins="true">
+            <Pin Id="JpTcKFbKgWvQHr469qg8Pd" Name="Raw" Kind="InputPin" />
+            <Pin Id="DFb9hLyVicePzrrbNpCNUW" Name="Frame" Kind="OutputPin" />
+            <Pin Id="N7hc52fmqu7NKJtd7kVi0B" Name="Success" Kind="OutputPin" />
+            <Node Bounds="391,431,77,13" Id="HTa9lM8W4AfMDQc5Azy4DN">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="Deserialize" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="GSpn86Hvq7YPLDtJFb732F" Name="Bytes" Kind="InputPin" />
+              <Pin Id="FmmL4McbZAAOliMFaA9Cwf" Name="Frame" Kind="OutputPin" />
+              <Pin Id="NcnnJ3o6qhLPegOqfTcpce" Name="Success" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="VDYSTAmcIH5PklBoxqSumV" Bounds="385,344" />
+            <ControlPoint Id="K8rTHWl1HIULa0ZeYPZu4h" Bounds="391,489" />
+            <ControlPoint Id="TqY1DowngLTL0c64pxHOf9" Bounds="483,489" />
+            <Link Id="ARDnbXCYqcRPOP3niqxc6Y" Ids="FmmL4McbZAAOliMFaA9Cwf,K8rTHWl1HIULa0ZeYPZu4h" />
+            <Link Id="O1Evt4usQobLvC7n2rMEU8" Ids="JpTcKFbKgWvQHr469qg8Pd,VDYSTAmcIH5PklBoxqSumV" IsHidden="true" />
+            <Link Id="Mv3iVECk3C2LvP6FKGWbpG" Ids="K8rTHWl1HIULa0ZeYPZu4h,DFb9hLyVicePzrrbNpCNUW" IsHidden="true" />
+            <Link Id="Dr48eWAprEyLFnbxXqYuOi" Ids="TqY1DowngLTL0c64pxHOf9,N7hc52fmqu7NKJtd7kVi0B" IsHidden="true" />
+            <Node Bounds="384,364,44,13" Id="BNy7aUHGMmhM5iLbm44ZLu">
+              <p:NodeReference LastCategoryFullName="IO.Stream" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationNode" Name="ReadAll" />
+                <CategoryReference Kind="Category" Name="Stream" />
+              </p:NodeReference>
+              <Pin Id="HT0BPBGiG8xOkyWqAkuTMZ" Name="Input" Kind="InputPin" />
+              <Pin Id="KcvwezLWF6MOR8ULcFYnbm" Name="Output" Kind="OutputPin" />
+              <Pin Id="VDH0Q29Pz9bP9FDEQmWNeE" Name="Data" Kind="OutputPin" />
+            </Node>
+            <Link Id="C5vtDTWoPUtPVuSwT6YXih" Ids="VDYSTAmcIH5PklBoxqSumV,HT0BPBGiG8xOkyWqAkuTMZ" />
+            <Link Id="KWa7wgwWw4tMJfWe2j7Mpw" Ids="NcnnJ3o6qhLPegOqfTcpce,TqY1DowngLTL0c64pxHOf9" />
+            <Link Id="C1xZgtO5gwwQc4ZlCWG5UA" Ids="VDH0Q29Pz9bP9FDEQmWNeE,GSpn86Hvq7YPLDtJFb732F" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ AsRaw ************************
+
+-->
+        <Node Name="AsRaw" Bounds="206,333,95,146" Id="VygN3BVzOh3OQ1Fq8fSmJn">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="HcfGXbr6OgRMaiTgAJFAsS" ManuallySortedPins="true">
+            <Pin Id="MzcTR3untMdOuv8zk6UW24" Name="Frame" Kind="InputPin" />
+            <Pin Id="SnU4sOTBpA4MA2ry79rnvf" Name="Raw" Kind="OutputPin" />
+            <Node Bounds="225,385,64,13" Id="VjH2cdpPjNXMPhvQWfarY7">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="Serialize" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="N49SGeb8gZuQSsII9VRCaE" Name="Frame" Kind="InputPin" />
+              <Pin Id="C4RGGcWpGIhOEzG9smPgva" Name="Bytes" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="223,425,53,13" Id="RfYcjurxg0BQaaM9vnqIVZ">
+              <p:NodeReference LastCategoryFullName="Collections.Sequence" LastSymbolSource="VL.Collections.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationNode" Name="ToStream" />
+                <CategoryReference Kind="Category" Name="Sequence" />
+              </p:NodeReference>
+              <Pin Id="SqMBndDvMsYNOb8NsthevC" Name="Input" Kind="InputPin" />
+              <Pin Id="UxIKkoHfpVcMgxKZBorFY0" Name="Writeable" Kind="InputPin" />
+              <Pin Id="U13m7KLTdiBO5ZAu47zeyx" Name="Result" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="Gj4GxaiVZ3WO0UHpBLX8vj" Bounds="220,349" />
+            <ControlPoint Id="KkE07dH8ttANSOEbt0vXhI" Bounds="220,460" />
+            <Link Id="SIBowWb5rasQS0YsF3CpG2" Ids="Gj4GxaiVZ3WO0UHpBLX8vj,N49SGeb8gZuQSsII9VRCaE" />
+            <Link Id="JpTnGD33qd7QFD3lyI1yHd" Ids="C4RGGcWpGIhOEzG9smPgva,SqMBndDvMsYNOb8NsthevC" />
+            <Link Id="L1hGKDMMlVkORfGy4JrsYV" Ids="U13m7KLTdiBO5ZAu47zeyx,KkE07dH8ttANSOEbt0vXhI" />
+            <Link Id="QNcTqPNHxscOIZpvVRMizo" Ids="MzcTR3untMdOuv8zk6UW24,Gj4GxaiVZ3WO0UHpBLX8vj" IsHidden="true" />
+            <Link Id="G6l0NnuduNWPpESD7k8K5S" Ids="KkE07dH8ttANSOEbt0vXhI,SnU4sOTBpA4MA2ry79rnvf" IsHidden="true" />
+          </Patch>
+        </Node>
+      </Canvas>
+      <Canvas Id="MRGhke8k6YoMfRxC7X92Hx" Name="Splitters" Position="100,300" DefaultCategory="VVVV.Leap" CanvasType="Group">
+        <!--
+
+    ************************ Arm ************************
+
+-->
+        <Node Name="Arm" Bounds="119,367,109,80" Id="LXNOPGj5rZjMHrEmFvN55f">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="OcuBJHSjcpEOVlYo59pfPJ">
+            <Node Bounds="131,402,85,13" AutoConnect="true" Id="VoZbeeA2EPAPpDWGhWoFdv">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="Arm" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="P4ebB68zV23MOi2oaieEJ3" Name="Arm" Kind="InputPin" />
+              <Pin Id="IXzp5PMXp4kQOqiBjDsLAe" Name="Basis" Kind="OutputPin" />
+              <Pin Id="NmUbQN6NE6XM3eSNkSVIdF" Name="ElbowPosition" Kind="OutputPin" />
+              <Pin Id="VK2GbN5b3fPPcmAWGwFDMt" Name="WristPosition" Kind="OutputPin" />
+              <Pin Id="Bns45LZ6t1aQBV1U8lrGNV" Name="Direction" Kind="OutputPin" />
+              <Pin Id="GZ2XuXRcbbGL8fSJTIdRYI" Name="Width" Kind="OutputPin" />
+            </Node>
+            <Pin Id="GJAaH0ECCgLPGULyzd8IsB" Name="Arm" Kind="InputPin" />
+            <Pin Id="QC35azGrqIBLjXFCe782xn" Name="Basis" Kind="OutputPin" />
+            <Pin Id="FC4RvJgXoBGLFJkZRdghX2" Name="ElbowPosition" Kind="OutputPin" />
+            <Pin Id="KiM3aokd1lnL6EGkIf0ybs" Name="WristPosition" Kind="OutputPin" />
+            <Pin Id="QRDwKtnpIIvPoFz4d0CPkZ" Name="Direction" Kind="OutputPin" />
+            <Pin Id="NhaPuJIzXpxO1t7hnNAeZJ" Name="Width" Kind="OutputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ Gestures ************************
+
+-->
+        <Node Name="Gestures" Bounds="122,706,169,80" Id="BGFMiR7rBjWLZxrTCIkJc2">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="N4FlDECHkIdMjLhJa2mCgm">
+            <Node Bounds="134,741,145,13" AutoConnect="true" Id="PtMslAHibJULnzdgnm7h5d">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="Gestures" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="MWfRkv9KAhsPfdAd5Ojdjp" Name="Gesture" Kind="InputPin" />
+              <Pin Id="PNunAm75KaoLXSAJuO57n9" Name="Swipe" Kind="OutputPin" />
+              <Pin Id="JRnJFggTiS9NeLK8JVq6hM" Name="Swipe Former Index" Kind="OutputPin" />
+              <Pin Id="UxzpQbq4sz7NoW8FG3fBh5" Name="Circle" Kind="OutputPin" />
+              <Pin Id="Qsiidx8kOJhOW4h0O9NOwh" Name="Circle Former Index" Kind="OutputPin" />
+              <Pin Id="PB9LWwgmOudL6Ib1LI1JEI" Name="Screen Tap" Kind="OutputPin" />
+              <Pin Id="QRP0YPaVJQkO1HdU5z6Jj1" Name="Screen Tap Former Index" Kind="OutputPin" />
+              <Pin Id="TuOkubjOAJ1MF9Y2JeK6gB" Name="Key Tap" Kind="OutputPin" />
+              <Pin Id="EwvtKdy28OnO2m5mCTJzNZ" Name="Key Tap Former Index" Kind="OutputPin" />
+            </Node>
+            <Pin Id="BMdXCwZV9m1OKsKTabgqYt" Name="Gesture" Kind="InputPin" />
+            <Pin Id="OWTno7MgPNFOYMlIJiDkDV" Name="Swipe" Kind="OutputPin" />
+            <Pin Id="VIAOaVaev92MEAxvbbuV5f" Name="Swipe Former Index" Kind="OutputPin" />
+            <Pin Id="RIlrHV1mgU3NarUrMJKkUD" Name="Circle" Kind="OutputPin" />
+            <Pin Id="Uy4kQew6l2oNTkvqrrJrAa" Name="Circle Former Index" Kind="OutputPin" />
+            <Pin Id="RRYF4CkKwu6ODGid1H7dpz" Name="Screen Tap" Kind="OutputPin" />
+            <Pin Id="DAUZfMQDFreNvYafqyqiIQ" Name="Screen Tap Former Index" Kind="OutputPin" />
+            <Pin Id="GOvQdwRC8ElLcDpbAS0dLD" Name="Key Tap" Kind="OutputPin" />
+            <Pin Id="Q41IbomlBqkLa2jrLiFgGx" Name="Key Tap Former Index" Kind="OutputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ Hand ************************
+
+-->
+        <Node Name="Hand" Bounds="276,372,389,80" Id="Hwrjx5GBlwaLcdc0VWIrAs">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="FELiBUuQvmzPA84Xve2xD1">
+            <Node Bounds="288,407,365,13" AutoConnect="true" Id="VXiPAsY47PBOqTrHYNtkvB">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="Hand" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="IY5QJmLMAF7PSSf0iv75GY" Name="Hand" Kind="InputPin" />
+              <Pin Id="FGtemPUb0vKN18If1Ni8Pe" Name="Arm" Kind="OutputPin" />
+              <Pin Id="ORVyRhSSeElNI3rCLl7WTV" Name="Fingers" Kind="OutputPin" />
+              <Pin Id="GusWZUdZrP1O5yLX5we2is" Name="Tools" Kind="OutputPin" />
+              <Pin Id="Bs5lBzPlcbnLudinRSVogH" Name="Pointables" Kind="OutputPin" />
+              <Pin Id="JM2FElubJNQOQb4NFSuTJT" Name="Basis" Kind="OutputPin" />
+              <Pin Id="Fvd4r7JcWQDO5xWzhgaDAd" Name="Direction" Kind="OutputPin" />
+              <Pin Id="BRLzYVXTR25LsPw7SlJbwE" Name="Palm Position" Kind="OutputPin" />
+              <Pin Id="VP7anHWGFdjMoEZQ9m1dn1" Name="Palm Normal" Kind="OutputPin" />
+              <Pin Id="SEuxddp9iMTPxXtsNkAHzJ" Name="Palm Velocity" Kind="OutputPin" />
+              <Pin Id="GV2lzIp05FFN6E0xORkmMW" Name="Palm Width" Kind="OutputPin" />
+              <Pin Id="SLyvW01W2R1OMxtHpY6QGB" Name="Wrist Position" Kind="OutputPin" />
+              <Pin Id="Kfd6D28BMmoOfGdLGj8zbP" Name="Sphere Center" Kind="OutputPin" />
+              <Pin Id="MwrWqeuPVLnPoWP8qAqz3X" Name="Sphere Radius" Kind="OutputPin" />
+              <Pin Id="GIGPUXe1r45LoZ6S7HiZ5m" Name="Confidence" Kind="OutputPin" />
+              <Pin Id="MbHcWHxYfYJQCTDavorX7P" Name="Grab Strength" Kind="OutputPin" />
+              <Pin Id="LKlgsCEre6YQZMCaIlVzHv" Name="Pinch Strength" Kind="OutputPin" />
+              <Pin Id="EUwUmRdn6SEMQDFWGjR4PO" Name="Id" Kind="OutputPin" />
+              <Pin Id="ETl8WTpdssqOFjqf7YiAuW" Name="Is Left" Kind="OutputPin" />
+              <Pin Id="ANisFQD8nEmMF9ZXPX2VKC" Name="Time Visible" Kind="OutputPin" />
+            </Node>
+            <Pin Id="MCulgxITTwNLAHFQVwKwn5" Name="Hand" Kind="InputPin" Bounds="4,4" />
+            <Pin Id="D4eBu4O2JD8P3np87Z6QTk" Name="Arm" Kind="OutputPin" Bounds="4,19" />
+            <Pin Id="IlEM1U5Ifj7MxUry2s1RoB" Name="Fingers" Kind="OutputPin" Bounds="38,19" />
+            <Pin Id="CSgMdTQxF1CMvUnKNCIlM5" Name="Tools" Kind="OutputPin" Bounds="87,19" />
+            <Pin Id="SHzkouBDtaTOzX9BUj6AHw" Name="Pointables" Kind="OutputPin" Bounds="127,19" />
+            <Pin Id="UH3F9nbemxwLdtlnC6h87Q" Name="Basis" Kind="OutputPin" Bounds="190,19" />
+            <Pin Id="FJCdUxs3leDLsEdbv9la5U" Name="Direction" Kind="OutputPin" Bounds="228,19" />
+            <Pin Id="CrWZup6Hlq6Nt9f15B0K0y" Name="Palm Position" Kind="OutputPin" Bounds="285,19" />
+            <Pin Id="Ok1WE3guuDmPmUUKUI6Tvq" Name="Palm Normal" Kind="OutputPin" Bounds="362,19" />
+            <Pin Id="DO8gKlp6PWSPLWnSMH9iqq" Name="Palm Velocity" Kind="OutputPin" Bounds="436,19" />
+            <Pin Id="AIUnmI8ceQOLIbRlgx9ozq" Name="Palm Width" Kind="OutputPin" Bounds="513,19" />
+            <Pin Id="V4uNtAIiMgpMCTL9FekB3o" Name="Wrist Position" Kind="OutputPin" Bounds="580,19" />
+            <Pin Id="P7Zv8AJfgsIN18LR2SwhDp" Name="Sphere Center" Kind="OutputPin" Bounds="658,19" />
+            <Pin Id="RjzCmt4f0MhNmZiJMznbUQ" Name="Sphere Radius" Kind="OutputPin" Bounds="738,19" />
+            <Pin Id="AcH8BZvZX4TNLGvO4FXbFd" Name="Confidence" Kind="OutputPin" Bounds="819,19" />
+            <Pin Id="Iv3EalyanzgMrljaSLfnvz" Name="Grab Strength" Kind="OutputPin" Bounds="886,19" />
+            <Pin Id="SQNh9Q9dL3hMP628GjRnn0" Name="Pinch Strength" Kind="OutputPin" Bounds="965,19" />
+            <Pin Id="CKzcyabh23xO9qUFE0EzlK" Name="Id" Kind="OutputPin" Bounds="1047,19" />
+            <Pin Id="VJ2SenpnII9PBdJ63IJ7xE" Name="Is Left" Kind="OutputPin" Bounds="1070,19" />
+            <Pin Id="TGuk29Hiki7Mv4XdLMpnoS" Name="Time Visible" Kind="OutputPin" Bounds="1113,19" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ Finger ************************
+
+-->
+        <Node Name="Finger" Bounds="693,369,209,80" Id="PspCR2D7PZrPLO721FX7L7">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="TKeanYTweNzOMyC3qIrqdE">
+            <Node Bounds="705,404,185,13" AutoConnect="true" Id="K20rJijw32nMMsqsMCcqIr">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="Finger" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="Uh7MonzjnWjNMUkW5fK6Va" Name="Finger" Kind="InputPin" />
+              <Pin Id="RFUe9tvk7USP2eVvzqtlo1" Name="Bones" Kind="OutputPin" />
+              <Pin Id="L4j27HJYaJHLqdIFEOS6UT" Name="FingerType" Kind="OutputPin" />
+              <Pin Id="Io4DX1XZ9hGNeoRHtXMAjs" Name="TipPosition" Kind="OutputPin" />
+              <Pin Id="UBCcZA5D8fdPI3QZdqR1RA" Name="Direction" Kind="OutputPin" />
+              <Pin Id="GIbUdg4Kd3WN21cU1wwHt9" Name="TipVelocity" Kind="OutputPin" />
+              <Pin Id="VvgfWF10ojeNGLRGGAvruv" Name="Width" Kind="OutputPin" />
+              <Pin Id="I2Ln3fjT37xLlCUwWgTqQ0" Name="Length" Kind="OutputPin" />
+              <Pin Id="JSo4X8fzppYPRFUmT3q1WV" Name="Is Extended" Kind="OutputPin" />
+              <Pin Id="QiwkIi3wbRJPQHJS2AGRBK" Name="Time Visible" Kind="OutputPin" />
+              <Pin Id="U4zATsSozmvOyyOR2TFy9u" Name="Id" Kind="OutputPin" />
+            </Node>
+            <Pin Id="GsZ3aSzBLqOPTeeLGC5Jue" Name="Finger" Kind="InputPin" />
+            <Pin Id="PMHtheoVroNOBMq8JSP4ns" Name="Bones" Kind="OutputPin" />
+            <Pin Id="TyRx4wiNG93MdqGJJHrQ9Q" Name="FingerType" Kind="OutputPin" />
+            <Pin Id="LXszJYXFZgUL3IBSNtMWaG" Name="TipPosition" Kind="OutputPin" />
+            <Pin Id="TQx0wrBVZxBNgoOlBy51QA" Name="Direction" Kind="OutputPin" />
+            <Pin Id="BmjWFOItmlnQLQ1t3wGRNw" Name="TipVelocity" Kind="OutputPin" />
+            <Pin Id="UqBe7nGXcNmOgDhWirJYHs" Name="Width" Kind="OutputPin" />
+            <Pin Id="OiRZ9DFK8IJMZxoSZ0HnFu" Name="Length" Kind="OutputPin" />
+            <Pin Id="QGp7ZeclHz2LmqHVn4DH5M" Name="Is Extended" Kind="OutputPin" />
+            <Pin Id="CJ1ilJ2RVYoO8HqgKsujqz" Name="Time Visible" Kind="OutputPin" />
+            <Pin Id="UN5QXgEVZGdNqlvGzRcIfC" Name="Id" Kind="OutputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ Tool ************************
+
+-->
+        <Node Name="Tool" Bounds="365,533,149,80" Id="BPnPLR3zrPJPMmk3MP6Jsz">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="RLqXmWmGILQP2Eyn20PVhH">
+            <Node Bounds="377,568,125,13" AutoConnect="true" Id="TpVO2gHxs2aMX8Rl6y8gQE">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="Tool" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="T5YLP2eVrQIOaIDeki4y0v" Name="Tool" Kind="InputPin" />
+              <Pin Id="Cltr9svpcYcPYcGN86liYB" Name="TipPosition" Kind="OutputPin" />
+              <Pin Id="DMpDvhKI4gkO6dTanyhp6i" Name="Direction" Kind="OutputPin" />
+              <Pin Id="LEbHyFVpjeTOLVwBkmnSLW" Name="TipVelocity" Kind="OutputPin" />
+              <Pin Id="Q9HNlE9jTtiPCajGXhDnJI" Name="Width" Kind="OutputPin" />
+              <Pin Id="NeUsl0iyyRVPJYeGAuWBYe" Name="Length" Kind="OutputPin" />
+              <Pin Id="LwHHDRAuhEcMTuGgmim6h5" Name="Time Visible" Kind="OutputPin" />
+              <Pin Id="SFc4HfV8NHKQDOjvFpg1Fr" Name="Id" Kind="OutputPin" />
+            </Node>
+            <Pin Id="Uv4l6dgn1mTO3tTbJafR1L" Name="Tool" Kind="InputPin" />
+            <Pin Id="Nj2HGs3ZWDOPj3ARILw65N" Name="TipPosition" Kind="OutputPin" />
+            <Pin Id="T1soPs8CMuLO053i3lEid2" Name="Direction" Kind="OutputPin" />
+            <Pin Id="H7dW23M1lIGNIhUd4w7uYE" Name="TipVelocity" Kind="OutputPin" />
+            <Pin Id="URxtAVNGS31ODchIo9xeHE" Name="Width" Kind="OutputPin" />
+            <Pin Id="AqQiM0aq7nYL2IzabmpAd7" Name="Length" Kind="OutputPin" />
+            <Pin Id="F2JhLklqYEoMzOK6P5Uvnb" Name="Time Visible" Kind="OutputPin" />
+            <Pin Id="ID1QzQS5JEPP7DKK5vrfPE" Name="Id" Kind="OutputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ Bone ************************
+
+-->
+        <Node Name="Bone" Bounds="941,365,189,80" Id="BpPI6RMPpIPNrudFuLiCaJ">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="Hke1ahwfFRrMjFPn3sNUL0">
+            <Node Bounds="953,400,165,13" AutoConnect="true" Id="LGuSPqswG7sPKKDZVxfXUG">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="Bone" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="P8M7ml2Yh0kO2BrEqvfNfx" Name="Bone" Kind="InputPin" />
+              <Pin Id="KWEoCPqqNlyNhAkIuCz7dl" Name="Type" Kind="OutputPin" />
+              <Pin Id="UkYA4vdhJZpO6pWsqNYqrm" Name="Basis" Kind="OutputPin" />
+              <Pin Id="B9sHO9Bi8xWOjMYqvxVWEU" Name="Start" Kind="OutputPin" />
+              <Pin Id="RxlzmOE4rHoPFHd0201Jzj" Name="Center" Kind="OutputPin" />
+              <Pin Id="IHXcEzQdcM4OMiBH03RceQ" Name="End" Kind="OutputPin" />
+              <Pin Id="KfQXbF3dnSmN9o4HQdySZw" Name="Direction" Kind="OutputPin" />
+              <Pin Id="Grz66TI7UA2LPZsSTD4z5F" Name="Length" Kind="OutputPin" />
+              <Pin Id="Mgz53JMiYQ4Mz0qj9VPnIA" Name="Width" Kind="OutputPin" />
+              <Pin Id="AJuKHpOnhGBLagiOM0cjbh" Name="Is Valid" Kind="OutputPin" />
+            </Node>
+            <Pin Id="HDZlsmtKQcAOZUKNRwgyo8" Name="Bone" Kind="InputPin" />
+            <Pin Id="NGbmWrNGFKCL97Wq9rwEX0" Name="Type" Kind="OutputPin" />
+            <Pin Id="NWByj7kD6ooOQbpVeSQJmG" Name="Basis" Kind="OutputPin" />
+            <Pin Id="CqTaYKufESyMWWU1nACVpj" Name="Start" Kind="OutputPin" />
+            <Pin Id="H2yUsQqIp65P4pKdY6vLSt" Name="Center" Kind="OutputPin" />
+            <Pin Id="EpIH3eXJoEHNycd8KqouBU" Name="End" Kind="OutputPin" />
+            <Pin Id="D4yCotYKVejM4VOrUJJgK1" Name="Direction" Kind="OutputPin" />
+            <Pin Id="SXdN7cFEaUROtwPRLcip9W" Name="Length" Kind="OutputPin" />
+            <Pin Id="SdN2yhmroRoL6TWqoBIYJ1" Name="Width" Kind="OutputPin" />
+            <Pin Id="QyOR7kus0FEPxvrNAVCeAV" Name="Is Valid" Kind="OutputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ SwipeGesture ************************
+
+-->
+        <Node Name="SwipeGesture" Bounds="332,706,129,80" Id="M9Yq14EDD9SPxrSBBQa9Lg">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="Eygw5PZK8f1Lz5bRkDbKAz">
+            <Node Bounds="344,741,105,13" AutoConnect="true" Id="DWF8k1hFBxWQcrzOMKo0d9">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="SwipeGesture" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="SxOwFD9at0dPlkMP94hHlE" Name="SwipeGesture" Kind="InputPin" />
+              <Pin Id="O2RhlsZ5E6rMwFKes1uIS6" Name="Start Position" Kind="OutputPin" />
+              <Pin Id="PeeRPr4Ht7fOlYxg6gKtbv" Name="Position" Kind="OutputPin" />
+              <Pin Id="O1qVjJKgF7mPBNNLUBaIDZ" Name="Direction" Kind="OutputPin" />
+              <Pin Id="PoZ3vhB5YGSPoozFgK0izu" Name="Speed" Kind="OutputPin" />
+              <Pin Id="EnZ2WGO7TqOL3mGfVsWYFw" Name="Duration" Kind="OutputPin" />
+              <Pin Id="OnLK6RrUQrrPXIyun8FBfh" Name="Id" Kind="OutputPin" />
+            </Node>
+            <Pin Id="R2IMtdwgipzOWizVwzKQUH" Name="SwipeGesture" Kind="InputPin" />
+            <Pin Id="IVY83tUfwt8PDBaSEsnBlf" Name="Start Position" Kind="OutputPin" />
+            <Pin Id="H8KfImRXsKWLjQwEdY27LP" Name="Position" Kind="OutputPin" />
+            <Pin Id="QdPQ2IcvjQQPsv8u7cWKxs" Name="Direction" Kind="OutputPin" />
+            <Pin Id="LS7cEgzKDWDLnU4TeeEBtp" Name="Speed" Kind="OutputPin" />
+            <Pin Id="SipU8pwLETRMPWFxw8Vdpe" Name="Duration" Kind="OutputPin" />
+            <Pin Id="DwMvryOQGkaPvwohpJxQJo" Name="Id" Kind="OutputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ CircleGesture ************************
+
+-->
+        <Node Name="CircleGesture" Bounds="879,702,129,80" Id="LQsIIoAgANcMz7cSef53wZ">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="PSvujhpb8QeNNYEC1ugbKq">
+            <Node Bounds="891,737,105,13" AutoConnect="true" Id="LxWypPkRMECNMZczskqc4B">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="CircleGesture" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="NQvPknK9PPXPPUg6ToDyKB" Name="CircleGesture" Kind="InputPin" />
+              <Pin Id="QnrwamQ5UMUNFmqLLdHMTE" Name="Center" Kind="OutputPin" />
+              <Pin Id="E3zjhlqNvAsNCUVYSFRvQf" Name="Normal" Kind="OutputPin" />
+              <Pin Id="Ucg2hfeSrYXQVyF5oH17pm" Name="Progress" Kind="OutputPin" />
+              <Pin Id="D5kYL0OT5LqM7di1FSrdpM" Name="Radius" Kind="OutputPin" />
+              <Pin Id="SFAZjMQlWBfPyUpgBQvvDK" Name="Duration" Kind="OutputPin" />
+              <Pin Id="FQzakhROvpaNFc8sQUslyP" Name="Id" Kind="OutputPin" />
+            </Node>
+            <Pin Id="SVrgpQkuhLLOk7kJixNGLR" Name="CircleGesture" Kind="InputPin" />
+            <Pin Id="HzaUk4jnXlCNEk2mdqEs2f" Name="Center" Kind="OutputPin" />
+            <Pin Id="Ipq5tj6NkuDOBPEFpHMb7w" Name="Normal" Kind="OutputPin" />
+            <Pin Id="DFiRirh7ZxyO2bRng6dXsa" Name="Progress" Kind="OutputPin" />
+            <Pin Id="P3E0I5yaxeWP9vH8s7GJwK" Name="Radius" Kind="OutputPin" />
+            <Pin Id="KYnt9oP86vyP0Dgj7z4W2L" Name="Duration" Kind="OutputPin" />
+            <Pin Id="SZj7ECY9Q2XNFSl7kRSjFz" Name="Id" Kind="OutputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ ScreenTapGesture ************************
+
+-->
+        <Node Name="ScreenTapGesture" Bounds="681,705,133,80" Id="Nh1zUU6PoGIPvvMQOxZL9r">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="RycVJ5E2LpAL6KnCzYYnUP">
+            <Node Bounds="693,740,109,13" AutoConnect="true" Id="BJKafJfbIF2Qavvm6LRcR1">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="ScreenTapGesture" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="KQG1JQ44jRkO47UFSgiSjT" Name="ScreenTapGesture" Kind="InputPin" />
+              <Pin Id="CeW6Hjph6WhM7IslKfaxhC" Name="Direction" Kind="OutputPin" />
+              <Pin Id="VnVGCuSOUSmNgCZ0y35gm2" Name="Position" Kind="OutputPin" />
+              <Pin Id="B6pYC9PtgzAQVS9d5vkr2T" Name="Progress" Kind="OutputPin" />
+              <Pin Id="QDteT0SbVrILcSgKSyTD8p" Name="Duration" Kind="OutputPin" />
+              <Pin Id="U2hTPlCLnNWOfMKE7Q5h3s" Name="Id" Kind="OutputPin" />
+            </Node>
+            <Pin Id="Sc0PSS2nNuALXtxOBvkE9Z" Name="ScreenTapGesture" Kind="InputPin" />
+            <Pin Id="DohDCZhIIOYM0UTovwHo5X" Name="Direction" Kind="OutputPin" />
+            <Pin Id="JKW3BYqUkxeN1tvW70erGb" Name="Position" Kind="OutputPin" />
+            <Pin Id="TBMSJAptQ4NMTm94HKijpp" Name="Progress" Kind="OutputPin" />
+            <Pin Id="MrNjJc5KDDBMeqOSrdUWcR" Name="Duration" Kind="OutputPin" />
+            <Pin Id="UcYz54MEeBsOeBcNRXiX6l" Name="Id" Kind="OutputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ KeyTapGesture ************************
+
+-->
+        <Node Name="KeyTapGesture" Bounds="515,705,119,80" Id="Tyqqge7aZXzLpB2vp1pOYe">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="Pfb1jpahM7dLcg2XYw3Qsp">
+            <Node Bounds="527,740,95,13" AutoConnect="true" Id="LWSUslLrRaBMsml7oFaleA">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="KeyTapGesture" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="JEHHZvNhQJsOLcUUa0NlrB" Name="KeyTapGesture" Kind="InputPin" />
+              <Pin Id="HDRZihXPtPaO9WkWLZPhIi" Name="Direction" Kind="OutputPin" />
+              <Pin Id="MFsu2O4Re2LLiWj6o86Mpj" Name="Position" Kind="OutputPin" />
+              <Pin Id="Pc2Qzm8opyPMyicy3IWNGi" Name="Progress" Kind="OutputPin" />
+              <Pin Id="LaQum3sT5jaLLaEhCe22RX" Name="Duration" Kind="OutputPin" />
+              <Pin Id="OKYbA6g5xMqNfr9hChDqiZ" Name="Id" Kind="OutputPin" />
+            </Node>
+            <Pin Id="KKoGDu1qZkkLJ2nPfpovGb" Name="KeyTapGesture" Kind="InputPin" />
+            <Pin Id="P6slpyAj451OG3JzgzDKgn" Name="Direction" Kind="OutputPin" />
+            <Pin Id="EiOAfWe5QtCLdS4Xjl4APZ" Name="Position" Kind="OutputPin" />
+            <Pin Id="QcZ2k9wdt2EL4xUJjhRzqF" Name="Progress" Kind="OutputPin" />
+            <Pin Id="AgMH0jY8IWQNtjVZvAdSMX" Name="Duration" Kind="OutputPin" />
+            <Pin Id="Q37f5p2nXdgMaNmoDB1aqG" Name="Id" Kind="OutputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ Frame ************************
+
+-->
+        <Node Name="Frame" Bounds="113,213,80,80" Id="AwrWjOD7cWlOZgVSOpmSuf">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="CK8OSH5V0YjP78AmR9Qj7s">
+            <Node Bounds="126,248,54,13" AutoConnect="true" Id="Om8bAA74291MxkImxORKx7">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="Frame" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="UVDaphpia2yNbYbmjOMBvB" Name="Frame" Kind="InputPin" />
+              <Pin Id="QGp5Jf83LqAMIjll4ti6MY" Name="Hands" Kind="OutputPin" />
+              <Pin Id="Dj8CcAGSPqQMQCJMBC0Axj" Name="Gestures" Kind="OutputPin" />
+              <Pin Id="PDvTBD0yLMnQTPB8XcWMRJ" Name="Images" Kind="OutputPin" />
+            </Node>
+            <Pin Id="AqOEuWKqHInPrUq6bDw1my" Name="Frame" Kind="InputPin" />
+            <Pin Id="AqfvSICJbtYLfMIFsgYMam" Name="Hands" Kind="OutputPin" />
+            <Pin Id="CPKnMVrPCNAPqSbp4vPA40" Name="Gestures" Kind="OutputPin" />
+            <Pin Id="B8sNCUcQc2COqGxf9rsSjr" Name="Images" Kind="OutputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ DeviceInfo ************************
+
+-->
+        <Node Name="DeviceInfo" Bounds="254,215,129,80" Id="S1jhb6SAVcROYDRRJH5Bu8">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="IfvKP7DxtKhMt4iAVsDnmG">
+            <Node Bounds="266,250,105,13" AutoConnect="true" Id="UgYncslQfQdNllUqzHEoRA">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="DeviceInfo" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="TzMX8MzqQAgQKHMF8sRfrJ" Name="Device" Kind="InputPin" />
+              <Pin Id="JSyzcORKE0gLZBkm4Tipxc" Name="View Angles" Kind="OutputPin" />
+              <Pin Id="BxYl8uoiXPVPrUXiBOUSdF" Name="Range" Kind="OutputPin" />
+              <Pin Id="LJ9KKxsQ7HOP7nBhscaJaE" Name="Baseline" Kind="OutputPin" />
+              <Pin Id="NRUuvBUxkWSPkLxor3Q0E6" Name="Is Embedded" Kind="OutputPin" />
+              <Pin Id="JdZoc1mk6PZNN5Cewx5OaH" Name="Is Streaming" Kind="OutputPin" />
+              <Pin Id="Lij3pzbhaYIL33d5t24Fxt" Name="Serial Number" Kind="OutputPin" />
+            </Node>
+            <Pin Id="LCzPiA3OINGQEwPX712YGs" Name="Device" Kind="InputPin" />
+            <Pin Id="KbMpDTYwo0pMyeGN43K8Ek" Name="View Angles" Kind="OutputPin" />
+            <Pin Id="O4sv157zHWbPWlGzlu067K" Name="Range" Kind="OutputPin" />
+            <Pin Id="Mjo19PUTu6DMNVvlz6IwG9" Name="Baseline" Kind="OutputPin" />
+            <Pin Id="I0iP0z1uU9zNXE0t24RO1E" Name="Is Embedded" Kind="OutputPin" />
+            <Pin Id="EMX91kfL4nfLRxrDVvIqCO" Name="Is Streaming" Kind="OutputPin" />
+            <Pin Id="PjKvJrpMdykQFGA0aNW4nv" Name="Serial Number" Kind="OutputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ Image ************************
+
+-->
+        <Node Name="Image" Bounds="491,166,91,120" Id="DC9N6tWmyUUQVgreTTbZJj">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="BCS8epUsTkIL5CuyqGq36e">
+            <Node Bounds="505,189,65,13" AutoConnect="true" Id="QkaRl9NLlp0PjWOyi1m3XX">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="OperationNode" Name="Image" />
+                <CategoryReference Kind="Category" Name="Leap" />
+              </p:NodeReference>
+              <Pin Id="Ie4myssohypNUdQUpiHmmh" Name="Image" Kind="InputPin" />
+              <Pin Id="UEpcJNONIhKNOEHeHtRASx" Name="Result" Kind="OutputPin" />
+              <Pin Id="SyCMmT4GemlO2odjqAeaQq" Name="Bytes Per Pixel" Kind="OutputPin" />
+              <Pin Id="NaAq2pulMcxOuB5hK2Q9XC" Name="Width" Kind="OutputPin" />
+              <Pin Id="VMFXbeaGur7PDCgxVfrnHV" Name="Height" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="504,231,53,13" Id="PBm5LflduLXML83a55ESBa">
+              <p:NodeReference LastCategoryFullName="Collections.Sequence" LastSymbolSource="VL.Collections.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationNode" Name="ToStream" />
+                <CategoryReference Kind="Category" Name="Sequence" />
+              </p:NodeReference>
+              <Pin Id="QY7DdMXHW3oLVkCpPpXuMb" Name="Input" Kind="InputPin" />
+              <Pin Id="G7EdueL6zmjPOk5KvgMo2e" Name="Writeable" Kind="InputPin" />
+              <Pin Id="C1pQx82gxadPNZuNfhF55w" Name="Result" Kind="OutputPin" />
+            </Node>
+            <ControlPoint Id="UM96zLu0Ty7O3ioOjFBJZ0" Bounds="505,267" />
+            <Link Id="PPYyXU4tHopMhXMDqKxLZ4" Ids="UEpcJNONIhKNOEHeHtRASx,QY7DdMXHW3oLVkCpPpXuMb" />
+            <Link Id="A18xPDSfJdPNmcoEjb34sQ" Ids="C1pQx82gxadPNZuNfhF55w,UM96zLu0Ty7O3ioOjFBJZ0" />
+            <Link Id="RTlKd4RoDp7QbZtkTQrCyr" Ids="UM96zLu0Ty7O3ioOjFBJZ0,OSdHtnhHOeaOQNqnRCVj1h" IsHidden="true" />
+            <Pin Id="DPdHAYOxvTdPqyO0r9Rd2W" Name="Image" Kind="InputPin" Bounds="4,4" />
+            <Pin Id="GpIDyyJeSGqLK9p4KNrjdZ" Name="Bytes Per Pixel" Kind="OutputPin" Bounds="4,19" />
+            <Pin Id="GhRP23p5jHnP9UKu5ZYJnE" Name="Width" Kind="OutputPin" Bounds="86,19" />
+            <Pin Id="O7GpwiGjUzZMwzfnanJSmd" Name="Height" Kind="OutputPin" Bounds="127,19" />
+            <Pin Id="OSdHtnhHOeaOQNqnRCVj1h" Name="Result" Kind="OutputPin" />
+          </Patch>
+        </Node>
+        <!--
+
+    ************************ Pointable ************************
+
+-->
+        <Node Name="Pointable" Bounds="125,533,189,80" Id="QIEFSCKoWYGNgQrCC14cX9">
+          <p:NodeReference>
+            <Choice Kind="OperationDefinition" Name="Operation" />
+          </p:NodeReference>
+          <Patch Id="OzhQsAnUBrGLADci4jwKlV">
+            <Node Bounds="137,568,165,13" AutoConnect="true" Id="C5rTW9hbfFFNobyktiBDJx">
+              <p:NodeReference LastCategoryFullName="Devices.Leap" LastSymbolSource="VL.Devices.Leap.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationNode" Name="Pointable" />
+                <CategoryReference Kind="Category" Name="Leap" />
+                <CategoryReference Kind="Category" Name="Leap" NeedsToBeDirectParent="true">
+                  <p:OuterCategoryReference Kind="Category" Name="Devices" NeedsToBeDirectParent="true" />
+                </CategoryReference>
+              </p:NodeReference>
+              <Pin Id="JfgobuGWMOEOGf72PzBL68" Name="Pointable" Kind="InputPin" />
+              <Pin Id="OlceRdqb81ZOMs4YbQeQWl" Name="TipPosition" Kind="OutputPin" />
+              <Pin Id="NCAbpAewtBxOgAoOWnA6ki" Name="Direction" Kind="OutputPin" />
+              <Pin Id="A1FL3N1fjoVPJZ4jcIdZ3g" Name="TipVelocity" Kind="OutputPin" />
+              <Pin Id="TEr2myrVLDUP6AWpHxlX2T" Name="Width" Kind="OutputPin" />
+              <Pin Id="SzcI6u9sCQ3QdGc8kmDgrT" Name="Length" Kind="OutputPin" />
+              <Pin Id="KfJfLHkU7y8Mji3mbFWK0e" Name="Is Extended" Kind="OutputPin" />
+              <Pin Id="Eeor09GGXgYNrjuzSWadzw" Name="Is Tool" Kind="OutputPin" />
+              <Pin Id="QDaQH6rJ9WULP6nuJifjcx" Name="Time Visible" Kind="OutputPin" />
+              <Pin Id="Lhi2sp0jX1TPJnaoEqrLJV" Name="Id" Kind="OutputPin" />
+            </Node>
+            <Pin Id="DmIf3AvRMF9MrVSzyXL1nT" Name="Pointable" Kind="InputPin" />
+            <Pin Id="Pi2y2OktDfmQJSI8rDucFo" Name="TipPosition" Kind="OutputPin" />
+            <Pin Id="RLAMeq0Y4XTNpFHV8YArtK" Name="Direction" Kind="OutputPin" />
+            <Pin Id="HyO6F2GuMr7PRUL9TaNh9a" Name="TipVelocity" Kind="OutputPin" />
+            <Pin Id="B3H495e2DDtMcB8ApGIO4s" Name="Width" Kind="OutputPin" />
+            <Pin Id="TwXDAu2PX2rMROY2eQgKJf" Name="Length" Kind="OutputPin" />
+            <Pin Id="De7mXZtGAhCQFGOk4VH9uw" Name="Is Extended" Kind="OutputPin" />
+            <Pin Id="PDflaMMQIecLfOosiw1U9v" Name="Is Tool" Kind="OutputPin" />
+            <Pin Id="Cub8qiDt8FSOrY9IVDAwBp" Name="Time Visible" Kind="OutputPin" />
+            <Pin Id="K70zJhM8cBXMpVNDwnXGqO" Name="Id" Kind="OutputPin" />
+          </Patch>
+        </Node>
+      </Canvas>
+    </Canvas>
+    <!--
+
+    ************************ Application ************************
+
+-->
+    <Node Name="Application" Bounds="100,100" Id="D86SodJLMjDLUg4EjimxCD">
+      <p:NodeReference>
+        <Choice Kind="ContainerDefinition" Name="Process" />
+        <FullNameCategoryReference ID="Primitive" />
+      </p:NodeReference>
+      <Patch Id="MoGyDVO9N5oPtuw2Mx1ZFd">
+        <Canvas Id="Sc4FNudFFfEOsr2duYTzkU" BordersChecked="false" CanvasType="Group" />
+        <Patch Id="BDrH8CDKFZANnk3wmpyekP" Name="Create" />
+        <Patch Id="GLkylpVMDVSLchV5ImdT2T" Name="Update" />
+        <ProcessDefinition Id="VAuLX8iH105MJxA3tvBXCd">
+          <Fragment Id="Q4zQQk4FR2fLqfeXNqwZ8m" Patch="BDrH8CDKFZANnk3wmpyekP" Enabled="true" />
+          <Fragment Id="D8tMryZhQEAPXIxCQJrhno" Patch="GLkylpVMDVSLchV5ImdT2T" Enabled="true" />
+        </ProcessDefinition>
+      </Patch>
+    </Node>
+  </Patch>
+  <DocumentDependency Id="TfWWIEBT7J4OcimNcMN7Df" Location="../../../VL.Devices.Leap.vl" />
+</Document>

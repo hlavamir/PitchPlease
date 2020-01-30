@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VVVV.VLIntegration</name>
+    </assembly>
+    <members>
+        <member name="M:VVVV.VL.Hosting.RuntimeHost.SharedStep">
+            <summary>
+            keep in sync with standalone runtimehost
+            </summary>
+        </member>
+    </members>
+</doc>

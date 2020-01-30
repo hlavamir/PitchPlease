@@ -1,0 +1,119 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha34.104.dtd" >
+   <PATCH nodename="D:\gitHub\vl-packs\VL.FreeType\vvvv\girlpower\VL.FreeType.Girlpower.v4p" systemname="VL.FreeType.Girlpower" filename="D:\gitHub\mypacks\VL.FreeType\vvvv\girlpower\VL.FreeType.Girlpower.v4p" scrollx="270" scrolly="-360">
+   <BOUNDS type="Window" left="4275" top="1545" width="4830" height="6525">
+   </BOUNDS>
+   <PACK Name="addonpack" Version="34.101.0">
+   </PACK>
+   <NODE systemname="xyZ (3d XY)" nodename="xyZ (3d XY)" componentmode="Hidden" id="39">
+   <BOUNDS type="Node" left="1425" top="1995" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="XY" visible="1" slicecount="20" values="0.708328247070313,-0.570297241210938,0.46331787109375,-0.10040283203125,0.21832275390625,-0.570297241210938,0.46331787109375,-1.04020690917969,0.708328247070313,-0.570297241210938,0.864990234375,-0.570297241210938,0.46331787109375,-1.171875,0.0616607666015625,-0.570297241210938,0.46331787109375,0.03125,0.864990234375,-0.570297241210938">
+   </PIN>
+   <PIN pinname="XYZ" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Renderer (EX9)" nodename="Renderer (EX9)" componentmode="InAWindow" id="41">
+   <BOUNDS type="Node" left="945" top="4530" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="945" top="4530" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="18375" top="0" width="10425" height="9330">
+   </BOUNDS>
+   <PIN pinname="Layers" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="View" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="UniformScale (Transform)" nodename="UniformScale (Transform)" componentmode="Hidden" id="42">
+   <BOUNDS type="Node" left="1125" top="990" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Transform Out" visible="1">
+   </PIN>
+   <PIN pinname="XYZ" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Line (EX9)" filename="%VVVV%\lib\nodes\modules\EX9\Line (EX9).v4p" nodename="Line (EX9)" componentmode="Hidden" id="43">
+   <BOUNDS type="Node" left="960" top="2835" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="VerticesXYZ" visible="1">
+   </PIN>
+   <PIN pinname="BinSize" visible="1" slicecount="2" values="5,6">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Transform" visible="1">
+   </PIN>
+   <PIN pinname="Transform Each Bin" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="Closed" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="39" srcpinname="XYZ" dstnodeid="43" dstpinname="VerticesXYZ">
+   </LINK>
+   <LINK srcnodeid="42" srcpinname="Transform Out" dstnodeid="43" dstpinname="Transform">
+   </LINK>
+   <NODE systemname="Camera (Transform 2d)" filename="..\..\..\..\vl-packs\VL.EditingFramework\vvvv\nodes\modules\Camera (Transform 2d).v4p" nodename="Camera (Transform 2d)" componentmode="Hidden" id="44">
+   <BOUNDS type="Node" left="1800" top="4095" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="View" visible="1">
+   </PIN>
+   <PIN pinname="Minimum Zoom" slicecount="1" values="0.02">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="44" srcpinname="View" dstnodeid="41" dstpinname="View">
+   </LINK>
+   <NODE systemname="Grid (DX9)" nodename="Grid (DX9)" componentmode="Hidden" id="45">
+   <BOUNDS type="Node" left="3045" top="2805" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Render State" visible="1">
+   </PIN>
+   <PIN pinname="Resolution Y" slicecount="1" values="3">
+   </PIN>
+   <PIN pinname="Resolution X" slicecount="1" values="6">
+   </PIN>
+   </NODE>
+   <NODE nodename="Group (EX9)" id="46" systemname="Group (EX9)">
+   <BOUNDS type="Node" left="960" top="3675" width="2160" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="960" top="3675" width="2400" height="1800">
+   </BOUNDS>
+   <PIN pinname="Layer 2" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Layer 1" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Enabled" visible="-1" pintype="Input" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="46" srcpinname="Layer" dstnodeid="41" dstpinname="Layers">
+   </LINK>
+   <NODE systemname="Fill (EX9.RenderState)" nodename="Fill (EX9.RenderState)" componentmode="Hidden" id="47">
+   <BOUNDS type="Node" left="3060" top="2385" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Render State Out" visible="1">
+   </PIN>
+   <PIN pinname="Fill Mode" slicecount="1" values="WireFrame">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="47" srcpinname="Render State Out" dstnodeid="45" dstpinname="Render State">
+   </LINK>
+   <LINK srcnodeid="43" srcpinname="Layer" dstnodeid="46" dstpinname="Layer 1">
+   </LINK>
+   <NODE id="56" systemname="FreeTypeGirlpower (FreeType)" filename="vl\VL.FreeType.Girlpower.vl" nodename="FreeTypeGirlpower (FreeType)" componentmode="Hidden" hiddenwhenlocked="0" managers="">
+   <BOUNDS type="Node" left="1425" top="1605" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="0" top="240" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="0" top="0" width="6000" height="4500">
+   </BOUNDS>
+   <PIN pinname="Counts" visible="1">
+   </PIN>
+   <PIN pinname="PointsXY" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="45" srcpinname="Layer" dstnodeid="46" dstpinname="Layer 2">
+   </LINK>
+   <LINK srcnodeid="56" srcpinname="PointsXY" dstnodeid="39" dstpinname="XY">
+   </LINK>
+   </PATCH>

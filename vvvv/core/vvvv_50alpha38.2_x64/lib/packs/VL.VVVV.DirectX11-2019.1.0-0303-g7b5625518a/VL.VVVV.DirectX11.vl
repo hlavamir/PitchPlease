@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document xmlns:p="property" Id="GLM1d2Y2hD2MHwjLKXZpSR" Summary="A base library for the VL integration into vvvv" Authors="vvvv group" LicenseUrl="https://www.gnu.org/licenses/lgpl-3.0-standalone.html" ProjectUrl="https://vvvv.org/" LanguageVersion="2019.1.0-0090-gf3b63593c6" Version="0.128" IsTrusted="true">
+  <NugetDependency Id="UotO8tnnmhUPprvIZelmuK" Location="VL.CoreLib" Version="0.35.33" />
+  <NugetDependency Id="MNBFKJ5b0P8PjDIqcyZ0Cu" Location="VL.Core" Version="0.35.33" />
+  <Patch Id="OcBLXCJDYOGPcQJ72MySjP">
+    <Canvas Id="UpP7bEFWlusOS2YgBJs3w4" DefaultCategory="VVVV" CanvasType="FullCategory" />
+    <!--
+
+    ************************ Application ************************
+
+-->
+    <Node Name="Application" Bounds="100,100" Id="F6n70jc37qPPD4FOnd6yvM">
+      <p:NodeReference>
+        <Choice Kind="ContainerDefinition" Name="Process" />
+        <FullNameCategoryReference ID="Primitive" />
+      </p:NodeReference>
+      <Patch Id="GSAG4q7M8VyMFib2vWpmYK">
+        <Canvas Id="VoALjRZEuUkMCbFyIFONIC" BordersChecked="false" CanvasType="Group" />
+        <Patch Id="TW5mNphjMQhPSOip3Kqb8I" Name="Create" />
+        <Patch Id="LBaTdYpMrboLaZhkNTOwWn" Name="Update" />
+        <ProcessDefinition Id="ML1ra4DWpVLNKAC8uxKt4K">
+          <Fragment Id="DF64acjNjgsL9m5OyMqfk8" Patch="TW5mNphjMQhPSOip3Kqb8I" Enabled="true" />
+          <Fragment Id="HSJqQoCELtvPLnudve6Thj" Patch="LBaTdYpMrboLaZhkNTOwWn" Enabled="true" />
+        </ProcessDefinition>
+      </Patch>
+    </Node>
+  </Patch>
+  <PlatformDependency Id="VCialSweuOWME6sg11NfAI" Location="./vvvv/nodes/plugins/VL.VVVV.DirectX11.dll" />
+</Document>

@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document xmlns:p="property" Id="GB2VxUl5VdhM5rsl5IbjQg" LanguageVersion="2019.1.0-0090-gf3b63593c6" Version="0.128" IsTrusted="true">
+  <NugetDependency Id="RKFCmk1Lg5EP3I4IQegLTw" Location="VL.CoreLib" Version="0.35.21" />
+  <NugetDependency Id="U2JwHqMJLyGLDs97lM6eZ6" Location="VL.CoreLib.VVVV" Version="0.35.21" />
+  <Patch Id="Th8hpfHvBF4Lk6VOwDCc9D">
+    <Canvas Id="NtZT52Xp5qNOXK0fF2H7kv" DefaultCategory="VVVV.Value" BordersChecked="false" CanvasType="FullCategory">
+      <!--
+
+    ************************ DictionaryDemo ************************
+
+-->
+      <Node Name="DictionaryDemo" Bounds="153,200" Id="TSttkfeJHQSN5gkEF54G9o">
+        <p:NodeReference>
+          <Choice Kind="ContainerDefinition" Name="Patch" />
+          <FullNameCategoryReference ID="Primitive" />
+        </p:NodeReference>
+        <Patch Id="CzjSvRY5dvXQDxmAOA8mZj">
+          <Patch Id="ESJZDDS0I02LAWDOx9RJVV" Name="Create" />
+          <Patch Id="OkqGvJfa3PDOppp4PFQghD" Name="Update" />
+          <Canvas Id="C4yd3S6BFv9NWqJ2WO3OFi" CanvasType="Group">
+            <Pad Id="Qi7TDjJvCqdQb0MZf0ldDJ" SlotId="U6OsPGorlS3Pjay8NLDbHd" Bounds="190,343" />
+            <Pad Id="TOIdKATtaIjLXWiyZz60bN" SlotId="U6OsPGorlS3Pjay8NLDbHd" Bounds="193,583">
+              <p:ValueBoxSettings />
+            </Pad>
+            <Node Bounds="552,404,47,13" Id="JxqXiNeOIFhMjXs9UdFSkC">
+              <p:NodeReference LastCategoryFullName="Math" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationCallFlag" Name="Random" />
+              </p:NodeReference>
+              <Pin Id="B2VCcpW0OSML1N1AARUmhF" Name="From" Kind="InputPin" />
+              <Pin Id="SHjTWOIZXQSOxCzqmSOmdK" Name="To" Kind="InputPin" />
+              <Pin Id="Mh3K83l164BPi4FYRBiVZW" Name="Output" Kind="OutputPin" />
+            </Node>
+            <Pad Id="KbvVyQwDIFEOP0aVnb9y5T" Bounds="596,381,24,19" ShowValueBox="true" isIOBox="true" Value="99">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="Integer32" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings />
+            </Pad>
+            <Node Bounds="175,404,90,79" Id="CWsz0USV9P4NosYwlFGpco">
+              <p:NodeReference LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="ApplicationStatefulRegion" Name="If" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+              </p:NodeReference>
+              <Pin Id="BDQhusRsmnSN2s5AME1kNR" Name="Condition" Kind="InputPin" />
+              <Patch Id="ShCTa5XuWhLPkkemZfmnrz" ManuallySortedPins="true">
+                <Patch Id="NDFrNkUyyvxNl3xeH0oV6i" Name="Create" ManuallySortedPins="true" />
+                <Patch Id="A6UbiWeCBqFLS05oONYeYc" Name="Then" ManuallySortedPins="true" />
+                <Node Bounds="188,436,65,22" Id="EUdJzcZ52MAObjcsHSXLar">
+                  <p:NodeReference LastCategoryFullName="Collections.Dictionary" LastSymbolSource="VL.Collections.vl">
+                    <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                    <Choice Kind="OperationCallFlag" Name="Add" />
+                    <CategoryReference Kind="Category" Name="Dictionary" />
+                  </p:NodeReference>
+                  <Pin Id="Jzv1PsXucM0MeIuQajT12q" Name="Input" Kind="StateInputPin" />
+                  <Pin Id="Q1mR9hsxEBaO3mTQam8qQr" Name="Key" Kind="InputPin" />
+                  <Pin Id="IZxZ2TyUt7uMj5xuZn5lZt" Name="Value" Kind="InputPin" />
+                  <Pin Id="CzVGPM5dWY0LnSiPC4F2iq" Name="Output" Kind="StateOutputPin" />
+                </Node>
+              </Patch>
+              <ControlPoint Id="MV2k9sOcetnQCZZYjpQZFN" Bounds="190,410" Alignment="Top" />
+              <ControlPoint Id="TY4R0JU4nHULabP4yLKCQa" Bounds="191,477" Alignment="Bottom" />
+            </Node>
+            <Pad Id="V6sjDyThw7PLLwzD7UDgT8" Comment="Add an entry to the dictionary" Bounds="281,137,49,49" ShowValueBox="true" isIOBox="true" Value="False">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="Boolean" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:buttonmode p:Assembly="VL.UI.Forms" p:Type="VL.HDE.PatchEditor.Editors.ButtonModeEnum">Bang</p:buttonmode>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="RTQeO5WrMoEM0rpDp9lkvM" Bounds="288,297,50,20" ShowValueBox="true" isIOBox="true" Value="preset-">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings />
+            </Pad>
+            <Node Bounds="358,277,85,13" Id="LVyRRCJFUdNPMvpoukRjeB">
+              <p:NodeReference LastCategoryFullName="Animation.FrameBased" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="ProcessAppFlag" Name="Counter" />
+                <CategoryReference Kind="Category" Name="FrameBased" />
+              </p:NodeReference>
+              <Pin Id="TVXy1oqkjtXP4YNbgiCChq" Name="Increment" Kind="InputPin" />
+              <Pin Id="GfLp1UXuuusMHK4I3cA8IS" Name="Default" Kind="InputPin" />
+              <Pin Id="PhtBytD4NBCMlW0GefTF2b" Name="Up" Kind="ApplyPin" />
+              <Pin Id="S129FPIMHNEPEwL7LClmpQ" Name="Down" Kind="ApplyPin" />
+              <Pin Id="OiaP10x3Hv5QODfmSpyoaz" Name="Reset" Kind="ApplyPin" />
+              <Pin Id="Cfru86QwnrDL9BsuGjxBtS" Name="Value" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="287,384,25,13" Id="M4cIoO3ANFtMiHady2r3RP">
+              <p:NodeReference LastCategoryFullName="Math" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationCallFlag" Name="+" />
+              </p:NodeReference>
+              <Pin Id="CiYsXRYMFB3P8xM8YGbVjz" Name="Input" Kind="InputPin" />
+              <Pin Id="Qwn1fAuW3c6NUeMN50NIXY" Name="Input 2" Kind="InputPin" />
+              <Pin Id="IUgIwW1InmqQbJN3CnWspS" Name="Output" Kind="OutputPin" />
+            </Node>
+            <Pad Id="AGHkSXlNnAnMm04pBopgcc" Comment="Key" Bounds="397,679,56,20" ShowValueBox="true" isIOBox="true" Value="preset-3">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:TypeAnnotation>
+            </Pad>
+            <Node Bounds="358,304,48,13" Id="CxeAxSprUXwQD46Ncx0MNd">
+              <p:NodeReference LastCategoryFullName="Primitive.Object" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationCallFlag" Name="ToString" />
+                <CategoryReference Kind="Category" Name="Object" />
+              </p:NodeReference>
+              <Pin Id="SyQIcYDxMrILC5CWzoULNB" Name="Input" Kind="InputPin" />
+              <Pin Id="NL8N9zbWw2VMbPk1K0M4bZ" Name="Result" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="189,523,45,22" Id="FSeiOCoRLUINmOP16uef9i">
+              <p:NodeReference LastCategoryFullName="Collections.Dictionary">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationCallFlag" Name="Clear" />
+                <CategoryReference Kind="TypeFlag" Name="Dictionary" NeedsToBeDirectParent="true" />
+              </p:NodeReference>
+              <Pin Id="FjLlHiZHjedNg83NTqi7DP" Name="Input" Kind="StateInputPin" />
+              <Pin Id="AHheTwzGkhBNRxYtnZoUEz" Name="Apply" Kind="ApplyPin" />
+              <Pin Id="JXQOVwT4fM6PEtamn6rh6i" Name="Output" Kind="StateOutputPin" />
+            </Node>
+            <Pad Id="IsXNeP0u4etNPxT8Hy9OO5" Comment="Clear all entries" Bounds="281,198,49,20" ShowValueBox="true" isIOBox="true" Value="False">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="Boolean" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:buttonmode p:Assembly="VL.UI.Forms" p:Type="VL.HDE.PatchEditor.Editors.ButtonModeEnum">Bang</p:buttonmode>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="QlR9U0HQLp6QbiaZhOYU8n" Bounds="599,411,203,129" ShowValueBox="true" isIOBox="true" Value="&lt; for this example the actual values in the Dictionary will just be random numbers.&#xD;&#xA;&#xD;&#xA;but note that here of course you can store any other data instead!">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">9</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="RqDzChulJzxNpxBwY5L608" Bounds="314,386,164,96" ShowValueBox="true" isIOBox="true" Value="&lt; the keys in this example will be strings in the form &quot;preset-1&quot;, &quot;preset-2&quot;,... but can also be any other datatype.">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">9</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="HphUyqFihFNOqgHBVu9MCu" Bounds="350,346,61,33" ShowValueBox="true" isIOBox="true" Value="Key ">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">16</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="KuO1NJzWzzHQRra2cdyO5k" Bounds="583,343,79,33" ShowValueBox="true" isIOBox="true" Value="Value">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">16</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="FK7KntjltenQGlXereBqZC" Bounds="13,118,222,112" ShowValueBox="true" isIOBox="true" Value="A Dictionary is a key/value collection, useful for retrieving stored values by specifying only a key that was associated with the value when storing it in the collection.">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <FullNameCategoryReference ID="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">9</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Node Bounds="335,706,65,22" Id="AlY1XpYUpPGNCHsqqUBNWE">
+              <p:NodeReference LastCategoryFullName="Collections.Dictionary" LastSymbolSource="VL.Collections.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationCallFlag" Name="TryGetValue" />
+                <CategoryReference Kind="Category" Name="Dictionary" />
+              </p:NodeReference>
+              <Pin Id="Jif4jt8A2riOVfFOxRJcF1" Name="Input" Kind="StateInputPin" />
+              <Pin Id="RnJ4rDHw6hSOSooUF53mF2" Name="Key" Kind="InputPin" />
+              <Pin Id="CBBTD1COh7jNnYuScn02kX" Name="Result" Kind="OutputPin" />
+              <Pin Id="M1GLMdqNIQ1NMlU488RsLT" Name="Value" Kind="OutputPin" />
+            </Node>
+            <Pad Id="EKNFx0JEu9SNploCmECHyR" Comment="Value" Bounds="399,779,52,20" ShowValueBox="true" isIOBox="true" />
+            <Pad Id="DY4J6dL2YSmQJkxYmXPPa6" Comment="Key available in Dictionary" Bounds="338,747,40,19" ShowValueBox="true" isIOBox="true" />
+            <Pad Id="Mj4PwaquTSrMVJxXJxTpOD" Comment="" Bounds="288,489,51,20" ShowValueBox="true" isIOBox="true" />
+            <Node Bounds="190,703,45,22" Id="D0c4vLp74BVN7BrHoN16yq">
+              <p:NodeReference LastCategoryFullName="Collections.Dictionary" LastSymbolSource="VL.Collections.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationCallFlag" Name="Count" />
+                <CategoryReference Kind="Category" Name="Dictionary" />
+              </p:NodeReference>
+              <Pin Id="N4GkUP0kD93PkfkFk3BAt4" Name="Input" Kind="StateInputPin" />
+              <Pin Id="Dg1K3zZg7OEMmsWr3TdNaz" Name="Count" Kind="OutputPin" />
+            </Node>
+            <Pad Id="TwyrjsAH4HuOdNjIst9Ftg" Comment="Entry count" Bounds="192,745,24,27" ShowValueBox="true" isIOBox="true">
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">12</p:fontsize>
+              </p:ValueBoxSettings>
+            </Pad>
+          </Canvas>
+          <ProcessDefinition Id="FHNLl8GWgcVOJzRkkPI83E">
+            <Fragment Id="MRFnVwHDf0WOO7H3jKbCxI" Patch="ESJZDDS0I02LAWDOx9RJVV" Enabled="true" />
+            <Fragment Id="PulIQZQ5YLtPp6C2yvbTNE" Patch="OkqGvJfa3PDOppp4PFQghD" Enabled="true" />
+          </ProcessDefinition>
+          <Slot Id="U6OsPGorlS3Pjay8NLDbHd" Name="My Dictionary" />
+          <Link Id="B0lgAWtZZfVPguZwOpD5nz" Ids="KbvVyQwDIFEOP0aVnb9y5T,SHjTWOIZXQSOxCzqmSOmdK" />
+          <Link Id="AJBr4gOfO0INIIaUpkBiqk" Ids="Mh3K83l164BPi4FYRBiVZW,IZxZ2TyUt7uMj5xuZn5lZt" />
+          <Link Id="RnKNXT8tuy1LJdrT33bGwR" Ids="MV2k9sOcetnQCZZYjpQZFN,TY4R0JU4nHULabP4yLKCQa" IsFeedback="true" />
+          <Link Id="A3uvI7r7R18LvIHww5odNu" Ids="MV2k9sOcetnQCZZYjpQZFN,Jzv1PsXucM0MeIuQajT12q" />
+          <Link Id="GKsUv40Q65OLcZavglxZIY" Ids="CzVGPM5dWY0LnSiPC4F2iq,TY4R0JU4nHULabP4yLKCQa" />
+          <Link Id="EA439KRM7NLLXzFgQh6JoD" Ids="V6sjDyThw7PLLwzD7UDgT8,BDQhusRsmnSN2s5AME1kNR" />
+          <Link Id="MibepAVAXu8NYbv8cRp7Kn" Ids="RTQeO5WrMoEM0rpDp9lkvM,CiYsXRYMFB3P8xM8YGbVjz" />
+          <Link Id="F7UswUvAzIUNr2moPp5UeE" Ids="V6sjDyThw7PLLwzD7UDgT8,PhtBytD4NBCMlW0GefTF2b" />
+          <Link Id="QBO5yeuYT4LP5TDLbUNZL2" Ids="Cfru86QwnrDL9BsuGjxBtS,SyQIcYDxMrILC5CWzoULNB" />
+          <Link Id="QaPAhxv8rODPngIVxu8jNf" Ids="NL8N9zbWw2VMbPk1K0M4bZ,Qwn1fAuW3c6NUeMN50NIXY" />
+          <Link Id="Ht9gTIYwzHLMybOS0z5kYH" Ids="IUgIwW1InmqQbJN3CnWspS,Q1mR9hsxEBaO3mTQam8qQr" />
+          <Link Id="RXd13CKe64eMO1I3IsDxs2" Ids="IsXNeP0u4etNPxT8Hy9OO5,AHheTwzGkhBNRxYtnZoUEz" />
+          <Link Id="RaOX2KF4tqVL5ThqyjxYii" Ids="IsXNeP0u4etNPxT8Hy9OO5,OiaP10x3Hv5QODfmSpyoaz" />
+          <Link Id="QXfFXqieb0VPZitqW4sd5Z" Ids="AGHkSXlNnAnMm04pBopgcc,RnJ4rDHw6hSOSooUF53mF2" />
+          <Link Id="C5RajINrdO3LRbj0D40inz" Ids="M1GLMdqNIQ1NMlU488RsLT,EKNFx0JEu9SNploCmECHyR" />
+          <Link Id="RqjO9m3T9ILNqsYkrEC5mh" Ids="CBBTD1COh7jNnYuScn02kX,DY4J6dL2YSmQJkxYmXPPa6" />
+          <Link Id="BWYMUVPeKHJNYWbBpkreRR" Ids="IUgIwW1InmqQbJN3CnWspS,Mj4PwaquTSrMVJxXJxTpOD" />
+          <Link Id="DG13xMSfdetOCpOFbiGdCV" Ids="Dg1K3zZg7OEMmsWr3TdNaz,TwyrjsAH4HuOdNjIst9Ftg" />
+          <Link Id="Pfy8oefeEYpQQ5h7Le658j" Ids="TOIdKATtaIjLXWiyZz60bN,N4GkUP0kD93PkfkFk3BAt4" />
+          <Link Id="HsmljllwJC1LSGAp3F3656" Ids="Qi7TDjJvCqdQb0MZf0ldDJ,MV2k9sOcetnQCZZYjpQZFN" />
+          <Link Id="I85IZdYA129PmPmHjxGueo" Ids="TY4R0JU4nHULabP4yLKCQa,FjLlHiZHjedNg83NTqi7DP" />
+          <Link Id="AlMcfUsYHD1OhGMdiiRv1z" Ids="JXQOVwT4fM6PEtamn6rh6i,TOIdKATtaIjLXWiyZz60bN" />
+          <Link Id="GTNuP7xDjebPHq526WM3mz" Ids="TOIdKATtaIjLXWiyZz60bN,Jif4jt8A2riOVfFOxRJcF1" />
+        </Patch>
+      </Node>
+    </Canvas>
+    <!--
+
+    ************************ Application ************************
+
+-->
+    <Node Name="Application" Bounds="100,100" Id="LTtSsse5nIrOoClf5K50Xe">
+      <p:NodeReference>
+        <Choice Kind="ContainerDefinition" Name="Process" />
+        <FullNameCategoryReference ID="Primitive" />
+      </p:NodeReference>
+      <Patch Id="SBdUCXSNTK4Oviq1qCBY1T">
+        <Canvas Id="ELn4D8w0IKYNuk6Uf6rJaB" BordersChecked="false" CanvasType="Group" />
+        <Patch Id="IvK0DUQsqDIQO1hLHi0ZCc" Name="Create" />
+        <Patch Id="ToBnEccoamxPatpRmzcsql" Name="Update" />
+        <ProcessDefinition Id="I4odOOX40fGORPbsxepfZP">
+          <Fragment Id="JCIPmXChwJfMgbmj7LkES8" Patch="IvK0DUQsqDIQO1hLHi0ZCc" Enabled="true" />
+          <Fragment Id="TNWKeZ830IYN4cKFxtSJ9P" Patch="ToBnEccoamxPatpRmzcsql" Enabled="true" />
+        </ProcessDefinition>
+      </Patch>
+    </Node>
+  </Patch>
+</Document>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>VL.Devices.TheEyeTribe</id>
+    <version>2019.1.0-0303-g7b5625518a</version>
+    <title></title>
+    <authors>vvvv group</authors>
+    <owners>vvvv group</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>http://vvvv.org/</projectUrl>
+    <description>Provides support for the Eyetracker by The Eye Tribe in VL</description>
+    <summary></summary>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright © 2019 by vvvv group. All rights reserved.</copyright>
+    <language></language>
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2" />
+    </dependencies>
+  </metadata>
+</package>

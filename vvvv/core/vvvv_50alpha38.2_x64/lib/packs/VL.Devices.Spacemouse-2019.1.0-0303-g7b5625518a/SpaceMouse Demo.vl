@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document xmlns:p="property" Id="I9eKy0IoxmIQEEkAfq7htp" LanguageVersion="2019.1.0-0090-gf3b63593c6" Version="0.128" IsTrusted="true">
+  <NugetDependency Id="O712Cr1KJ53L2UuJDbsT24" Location="VL.CoreLib" Version="0.36.61-alpha-g4668a047dc" />
+  <NugetDependency Id="QRQEK1TYYOtOm4NeP7fPEd" Location="VL.Devices.Spacemouse" Version="0.36.61-alpha-g4668a047dc" />
+  <Patch Id="VpJqyjlNufLPCMjPtPkGAd">
+    <Canvas Id="NiQtePcUu7DNdbXbLZA9Sk" BordersChecked="false" CanvasType="FullCategory" />
+    <!--
+
+    ************************ Application ************************
+
+-->
+    <Node Name="Application" Category="Main" Bounds="100,200" Id="IBqutdo9x2zQI9RfRj3evt">
+      <p:NodeReference>
+        <Choice Kind="ClassDefinition" Name="Class" />
+      </p:NodeReference>
+      <p:HideCategory p:Type="Boolean">true</p:HideCategory>
+      <Patch Id="A5Wtrn5x9tGLqR4usbmsYC">
+        <Patch Id="LcgEJyGryzaPtc3en8kOJC" Name="Create" />
+        <Patch Id="UXHlvzLawTrMirJQfDZAVA" Name="Update" ParticipatingElements="UiM96FjqUsIPNMiAukQyad" />
+        <Canvas Id="Tb1WRAmBdqTOnFOwXqGgYV" CanvasType="Group">
+          <Pad Id="HkHZQcv8n0GNgmoi0ZW18B" Comment="Enabled" Bounds="374,235" ShowValueBox="true" isIOBox="true" Value="True">
+            <p:TypeAnnotation>
+              <Choice Kind="TypeFlag" Name="Boolean" />
+              <CategoryReference Kind="Category" Name="Primitive" />
+            </p:TypeAnnotation>
+            <p:ValueBoxSettings />
+          </Pad>
+          <Node Bounds="375,267" Id="KxdkdfRu0WkODzC7YDHOZd">
+            <p:NodeReference LastCategoryFullName="Devices" LastSymbolSource="VL.Devices.Spacemouse.vl">
+              <CategoryReference Kind="Category" Name="Devices" />
+              <Choice Kind="ProcessNode" Name="SpaceMouse" />
+            </p:NodeReference>
+            <p:HideCategory p:Type="Boolean">true</p:HideCategory>
+            <Pin Id="Pe0S6svILzQOGOF0jIvlAI" Name="Enabled" Kind="InputPin" />
+            <Pin Id="GZ2keA1VCIiQQOJK1gtwbX" Name="Position" Kind="OutputPin" />
+            <Pin Id="KpZvXTIUwsdO51FHMPQqWW" Name="Rotation" Kind="OutputPin" />
+            <Pin Id="JxwSnuLYhDVQZSnxZCYVGC" Name="Angle" Kind="OutputPin" />
+            <Pin Id="NcNdr0u3lYAPcEMi7wByC3" Name="Keys" Kind="OutputPin" />
+            <Pin Id="CAzwUX14lQgOmVqFSitcbk" Name="DeviceType" Kind="OutputPin" />
+          </Node>
+          <Pad Id="DrJwRPtHCNfLsDeZV6xbym" Bounds="375,310" ShowValueBox="true" isIOBox="true" />
+          <Pad Id="TbwB9XbGneMP5jXVyjxlPT" Bounds="436,310" ShowValueBox="true" isIOBox="true" />
+          <Pad Id="Kigjq2HeIWSOhvJmA7BGX2" Bounds="490,310" ShowValueBox="true" isIOBox="true" />
+          <Pad Id="AkTABpIQClnP9vtjAlmgfx" Bounds="541,310" ShowValueBox="true" isIOBox="true" />
+          <Pad Id="HcC33kckSjiMhzo53ug528" Bounds="601,310" ShowValueBox="true" isIOBox="true" />
+        </Canvas>
+        <Link Id="UiM96FjqUsIPNMiAukQyad" Ids="HkHZQcv8n0GNgmoi0ZW18B,Pe0S6svILzQOGOF0jIvlAI" />
+        <Link Id="IKzZhoO618YO2xNhDjkS7k" Ids="GZ2keA1VCIiQQOJK1gtwbX,DrJwRPtHCNfLsDeZV6xbym" />
+        <Link Id="S7xbRAvVkTTPzhDnV22KQA" Ids="KpZvXTIUwsdO51FHMPQqWW,TbwB9XbGneMP5jXVyjxlPT" />
+        <Link Id="Gss4IYt6qrxO8jiwRWiKg2" Ids="JxwSnuLYhDVQZSnxZCYVGC,Kigjq2HeIWSOhvJmA7BGX2" />
+        <Link Id="LeRcUVG533nQHGOzTUrpUp" Ids="NcNdr0u3lYAPcEMi7wByC3,AkTABpIQClnP9vtjAlmgfx" />
+        <Link Id="TgtvUlKmei9PmqIPqLYmdR" Ids="CAzwUX14lQgOmVqFSitcbk,HcC33kckSjiMhzo53ug528" />
+        <ProcessDefinition Id="IuW2HtNHBjXM3w3RtDpEpr">
+          <Fragment Id="QauPRtgDYYNLUjD1fm2wTq" Patch="LcgEJyGryzaPtc3en8kOJC" Enabled="true" />
+          <Fragment Id="E47tQvyZVtOOfqSZE4crBd" Patch="UXHlvzLawTrMirJQfDZAVA" Enabled="true" />
+        </ProcessDefinition>
+      </Patch>
+    </Node>
+  </Patch>
+</Document>

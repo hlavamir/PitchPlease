@@ -1,0 +1,41 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50debug35.11.dtd" >
+   <PATCH nodename="C:\Users\joreg\Documents\repos\vvvv\public-vl\VL.CoreLib.VVVV\vvvv\girlpower\_Basics\Dictionary\Dictionary.v4p" systemname="Dictionary" filename="C:\Users\joreg\Documents\repos\vvvv\public-vl\VL.CoreLib.VVVV\vvvv\girlpower\_Basics\Dictionary.v4p">
+   <BOUNDS type="Window" left="1185" top="7410" width="6585" height="4245">
+   </BOUNDS>
+   <PACK Name="addonpack" Version="35.9.0">
+   </PACK>
+   <NODE systemname="DictionaryDemo (Value)" filename="vl\VVVV.Value.DictionaryDemo.vl" nodename="DictionaryDemo (Value)" componentmode="Hidden" id="1">
+   <BOUNDS type="Node" left="720" top="2040" width="100" height="100">
+   </BOUNDS>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="4" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="285" top="300" width="20040" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="285" top="300" width="5280" height="870">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|This example demonstrates how you can fill a Dictionary with key/value pairs and retrieve the individual values again by specifying a key.|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   <PIN pinname="Size" slicecount="1" values="9">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="5">
+   <BOUNDS type="Node" left="2175" top="2070" width="2520" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="2175" top="2070" width="2520" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|&lt; rightclick to open the VL editor|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   </PATCH>

@@ -1,0 +1,973 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VVVV.Core</name>
+    </assembly>
+    <members>
+        <member name="T:VVVV.Core.Collections.Sync.SyncExtensions">
+            <summary>
+            Adds SyncWith extension methods to various collection types.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Collections.ViewableCollection`1">
+            <summary>
+            A ViewableCollection is a readonly collection of T.
+            </summary>    
+        </member>
+        <member name="T:VVVV.Core.Commands.Command">
+            <summary>
+            Base class for all commands.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Commands.Command.Execute">
+            <summary>
+            Execute this command.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Commands.Command.Undo">
+            <summary>
+            Undo this command.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Commands.Command.Redo">
+            <summary>
+            Redo this command.
+            Override this method if you need a special Redo operation.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Commands.Command.HasUndo">
+            <summary>
+            Determines if this command is undoable.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Commands.CommandHistory">
+            <summary>
+            A basic implementation of ICommandHistory.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Commands.CommandHistory.NextCommand">
+            <summary>
+            The command which will be executed on redo.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Commands.CommandHistory.PreviousCommand">
+            <summary>
+            The command which will be undone on undo.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Commands.CommandHistory.Insert(VVVV.Core.Commands.Command)">
+            <summary>
+            Executes a command and adds it to the command history if the command
+            is undoable.
+            </summary>
+            <param name="command">The command to be executed.</param>
+        </member>
+        <member name="M:VVVV.Core.Commands.CommandHistory.Undo">
+            <summary>
+            Undo last command.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Commands.CommandHistory.Redo">
+            <summary>
+            Redo last command.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Commands.CompoundCommand">
+            <summary>
+            A compound command wraps several single commands and implements generic undo and redo.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Commands.CompoundCommand.CommandCount">
+            <summary>
+            The number of subcommands in ths compound command
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Commands.CompoundCommand.IsEmptyRecursive">
+            <summary>
+            Checks this and all sub commands for empty commands
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:VVVV.Core.Commands.ClientCommandHistory">
+            <summary>
+            The client implementation of ICommandHistory.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Commands.ClientCommandHistory.Insert(VVVV.Core.Commands.Command)">
+            <summary>
+            Executes a command and adds it to the command history if the command
+            is undoable and sends the command to the remote server.
+            </summary>
+            <param name="command">The command to be executed.</param>
+        </member>
+        <member name="T:VVVV.Core.Commands.ICommandHistory">
+            <summary>
+            a command history accepts commands, allows redo and undo
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Commands.ICommandHistory.Insert(VVVV.Core.Commands.Command)">
+            <summary>
+            Execute a command and add to history.
+            </summary>
+            <param name="command">The command to be executed.</param>
+        </member>
+        <member name="M:VVVV.Core.Commands.ICommandHistory.InsertOnly(VVVV.Core.Commands.Command)">
+            <summary>
+            Adds a command to history but does not execute it. (e.g. if the command was executed already)
+            </summary>
+            <param name="command">The command to be added to the history.</param>
+        </member>
+        <member name="M:VVVV.Core.Commands.ICommandHistory.Undo">
+            <summary>
+            Undo last command.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Commands.ICommandHistory.Redo">
+            <summary>
+            Redo last command.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Commands.ICommandHistory.NextCommand">
+            <summary>
+            The command which will be executed by a redo.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Commands.ICommandHistory.PreviousCommand">
+            <summary>
+            The command which will be undone by an undo.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Model.AssemblyReference">
+            <summary>
+            Reference to an assembly.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.AssemblyReference.#ctor(System.String)">
+            <summary>
+            Sets the IsGlobal property to false
+            </summary>
+            <param name="assemblyLocation">File location of the assembly</param>
+        </member>
+        <member name="T:VVVV.Core.Model.FX.FXProject">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.CS.CSDocument.FindFullExpression(System.Int32)">
+            <summary>
+            Finds an expression around the current offset.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.CS.CSDocument.FindExpression(System.Int32)">
+            <summary>
+            Finds an expression before the current offset.
+            </summary>
+        </member>
+        <member name="E:VVVV.Core.Model.IDocument.ContentChanged">
+            <summary>
+            This event occurs each time the content of this document changes.
+            </summary>
+        </member>
+        <member name="E:VVVV.Core.Model.IDocument.FileChanged">
+            <summary>
+            Raised when the file has been modified by another program.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.DocumentExtensionMethods.GetRelativePath(System.Uri,System.Uri)">
+            <summary>
+            Returns the relative path from the specified persistent to this IPersistent.
+            Example: Foo\Bar\ThisDocument.txt
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.DocumentExtensionMethods.GetRelativePath(VVVV.Core.Model.IDocument)">
+            <summary>
+            Returns the relative path from the containing IProject to this IDocument.
+            Example: Foo\Bar\ThisDocument.txt
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.DocumentExtensionMethods.GetRelativeDir(VVVV.Core.Model.IDocument)">
+            <summary>
+            Returns the relative path from the containing IProject to the directory of this IDocument.
+            Example: Foo\Bar
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Model.IProject.Documents">
+            <summary>
+            List of Documents which belong to this project.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Model.IProject.References">
+            <summary>
+            List of References needed to compile this project.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Model.IProject.Solution">
+            <summary>
+            The ISolution this project belongs to. This property is set by
+            ISolution after a project has been added to it.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Model.IProject.CompilerResults">
+            <summary>
+            The results of the last compile.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.IProject.Compile">
+            <summary>
+            Compiles this project with the ICompiler stored in the Compiler property.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.IProject.CompileAsync">
+            <summary>
+            Compiles this project asynchronously. Fires CompileCompleted once compilation
+            completed.
+            </summary>
+        </member>
+        <member name="E:VVVV.Core.Model.IProject.ProjectCompiledSuccessfully">
+            <summary>
+            The OnProjectCompiled event occurs when the project compiled successfully.
+            </summary>
+        </member>
+        <member name="E:VVVV.Core.Model.IProject.CompileCompleted">
+            <summary>
+            The OnCompileCompleted event occurs when the CompileAsync finished executing.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Model.IProjectItem">
+            <summary>
+            A IProjectItem belongs to a IProject.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Model.IProjectItem.Project">
+            <summary>
+            The IProject this IProjectItem belongs to. This property is set
+            by IProject after a project item has been added to it.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Model.IReference">
+            <summary>
+            IReference is used by IProject to reference other assemblies or projects.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Model.IReference.AssemblyLocation">
+            <summary>
+            The full path to the referenced assembly.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Model.IReference.IsGlobal">
+            <summary>
+            Determines whether this reference is a global reference (for example
+            in the global assembly cache). Non global references will be copied
+            to the new location in a IProject.SaveTo() operation.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.ReferenceExtensionMethods.GetRelativePath(VVVV.Core.Model.IReference,VVVV.Core.Model.IProject)">
+            <summary>
+            Returns the relative path from the specified project to this IReference.
+            Example: Foo\Bar\ThisReference.dll
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.ReferenceExtensionMethods.GetRelativePath(VVVV.Core.Model.IReference)">
+            <summary>
+            Returns the relative path from the containing IProject to this IReference.
+            Example: Foo\Bar\ThisReference.dll
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.ReferenceExtensionMethods.GetRelativeDir(VVVV.Core.Model.IReference)">
+            <summary>
+            Returns the relative path from the containing IProject to the directory of this IReference.
+            Example: Foo\Bar
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.SolutionExtensions.FindDocument(VVVV.Core.Model.ISolution,System.String)">
+            <summary>
+            Finds the document with the specified filename. Looks through all documents in all projects
+            of this solution.
+            </summary>
+            <param name="filename">The filename where the document is located on the local filesystem.</param>
+            <returns>The document located at filename or null if not found.</returns>
+        </member>
+        <member name="P:VVVV.Core.Model.ITextDocument.TextContent">
+            <summary>
+            The content of this document as a string.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Model.MsBuildProject">
+            <summary>
+            Base class for all MSBuild based projects, like C#/F#/VB.NET etc.
+            Uses internal MSBuild project object to load and save.
+            
+            TODO: Handle ProjectReference items in Load/Save
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Model.MsBuildProject.AssemblyLocation">
+            <summary>
+            The full path to the compiled assembly.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Model.MsBuildProjectReference">
+            <summary>
+            Represents a reference to a loaded project.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Model.MsBuildProjectReference.AssemblyLocation">
+            <summary>
+            The path to the assembly created by the referenced project.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Model.MsBuildProjectReference.ReferencedProject">
+            <summary>
+            The MsBuildProject this reference points to.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Model.RemotableObject">
+            <summary>
+            All data model objects should derive from this class if they should
+            be marshaled by reference in .NET Remoting.
+            This class acts as layer for possible future changes and additions,
+            which could affect all model objects.
+            
+            This class also implements IDisposable and provides subclasses with
+            the methods DisposeManaged and DisposeUnmanaged to override.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.RemotableObject.DisposeManaged">
+            <summary>
+            Dispose managed resources. 
+            If overwritten make sure to call base.DisposeManaged().
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Model.RemotableObject.DisposeUnmanaged">
+            <summary>
+            Dispose unmanaged resources. 
+            If overwritten make sure to call base.DisposeUnmanaged().
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Dialogs.ReferenceDialog">
+            <summary>
+            TODO: Use TableViewer.
+            </summary>
+        </member>
+        <member name="F:VVVV.Core.Dialogs.ReferenceDialog.components">
+            <summary>
+            Designer variable used to keep track of non-visual components.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Dialogs.ReferenceDialog.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the control.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VVVV.Core.Dialogs.ReferenceDialog.InitializeComponent">
+            <summary>
+            This method is required for Windows Forms designer support.
+            Do not change the method contents inside the source code editor. The Forms designer might
+            not be able to load this method if it was changed manually.
+            </summary>
+        </member>
+        <member name="F:VVVV.Core.Dialogs.BaseDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Dialogs.BaseDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VVVV.Core.Dialogs.BaseDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:VVVV.Core.Dialogs.NameDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Dialogs.NameDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VVVV.Core.Dialogs.NameDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:VVVV.Core.Dialogs.NamespaceNameDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Dialogs.NamespaceNameDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VVVV.Core.Dialogs.NamespaceNameDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.ExtensionMethods">
+            <summary>
+            Provides extension methods for various .NET classes.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ExtensionMethods.GetLocalDir(System.Uri)">
+            <summary>
+            Returns the local directory name of the specified URI.
+            For example 'file://c:/foo/bar/doc.txt' becomes 'C:\foo\bar'.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ExtensionMethods.ConcatPath(System.String,System.String)">
+            <summary>
+            Concatinates this string representation of a path with path2.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ExtensionMethods.GetCenter(System.Drawing.RectangleF)">
+            <summary>
+            Returns the center of this RectangleF
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ExtensionMethods.GetDistanceTo(System.Drawing.PointF,System.Drawing.PointF)">
+            <summary>
+            Returns the distance to another point
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ExtensionMethods.GetDistanceTo(System.Drawing.Point,System.Drawing.Point)">
+            <summary>
+            Returns the distance to another point
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ExtensionMethods.SerializeAndAddList(System.Xml.Linq.XElement,System.Collections.IEnumerable,VVVV.Core.Serialization.Serializer)">
+            <summary>
+            Serializes the items in the list and adds the xml to the XElement
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ExtensionMethods.DeserializeList``1(System.Xml.Linq.XElement,VVVV.Core.Serialization.Serializer)">
+            <summary>
+            Deserializes all childs of the XElement
+            </summary>
+            <typeparam name="T">The type to deserialize and add to the list</typeparam>
+        </member>
+        <member name="M:VVVV.Core.ExtensionMethods.DeserializeAndAddToList``1(System.Xml.Linq.XElement,VVVV.Core.IEditableCollection{``0},VVVV.Core.Serialization.Serializer)">
+            <summary>
+            Deserializes the content oft the XElement and adds the objects to the list
+            </summary>
+            <typeparam name="T">The type to deserialize and add to the list</typeparam>
+        </member>
+        <member name="M:VVVV.Core.ExtensionMethods.GetXML(VVVV.Core.IIDItem,System.String)">
+            <summary>
+            Creates a XElement and adds the ID as name attribute
+            </summary>
+            <param name="tagName">The name of the XML tag to create</param>
+            <returns></returns>
+        </member>
+        <member name="M:VVVV.Core.IConverter.Convert``2(``0,``1@)">
+            <summary>
+            Converts an object of type TFrom to an object of type TTo.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.IEditableCollection">
+            <summary>
+            An IEditableCollection is an editable collection of items.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.IEditableCollection`1">
+            <summary>
+            An IEditableCollection is an editable collection of T.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.IParent">
+            <summary>
+            Just to delegate child collection implementation to a field
+            </summary>
+        </member>
+        <member name="E:VVVV.Core.IIDItem.RootingChanged">
+            <summary>
+            RootingChanged event occurs when the IIDItem was either added to or is going
+            to be removed from a rooted object graph.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.IIDItem.IsRooted">
+            <summary>
+            Whether this IIDItem is rooted through its parent containers or not.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.IViewableCollection">
+            <summary>
+            A IViewableCollection is a readonly collection of items.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.IViewableCollection`1">
+            <summary>
+            A IViewableCollection is a readonly collection of T.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Logging.DebugLogger">
+            <summary>
+            Writes log messages to the System.Diagnostics.Debug class.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Logging.DefaultLogger">
+            <summary>
+            The DefaultLogger simply routes log messages to other loggers.
+            The used logger collection is set up with one DebugLogger.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Logging.ILogger">
+            <summary>
+            Provides a simple logging mechanism.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Logging.ILogger.Log(VVVV.Core.Logging.LogType,System.String)">
+            <summary>
+            Logs a message of specified type.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Logging.LoggerExtensions.Log(VVVV.Core.Logging.ILogger,System.Exception,VVVV.Core.Logging.LogType)">
+            <summary>
+            Overload function to easier log exceptions.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Logging.LoggerExtensions.Log(VVVV.Core.Logging.ILogger,System.Exception)">
+            <summary>
+            Overload function to easier log exceptions.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Logging.LogType">
+            <summary>
+            Used in the <see cref="!:VVVV.Core.Logging.ILogger.Log()">ILogger.Log</see> 
+            function to specify the type of the log message.
+            </summary>
+        </member>
+        <member name="F:VVVV.Core.Logging.LogType.Debug">
+            <summary>
+            Specifies a debug message.
+            </summary>
+        </member>
+        <member name="F:VVVV.Core.Logging.LogType.Message">
+            <summary>
+            Specifies an ordinary message.
+            </summary>
+        </member>
+        <member name="F:VVVV.Core.Logging.LogType.Warning">
+            <summary>
+            Specifies a warning message.
+            </summary>
+        </member>
+        <member name="F:VVVV.Core.Logging.LogType.Error">
+            <summary>
+            Specifies an errormessage.
+            </summary>
+            
+        </member>
+        <member name="T:VVVV.Core.MappingRegistry">
+            <summary>
+            The MappingRegistry holds all the possible type mappings which are later
+            used in the ModelMappers to map model objects to some arbritary types.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.RegisterDefaultMapping``1">
+            <summary>
+            Registers default mappings of
+            T -> T
+            and
+            all implemented interfaces of T -> T
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.RegisterDefaultMapping``2">
+            <summary>
+            Registers default mapping of
+            TFrom -> TTo.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.RegisterDefaultMapping``2(VVVV.Core.MapInstantiation)">
+            <summary>
+            Registers default mapping of
+            TFrom -> TTo.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.RegisterDefaultInstance``1(``0,System.Boolean)">
+            <summary>
+            Registers default mapping of
+            TInterface -> instance.
+            </summary>
+            <param name="instance">The instance implementing TInterface.</param>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.RegisterDefaultInstance``1(``0)">
+            <summary>
+            Registers default mapping of
+            TInterface -> instance.
+            </summary>
+            <param name="instance">The instance implementing TInterface.</param>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.RegisterInstance``2(``1,System.Boolean)">
+            <summary>
+            Registers named mapping of
+            TInterface -> instance
+            for N.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.RegisterInstance``2(``1)">
+            <summary>
+            Registers named mapping of
+            TInterface -> instance
+            for N.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.RegisterMapping``2(VVVV.Core.MapInstantiation)">
+            <summary>
+            Registers named mappings of
+            T -> T
+            and
+            all implemented interfaces of T -> T
+            for N.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.RegisterMapping``2">
+            <summary>
+            Registers named mappings of
+            T -> T
+            and
+            all implemented interfaces of T -> T
+            for N.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.RegisterMapping``3(VVVV.Core.MapInstantiation)">
+            <summary>
+            Registers named mapping of
+            TFrom -> TTo
+            for N.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.RegisterMapping``3">
+            <summary>
+            Registers named mapping of
+            TFrom -> TTo
+            for N.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.RegisterMapping(System.Type,System.Type,System.Type,VVVV.Core.MapInstantiation)">
+            <summary>
+            Registers named mapping of
+            TFrom -> TTo
+            for N.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.MappingRegistry.GetRegistrations(System.Type)">
+            <summary>
+            Returns all the registrations for type including its basetypes and implemented 
+            interfaces.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Menu.IMenuEntry.Name">
+            <summary>
+            The Name to be displayed in the menu.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Menu.IMenuEntry.ShortcutKeys">
+            <summary>
+            The Keys to be pressed in order to trigger the Click method.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Menu.IMenuEntry.Click">
+            <summary>
+            Gets executed if the menu entry is clicked by the user or
+            the keys matching the KeyData property are pressed.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Menu.IMenuEntry.Enabled">
+            <summary>
+            Whether this entry is enabled or disabled.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Menu.MenuEntry">
+            <summary>
+            Abstract implemention of IMenuEntry.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Menu.MenuSeparator">
+            <summary>
+            A MenuSeparator should be rendered by a viewer in a way to reflect the
+            separation of two menu entries.
+            </summary>
+        </member>
+        <member name="F:VVVV.Core.TypeMappings.FLookup">
+            <summary>
+            The lookup table stores under which name a possible mapping needs to
+            be resolved in the container.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.TypeMappings.Container">
+            <summary>
+            The IUnityContainer used to do the mapping.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.ModelMapper">
+            <summary>
+            A ModelMapper provides mappings for a model element.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.ModelMapper.Registry">
+            <summary>
+            The MappingRegistry containing all the mapping info.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.ModelMapper.Model">
+            <summary>
+            The model element we provide mappings for.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ModelMapper.RegisterMapping(System.Type,System.Object)">
+            <summary>
+            Registers mapping from Type fromType to instance toInstance.
+            The mapping is only valid for this model class and subclasses.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ModelMapper.RegisterDefault(System.Type,System.Object)">
+            <summary>
+            Registers mapping from Type fromType to instance toInstance.
+            The mapping is valid for this model object and child objects.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ModelMapper.RegisterMapping(System.Type,System.Type,System.Type)">
+            <summary>
+            Registers mapping for Type forType from Type fromType to Type toType.
+            The mapping is only valid for model objects of type forType.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ModelMapper.Map``1">
+            <summary>
+            Maps the containing model element to TDEST.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ModelMapper.CanMap``1">
+            <summary>
+            Whether or not the containing model element can be mapped to TDEST.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ModelMapper.CreateChildMapper(System.Object)">
+            <summary>
+            Creates a new mapper for the specified model element which inherits
+            all mappings from this mapper.
+            </summary>
+            <param name="model">The model element to create a new mapper for.</param>
+            <returns>A new model mapper which wraps itself around the specified model element.</returns>
+        </member>
+        <member name="M:VVVV.Core.ModelMapperExtensions.RegisterMapping``1(VVVV.Core.ModelMapper,``0)">
+            <summary>
+            Registers mapping from TInterface to instance.
+            The mapping is only valid for this model class and subclasses.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ModelMapperExtensions.RegisterDefault``1(VVVV.Core.ModelMapper,``0)">
+            <summary>
+            Registers mapping from TInterface to instance.
+            The mapping is valid for this model object and child objects.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.ModelMapperExtensions.RegisterMapping``3(VVVV.Core.ModelMapper)">
+            <summary>
+            Registers mapping for TFor from TFrom to TTo.
+            The mapping is only valid for TFor.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Mapper.Registry">
+            <summary>
+            The MappingRegistry containing all the mapping info.
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Runtime.CS.CSParser.Parse(System.String,System.Boolean)">
+            <summary>
+            Parses C# code and returns the CSParserResults.
+            </summary>
+            <param name="document">The C# code to parse.</param>
+        </member>
+        <member name="M:VVVV.Core.IDContainerExtensions.GetIDItem(VVVV.Core.IIDItem,System.String)">
+            <summary>
+            gets the ID Item in the model, starting from another ID item. a relpath of "" return the relToItem
+            </summary>        
+        </member>
+        <member name="T:VVVV.Core.Shell">
+            <summary>
+            A shell should be created once on startup of an application.
+            It sets up and provides access to a CompositionContainer (MEF)
+            and a UnityContainer.
+            TODO: Use http://mefcontrib.codeplex.com to sync Unity and MEF.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Shell.CallerPath">
+            <summary>
+            The absolute path to the directory of this assembly.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Shell.TempPath">
+            <summary>
+            The temporary path used by this application.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Viewer.GraphicalEditor.IContentBounds.ContentBounds">
+            <summary>
+            Gets the bounds of all child elements
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Viewer.GraphicalEditor.IContentBounds.ContentCenter">
+            <summary>
+            Gets the center of all child elements
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Viewer.GraphicalEditor.IContentBounds.ContentSize">
+            <summary>
+            Gets the bounding box of all elements
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Viewer.GraphicalEditor.ICanvas.Root">
+            <summary>
+            The root element to add graph elements.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Viewer.GraphicalEditor.ICanvas.LinkRoot">
+            <summary>
+            The root element to add links.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Viewer.GraphicalEditor.ICanvas.Color">
+            <summary>
+            Get/Set the background color of the canvas
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Viewer.GraphicalEditor.ICanvas.ViewCenter">
+            <summary>
+            Get/Set the focus point of the view
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Viewer.GraphicalEditor.ICanvas.ViewSize">
+            <summary>
+            Get/Set the size of the view
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Viewer.GraphicalEditor.ICanvas.Clear">
+            <summary>
+            Remove all graph elements from the canvas
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Viewer.GraphicalEditor.ICanvas.Invalidate">
+            <summary>
+            Request a full redraw
+            </summary>
+        </member>
+        <member name="M:VVVV.Core.Viewer.GraphicalEditor.ICanvasHost.FinishPath(VVVV.Core.Viewer.GraphicalEditor.ITempPath,VVVV.Core.View.GraphicalEditor.IConnectable)">
+            <summary>
+            typically a language would create an IPathHost, and by that call ICanvas.CreatePath to establish the link
+            </summary>
+            <param name="apath"></param>
+        </member>
+        <member name="T:VVVV.Core.Viewer.ILabelEditor">
+            <summary>
+            Description of ILabelEditor.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Viewer.ISelectionProvider.CurrentSelection">
+            <summary>
+            The current selection.
+            </summary>
+        </member>
+        <member name="E:VVVV.Core.Viewer.ISelectionProvider.SelectionChanged">
+            <summary>
+            Fired if current selection changed.
+            </summary>
+        </member>
+        <member name="P:VVVV.Core.Viewer.ISelectionService.SelectionProvider">
+            <summary>
+            The current selection provider.
+            </summary>
+        </member>
+        <member name="E:VVVV.Core.Viewer.ISelectionService.SelectionProviderChanged">
+            <summary>
+            Fired if the current selection provider changed.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.Viewer.SelectionService">
+            <summary>
+            Default implementation of ISelectionService.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.View.DefaultParentProvider">
+            <summary>
+            Description of DefaultParentProvider.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.View.IDecoratable">
+            <summary>
+            Provides decorations.
+            </summary>		
+        </member>
+        <member name="T:VVVV.Core.View.IDescripted">
+            <summary>
+            Provides a description.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.View.IDraggable">
+            <summary>
+            Participates in a drag of a Drag'n Drop operation.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.View.IDroppable">
+            <summary>
+            Participates in a drop of a Drag'n Drop Operation.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.View.SolutionViewProvider">
+            <summary>
+            Hides the Projects property and sorts projects by name.
+            TODO: Work with project types other than CSharp.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.View.Table.EditablePropertyCellProvider">
+            <summary>
+            Must be registered for IEditableProperty.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.View.Table.IDContainerCellProvider">
+            <summary>
+            Registered for IDContainer.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.View.Table.DefaultColumnProvider">
+            <summary>
+            Retrieves column information from first returned element.
+            </summary>
+        </member>
+        <member name="T:VVVV.Core.View.Table.ViewablePropertyCellProvider">
+            <summary>
+            Must be registered for IViewableProperty.
+            </summary>
+        </member>
+        <member name="F:VVVV.Lang.View.HDEForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VVVV.Lang.View.HDEForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VVVV.Lang.View.HDEForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+    </members>
+</doc>

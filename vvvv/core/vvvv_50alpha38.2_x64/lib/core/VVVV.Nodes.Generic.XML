@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VVVV.Nodes.Generic</name>
+    </assembly>
+    <members>
+        <member name="M:VVVV.Nodes.Generic.FrameDelayNode`1.TurnOn">
+            <summary>
+            Node will get evaluated this frame and the coming frames.
+            </summary>
+        </member>
+        <member name="M:VVVV.Nodes.Generic.FrameDelayNode`1.TurnOff">
+            <summary>
+            Node will not get evaluated this frame and the coming frames.
+            </summary>
+        </member>
+        <member name="T:VVVV.Nodes.Generic.Copier`1">
+            <summary>
+            Copies values or spread of values. Used in nodes which need to copy data.
+            </summary>
+            <typeparam name="T">The type of value this copier is able to copy.</typeparam>
+        </member>
+        <member name="F:VVVV.Nodes.Generic.Copier`1.Immutable">
+            <summary>
+            Returns a copier for immutable types.
+            </summary>
+        </member>
+        <member name="M:VVVV.Nodes.Generic.Copier`1.Copy(`0)">
+            <summary>
+            Creates a copy of the given value.
+            </summary>
+            <param name="value">The value to copy.</param>
+            <returns>The copied value.</returns>
+        </member>
+        <member name="M:VVVV.Nodes.Generic.Copier`1.CopySpread(VVVV.PluginInterfaces.V2.ISpread{`0})">
+            <summary>
+            Creates a copy of the given spread.
+            </summary>
+            <param name="spread">The spread to copy.</param>
+            <returns>The copied spread.</returns>
+        </member>
+        <member name="M:VVVV.Nodes.Generic.Cons`1.Prepare">
+            <summary>
+            Called before evaluation of the node starts. Return false in case nothing has to be done.
+            </summary>
+        </member>
+        <member name="M:VVVV.Nodes.Generic.Zip`1.Prepare">
+            <summary>
+            Called before evaluation of the node starts. Return false in case nothing has to be done.
+            </summary>
+        </member>
+    </members>
+</doc>

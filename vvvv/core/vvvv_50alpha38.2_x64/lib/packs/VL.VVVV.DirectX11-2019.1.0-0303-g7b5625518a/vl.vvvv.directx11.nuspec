@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>VL.VVVV.DirectX11</id>
+    <version>2019.1.0-0303-g7b5625518a</version>
+    <title></title>
+    <authors>vvvv group</authors>
+    <owners>vvvv group</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>http://vvvv.org/</projectUrl>
+    <description>Contains nodes to send data from VL to DirectX11 Textures and Buffers in VVVV</description>
+    <summary></summary>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright © 2019 by vvvv group. All rights reserved.</copyright>
+    <language></language>
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2">
+        <dependency id="VL.Lang" version="2019.1.0-0303-g7b5625518a" />
+        <dependency id="VL.UI.Core" version="2019.1.0-0303-g7b5625518a" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

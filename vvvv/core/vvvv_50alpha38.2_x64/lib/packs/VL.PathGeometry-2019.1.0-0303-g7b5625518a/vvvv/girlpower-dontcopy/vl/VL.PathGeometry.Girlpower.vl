@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document xmlns:p="property" Id="SwtN5boifMPQdv1JIVw1fw" LanguageVersion="2019.1.0-0090-gf3b63593c6" Version="0.128" IsTrusted="true">
+  <NugetDependency Id="LlMeQUWeAeOMBBS9eLdFXA" Location="VL.CoreLib" Version="0.0.263-g5a53f598b4" />
+  <NugetDependency Id="UvX7bhNHS2uOni8KSQ8dcY" Location="VL.CoreLib.VVVV" Version="0.0.263-g5a53f598b4" />
+  <NugetDependency Id="BlvdgOt5YZXMB1wee2uQZt" Location="VL.PathGeometry" Version="0.0.301-g1a40a2b459" />
+  <Patch Id="OsfCHkpwN9CLM3wcYHx2yp">
+    <Canvas Id="KBMa0F00YpBPALFzLbHzq8" BordersChecked="false" CanvasType="FullCategory">
+      <!--
+
+    ************************ Direct2DPathGirlpower ************************
+
+-->
+      <Node Name="Direct2DPathGirlpower" Category="VVVV.Direct2DPath.Girlpower" Bounds="100,200" Id="KEg3QGYfJP9PfWSW1w97Is">
+        <p:NodeReference>
+          <Choice Kind="ClassDefinition" Name="Class" />
+        </p:NodeReference>
+        <Patch Id="SNNY2mGJf5lPQSewRMVFq2">
+          <Patch Id="EekjCBoESC9MNPrpezMsLc" Name="Create" />
+          <Patch Id="I3VN38s4rHwN41C39k7Vc5" Name="Update" ParticipatingElements="IYYND11xEkQNu7s73jYnXA,LPpeHXVVlyPOa6g0ru7mlJ,J8ODJWJGuuKO8IIXUuli1H,SvIhBGBJSA7Ngra2YXlD7s,RfZcXqETCEZMnb0DMvS54s" />
+          <Canvas Id="HrREBFabsyXPGtXizEM5M3" BordersChecked="false" CanvasType="Group">
+            <Pad Id="TQlCATvjjRqQAnEp3FUbRj" Comment="Iteration Count" Bounds="292,222,22,18" ShowValueBox="true" isIOBox="true" Value="10">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CommonLanguageRuntimeLibrary">
+                <Choice Kind="TypeFlag" Name="Integer32" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings />
+            </Pad>
+            <Node Bounds="485,223,47,13" Id="IYYND11xEkQNu7s73jYnXA">
+              <p:NodeReference LastCategoryFullName="Geometry.PathGeometry" LastSymbolSource="VL.PathGeometry.dll">
+                <Choice Kind="OperationNode" Name="AddLine" />
+                <CategoryReference Kind="Category" Name="PathGeometry" NeedsToBeDirectParent="true">
+                  <p:OuterCategoryReference Kind="Category" Name="Geometry" NeedsToBeDirectParent="true" />
+                </CategoryReference>
+              </p:NodeReference>
+              <Pin Id="TyUJt6jnQzyPmr1s0xm15s" Name="Input" Kind="InputPin" />
+              <Pin Id="BB8U94BL2e5OrwwyTSE9Ad" Name="To" Kind="InputPin" />
+              <Pin Id="CnAeCbaroiELDUpb6skokk" Name="Output" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="476,423,66,13" Id="LPpeHXVVlyPOa6g0ru7mlJ">
+              <p:NodeReference LastCategoryFullName="Geometry.PathGeometry" LastSymbolSource="VL.PathGeometry.dll">
+                <Choice Kind="OperationNode" Name="FigureCount" />
+                <CategoryReference Kind="Category" Name="PathGeometry" NeedsToBeDirectParent="true">
+                  <p:OuterCategoryReference Kind="Category" Name="Geometry" NeedsToBeDirectParent="true" />
+                </CategoryReference>
+              </p:NodeReference>
+              <Pin Id="Kx3bdUGeCfHLcqznRX3RVY" Name="Input" Kind="InputPin" />
+              <Pin Id="EHBDr3R35K9LZ4dzXWhrg7" Name="Result" Kind="OutputPin" />
+            </Node>
+            <Pad Id="MoosEBLYLqmPqqwpBD3osz" Bounds="476,470" ShowValueBox="true" isIOBox="true" />
+            <Node Bounds="550,423,77,13" Id="J8ODJWJGuuKO8IIXUuli1H">
+              <p:NodeReference LastCategoryFullName="Geometry.PathGeometry" LastSymbolSource="VL.PathGeometry.dll">
+                <Choice Kind="OperationNode" Name="SegmentCount" />
+                <CategoryReference Kind="Category" Name="PathGeometry" NeedsToBeDirectParent="true">
+                  <p:OuterCategoryReference Kind="Category" Name="Geometry" NeedsToBeDirectParent="true" />
+                </CategoryReference>
+              </p:NodeReference>
+              <Pin Id="TtPeCE2aUeoOzqgsmpPCaV" Name="Input" Kind="InputPin" />
+              <Pin Id="KD1Ak7G12Q8PbXnQx1KFMq" Name="Result" Kind="OutputPin" />
+            </Node>
+            <Pad Id="CzUNZ8Sr8BZMVkCRDt4gzt" Bounds="550,470" ShowValueBox="true" isIOBox="true" />
+            <Node Bounds="297,286,212,120" Id="SvIhBGBJSA7Ngra2YXlD7s">
+              <p:NodeReference LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="RegionFlag" Name="Region" Fixed="true" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+                <Choice Kind="ApplicationStatefulRegion" Name="Repeat" />
+              </p:NodeReference>
+              <Pin Id="L7DzJBNnN5GNJ0H53H13jA" Name="Iteration Count" Kind="InputPin" />
+              <ControlPoint Id="Jox37qP7mjlPxFR0PUuM1E" Bounds="312,293" Name="path" Alignment="Top" />
+              <ControlPoint Id="VPzzeifl3YYNgTowIixx49" Bounds="312,400" Name="path" Alignment="Bottom" />
+              <Pin Id="UfjGqJk2vTEPqeTArc0Raa" Name="Break" Kind="OutputPin" />
+              <Patch Id="GVRBt7sbNX7N6zM5hTHOIa">
+                <Pad Id="BWTfRmQ62RgO9jx1VxZPKa" Comment="To" Bounds="433,314,29,35" ShowValueBox="true" isIOBox="true" Value="0.1, 0.18">
+                  <p:TypeAnnotation LastCategoryFullName="2D" LastSymbolSource="CoreLibBasics.vl">
+                    <Choice Kind="TypeFlag" Name="Vector2" />
+                    <CategoryReference Kind="Category" Name="2D" />
+                  </p:TypeAnnotation>
+                  <p:ValueBoxSettings />
+                </Pad>
+                <Node Bounds="372,346,47,13" Id="SpZjAxUgtD6Mbe9NJmdouj">
+                  <p:NodeReference LastCategoryFullName="Math" LastSymbolSource="CoreLibBasics.vl">
+                    <Choice Kind="OperationNode" Name="Random" />
+                  </p:NodeReference>
+                  <Pin Id="Pk7kTx3iSpZPk9SwtfXoLq" Name="From" Kind="InputPin" />
+                  <Pin Id="SzqW0dIHf2KO2Je3nkrIKn" Name="To" Kind="InputPin" />
+                  <Pin Id="OIBDFlMM8gZQMdhm6hdgnp" Name="Output" Kind="OutputPin" />
+                </Node>
+                <Node Bounds="314,370,47,13" Id="Md0iyCobZYnQD3UA94fC0T">
+                  <p:NodeReference LastCategoryFullName="Geometry.PathGeometry" LastSymbolSource="VL.PathGeometry.dll">
+                    <Choice Kind="OperationNode" Name="AddLine" />
+                    <CategoryReference Kind="Category" Name="PathGeometry" NeedsToBeDirectParent="true">
+                      <p:OuterCategoryReference Kind="Category" Name="Geometry" NeedsToBeDirectParent="true" />
+                    </CategoryReference>
+                  </p:NodeReference>
+                  <Pin Id="HzuuODvV3UwNluSyxZ8EfJ" Name="Input" Kind="InputPin" />
+                  <Pin Id="IUqfNcRBWr8OmbuittbgAt" Name="To" Kind="InputPin" />
+                  <Pin Id="GUC15eYnBD6Mu4HV6oVxdA" Name="Output" Kind="OutputPin" />
+                </Node>
+                <Patch Id="M9VGw0so3ioMv5RuUiAFQF" Name="Create" />
+                <Patch Id="RR8UzskXXp4PYTdKsGAHOR" Name="Update" ParticipatingElements="SpZjAxUgtD6Mbe9NJmdouj,Md0iyCobZYnQD3UA94fC0T" />
+                <Patch Id="Scoh65k5QTSOrwu6XRZPF1" Name="Dispose" />
+              </Patch>
+            </Node>
+          </Canvas>
+          <Link Id="MKxLJPctAIbLmr5NDXpJj5" Ids="Jox37qP7mjlPxFR0PUuM1E,VPzzeifl3YYNgTowIixx49" IsFeedback="true" />
+          <Link Id="RfZcXqETCEZMnb0DMvS54s" Ids="TQlCATvjjRqQAnEp3FUbRj,L7DzJBNnN5GNJ0H53H13jA" />
+          <Link Id="NwtuDxQKfGBLF9pH9XD4dj" Ids="CnAeCbaroiELDUpb6skokk,Jox37qP7mjlPxFR0PUuM1E" />
+          <Link Id="UPYgSVAJRvPMOUhbdLgNQC" Ids="VPzzeifl3YYNgTowIixx49,Kx3bdUGeCfHLcqznRX3RVY" />
+          <Link Id="EGztSbpvn1WMEFfy8pslTl" Ids="EHBDr3R35K9LZ4dzXWhrg7,MoosEBLYLqmPqqwpBD3osz" />
+          <Link Id="GVxy6t28UO7Lmp20JGQhxy" Ids="VPzzeifl3YYNgTowIixx49,TtPeCE2aUeoOzqgsmpPCaV" />
+          <Link Id="ODSriiuYfpDLNuabm6IaYX" Ids="KD1Ak7G12Q8PbXnQx1KFMq,CzUNZ8Sr8BZMVkCRDt4gzt" />
+          <Link Id="HmJJxYwMiJsN3w0sNpk3un" Ids="BWTfRmQ62RgO9jx1VxZPKa,SzqW0dIHf2KO2Je3nkrIKn" />
+          <Link Id="M7IwueLTxsINR77phJsfhE" Ids="Jox37qP7mjlPxFR0PUuM1E,HzuuODvV3UwNluSyxZ8EfJ" />
+          <Link Id="TxCZiuX7IaILASg5UTopv1" Ids="OIBDFlMM8gZQMdhm6hdgnp,IUqfNcRBWr8OmbuittbgAt" />
+          <Link Id="PH1VdtVpO5VPYmOP9ECcIo" Ids="GUC15eYnBD6Mu4HV6oVxdA,VPzzeifl3YYNgTowIixx49" />
+          <ProcessDefinition Id="LSrn9n0C7RtM3lupSYL9u6">
+            <Fragment Id="QSyQ8gYg3xQP5ThF5zqJzv" Patch="EekjCBoESC9MNPrpezMsLc" Enabled="true" />
+            <Fragment Id="CQ03mrkI9wTPwZK9VWQ8gH" Patch="I3VN38s4rHwN41C39k7Vc5" Enabled="true" />
+          </ProcessDefinition>
+        </Patch>
+      </Node>
+    </Canvas>
+    <!--
+
+    ************************ Application ************************
+
+-->
+    <Node Name="Application" Bounds="100,100" Id="RHsaU4G8VOQPXV9OfHpT3C">
+      <p:NodeReference>
+        <Choice Kind="ContainerDefinition" Name="Process" />
+        <FullNameCategoryReference ID="Primitive" />
+      </p:NodeReference>
+      <Patch Id="MsTgX4XefnVLKcXFz9Xe3S">
+        <Canvas Id="NTXwAieRoKlL5eNAgo9dHA" BordersChecked="false" CanvasType="Group" />
+        <Patch Id="S1mrHj8QdPXLnXcVdhOt0d" Name="Create" />
+        <Patch Id="RuZRtGzl1zYOaghlWasjfW" Name="Update" />
+        <ProcessDefinition Id="PuzdaQBjU1kMbfPxnnuGfi">
+          <Fragment Id="CRtQGre8zaWPGlJhgjcEsS" Patch="S1mrHj8QdPXLnXcVdhOt0d" Enabled="true" />
+          <Fragment Id="Bjticw5JwmIPPdKIDcjVvy" Patch="RuZRtGzl1zYOaghlWasjfW" Enabled="true" />
+        </ProcessDefinition>
+      </Patch>
+    </Node>
+  </Patch>
+</Document>

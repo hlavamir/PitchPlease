@@ -1,0 +1,243 @@
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50debug35.7.dtd" >
+   <PATCH nodename="C:\Users\joreg\Documents\repos\vvvv\public-vl\VL.CoreLib.VVVV\vvvv\girlpower\_Basics\AsyncInput\_AsyncInput.v4p" systemname="AsyncInput" filename="C:\Users\joreg\Documents\repos\vvvv\vvvv45\packs\VLIntegration\girlpower\_Basics\AsyncInput\AsyncInput.v4p" scrollx="0" scrolly="0">
+   <BOUNDS type="Window" left="435" top="5610" width="11205" height="8685">
+   </BOUNDS>
+   <PACK Name="addonpack" Version="35.0.0">
+   </PACK>
+   <NODE systemname="Mouse (Devices Window)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Mouse (Devices Window)" componentmode="Hidden" id="2">
+   <BOUNDS type="Node" left="7335" top="2400" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="PositionXY" visible="1">
+   </PIN>
+   <PIN pinname="Left Button" visible="1">
+   </PIN>
+   <PIN pinname="Device" visible="1">
+   </PIN>
+   </NODE>
+   <NODE systemname="Renderer (EX9)" nodename="Renderer (EX9)" componentmode="InAWindow" id="3">
+   <BOUNDS type="Node" left="6075" top="6915" width="100" height="100">
+   </BOUNDS>
+   <BOUNDS type="Box" left="6075" top="6915" width="2400" height="1800">
+   </BOUNDS>
+   <BOUNDS type="Window" left="390" top="345" width="4440" height="4785">
+   </BOUNDS>
+   <PIN pinname="Layers" visible="1" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <NODE systemname="Queue (Spreads)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" nodename="Queue (Spreads)" componentmode="Hidden" id="6">
+   <BOUNDS type="Node" left="6525" top="3840" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Input" visible="1">
+   </PIN>
+   <PIN pinname="Insert" visible="1" slicecount="1" values="1">
+   </PIN>
+   <PIN pinname="Frame Count" slicecount="1" visible="1" values="100">
+   </PIN>
+   <PIN pinname="Output" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="2" srcpinname="PositionXY" dstnodeid="6" dstpinname="Input">
+   </LINK>
+   <NODE systemname="Group (EX9)" nodename="Group (EX9)" componentmode="Hidden" id="8">
+   <BOUNDS type="Node" left="6075" top="6420" width="4425" height="270">
+   </BOUNDS>
+   <PIN pinname="Layer 1" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Layer 2" visible="1" slicecount="1" values="||">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="8" srcpinname="Layer" dstnodeid="3" dstpinname="Layers">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="20" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="7320" top="3435" width="495" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="7320" top="3435" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="20">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="20" srcpinname="Y Output Value" dstnodeid="6" dstpinname="Frame Count">
+   </LINK>
+   <LINK srcnodeid="2" srcpinname="Left Button" dstnodeid="6" dstpinname="Insert">
+   </LINK>
+   <NODE systemname="MAINLOOP (VVVV)" nodename="MainLoop (VVVV)" componentmode="Hidden" id="-6">
+   <BOUNDS type="Node" left="285" top="855" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Maximum Foreground FPS" slicecount="1" visible="1" values="23">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="21" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="285" top="315" width="390" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="285" top="315" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="15">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="21" srcpinname="Y Output Value" dstnodeid="-6" dstpinname="Maximum Foreground FPS">
+   </LINK>
+   <NODE systemname="Line (EX9)" filename="%VVVV%\lib\nodes\modules\EX9\Line (EX9).v4p" nodename="Line (EX9)" componentmode="Hidden" id="22">
+   <BOUNDS type="Node" left="6090" top="5625" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Transform Each Bin" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="VerticesXYZ" visible="1" slicecount="200" values="0.369175627240143,-0.397849462365591,0.412186379928315,-0.369175627240143,0.405017921146953,-0.225806451612903,0.333333333333333,0.025089605734767,0.225806451612903,0.197132616487455,0.211469534050179,0.390681003584229,0.275985663082437,0.67741935483871,0.376344086021505,0.799283154121864,0.440860215053763,0.806451612903226,0.541218637992832,0.777777777777778,0.691756272401434,0.670250896057348,0.813620071684588,0.498207885304659,0.827956989247312,0.311827956989247,0.727598566308244,0.197132616487455,0.598566308243728,0.204301075268817,0.419354838709677,0.275985663082437,0.247311827956989,0.354838709677419,0.125448028673835,0.347670250896057,0.0609318996415771,0.283154121863799,-0.0609318996415771,0.182795698924731,-0.369175627240143,0.017921146953405,-0.612903225806452,-0.139784946236559,-0.74910394265233,-0.369175627240143,-0.691756272401434,-0.519713261648746,-0.483870967741935,-0.648745519713262,-0.182795698924731,-0.777777777777778,-0.0609318996415771,-0.792114695340502,0.010752688172043,-0.78494623655914,0.0752688172043011,-0.698924731182796,0.146953405017921,-0.519713261648746,0.146953405017921,-0.290322580645161,0.0896057347670251,0.025089605734767,-0.003584229390681,0.275985663082437,-0.0752688172043011,0.526881720430108,-0.0609318996415771,0.763440860215054,-0.017921146953405,0.935483870967742,0.003584229390681,0.992831541218638,0.103942652329749,0.992831541218638,0.261648745519713,0.985663082437276,0.390681003584229,0.949820788530466,0.505376344086022,0.885304659498208,0.577060931899642,0.777777777777778,0.56989247311828,0.691756272401434,0.498207885304659,0.620071684587814,0.347670250896057,0.584229390681004,0.154121863799283,0.562724014336918,0.003584229390681,0.562724014336918,-0.125448028673835,0.526881720430108,-0.240143369175627,0.462365591397849,-0.362007168458781,0.376344086021505,-0.498207885304659,0.247311827956989,-0.591397849462366,0.111111111111111,-0.627240143369176,-0.025089605734767,-0.620071684587814,-0.154121863799283,-0.584229390681004,-0.275985663082437,-0.469534050179211,-0.448028673835125,-0.304659498207885,-0.555555555555556,-0.154121863799283,-0.60573476702509,-0.0896057347670251,-0.598566308243728,-0.032258064516129,-0.548387096774194,0.017921146953405,-0.412186379928315,0.039426523297491,-0.232974910394265,0.046594982078853,-0.046594982078853,0.0609318996415771,0.139784946236559,0.0752688172043011,0.268817204301075,0.111111111111111,0.419354838709677,0.125448028673835,0.53405017921147,0.146953405017921,0.6415770609319,0.197132616487455,0.763440860215054,0.240143369175627,0.849462365591398,0.254480286738351,0.85663082437276,0.333333333333333,0.85663082437276,0.53405017921147,0.799283154121864,0.813620071684588,0.698924731182796,0.956989247311828,0.591397849462366,0.96415770609319,0.469534050179211,0.913978494623656,0.275985663082437,0.655913978494624,0.0752688172043011,0.405017921146953,0.010752688172043,0.405017921146953,0.010752688172043,0.405017921146953,0.010752688172043,-0.218637992831541,-0.505376344086022,-0.161290322580645,-0.476702508960573,-0.103942652329749,-0.440860215053763,-0.046594982078853,-0.383512544802867,-0.010752688172043,-0.326164874551971,0.010752688172043,-0.254480286738351,0.039426523297491,-0.168458781362007,0.0681003584229391,-0.017921146953405,0.103942652329749,0.139784946236559,0.132616487455197,0.297491039426523,0.161290322580645,0.433691756272401,0.211469534050179,0.548387096774194,0.283154121863799,0.655913978494624,0.347670250896057,0.698924731182796,0.412186379928315,0.698924731182796,0.469534050179211,0.698924731182796,0.53405017921147,0.684587813620072,0.612903225806452,0.6415770609319,0.698924731182796,0.591397849462366">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Width" slicecount="1" values="7">
+   </PIN>
+   <PIN pinname="Color" slicecount="1" visible="1" values="|0.26194,0.20297,1.00000,1.00000|">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="22" srcpinname="Layer" dstnodeid="8" dstpinname="Layer 1">
+   </LINK>
+   <NODE systemname="xyZ (3d XY)" nodename="xyZ (3d XY)" componentmode="Hidden" id="23">
+   <BOUNDS type="Node" left="6525" top="5040" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="XY" visible="1">
+   </PIN>
+   <PIN pinname="XYZ" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="6" srcpinname="Output" dstnodeid="23" dstpinname="XY">
+   </LINK>
+   <LINK srcnodeid="23" srcpinname="XYZ" dstnodeid="22" dstpinname="VerticesXYZ">
+   </LINK>
+   <NODE systemname="Line (EX9)" filename="%VVVV%\lib\nodes\modules\EX9\Line (EX9).v4p" nodename="Line (EX9)" componentmode="Hidden" id="24">
+   <BOUNDS type="Node" left="8250" top="5610" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Transform Each Bin" visible="1" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="VerticesXYZ" visible="1" slicecount="200" values="0.369175627240143,-0.397849462365591,0.412186379928315,-0.369175627240143,0.405017921146953,-0.225806451612903,0.333333333333333,0.025089605734767,0.225806451612903,0.197132616487455,0.211469534050179,0.390681003584229,0.275985663082437,0.67741935483871,0.376344086021505,0.799283154121864,0.440860215053763,0.806451612903226,0.541218637992832,0.777777777777778,0.691756272401434,0.670250896057348,0.813620071684588,0.498207885304659,0.827956989247312,0.311827956989247,0.727598566308244,0.197132616487455,0.598566308243728,0.204301075268817,0.419354838709677,0.275985663082437,0.247311827956989,0.354838709677419,0.125448028673835,0.347670250896057,0.0609318996415771,0.283154121863799,-0.0609318996415771,0.182795698924731,-0.369175627240143,0.017921146953405,-0.612903225806452,-0.139784946236559,-0.74910394265233,-0.369175627240143,-0.691756272401434,-0.519713261648746,-0.483870967741935,-0.648745519713262,-0.182795698924731,-0.777777777777778,-0.0609318996415771,-0.792114695340502,0.010752688172043,-0.78494623655914,0.0752688172043011,-0.698924731182796,0.146953405017921,-0.519713261648746,0.146953405017921,-0.290322580645161,0.0896057347670251,0.025089605734767,-0.003584229390681,0.275985663082437,-0.0752688172043011,0.526881720430108,-0.0609318996415771,0.763440860215054,-0.017921146953405,0.935483870967742,0.003584229390681,0.992831541218638,0.103942652329749,0.992831541218638,0.261648745519713,0.985663082437276,0.390681003584229,0.949820788530466,0.505376344086022,0.885304659498208,0.577060931899642,0.777777777777778,0.56989247311828,0.691756272401434,0.498207885304659,0.620071684587814,0.347670250896057,0.584229390681004,0.154121863799283,0.562724014336918,0.003584229390681,0.562724014336918,-0.125448028673835,0.526881720430108,-0.240143369175627,0.462365591397849,-0.362007168458781,0.376344086021505,-0.498207885304659,0.247311827956989,-0.591397849462366,0.111111111111111,-0.627240143369176,-0.025089605734767,-0.620071684587814,-0.154121863799283,-0.584229390681004,-0.275985663082437,-0.469534050179211,-0.448028673835125,-0.304659498207885,-0.555555555555556,-0.154121863799283,-0.60573476702509,-0.0896057347670251,-0.598566308243728,-0.032258064516129,-0.548387096774194,0.017921146953405,-0.412186379928315,0.039426523297491,-0.232974910394265,0.046594982078853,-0.046594982078853,0.0609318996415771,0.139784946236559,0.0752688172043011,0.268817204301075,0.111111111111111,0.419354838709677,0.125448028673835,0.53405017921147,0.146953405017921,0.6415770609319,0.197132616487455,0.763440860215054,0.240143369175627,0.849462365591398,0.254480286738351,0.85663082437276,0.333333333333333,0.85663082437276,0.53405017921147,0.799283154121864,0.813620071684588,0.698924731182796,0.956989247311828,0.591397849462366,0.96415770609319,0.469534050179211,0.913978494623656,0.275985663082437,0.655913978494624,0.0752688172043011,0.405017921146953,0.010752688172043,0.405017921146953,0.010752688172043,0.405017921146953,0.010752688172043,-0.218637992831541,-0.505376344086022,-0.161290322580645,-0.476702508960573,-0.103942652329749,-0.440860215053763,-0.046594982078853,-0.383512544802867,-0.010752688172043,-0.326164874551971,0.010752688172043,-0.254480286738351,0.039426523297491,-0.168458781362007,0.0681003584229391,-0.017921146953405,0.103942652329749,0.139784946236559,0.132616487455197,0.297491039426523,0.161290322580645,0.433691756272401,0.211469534050179,0.548387096774194,0.283154121863799,0.655913978494624,0.347670250896057,0.698924731182796,0.412186379928315,0.698924731182796,0.469534050179211,0.698924731182796,0.53405017921147,0.684587813620072,0.612903225806452,0.6415770609319,0.698924731182796,0.591397849462366">
+   </PIN>
+   <PIN pinname="Layer" visible="1">
+   </PIN>
+   <PIN pinname="Color" slicecount="1" visible="1" values="|0.00000,1.00000,0.10735,1.00000|">
+   </PIN>
+   <PIN pinname="Width" slicecount="1" values="7">
+   </PIN>
+   <PIN pinname="Antialias" slicecount="1" values="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="24" srcpinname="Layer" dstnodeid="8" dstpinname="Layer 2">
+   </LINK>
+   <NODE systemname="xyZ (3d XY)" nodename="xyZ (3d XY)" componentmode="Hidden" id="25">
+   <BOUNDS type="Node" left="8730" top="5040" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="XY" visible="1">
+   </PIN>
+   <PIN pinname="XYZ" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="25" srcpinname="XYZ" dstnodeid="24" dstpinname="VerticesXYZ">
+   </LINK>
+   <NODE systemname="VL-AsyncQueue (Value)" filename="vl\VVVV.Value.VL-AsyncInput.vl" nodename="VL-AsyncInput (Value)" componentmode="Hidden" id="26">
+   <BOUNDS type="Node" left="8745" top="3990" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Queue Length" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="2" srcpinname="Device" dstnodeid="26" dstpinname="Mouse">
+   </LINK>
+   <LINK srcnodeid="26" srcpinname="ResultXY" dstnodeid="25" dstpinname="XY">
+   </LINK>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="27" systemname="IOBox (Value Advanced)">
+   <BOUNDS type="Box" left="10050" top="3465" width="480" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="10050" top="3465" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="300">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="27" srcpinname="Y Output Value" dstnodeid="26" dstpinname="Queue Length">
+   </LINK>
+   <NODE nodename="IOBox (Color)" componentmode="InABox" id="28" systemname="IOBox (Color)">
+   <BOUNDS type="Box" left="7170" top="4980" width="450" height="390">
+   </BOUNDS>
+   <BOUNDS type="Node" left="7170" top="4980" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Color Input" slicecount="1" visible="1" values="|0.26194,0.20297,1.00000,1.00000|">
+   </PIN>
+   <PIN pinname="Show Value" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="28" srcpinname="Color Output" dstnodeid="22" dstpinname="Color">
+   </LINK>
+   <NODE nodename="IOBox (Color)" componentmode="InABox" id="29" systemname="IOBox (Color)">
+   <BOUNDS type="Box" left="9225" top="4950" width="450" height="405">
+   </BOUNDS>
+   <BOUNDS type="Node" left="9225" top="4950" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Color Input" slicecount="1" visible="1" values="|0.00000,1.00000,0.10735,1.00000|">
+   </PIN>
+   <PIN pinname="Show Value" slicecount="1" values="0">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="29" srcpinname="Color Output" dstnodeid="24" dstpinname="Color">
+   </LINK>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="30" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="795" top="300" width="3450" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="795" top="300" width="3450" height="270">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|&lt; Reduced framerate for better demonstration|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="31" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="405" top="1725" width="13710" height="690">
+   </BOUNDS>
+   <BOUNDS type="Box" left="405" top="1725" width="4575" height="5325">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|Consider any input device that sends data at a higher rate than your patch is running at. &cr;&lf;&cr;&lf;Often this is not a big deal, because you simply discard all values and only take the last available value. But in certain cases it is important to capture every single value that a device sends.&cr;&lf;&cr;&lf;In vvvv this is not possible unless you write a plugin that does particularly that for a specific device. &cr;&lf;&cr;&lf;In VL you can create a patch that executes independent of the mainloop at the moment data is received from a device. &cr;&lf;|">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   <PIN pinname="Size" slicecount="1" values="11">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (String)" componentmode="InABox" id="32" systemname="IOBox (String)">
+   <BOUNDS type="Node" left="6300" top="300" width="7470" height="270">
+   </BOUNDS>
+   <BOUNDS type="Box" left="6300" top="300" width="4380" height="1155">
+   </BOUNDS>
+   <PIN pinname="Input String" visible="0" slicecount="1" values="|Quickly draw a spiral in the renderer and note the two lines:&cr;&lf;&cr;&lf;The blue line (vvvv) only received a point for every frame in the mainloop while the green line (VL) actually draws every single point that the mouse sent. |">
+   </PIN>
+   <PIN pinname="Output String" visible="0">
+   </PIN>
+   <PIN pinname="Show Grid" slicecount="1" values="0">
+   </PIN>
+   <PIN pinname="String Type" slicecount="1" values="MultiLine">
+   </PIN>
+   </NODE>
+   </PATCH>

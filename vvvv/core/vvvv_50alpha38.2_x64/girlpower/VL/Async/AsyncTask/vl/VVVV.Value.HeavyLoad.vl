@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document xmlns:p="property" Id="GB2VxUl5VdhM5rsl5IbjQg" LanguageVersion="2019.1.0-0090-gf3b63593c6" Version="0.128" IsTrusted="true">
+  <NugetDependency Id="RKFCmk1Lg5EP3I4IQegLTw" Location="VL.CoreLib" Version="0.35.21" />
+  <NugetDependency Id="U2JwHqMJLyGLDs97lM6eZ6" Location="VL.CoreLib.VVVV" Version="0.35.21" />
+  <Patch Id="Th8hpfHvBF4Lk6VOwDCc9D">
+    <Canvas Id="NtZT52Xp5qNOXK0fF2H7kv" DefaultCategory="VVVV.Value" BordersChecked="false" CanvasType="FullCategory">
+      <!--
+
+    ************************ HeavyLoad ************************
+
+-->
+      <Node Name="HeavyLoad" Bounds="153,200" Id="TSttkfeJHQSN5gkEF54G9o">
+        <p:NodeReference>
+          <Choice Kind="ContainerDefinition" Name="Patch" />
+          <FullNameCategoryReference ID="Primitive" />
+        </p:NodeReference>
+        <Patch Id="CzjSvRY5dvXQDxmAOA8mZj">
+          <Patch Id="ESJZDDS0I02LAWDOx9RJVV" Name="Create" />
+          <Patch Id="OkqGvJfa3PDOppp4PFQghD" Name="Update" />
+          <Canvas Id="C4yd3S6BFv9NWqJ2WO3OFi" CanvasType="Group">
+            <Node Bounds="219,264,160,248" Id="RCzlDgQwqsxQYZfZU1mMZ2">
+              <p:NodeReference LastCategoryFullName="Reactive" LastSymbolSource="VL.Reactive.vl">
+                <Choice Kind="ProcessAppFlag" Name="AsyncTask" />
+                <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
+              </p:NodeReference>
+              <Patch Id="SND2ZpxzSeoOj3L8Oc7UXb" ManuallySortedPins="true">
+                <Patch Id="AGmXQ9QtjRmM3WkapaaS4D" Name="Create" ManuallySortedPins="true" />
+                <Patch Id="Q5xNLHiq0NdOq8j7NSDM6K" Name="Update" ManuallySortedPins="true">
+                  <Pin Id="MlQ6xWtRxHKQCtBUUG1MNt" Name="Input 1" Kind="InputPin" />
+                  <Pin Id="F8yf8XMl2RaOHlZQYrtxmf" Name="Output" Kind="OutputPin" />
+                </Patch>
+                <ControlPoint Id="O7Y9U1tqXvvP7KxKfanqVD" Bounds="223,270" />
+                <ControlPoint Id="CoDUH6QgWvHOIIguSTSf6N" Bounds="301,503" />
+                <Node Bounds="282,355,85,90" Id="Hfv6SKAkyJwMRyNGlIYci2">
+                  <p:NodeReference LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                    <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
+                    <Choice Kind="ApplicationStatefulRegion" Name="Repeat" />
+                    <CategoryReference Kind="Category" Name="Primitive" />
+                  </p:NodeReference>
+                  <Pin Id="E6caTy3paRSM2lrJOz9hil" Name="Iteration Count" Kind="InputPin" />
+                  <Pin Id="MH2dyBcXAWHOab0H5cJ5LR" Name="Break" Kind="OutputPin" />
+                  <Patch Id="O6jN4Dh0bmWM45DthXVpki" ManuallySortedPins="true">
+                    <Patch Id="LG16KUn9S3nNpRt84ZqJDl" Name="Create" ManuallySortedPins="true" />
+                    <Patch Id="UJWYoTIyzkvMoHuXp0JRea" Name="Update" ManuallySortedPins="true">
+                      <Pin Id="RXLioMBWTQ1LaRy6kH9T9B" Name="Index" Kind="InputPin" />
+                    </Patch>
+                    <Patch Id="QzH2SkySKOvMjGaCP9gsHI" Name="Dispose" ManuallySortedPins="true" />
+                    <Node Bounds="298,401,25,13" Id="BOe5ndQH5MNMbn3SKuA2pG">
+                      <p:NodeReference LastCategoryFullName="Math" LastSymbolSource="CoreLibBasics.vl">
+                        <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                        <Choice Kind="OperationCallFlag" Name="+" />
+                      </p:NodeReference>
+                      <Pin Id="BLnnLdDXmbHOAYI7HqtHqU" Name="Input" Kind="InputPin" />
+                      <Pin Id="DNUPyDYuhEcNHchAVvL09k" Name="Input 2" Kind="InputPin" />
+                      <Pin Id="T3bEA6lfsOiOJRnaM9ohGv" Name="Output" Kind="OutputPin" />
+                    </Node>
+                    <ControlPoint Id="BrQZf4o3JprNZgMmMpd30X" Bounds="296,378" />
+                  </Patch>
+                  <ControlPoint Id="HIzy84h5qaSOwa6h6yvCx7" Bounds="341,361" Alignment="Top" />
+                  <ControlPoint Id="H6HTfTLxDqANdGeYCF57yD" Bounds="303,439" Alignment="Bottom" />
+                </Node>
+                <Pad Id="LxE9B1gv3sVLxun5IIuCjD" Comment="N" Bounds="249,304,60,19" ShowValueBox="true" isIOBox="true" Value="9999999">
+                  <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                    <Choice Kind="TypeFlag" Name="Integer32" />
+                  </p:TypeAnnotation>
+                </Pad>
+              </Patch>
+              <Pin Id="PaB6mMMkuUYQIjWOM3M7tk" Name="Trigger" Kind="InputPin" />
+              <Pin Id="UpINRmPnyTvM3alIrtyaZ5" Name="Abort" Kind="InputPin" />
+              <Pin Id="Oj2DSTzedg1OM54pGYFLNC" Name="Result" Kind="OutputPin" />
+              <Pin Id="BxgJz5wZs66MvOsUUCoMvF" Name="In Progress" Kind="OutputPin" />
+            </Node>
+            <Pad Id="R8dNvbKiuMyPEa6U6TYrJH" Comment="Trigger" Bounds="219,205,47,49" ShowValueBox="true" isIOBox="true" Value="False">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="Boolean" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:buttonmode p:Assembly="VL.UI.Forms" p:Type="VL.HDE.PatchEditor.Editors.ButtonModeEnum">Bang</p:buttonmode>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Node Bounds="193,575,58,13" Id="U28dLSvgPltOiMrCiWkotw">
+              <p:NodeReference LastCategoryFullName="Reactive" LastSymbolSource="VL.Reactive.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="ProcessAppFlag" Name="HoldLatest" />
+                <CategoryReference Kind="Category" Name="Reactive" />
+              </p:NodeReference>
+              <Pin Id="LVf3E4LQ1HTNU4RNl9QRT4" Name="Initial Result" Kind="InputPin" />
+              <Pin Id="EJqH0L0IfCoOdTh172CwOE" Name="Async Notifications" Kind="InputPin" />
+              <Pin Id="NUQMb15Ze5VP00FMR8uFRO" Name="Reset" Kind="InputPin" />
+              <Pin Id="I4p2kUInvTkQaqs290q3gy" Name="Value" Kind="OutputPin" />
+              <Pin Id="LBh4zlPqbZRM2nYKP8M3it" Name="On Data" Kind="OutputPin" />
+            </Node>
+            <Pad Id="MZ8tB06jT2dMhOJIe8dXji" Comment="" Bounds="121,644,78,20" ShowValueBox="true" isIOBox="true" />
+            <Pad Id="ESYC2O2Vm2qQIQb2ZqcpHH" Comment="On Data" Bounds="248,605,40,19" ShowValueBox="true" isIOBox="true" />
+            <Pad Id="ScG3EyAtX14NRmxIPII8EB" Comment="In Progress" Bounds="376,532,40,19" ShowValueBox="true" isIOBox="true" />
+            <Pad Id="UoSi2bZlM8MMQ6wuREnGbO" Comment="Abort" Bounds="375,206,49,47" ShowValueBox="true" isIOBox="true" Value="False">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="Boolean" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:buttonmode p:Assembly="VL.UI.Forms" p:Type="VL.HDE.PatchEditor.Editors.ButtonModeEnum">Bang</p:buttonmode>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="DBTAaWtuSkuMMd3Uuq0rQr" Bounds="385,296,197,200" ShowValueBox="true" isIOBox="true" Value="&lt; Summing up all numbers from 0 to N takes a while and would normally block the mainloop.&#xD;&#xA;&#xD;&#xA;But everything inside the AsyncTask region is running on a background thread that is not influencing the mainloop.">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">9</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="L4cQXOI1JqhLz3bv2NarZb" Bounds="661,296,298,178" ShowValueBox="true" isIOBox="true" Value="NOTE:&#xD;&#xA;Aborting (or re-triggering) the region will still run the task to the end even though &quot;In Progress&quot; already returns false! &#xD;&#xA;&#xD;&#xA;To really abort a running task you need to use the CancellationToken and in case cancellation was requested, stop your heavy load, ie in this demo: break the loop.">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+                <CategoryReference Kind="Category" Name="Primitive" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">9</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="TteeEZAHqYjLiZKO5CSteS" Bounds="196,106,397,52" ShowValueBox="true" isIOBox="true" Value="Use an AsyncTask region to run a task once in a background thread">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">13</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="G349DS5JOLkOD23dCUX6eq" Bounds="367,584,301,104" ShowValueBox="true" isIOBox="true" Value="&lt; When the task is complete, you get the result pushed onto the main thread via an Observable. &#xD;&#xA;&#xD;&#xA;Use a HoldLatest node to get the actual result out of the Observable.">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">9</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Pad Id="O0fbbdhoTOqLj5jjrx6wFB" Bounds="210,645,134,64" ShowValueBox="true" isIOBox="true" Value="&lt; Result of the task, an overflown integer in this case">
+              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
+                <Choice Kind="TypeFlag" Name="String" />
+              </p:TypeAnnotation>
+              <p:ValueBoxSettings>
+                <p:fontsize p:Type="Int32">9</p:fontsize>
+                <p:stringtype p:Assembly="VL.Core" p:Type="VL.Core.StringType">Comment</p:stringtype>
+              </p:ValueBoxSettings>
+            </Pad>
+            <Node Bounds="705,234,122,13" Id="S7QJUn3qm1dMgT8SjxsYiw">
+              <p:NodeReference LastCategoryFullName="Reactive.CancellationToken" LastSymbolSource="VL.Reactive.vl" LastDependency="VVVV.Value.AsyncTaskDemo.vl">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationCallFlag" Name="IsCancellationRequested" />
+                <CategoryReference Kind="Category" Name="CancellationToken" />
+              </p:NodeReference>
+              <Pin Id="IM8EH1l8h2gNBr157zpx9y" Name="Input" Kind="StateInputPin" />
+              <Pin Id="R4gVq8t3TJ1QU2hXZtIMmc" Name="Output" Kind="StateOutputPin" />
+              <Pin Id="T3gJhDofekqMQGLupReb9T" Name="Is Cancellation Requested" Kind="OutputPin" />
+            </Node>
+          </Canvas>
+          <ProcessDefinition Id="FHNLl8GWgcVOJzRkkPI83E">
+            <Fragment Id="MRFnVwHDf0WOO7H3jKbCxI" Patch="ESJZDDS0I02LAWDOx9RJVV" Enabled="true" />
+            <Fragment Id="PulIQZQ5YLtPp6C2yvbTNE" Patch="OkqGvJfa3PDOppp4PFQghD" Enabled="true" />
+          </ProcessDefinition>
+          <Link Id="VMBZ60P0HFkNpuISiKDiBC" Ids="MlQ6xWtRxHKQCtBUUG1MNt,O7Y9U1tqXvvP7KxKfanqVD" IsHidden="true" />
+          <Link Id="VhXiOp02hkiQUqzbhWzrWj" Ids="CoDUH6QgWvHOIIguSTSf6N,F8yf8XMl2RaOHlZQYrtxmf" IsHidden="true" />
+          <Link Id="QUYwG7jIJ2DOXaa6NG63JM" Ids="LxE9B1gv3sVLxun5IIuCjD,E6caTy3paRSM2lrJOz9hil" />
+          <Link Id="VDJW5PHO5MUM3DxqTdxmuN" Ids="RXLioMBWTQ1LaRy6kH9T9B,BrQZf4o3JprNZgMmMpd30X" IsHidden="true" />
+          <Link Id="TYYOgIdO41qLzKHMilrSOg" Ids="BrQZf4o3JprNZgMmMpd30X,BLnnLdDXmbHOAYI7HqtHqU" />
+          <Link Id="LeTkaLGjlmYOUCAHUBkJOQ" Ids="HIzy84h5qaSOwa6h6yvCx7,H6HTfTLxDqANdGeYCF57yD" IsFeedback="true" />
+          <Link Id="UGxkqjR4y2CP0XEPfMUhqA" Ids="HIzy84h5qaSOwa6h6yvCx7,DNUPyDYuhEcNHchAVvL09k" />
+          <Link Id="A57qaplLCQPNrphtH7HCKb" Ids="T3bEA6lfsOiOJRnaM9ohGv,H6HTfTLxDqANdGeYCF57yD" />
+          <Link Id="N1FGoN3mutJNjngXlNmByw" Ids="H6HTfTLxDqANdGeYCF57yD,CoDUH6QgWvHOIIguSTSf6N" />
+          <Link Id="N0789f2s2tnMY4vSAQcOfU" Ids="R8dNvbKiuMyPEa6U6TYrJH,PaB6mMMkuUYQIjWOM3M7tk" />
+          <Link Id="OmKS9jJ2l91MdgNYjz3WNI" Ids="Oj2DSTzedg1OM54pGYFLNC,EJqH0L0IfCoOdTh172CwOE" />
+          <Link Id="HsyhJF0yrgMPN4FLySiNUO" Ids="I4p2kUInvTkQaqs290q3gy,MZ8tB06jT2dMhOJIe8dXji" />
+          <Link Id="R3CrDUrGDQZPPmH9NCnhb5" Ids="LBh4zlPqbZRM2nYKP8M3it,ESYC2O2Vm2qQIQb2ZqcpHH" />
+          <Link Id="LSqzfCMDnIOQX5bf2KnLWW" Ids="BxgJz5wZs66MvOsUUCoMvF,ScG3EyAtX14NRmxIPII8EB" />
+          <Link Id="VzFLIAQ8cBAMtAyjQ90USY" Ids="UoSi2bZlM8MMQ6wuREnGbO,UpINRmPnyTvM3alIrtyaZ5" />
+        </Patch>
+      </Node>
+    </Canvas>
+    <!--
+
+    ************************ Application ************************
+
+-->
+    <Node Name="Application" Bounds="100,100" Id="RU9I8NNOxb0LpVd2vSiSWh">
+      <p:NodeReference>
+        <Choice Kind="ContainerDefinition" Name="Process" />
+        <FullNameCategoryReference ID="Primitive" />
+      </p:NodeReference>
+      <Patch Id="HGzQRdU9BFdNmdpxkMvYHe">
+        <Canvas Id="QajV1XFTlIxP2UQr3WB2ej" BordersChecked="false" CanvasType="Group" />
+        <Patch Id="SPMH1kbFrTzMlagt650fA5" Name="Create" />
+        <Patch Id="NEs5Fhx0AuONmGVF0vYTai" Name="Update" />
+        <ProcessDefinition Id="G9So3ZfoZGcLsENS7P4fwK">
+          <Fragment Id="HGhbvLIe59oQUtULLd35xm" Patch="SPMH1kbFrTzMlagt650fA5" Enabled="true" />
+          <Fragment Id="SW63WSyhdtSMriyfMveSA8" Patch="NEs5Fhx0AuONmGVF0vYTai" Enabled="true" />
+        </ProcessDefinition>
+      </Patch>
+    </Node>
+  </Patch>
+</Document>

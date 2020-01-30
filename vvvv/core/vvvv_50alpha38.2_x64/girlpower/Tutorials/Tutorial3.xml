@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entries>
+<Entry id="Subtitle" prefix="">
+  <English>Making Links.</English>
+  <Deutsch>Links ziehen.</Deutsch>
+  <Russian>Как соединять nodes.</Russian>
+  <Italiano>Creare link (Ovvero: come far comunicare tra loro i nodi)</Italiano>
+  <Français>Créer des links.</Français>
+  <Spanish>Creando Links.</Spanish>
+</Entry>
+
+<Entry id="0" prefix="">
+  <English>
+Oh, there are some links missing in this patch.
+You see the SpiralSpread node, which creates a spread (a list) of 200 points that are then supplied to the Point node (via a Multiply node) to draw them. Let's rotate the spiral.
+  </English>
+  <Deutsch>
+Oh, hier fehlen ein paar Links.
+Du siehst den SpiralSpread Node, der einen Spread (eine Liste) an 200 Punkten generiert, die dann an den Point Node gehen (über einen Multiply Node) um diese zu zeichnen. Lass uns die Spirale drehen.
+  </Deutsch>
+  <Russian>
+О, тут, кажется некоторые nodes не соединены.
+Видишь, SpiralSpread node создает Spread (список) из 200 точек, эти точки идут в Point node (через Multiply node), которая их отрисовывает.
+Давай покрутим спираль.
+  </Russian>
+  <Italiano>
+Mancano dei link in questa patch! Trovate il nodo SpiralSpread; questo genera uno spread (una lista) di 200 punti che poi vengono inviati, attravarso un nodo Multiply, al nodo Point, per essere quindi disegnati. Proviamo a ruotare la spirale!
+  </Italiano>
+  <Français>
+Tiens, on dirait qu'il manque des links dans ce patch.
+Vous pouvez voir la node SpiralSpread, qui génère un spread (une liste) de 200 points qui sont ensuite envoyés à la node Point (via la node Multiply) afin d'être rendus à l'écran. Faisons tourner cette spirale !
+  </Français>
+  <Spanish>
+Vaya, en este patch faltan algunos link...
+Está el nodo SpiralSpread, que crea una spread (una lista) de 200 puntos que luego le pasa (a través del nodo Multiply) al nodo Point para que los dibuje. ¡Vamos a girar la espiral!.
+  </Spanish>
+</Entry>
+
+<Entry id="1" prefix="">
+  <English>
+Start a link with a left click on the 'Output' pin of the LFO node. Do not drag, just click on the pin and release the button, the link is started and follows the mouse now and you can place as many inbetween points as you like.
+
+Note how most of the inputs on the Transform node are now bigger, indicating that they would accept the connection.
+
+Hover the input pins of the Transform node with the mouse cursor to find the input labeled 'Rotate' and left-click on it to finish the link.
+  </English>
+  <Deutsch>
+Starte einen Link mit einem Klick auf den 'Output' Pin des LFO Nodes. Nicht ziehen, nur ein einfacher Klick! Jetzt folgt der Link der Maus und du kannst soviele Zwischenpunkte setzten wie du willst.
+
+Ist dir aufgefallen, die die meisten der Inputs des Transform Nodes jetzt grösser geworden sind? Das bedeutet, dass sie die Verbindung akzeptieren.
+
+Suche den Input mit der Bezeichnung 'Rotate' und klicke auf ihn um den Link zu schliessen.
+  </Deutsch>
+  <Russian>
+У LFO node начни link левым щелчком мыши по 'Output' pin. Не удерживай левую кнопку! Просто щелкни по pin. Теперь линк сам тянется за мышкой. Ты можешь делать сколько угодно промежуточных точек просто щелкая левой кнопкой мышки в пустое место в patch.
+
+Смотри, большинство input pins у Transform node увеличились, это значит, что к ним можно присоединить link.
+
+Найди input, который называется 'Rotate' и щелкни по нему левой кнопкой, чтобы присоедить link.
+  </Russian>
+  <Italiano>
+Creiamo un link cliccando col sinistro sul pin 'Output' del nodo LFO. Non trascinare, clicca sul pin e lascia il pulsante del mouse: il link viene creato, segue il mouse e puoi creare quanti punti intermedi preferisci.
+
+Nota come molti pin del nodo Transform siano ora più grandi, suggerendoti così quali accettano di essere collegati.
+
+Sposta il mouse sopra gli input pin del nodo Transform per trovare quello chiamato 'Rotate', e clicca di nuovo col sinistro per completare il link.
+  </Italiano>
+  <Français>
+Créez un lien avec un clic gauche à partir de la pin 'Output' de la node LFO. Ne faites pas un clic-glissé, cliquez simplement sur la pin et lâchez le bouton ! Le link est créé et va suivre votre souris. Vous pouvez placer autant de points d'encrage que vous le voulez.
+
+Vous remarquerez que les pins d'entrée de la node Transform deviennent plus gros : cela vous indique qu'ils peuvent accepter la connexion.
+
+Survolez les pins d'entrée de la node Transform avec votre curseur jusqu'à trouver celle nommée 'Rotate' et cliquez dessus pour terminer le link.
+  </Français>
+  <Spanish>
+Inicia un link con un clic izquierdo en el pin 'Output' del nodo LFO. No arrastres, simplemente haz clic en el pin y suelta el botón, el link se inicia y persigue al ratón: haciendo click izquierdo puedes colocar tantos puntos intermedios como quieras.
+
+Observa cómo la mayoría de las entradas en el nodo Transform son ahora más grandes, esto indica que aceptarían la conexión.
+
+Recorre los pin de entrada del nodo Transform con el cursor del ratón para buscar la entrada rotulada 'Rotate' y haz clicK con el botón izquierdo sobre ella para finalizar el link.
+  </Spanish>
+</Entry>
+
+<Entry id="2" prefix="">
+  <English>
+Now start a link with a left click on the 'Output' pin of the Transform node.
+
+Note how the first input pin on the Multiply node has grown to show you it is willing to accept the link.
+
+Finish the link with a left click on the that pin and you should see the spiral spin.
+  </English>
+  <Deutsch>
+Jetzt starte noch einen Link mit einem Klick auf den 'Output' des Transform Nodes.
+
+Im selben Moment ist jetzt der erste Input Pin des Multiply Nodes grösser geworden um dir zu zeigen, dass er die Verbindung akzeptiert.
+
+Schliesse den Link mit einem Klick auf diesen Pin ab und du solltest sehen, dass sich die Spirale dreht.
+  </Deutsch>
+  <Russian>
+Теперь начни новый link щелкнув по 'Output' pin у Transform node.
+
+После этого у Multiply node первый input pin станет больше, показывая, что к нему можно присоединить этот link.
+
+Закончи link кликнув левой кнопкой мышки по этому pin и увидишь, что спираль вращается.
+  </Russian>
+  <Italiano>
+Ora inizia un altro collegamento dal pin 'Output' del nodo Transform.
+
+Nota come il primo pin del nodo Multiply è più grande, indicando così che è pronto ad accogliere il polline, cioè, volevo dire, il collegamento.
+
+Completa il link con un clic del tasto sinistro su quel pin: la spirale adesso dovrebbe muoversi.
+  </Italiano>
+  <Français>
+Maintenant, créez un lien partant de la sortie 'Output' de la node Transform.
+
+Vous pouvez voir que la première pin d'entrée de la node Multiply a grossi pour vous indiquer qu'elle peut accepter la connexion. 
+
+Terminez le lien en cliquant sur cette pin et vous devriez voir votre spirale tourner.
+  </Français>
+  <Spanish>
+Ahora inicia un enlace con un clicK izquierdo en el pin 'Output' del nodo Transform.
+
+Observa cómo el primer pin de entrada del nodo Multiply ha crecido para mostrarte que está dispuesto a aceptar el enlace.
+
+Termina el link con un clic izquierdo en el pin y podrás ver el giro espiral.
+  </Spanish>
+</Entry>
+
+<Entry id="3" prefix="">
+  <English>
+To remove a link, first select it by clicking it with the left mouse button. Then click it with the right mouse button or press the DEL key to delete it.
+
+Also while making a link you can always press the right mouse button to cancel the operation.
+  </English>
+  <Deutsch>
+Um einen Link zu entfernen musst du ihn zuerst mit einem einfach Klick auswählen. Dann kannst du ihn mit einem Rechtsklick oder mit der Taste ENTF löschen.
+
+Der Rechtsklick funktioniert auch um einen Link, der gerade an der Maus hängt abzubrechen.
+  </Deutsch>
+  <Russian>
+Чтобы удалить link, щелкни сначала по нему левой кнопкой мышки, чтобы выделить его. Теперь щелкни по нему правой кнопкой мышки или нажми просто клавишу DEL, чтобы удалить его.
+
+Кстати, при создании нового link, щелчек правой кнопкой мышки отменяет операцию (обрывает link, тянущийся за мышкой).
+  </Russian>
+  <Italiano>
+Per rimuovere un link, selezionalo col tasto sinistro, e poi cliccaci col tasto destro (oppure premi Canc\DEL).
+
+Inoltre, mentre generi un link, puoi cliccare col destro per cancellare l'operazione.
+  </Italiano>
+  <Français>
+Pour supprimer un lien, sélectionnez-le en faisant un clic-gauche dessus. Ensuite, faites un clic droit ou appuyez sur SUPPR pour le supprimer.
+
+Aussi, pendant la création d'un lien, vous pouvez faire un clic droit pour l'annuler.
+  </Français>
+  <Spanish>
+Para eliminar un link, primero selecciónalo haciendo click con el botón izquierdo del ratón. A continuación, haz click con el botón derecho del ratón o pulsa la tecla DEL para eliminarlo.
+
+También mientras estás creando un link siempre puedes presionar el botón derecho del ratón para cancelar la operación.
+  </Spanish>
+</Entry>
+
+<Entry id="4" prefix="">
+  <English>
+For more details on linking nodes, see:
+  </English>
+  <Deutsch>
+Für weitere Details zum Ziehen von Links, siehe:
+  </Deutsch>
+  <Russian>
+Подробнее о соединении nodes:
+  </Russian>
+  <Italiano>
+Per altri dettagli su IOBox:
+</Italiano>
+  <Français>
+Pour plus de détails sur les liens, lisez donc :
+  </Français>
+  <Spanish>
+Para más detalles sobre los link entre nodos:
+  </Spanish>
+</Entry>
+  
+</Entries>

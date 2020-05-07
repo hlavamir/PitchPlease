@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" Id="GB2VxUl5VdhM5rsl5IbjQg" LanguageVersion="2019.1.0-0303-g7b5625518a" Version="0.128">
-  <NugetDependency Id="RKFCmk1Lg5EP3I4IQegLTw" Location="VL.CoreLib" Version="0.35.21" />
+<Document xmlns:p="property" Id="KwZFceccMm9Pq1LYotdKc6" LanguageVersion="2020.1.0.53" Version="0.128">
+  <NugetDependency Id="RKFCmk1Lg5EP3I4IQegLTw" Location="VL.CoreLib" Version="2020.1.0" />
   <NugetDependency Id="U2JwHqMJLyGLDs97lM6eZ6" Location="VL.CoreLib.VVVV" Version="0.35.21" />
   <Patch Id="Th8hpfHvBF4Lk6VOwDCc9D">
-    <Canvas Id="NtZT52Xp5qNOXK0fF2H7kv" DefaultCategory="VVVV.Raw" BordersChecked="false" CanvasType="FullCategory">
+    <Canvas Id="NtZT52Xp5qNOXK0fF2H7kv" DefaultCategory="VVVV.Raw" CanvasType="FullCategory">
       <!--
 
     ************************ ColorsToMessage ************************
@@ -38,9 +38,7 @@
           <Canvas Id="C4yd3S6BFv9NWqJ2WO3OFi" CanvasType="Group">
             <ControlPoint Id="FaeI0Bv5EmAO66DOJUohWK" Bounds="1475,-21" />
             <ControlPoint Id="FedBk9fWC6MN7SociRlRcD" Bounds="1890,-530" />
-            <Pad Id="BA7XOTvV6aoLln8Sx37z18" Bounds="1890,-496">
-              <p:ValueBoxSettings />
-            </Pad>
+            <Pad Id="BA7XOTvV6aoLln8Sx37z18" Bounds="1890,-496" />
             <Node Bounds="1888,-473,86,26" Id="M0fmrowqeaPLENgYa9T2vU">
               <p:NodeReference LastCategoryFullName="Animation.IFrameClock" LastSymbolSource="CoreLibBasics.vl">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
@@ -54,7 +52,6 @@
               <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
                 <Choice Kind="TypeFlag" Name="Float32" />
               </p:TypeAnnotation>
-              <p:ValueBoxSettings />
             </Pad>
             <Node Bounds="2119,-490,25,19" Id="FheatTXM9aVNzZSQhJEcAM">
               <p:NodeReference LastCategoryFullName="Math" LastSymbolSource="CoreLibBasics.vl">
@@ -94,12 +91,12 @@
             <Node Bounds="1848,-306,45,19" Id="D0ob4zUtZ5cLL4bBmO1TgQ">
               <p:NodeReference LastCategoryFullName="Control" LastSymbolSource="CoreLibBasics.vl">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <Choice Kind="OperationCallFlag" Name="Switch" />
-                <CategoryReference Kind="Category" Name="Control" NeedsToBeDirectParent="true" />
+                <Choice Kind="OperationNode" Name="Switch (Boolean)" />
+                <FullNameCategoryReference ID="Control" />
               </p:NodeReference>
               <Pin Id="Iwn04Sp2V3DOl7ANyo25mN" Name="Condition" Kind="InputPin" />
-              <Pin Id="S3k6H0fIYUcOUVOPDoBi53" Name="False" Kind="InputPin" />
-              <Pin Id="FRTHuk0QQ0sQcvFS7zkOFK" Name="True" Kind="InputPin" />
+              <Pin Id="S3k6H0fIYUcOUVOPDoBi53" Name="Input" Kind="InputPin" />
+              <Pin Id="FRTHuk0QQ0sQcvFS7zkOFK" Name="Input 2" Kind="InputPin" />
               <Pin Id="M8LkgipdJoPLJ9DCaANs51" Name="Output" Kind="OutputPin" />
             </Node>
             <Node Bounds="1868,-392,25,19" Id="Ol9fXZEHOs7QCst0ZJ9XQD">
@@ -111,18 +108,13 @@
               <Pin Id="AWnUOtPMlA8Pn3DIMWUVNV" Name="Input 2" Kind="InputPin" />
               <Pin Id="Iv4g3zXiMusQQJzpk6IM3h" Name="Output" Kind="OutputPin" />
             </Node>
-            <Pad Id="MMwMtllSgBtOuevAkohY0u" SlotId="VZmjkc2oTLzPsdr89fTdn9" Bounds="1795,-414">
-              <p:ValueBoxSettings />
-            </Pad>
-            <Pad Id="Mw1aa23K63qNARqZOAoJen" SlotId="VZmjkc2oTLzPsdr89fTdn9" Bounds="1880,-241">
-              <p:ValueBoxSettings />
-            </Pad>
+            <Pad Id="MMwMtllSgBtOuevAkohY0u" SlotId="VZmjkc2oTLzPsdr89fTdn9" Bounds="1795,-414" />
+            <Pad Id="Mw1aa23K63qNARqZOAoJen" SlotId="VZmjkc2oTLzPsdr89fTdn9" Bounds="1880,-241" />
             <Pad Id="Ux2tHD7HQsJMrATzGlkk4O" Bounds="1795,-530,35,15" ShowValueBox="true" isIOBox="true" Value="0">
               <p:TypeAnnotation>
                 <Choice Kind="TypeFlag" Name="Float32" />
                 <FullNameCategoryReference ID="Primitive" />
               </p:TypeAnnotation>
-              <p:ValueBoxSettings />
             </Pad>
             <Node Bounds="1784,-347,25,19" Id="PNWRrQQoMElOqabRvK5R62">
               <p:NodeReference LastCategoryFullName="Math" LastSymbolSource="CoreLibBasics.vl">
@@ -146,23 +138,22 @@
             <Node Bounds="1708,-220,45,19" Id="HeuawMDgTBIQLY5eUW7qQh">
               <p:NodeReference LastCategoryFullName="Control" LastSymbolSource="CoreLibBasics.vl">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <Choice Kind="OperationCallFlag" Name="Switch" />
-                <CategoryReference Kind="Category" Name="Control" NeedsToBeDirectParent="true" />
+                <Choice Kind="OperationNode" Name="Switch (Boolean)" />
+                <FullNameCategoryReference ID="Control" />
               </p:NodeReference>
               <Pin Id="KXDmdsfux20MuKT3KV190D" Name="Condition" Kind="InputPin" />
-              <Pin Id="KeAOrUGImaFNT6OVBhTS35" Name="False" Kind="InputPin" DefaultValue="True">
+              <Pin Id="KeAOrUGImaFNT6OVBhTS35" Name="Input" Kind="InputPin" DefaultValue="True">
                 <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
                   <Choice Kind="TypeFlag" Name="Boolean" />
                 </p:TypeAnnotation>
               </Pin>
-              <Pin Id="Ijr05uJ4GDjM8ZFp01UFTO" Name="True" Kind="InputPin" />
+              <Pin Id="Ijr05uJ4GDjM8ZFp01UFTO" Name="Input 2" Kind="InputPin" />
               <Pin Id="NyJmaaYvvVmLsZsgzXX1Yf" Name="Output" Kind="OutputPin" />
             </Node>
             <Pad Id="IgifNMbsxEAN3PDlDWmglB" Comment="Use Serial FPS" Bounds="1605,-308,35,35" ShowValueBox="true" isIOBox="true" Value="True">
               <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
                 <Choice Kind="TypeFlag" Name="Boolean" />
               </p:TypeAnnotation>
-              <p:ValueBoxSettings />
             </Pad>
             <Node Bounds="1409,258,223,259" Id="P1AnGBxe4FuMflU4MIK7bB">
               <p:NodeReference LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
@@ -341,7 +332,6 @@
               </p:NodeReference>
               <Pin Id="G698iiEr0usNTM5aCvmfuE" Name="Input" Kind="InputPin" />
               <Pin Id="IRbvAFkrHaSNSROBDb0IKA" Name="Send" Kind="InputPin" />
-              <Pin Id="UYvlnfcly72PL0LDLpELHY" Name="Port Name" Kind="InputPin" />
               <Pin Id="BT2SfVzGVLwLYMWtmMJK0J" Name="Data Bits" Kind="InputPin" />
               <Pin Id="GR2Oi2wn904LXDPKZcY8Jz" Name="Stop Bits" Kind="InputPin">
                 <p:TypeAnnotation LastCategoryFullName="IO.Ports" LastSymbolSource="VL.CoreLib.IO.vl">
@@ -361,8 +351,9 @@
               </Pin>
               <Pin Id="BWmz5N1jPTTPrkBK2tYNkx" Name="Rts Enable" Kind="InputPin" />
               <Pin Id="KYmqQ2jGzRkNJa8QQkfvDX" Name="Break State" Kind="InputPin" />
-              <Pin Id="GszmQLp0QzZPCMNZSyMJFl" Name="Open" Kind="InputPin" />
               <Pin Id="QjLxZddw9s0Otmw0vdUtqN" Name="Baudrate" Kind="InputPin" />
+              <Pin Id="UYvlnfcly72PL0LDLpELHY" Name="Port Name" Kind="InputPin" />
+              <Pin Id="GszmQLp0QzZPCMNZSyMJFl" Name="Open" Kind="InputPin" />
               <Pin Id="BhZA2Ewf6aFN0UoS8LaRxj" Name="Output" Kind="OutputPin" />
               <Pin Id="Pdrh2KPB8C6LFZC8fmvmr9" Name="On Data" Kind="OutputPin" />
               <Pin Id="CpSd1LD5qUFNR3c6EzoW2G" Name="Is Open" Kind="OutputPin" />
@@ -432,7 +423,6 @@
               <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
                 <Choice Kind="TypeFlag" Name="Float32" />
               </p:TypeAnnotation>
-              <p:ValueBoxSettings />
             </Pad>
             <Node Bounds="1497,1225,55,26" Id="SfEAnGf61y2MZnSR8UxZAd">
               <p:NodeReference LastCategoryFullName="Collections.Spread" LastSymbolSource="VL.Collections.vl">
@@ -504,12 +494,12 @@
             <Node Bounds="1399,1434,45,19" Id="D0DVzCFiwJhMuUrookUeZS">
               <p:NodeReference LastCategoryFullName="Control" LastSymbolSource="CoreLibBasics.vl">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <Choice Kind="OperationCallFlag" Name="Switch" />
-                <CategoryReference Kind="Category" Name="Control" NeedsToBeDirectParent="true" />
+                <Choice Kind="OperationNode" Name="Switch (Boolean)" />
+                <FullNameCategoryReference ID="Control" />
               </p:NodeReference>
               <Pin Id="CV72rye0BjKL6EvcnKAkXS" Name="Condition" Kind="InputPin" />
-              <Pin Id="VjfNzGKagSaLGALJQGPA6R" Name="False" Kind="InputPin" />
-              <Pin Id="Kpy8JDaSrXcOkoJaXTQnRJ" Name="True" Kind="InputPin" />
+              <Pin Id="VjfNzGKagSaLGALJQGPA6R" Name="Input" Kind="InputPin" />
+              <Pin Id="Kpy8JDaSrXcOkoJaXTQnRJ" Name="Input 2" Kind="InputPin" />
               <Pin Id="NyQuEQaEYzMOzXlHx21wng" Name="Output" Kind="OutputPin" />
             </Node>
             <Node Bounds="1439,1407,45,19" Id="VYOTRGYzfxAPuzRygwCnyG">
@@ -545,13 +535,11 @@
               <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
                 <Choice Kind="TypeFlag" Name="Integer32" />
               </p:TypeAnnotation>
-              <p:ValueBoxSettings />
             </Pad>
             <Pad Id="D8FNK4sXM6BPfh7XTcCNhV" Comment="LED Strips" Bounds="945,-199,35,15" ShowValueBox="true" isIOBox="true" Value="2">
               <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
                 <Choice Kind="TypeFlag" Name="Integer32" />
               </p:TypeAnnotation>
-              <p:ValueBoxSettings />
             </Pad>
             <Node Bounds="1378,11,25,19" Id="VovyY7lbVolOBogHuim0IB">
               <p:NodeReference LastCategoryFullName="Math" LastSymbolSource="CoreLibBasics.vl">
@@ -562,21 +550,11 @@
               <Pin Id="Ih25R9d4iXFL08TsQEM78K" Name="Input 2" Kind="InputPin" />
               <Pin Id="KYcbMjxlPIRLNCzqpsegDx" Name="Output" Kind="OutputPin" />
             </Node>
-            <Pad Id="ATEpab2muoQPILpWluMk2g" SlotId="Evsi9mBVlgQQavqhUscS4n" Bounds="869,-168">
-              <p:ValueBoxSettings />
-            </Pad>
-            <Pad Id="Ns2P5aFUDMlN0AH4UtlMXE" SlotId="HYiuy9h7ZcBLUX9R7ul0rj" Bounds="945,-168">
-              <p:ValueBoxSettings />
-            </Pad>
-            <Pad Id="VpbwiDnNsnFNYAq8Nce7bU" SlotId="Evsi9mBVlgQQavqhUscS4n" Bounds="1317,-21">
-              <p:ValueBoxSettings />
-            </Pad>
-            <Pad Id="J5rWNwKJlpyOQxBjoOPh2j" SlotId="HYiuy9h7ZcBLUX9R7ul0rj" Bounds="1400,-21">
-              <p:ValueBoxSettings />
-            </Pad>
-            <Pad Id="V0F6x23DQNGNxkcrtJNC0d" SlotId="Evsi9mBVlgQQavqhUscS4n" Bounds="1739,241">
-              <p:ValueBoxSettings />
-            </Pad>
+            <Pad Id="ATEpab2muoQPILpWluMk2g" SlotId="Evsi9mBVlgQQavqhUscS4n" Bounds="869,-168" />
+            <Pad Id="Ns2P5aFUDMlN0AH4UtlMXE" SlotId="HYiuy9h7ZcBLUX9R7ul0rj" Bounds="945,-168" />
+            <Pad Id="VpbwiDnNsnFNYAq8Nce7bU" SlotId="Evsi9mBVlgQQavqhUscS4n" Bounds="1317,-21" />
+            <Pad Id="J5rWNwKJlpyOQxBjoOPh2j" SlotId="HYiuy9h7ZcBLUX9R7ul0rj" Bounds="1400,-21" />
+            <Pad Id="V0F6x23DQNGNxkcrtJNC0d" SlotId="Evsi9mBVlgQQavqhUscS4n" Bounds="1739,241" />
             <Node Bounds="1358,40,25,19" Id="VdZzvphXQS7QXg3D5g9ag0">
               <p:NodeReference LastCategoryFullName="Collections.Spread" LastSymbolSource="VL.Collections.vl">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
@@ -629,7 +607,6 @@
               <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
                 <Choice Kind="TypeFlag" Name="Integer32" />
               </p:TypeAnnotation>
-              <p:ValueBoxSettings />
             </Pad>
           </Canvas>
           <ProcessDefinition Id="FHNLl8GWgcVOJzRkkPI83E">

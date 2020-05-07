@@ -1,0 +1,1374 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VL.UI.Forms</name>
+    </assembly>
+    <members>
+        <member name="T:VL.UI.Frames.Gif">
+            <summary>
+            Uses default .net GIF encoding and adds animation headers.
+            </summary>
+        </member>
+        <member name="P:VL.UI.Frames.Gif.DefaultFrameDelay">
+            <summary>
+            Default Delay in Milliseconds
+            </summary>
+        </member>
+        <member name="M:VL.UI.Frames.Gif.AddFrame(System.Drawing.Image,System.Nullable{System.Double},System.Int32,System.Int32)">
+            <summary>
+            Adds a frame to this animation.
+            </summary>
+            <param name="Image">The image to add</param>
+            <param name="frameDelay"></param>
+            <param name="XOffset">The positioning x offset this image should be displayed at.</param>
+            <param name="YOffset">The positioning y offset this image should be displayed at.</param>
+        </member>
+        <member name="M:VL.UI.Frames.ScreenCapture.CaptureScreen">
+            <summary>
+            Creates an Image object containing a screen shot of the entire desktop
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VL.UI.Frames.ScreenCapture.CaptureWindow(System.IntPtr,System.Boolean,System.Nullable{System.Drawing.Rectangle},System.Boolean,System.Nullable{System.Drawing.Point})">
+            <summary>
+            Creates an Image object containing a screen shot of a specific window
+            </summary>
+            <param name="handle">The handle to the window. 
+            (In windows forms, this is obtained by the Handle property)</param>
+            <param name="removeBorders">Remove window Borders</param>
+            <param name="subrect">Defines a subrect of the given window handle to capture</param>
+            <param name="addCursor">Render the cursor into the image</param>
+            <param name="cursorPos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VL.HDE.Forms.CodeViewerForm.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the form.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="F:VL.HDE.Forms.CodeViewerForm.components">
+            <summary>
+            Designer variable used to keep track of non-visual components.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.Forms.CodeViewerForm.InitializeComponent">
+            <summary>
+            This method is required for Windows Forms designer support.
+            Do not change the method contents inside the source code editor. The Forms designer might
+            not be able to load this method if it was changed manually.
+            </summary>
+        </member>
+        <member name="F:VL.HDE.Forms.DocumentationForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.Forms.DocumentationForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.HDE.Forms.DocumentationForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:VL.HDE.Forms.FormManager">
+            <summary>
+            Description of FormManager.
+            </summary>
+        </member>
+        <member name="F:VL.HDE.Forms.HDEForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.Forms.HDEForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.HDE.Forms.HDEForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:VL.HDE.Forms.TTYForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.Forms.TTYForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.HDE.Forms.TTYForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:VL.HDE.PatchEditor.InfoControl.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.InfoControl.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.InfoControl.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:VL.HDE.PatchEditor.DocumentationEntryControl.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.DocumentationEntryControl.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.DocumentationEntryControl.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:VL.HDE.PatchEditor.TextBoxAC">
+            <summary>
+            Extended TextBox with smart auto-completion
+            ripped off: http://stackoverflow.com/questions/133049/control-for-tags-with-auto-completion-in-winforms
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.TextBoxAC.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.TextBoxAC.SetAutoCompletion(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String})">
+            <summary>
+            Sets autocompletion data, list of possible strings
+            </summary>
+            <param name="words">Completion words</param>
+            <param name="wordsLow">Completion words in lowerCase</param>
+        </member>
+        <member name="F:VL.HDE.PatchEditor.EditorControl.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.EditorControl.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.EditorControl.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:VL.HDE.PatchEditor.SelectedCanvasChangedEventArgs.FocusedNode">
+            <summary>
+            The focused node, can be null
+            </summary>
+        </member>
+        <member name="T:VL.HDE.PatchEditor.Editors.Color4HSVEditor">
+            <summary>
+            Used for values whose type is a member of the Real type class.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.Body">
+            <summary>
+            Gets the rectangle used by the editor for drawing. TODO: Should not be exposed by interface.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.Position">
+            <summary>
+            Gets or sets the position of the editor.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.Size">
+            <summary>
+            Gets the actual size of the editor. Computed from manual and minimum size.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.ManualSize">
+            <summary>
+            The Size of the editor as set via code or by the user. 
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.MinimumSize">
+            <summary>
+            The minimum size required by the editor in order to properly render its value.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.GlobalBounds">
+            <summary>
+            Gets the global bounds (position and size) of the editor.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.Style">
+            <summary>
+            Gets or sets the style used by the editor for drawing.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.FontStyle">
+            <summary>
+            Gets or sets the style used by the editor for font drawing.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.Visible">
+            <summary>
+            Whether or not the editor is visible.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.Value">
+            <summary>
+            The value maintained by the editor.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.Editors.IValueEditor.SetValue(System.Object)">
+            <summary>
+            Sets a new value on the editor and returns true if the editor changed.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.Type">
+            <summary>
+            The type of the value.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.Tag">
+            <summary>
+            Custom user data.
+            </summary>
+        </member>
+        <member name="E:VL.HDE.PatchEditor.Editors.IValueEditor.ValueChanged">
+            <summary>
+            Raised when the value changed.
+            </summary>
+        </member>
+        <member name="E:VL.HDE.PatchEditor.Editors.IValueEditor.ValueDiscarded">
+            <summary>
+            Raised when the value was discarded, eg. via press of the ESC key.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.Editors.IValueEditor.GetInputHandler(VL.Core.Viewer.VMouseEventArgs)">
+            <summary>
+            Returns an input handler interacting with the editor.
+            TODO: Not sure about whether this will be the final design.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.Editors.IValueEditor.GoIntoEditMode">
+            <summary>
+            Puts the editor into an edit mode. Usually displays an inplace editor.
+            Returns true if the editor did indeed go into an edit mode.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.Configure">
+            <summary>
+            Put the editor into a configuration mode.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.ShowMore">
+            <summary>
+            Show more editing options
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.InInspektor">
+            <summary>
+            Whether the editor is used in an inspektor or a patch
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.IsBusy">
+            <summary>
+            Whether or not the editor is busy editing the value.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.LabelDefinesMinimumSize">
+            <summary>
+            Whether or not to force a minimum size as defined by the value label
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IValueEditor.Enabled">
+            <summary>
+            Whether or not the editor can be interacted with
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IMulticomponentEditor.Horizontal">
+            <summary>
+            Specifies the layout of the subcomponents
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IMulticomponentEditor.Editors">
+            <summary>
+            Only the visible editors
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IMulticomponentEditor.ComponentCount">
+            <summary>
+            The total number of components
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.IMulticomponentEditor.Settings">
+            <summary>
+            Settings that configure the editors
+            </summary>
+        </member>
+        <member name="F:VL.HDE.PatchEditor.Editors.ValueChangedEventArgs.OldValue">
+            <summary>
+            The old value before the change, does only work on editors derived from SingleValueEditor
+            </summary>
+        </member>
+        <member name="F:VL.HDE.PatchEditor.Editors.ValueChangedEventArgs.Value">
+            <summary>
+            The new value
+            </summary>
+        </member>
+        <member name="E:VL.HDE.PatchEditor.Editors.ValueEditor`1.ValueChanged">
+            <summary>
+            Careful with this event, raised on value change, for strings also on every keystroke.
+            The final value has AddToHistory = true, only react to that event if intermediate values are not really needed.
+            </summary>
+        </member>
+        <member name="E:VL.HDE.PatchEditor.Editors.ValueEditor`1.ValueDiscarded">
+            <summary>
+            Value was discarded via press of the ESC key
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.ValueEditor`1.Value">
+            <summary>
+            The actual value of the editor. Its type is the same as the Type property of the editor.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.Editors.ValueEditor`1.TryConvert(System.Object,`0@)">
+            <summary>
+            Tries to convert a value of unknown type.
+            </summary>
+            <param name="unkown">The value with an unknown type. For example consider the spread editor handling any sequence. The incoming value could have the runtime type array.</param>
+            <param name="value">The converted value. In case of the spread editor this would have been done by casting the incoming value up to IEnumerable and calling ToSpread on it.</param>
+            <returns>True if value was converted.</returns>
+        </member>
+        <member name="T:VL.HDE.PatchEditor.Editors.IntegerEditor`1">
+            <summary>
+            Used for values whose type is a member of the Integer type class.
+            </summary>
+        </member>
+        <member name="T:VL.HDE.PatchEditor.Editors.OverlayEditor">
+            <summary>
+            Description of OverlayEditor.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.Editors.OverlayEditor.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the control.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="F:VL.HDE.PatchEditor.Editors.OverlayEditor.components">
+            <summary>
+            Designer variable used to keep track of non-visual components.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.Editors.OverlayEditor.InitializeComponent">
+            <summary>
+            This method is required for Windows Forms designer support.
+            Do not change the method contents inside the source code editor. The Forms designer might
+            not be able to load this method if it was changed manually.
+            </summary>
+        </member>
+        <member name="T:VL.HDE.PatchEditor.Editors.OverlayEditorDropDown">
+            <summary>
+            Description of OverlayEditorDropDown.
+            </summary>
+        </member>
+        <member name="F:VL.HDE.PatchEditor.Editors.OverlayEditorDropDown.components">
+            <summary>
+            Designer variable used to keep track of non-visual components.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.Editors.OverlayEditorDropDown.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the control.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.Editors.OverlayEditorDropDown.InitializeComponent">
+            <summary>
+            This method is required for Windows Forms designer support.
+            Do not change the method contents inside the source code editor. The Forms designer might
+            not be able to load this method if it was changed manually.
+            </summary>
+        </member>
+        <member name="T:VL.HDE.PatchEditor.Editors.RealEditor`1">
+            <summary>
+            Used for values whose type is a member of the Real type class.
+            </summary>
+        </member>
+        <member name="P:VL.HDE.PatchEditor.Editors.RealEditor`1.Precision">
+            <summary>
+            The decimal places after commma when converted to string with ValueAsString()
+            </summary>
+        </member>
+        <member name="T:VL.HDE.PatchEditor.Editors.StringEditor">
+            <summary>
+            Description of StringEditor.
+            </summary>
+        </member>
+        <member name="T:VL.HDE.PatchEditor.Editors.TypeReferenceEditor">
+            <summary>
+            Description of StringEditor.
+            </summary>
+        </member>
+        <member name="F:VL.HDE.PatchEditor.NavigationMenuControl.components">
+            <summary>
+            Designer variable used to keep track of non-visual components.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.NavigationMenuControl.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the control.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.HDE.PatchEditor.NavigationMenuControl.InitializeComponent">
+            <summary>
+            This method is required for Windows Forms designer support.
+            Do not change the method contents inside the source code editor. The Forms designer might
+            not be able to load this method if it was changed manually.
+            </summary>
+        </member>
+        <member name="T:VL.HDE.PatchEditor.PopupMenu">
+            <summary>
+            Description of PopupMenu.
+            </summary>
+        </member>
+        <member name="T:VL.HDE.MainForm">
+            <summary>
+            Description of MainForm.
+            </summary>
+        </member>
+        <member name="F:VL.HDE.MainForm.components">
+            <summary>
+            Designer variable used to keep track of non-visual components.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.MainForm.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the form.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.HDE.MainForm.InitializeComponent">
+            <summary>
+            This method is required for Windows Forms designer support.
+            Do not change the method contents inside the source code editor. The Forms designer might
+            not be able to load this method if it was changed manually.
+            </summary>
+        </member>
+        <member name="F:VL.HDE.ModelDebugForm.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.ModelDebugForm.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.HDE.ModelDebugForm.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:VL.HDE.Canvases">
+            <summary>
+            Gets all imported assemblies and their content
+            </summary>
+        </member>
+        <member name="T:VL.HDE.Definitions">
+            <summary>
+            Gets all definitions and their references
+            </summary>
+        </member>
+        <member name="T:VL.HDE.General">
+            <summary>
+            Collection of general methods used to populate the solution explorer
+            </summary>
+        </member>
+        <member name="T:VL.HDE.Imports">
+            <summary>
+            Gets all imported assemblies and their content
+            </summary>
+        </member>
+        <member name="M:VL.HDE.Imports.AppendTypeParamHelp(System.Xml.Linq.XElement,System.Text.StringBuilder,VL.Lang.Platforms.CIL.ImportedNodeDefinitionSymbol)">
+            <summary>
+            Type and member helps can have generic type params.
+            This method appends the name and help of the type params to the StringBuilder>
+            </summary>
+            <param name="xElement">XML which can have "typeparam" tags</param>
+            <param name="sb">StringBuilder to append the help text</param>
+            <param name="paramScope">Scope to resolve paramrefs, can be null</param>
+        </member>
+        <member name="P:VL.HDE.SolutionExplorer.SolutionViewFilter">
+            <summary>
+            Set this action in order to refresh or build the tree view when BuildSolutionView was called.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.SolutionExplorer.BuildSolutionView(VL.Model.Solution)">
+            <summary>
+            Fills the tree view with data by calling the SessionViewFilter action.
+            </summary>
+        </member>
+        <member name="F:VL.HDE.SolutionExplorer.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VL.HDE.SolutionExplorer.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.HDE.SolutionExplorer.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:VL.Core.Dialogs.ReferenceDialog.components">
+            <summary>
+            Designer variable used to keep track of non-visual components.
+            </summary>
+        </member>
+        <member name="M:VL.Core.Dialogs.ReferenceDialog.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the control.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.Core.Dialogs.ReferenceDialog.InitializeComponent">
+            <summary>
+            This method is required for Windows Forms designer support.
+            Do not change the method contents inside the source code editor. The Forms designer might
+            not be able to load this method if it was changed manually.
+            </summary>
+        </member>
+        <member name="T:VL.Core.Viewer.VC">
+            <summary>
+            View Constants.
+            </summary>
+        </member>
+        <member name="F:VL.FileTypeAssociationDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VL.FileTypeAssociationDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.FileTypeAssociationDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:VL.EllipsisFormat">
+            <summary>
+            Specifies ellipsis format and alignment.
+            </summary>
+        </member>
+        <member name="F:VL.EllipsisFormat.None">
+            <summary>
+            Text is not modified.
+            </summary>
+        </member>
+        <member name="F:VL.EllipsisFormat.End">
+            <summary>
+            Text is trimmed at the end of the string. An ellipsis (...) is drawn in place of remaining text.
+            </summary>
+        </member>
+        <member name="F:VL.EllipsisFormat.Start">
+            <summary>
+            Text is trimmed at the begining of the string. An ellipsis (...) is drawn in place of remaining text. 
+            </summary>
+        </member>
+        <member name="F:VL.EllipsisFormat.Middle">
+            <summary>
+            Text is trimmed in the middle of the string. An ellipsis (...) is drawn in place of remaining text.
+            </summary>
+        </member>
+        <member name="F:VL.EllipsisFormat.Path">
+            <summary>
+            Preserve as much as possible of the drive and filename information. Must be combined with alignment information.
+            </summary>
+        </member>
+        <member name="F:VL.EllipsisFormat.Word">
+            <summary>
+            Text is trimmed at a word boundary. Must be combined with alignment information.
+            </summary>
+        </member>
+        <member name="F:VL.Ellipsis.EllipsisChars">
+            <summary>
+            String used as a place holder for trimmed text.
+            </summary>
+        </member>
+        <member name="M:VL.Ellipsis.Compact(System.String,System.Int32,System.Drawing.Font,VL.EllipsisFormat)">
+            <summary>
+            Truncates a text string to fit within a given control width by replacing trimmed text with ellipses. 
+            </summary>
+            <param name="text">String to be trimmed.</param>
+            <param name="width">text must fit within width.</param>
+            <param name="font">font is used to measure the text string.</param>
+            <param name="options">Format and alignment of ellipsis.</param>
+            <returns>This function returns text trimmed to the specified witdh.</returns>
+        </member>
+        <member name="P:VL.Lang.View.CompoundView.Views">
+            <summary>
+            Gets all views that are part of the graph, can be more than the ModelViews
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.CompoundView.ElementViews">
+            <summary>
+            Gets the element views, only views that have a corresponding model.
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.ElementView">
+            <summary>
+            Base class for all VL code element view object visible in a patch.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.ElementView.SetModel(VL.Model.Element,VL.Model.Element)">
+            <summary>
+            Same as setting the Model property but returns whether the model has changed
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.IPatchCastView">
+            <summary>
+            No links, no pins, no fragments. stuff that can be moved around
+            </summary>
+        </member>
+        <member name="F:VL.Lang.View.View.LayoutChildrenFirst">
+            <summary>
+            Whether or not to layout child views first. Used by regions for example.
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.View.IsStructureDirty">
+            <summary>
+            The view must resynchronize its list if this flag is true
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.View.IsShapeDirty">
+            <summary>
+            The view must repaint its shape if this flag is true
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.View.IsStyleDirty">
+            <summary>
+            The view must repaint its style if this flag is true
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.View.Invalidate(System.Boolean)">
+            <summary>
+            Sets the internal dirty flags (structure/shape/style) to true so that the view repaints itself on the next UpdateScene call
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.View.InvalidateStructure(System.Boolean)">
+            <summary>
+            Sets the internal shape dirty flag to true.
+            Overwrite in subclass to invalidate childeren as well.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.View.InvalidateShape(System.Boolean)">
+            <summary>
+            Sets the internal shape dirty flag to true.
+            Overwrite in subclass to invalidate childeren as well.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.View.InvalidateStyle(System.Boolean)">
+            <summary>
+            Sets the internal style dirty flag to true
+            Overwrite in subclass to invalidate childeren as well.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.View.OnActivated">
+            <summary>
+            Called when the containing patch view was activated by the user.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.View.OnDeActivated">
+            <summary>
+            Called when the containing patch view was deactivated by the user.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.View.OnMouseEnter(VL.Core.Viewer.VMouseEventArgs)">
+            <summary>
+            Called when the mouse moves into the area of the view for the first time.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.View.OnMouseMove(VL.Core.Viewer.VMouseEventArgs)">
+            <summary>
+            Called when the mouse moves inside the area of the view.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.View.OnMouseWheel(VL.Core.Viewer.VMouseEventArgs)">
+            <summary>
+            Called when the mouse wheel is moved inside the area of the view.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.View.OnMouseLeave(VL.Core.Viewer.VMouseEventArgs)">
+            <summary>
+            Called when the mouse leaves the area of the view.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.View.DoUpdateShapeAndStructure">
+            <summary>
+            Does the actual drawing job for the code element,
+            this method pulls data out of the model and displays it in the canvas
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.View.IntersectsWith(System.Drawing.RectangleF,VL.Lang.View.PickyReason)">
+            <summary>
+            Whether or not the view intersects with the given rectangle in world space.
+            </summary>
+            <param name="worldRect">The rectangle in world space to do the intersect test with.</param>
+            <param name="reason">The reason for the intersect test. Used for example by pads to test different areas.</param>
+            <returns>True if the view intersects.</returns>
+        </member>
+        <member name="M:VL.Lang.View.View.IntersectsWithChildren(System.Drawing.RectangleF)">
+            <summary>
+            Whether or not any of the view's children might intersect with the given rectangle in world space.
+            Used to reduce overall amount of intersect tests.
+            </summary>
+            <param name="worldRect">The rectangle in world space to do the intersect test with.</param>
+            <returns>True if any of the view's children might intersect.</returns>
+        </member>
+        <member name="M:VL.Lang.View.View.GetPickPath``1(System.Drawing.PointF,VL.Lang.View.PickyReason)">
+            <summary>
+            Picking is done in view space (canvas).
+            </summary>
+            <typeparam name="T">The views which shall be picked.</typeparam>
+            <param name="viewPoint">The point of interest (in view space).</param>
+            <param name="reason">The pick reason.</param>
+            <returns>The picked views.</returns>
+        </member>
+        <member name="M:VL.Lang.View.View.GetPickPath``1(System.Drawing.RectangleF,VL.Lang.View.PickyReason)">
+            <summary>
+            Picking is done in view space (canvas).
+            </summary>
+            <typeparam name="T">The views which shall be picked.</typeparam>
+            <param name="viewRect">The rectangle of interest (in view space).</param>
+            <param name="reason">The pick reason.</param>
+            <returns>The picked views.</returns>
+        </member>
+        <member name="T:VL.Lang.View.CanvasView.CanvasDecisionMouseHandler">
+            <summary>
+            This handler gets all events from the canvas and handles interaction state internally
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.ConnectionMouseHandler.#ctor(VL.Lang.View.CanvasView,VL.Core.Viewer.VMouseEventArgs,VL.Core.View.IConnectable,System.Boolean,System.Boolean,VL.Core.Viewer.IKeyEventHandler)">
+            <summary>
+            Initializes a new instance of the <see cref="T:VL.Lang.View.CanvasView.ConnectionMouseHandler"/> class and calls mouse down with the given arg.
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.CanvasView.ConnectionMouseHandler.ConnectionStateHub">
+            <summary>
+            Gets the connection state hub for region bar highlight calculation.
+            This can be the original clicked hub, or the last control point in temp link 
+            if the link has changed patch level.
+            </summary>
+        </member>
+        <member name="F:VL.Lang.View.CanvasView.ConnectionMouseHandler.UnchangedSolution">
+            <summary>
+            Original model state
+            </summary>
+        </member>
+        <member name="F:VL.Lang.View.CanvasView.ConnectionMouseHandler.FCurrentSolution">
+            <summary>
+            Latest modified model state
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.ConnectionMouseHandler.IsLonelyBorderControlPoint(VL.Core.View.IConnectable,System.Boolean)">
+            <summary>
+            Used to determine whether a new link should be started after connecting to a border control point
+            </summary>
+        </member>
+        <member name="F:VL.Lang.View.CanvasView.ConnectionMouseHandler.FSinkToSource">
+            <summary>
+            Whether the user has started the link from a sink
+            </summary>
+        </member>
+        <member name="F:VL.Lang.View.CanvasView.CursorMouseHandler.FFutureCursor">
+            <summary>
+            Cursor that gets set when timer triggers
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.CanvasView.DragDropMouseHandler">
+            <summary>
+            This handler gets drag enter/over/leave/drop events from the canvas
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.FinishConnectionMouseHandler.IsLinkFromOutside(VL.Model.DataHub,VL.Model.DataHub)">
+            <summary>
+            Determines whether one of the hubs is a border control point and of so, 
+            whether a link between the two data hubs crosses one or more region borders.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.InsertNodeIntoLinkHandler.InsertControlPointIntoLink(VL.Lang.View.LinkView,VL.Model.ControlPoint)">
+            <summary>
+            Inserts the control point into a link.
+            </summary>
+            <returns>The new link with inserted control point</returns>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.ToolTipMouseHandler.PrepareToolTip(VL.Lang.View.View,System.Drawing.PointF,System.Boolean,System.Boolean)">
+            <summary>
+            Coordinates in World Space
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.CanvasView.LastMouseLocation">
+            <summary>
+            Last position from mouse move in node space, invariant to pan/scale
+            </summary>
+        </member>
+        <member name="F:VL.Lang.View.CanvasView.ActiveConnectionHandler">
+            <summary>
+            Used to let regions show they are accepting bordercontrol points
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.CanvasView.ActiveSubPatchId">
+            <summary>
+            The id of the active sub patch or node the user is patching on - might be null on startup.
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.CanvasView.ActiveMasterPatch">
+            <summary>
+            The surrounding master patch of this canvas or null if current context is not a master patch.
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.CanvasView.ActiveSubPatch">
+            <summary>
+            The currently active sub patch the user is patching on. This property is only of interest in master/sub situations.
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.CanvasView.IsActive">
+            <summary>
+            Gets a value indicating whether this instance is the visible tab. 
+            </summary>
+            <value>
+              <c>true</c> if this instance is the SelectedCanvasView of the EditorControl; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="F:VL.Lang.View.CanvasView.DataHubMap">
+            <summary>
+            All data hub views of this canvas add themselves to this map in the constructor
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.ToWorldSpace(System.Drawing.PointF,System.Boolean)">
+            <summary>
+            Converts from View to World Space.
+            </summary>
+            <param name="viewPoint"></param>
+            <param name="inOverlay">Whether the given viewPoint is in overlay or patch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.ToWorldSpace(System.Drawing.RectangleF,System.Boolean)">
+            <summary>
+            Converts from View to World Space.
+            </summary>
+            <param name="viewRect"></param>
+            <param name="inOverlay">Whether the given viewPoint is in overlay or patch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.ToViewSpace(System.Drawing.PointF,System.Boolean)">
+            <summary>
+            Converts from World to View Space.
+            </summary>
+            <param name="worldPoint"></param>
+            <param name="inOverlay">Whether the given viewPoint is in overlay or patch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.ToViewSpace(System.Drawing.RectangleF,System.Boolean)">
+            <summary>
+            Converts from World to View Space.
+            </summary>
+            <param name="worldRect"></param>
+            <param name="inOverlay">Whether the given viewPoint is in overlay or patch.</param>
+            <returns></returns>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.ToScreenSpace(System.Drawing.PointF)">
+            <summary>
+            Converts from View to Screen Space.
+            </summary>
+            <param name="point"></param>
+            <returns></returns>
+        </member>
+        <member name="F:VL.Lang.View.CanvasView.KeyEventHandler">
+            <summary>
+            The key event handler, driven by key message preview in EditorControl
+            </summary>
+        </member>
+        <member name="F:VL.Lang.View.CanvasView.CGeneralPickAreaForConnectablesAndLinks">
+            <summary>
+            for the general / always-need-to-be-working case this may not be too big... 
+            to get better pickyness for your view try to adapt intersect in your view.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.QuickPick(System.Drawing.PointF)">
+            <summary>
+            Picks the top views in the canvas, so faster consecutive picks can be done on them without checking all views
+            </summary>
+            <param name="viewPosition">The mouse view position.</param>
+            <returns></returns>
+        </member>
+        <member name="P:VL.Lang.View.CanvasView.SelectedNodes">
+            <summary>
+            Currently selected nodes
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.CanvasView.SelectedLinks">
+            <summary>
+            Currently selected links
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.CanvasView.AllSelectedViews">
+            <summary>
+            The concatenation of the selected nodes and the selected links
+            </summary>
+        </member>
+        <member name="E:VL.Lang.View.CanvasView.SelectionChanged">
+            <summary>
+            Fires whenever the selection on the patcheditor changes
+            The selection contains the model elements, not the views
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.CanvasView.CurrentSelection">
+            <summary>
+            Currently selected code element views
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.ClearSelection">
+            <summary>
+            Clears the SelectedNodes and SelectedLinks list and deselects the items
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.ClearSelectedNodes">
+            <summary>
+            Clears the SelectedNodes list and deselects the items
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.ClearSelectedLinks">
+            <summary>
+            Clears the SelectedLinks list and deselects the items
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.AddToSelection(VL.Lang.View.ElementView)">
+            <summary>
+            Marks a code element view as selected and adds it to the selection collection
+            </summary>
+            <param name="view">A LinkView or a ElementView</param>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.Select(VL.Model.Element)">
+            <summary>
+            Selects the specified element if a view for it exists
+            </summary>
+            <param name="elementToSelect">The element to select.</param>
+            <exception cref="T:System.Exception">View not found, need to sync model with view first?</exception>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.RemoveFromSelection(VL.Lang.View.ElementView)">
+            <summary>
+            Marks a code element view as not selected and removes 
+            it from the the selection collection
+            </summary>
+            <param name="view"></param>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.FireSelectionChanged">
+            <summary>
+            Every method which changes the selection should fire the selection changed 
+            event with this method
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.FireSelectionChanged(System.Nullable{System.Boolean})">
+            <summary>
+            Every method which changes the selection should fire the selection changed 
+            event with this method
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.GetPatch(System.Drawing.PointF)">
+            <summary>
+            Returns the PatchView within our Canvas. The enclosing node of the patch is the inner most node in the hierarchy that covers that area. 
+            The active patchview of the node is returned.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.AddViewToMapAndRecording``1(``0)">
+            <summary>
+            This has to be called by the syncer whenever views are added to the PatchView and the
+            new view should selected by EndRecordNewViews(). It always returns the new view so
+            that the syncer can add it to the view list.
+            </summary>
+            <param name="view">The new view</param>
+            <returns>The new view unchanged</returns>
+        </member>
+        <member name="M:VL.Lang.View.CanvasView.EndRecordNewViews">
+            <summary>
+            Deselect old selection and select the new views (e.g. from paste or duplicate)
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.MouseHandlerBase`1">
+            <summary>
+            Does basic mouse event handling.
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.DefaultKeyEventHandler">
+            <summary>
+            Does basic key event handling
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.DefaultKeyEventHandler.Reset">
+            <summary>
+            Clears the list of recorded keys.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.DefaultKeyEventHandler.IsPressed(System.Windows.Forms.Keys)">
+            <summary>
+            Determines whether the specified key code is pressed.
+            </summary>
+            <param name="keyCode">A single key code to be checked.</param>
+            <returns>
+              <c>true</c> if the specified key code is pressed; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="F:VL.Lang.View.PatchEditor.Finder.FinderControl.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.PatchEditor.Finder.FinderControl.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.Lang.View.PatchEditor.Finder.FinderControl.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:VL.Lang.View.PatchEditor.Finder.ReferenceForm.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.PatchEditor.Finder.ReferenceForm.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.Lang.View.PatchEditor.Finder.ReferenceForm.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:VL.Lang.View.PatchEditor.Finder.SymbolFinderControl.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.PatchEditor.Finder.SymbolFinderControl.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.Lang.View.PatchEditor.Finder.SymbolFinderControl.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.ViewHelpers.SyncViewAndModel(VL.Model.Solution,VL.Lang.View.CanvasView)">
+            <summary>
+            Synchronizes the view and model. Convenience wrapper method used in menu factory to write piped statements something like:
+            newMasterPatch.Solution.SyncApplicationsWithChangedDefinitions().SyncViewAndModel(SelectedCanvasView).MakeCurrent();
+            </summary>
+            <param name="solution">The solution.</param>
+            <param name="canvasView">The canvas view to sync</param>
+            <returns></returns>
+        </member>
+        <member name="M:VL.Lang.View.ViewHelpers.CanConnectTo(VL.Core.View.IConnectable,VL.Core.View.IConnectable,System.Boolean,System.Boolean)">
+            <summary>
+            Determines whether this instance can connected to the other one
+            </summary>
+            <param name="from">From</param>
+            <param name="to">To</param>
+            <param name="force">if set to <c>true</c> tries to force the connection</param>
+            <param name="sinkToSource">if set to <c>true</c> the from connectable is considered as the sink, otherwise vice versa.</param>
+        </member>
+        <member name="M:VL.Lang.View.ViewHelpers.CanConnectTo(VL.Model.DataHub,VL.Model.DataHub,System.Boolean,System.Boolean)">
+            <summary>
+            Determines whether this instance [can connect to] the specified to hub.
+            </summary>
+            <param name="fromHub">From hub.</param>
+            <param name="toHub">To hub.</param>
+            <param name="force">if set to <c>true</c> tries to force the connection</param>
+            <param name="sinkToSource">if set to <c>true</c> the from hub is considered as the sink, otherwise vice versa.</param>
+        </member>
+        <member name="M:VL.Lang.View.ViewHelpers.StandardGetPicks(VL.Lang.View.View,System.Drawing.PointF,VL.Lang.View.PickyReason)">
+            <summary>
+            Gets views under the mouse in the order:
+            1. connectables
+            2. links
+            3. others
+            </summary>
+            <param name="view">The view element to start picking from</param>
+            <param name="p">The pick point specified in view space</param>
+            <param name="reason"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VL.Lang.View.ViewHelpers.StandardPicks(VL.Core.Viewer.VMouseEventArgs)">
+            <summary>
+            Get standard picks from quick pick
+            </summary>
+            <param name="dragStart"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VL.Lang.View.ViewHelpers.ResizePicks(VL.Core.Viewer.VMouseEventArgs)">
+            <summary>
+            Default element selection for resize
+            </summary>
+            <param name="arg"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VL.Lang.View.ViewHelpers.GetEditorHandler(VL.Lang.View.View,VL.Core.Viewer.VMouseEventArgs)">
+            <summary>
+            Gets the editor mouse handler if an editor is clicked that is a child of this view
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.ViewHelpers.HideCanvasInspektor(VL.Lang.View.View,VL.Core.Viewer.VMouseEventArgs)">
+            <summary>
+            Hides the inspektor of the CanvasView of this view
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.MenuFactory.ReplaceWithNewPad(VL.Model.Pad,VL.Model.ElementKind,System.Drawing.PointF,System.String)">
+            <summary>
+            Creates an action which replaces the old pad with a new pad
+            </summary>
+            <param name="oldPad">The pad to replace, the command history of this pad will be used</param>
+            <param name="type">Type of the new pad, must be compatible otherwise an exception is will be thrown</param>
+            <param name="newPosition">The new position</param>
+            <param name="newName">If the name is null or whitespace a name dialog will show up</param>
+            <returns></returns>
+        </member>
+        <member name="T:VL.Lang.View.MenuFactory.LazyMenuEntry">
+            <summary>
+            A menu entry which builds up lazily. Useful when the computation of sub entries is rather expensive.
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.ControlPointView">
+            <summary>
+            Base class for controlpoints.
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.DataHubView">
+            <summary>
+            Base class for datahub elements
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.LinkView">
+            <summary>
+            Link view class, displays a link between data hubs
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.LinkView.GetNodeBounds(System.Object,System.Boolean)">
+            <summary>
+            Calculates the bounds of the node body associated with this connectable for the link path
+            </summary>
+            <param name="view"></param>
+            <param name="start"></param>
+            <returns></returns>
+        </member>
+        <member name="T:VL.Lang.View.NodeView">
+            <summary>
+            Displays a node application
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.PadView">
+            <summary>
+            Base class for pads.
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.PatchView">
+            <summary>
+            Visualizing Layers in a patch.
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.PinView">
+            <summary>
+            displays pins of nodes or in regions.
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.ExplorerEntryView">
+            <summary>
+            Visualizing Slots and Operations in a patch.
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.PinBarView">
+            <summary>
+            Base class for input/output regionbar views
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.PinBarView.MinimumWidth">
+            <summary>
+            Gets the minimum width of the pin list in order to display all the pins.
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.RegionBarView">
+            <summary>
+            Base class for input/output regionbar views
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.RegionView.HitArea">
+            <summary>
+            To hit the actual region area with the mouse (excluding the area below the region area which is part of the normal Bounds)
+            </summary>
+        </member>
+        <member name="M:VL.Lang.View.RegionView.CompleteBounds">
+            <summary>
+            Only used for calculating bounds when loading old patches that don't have bounds set
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:VL.Lang.View.RegionView.ImplicitBounds">
+            <summary>
+            Implicit bounds get computed via their descandents, like controlpoints, nodes and alike.
+            </summary>
+        </member>
+        <member name="P:VL.Lang.View.RegionView.IdealBounds">
+            <summary>
+            The bounds that take implicit and explicit bounds into account
+            </summary>
+        </member>
+        <member name="T:VL.Lang.View.SignatureView">
+            <summary>
+            Base class for signature views
+            </summary>
+        </member>
+        <member name="T:VL.Lang.Menu.MenuForm">
+            <summary>
+            Description of MenuForm.
+            </summary>
+        </member>
+        <member name="F:VL.Lang.Menu.MenuForm.components">
+            <summary>
+            Designer variable used to keep track of non-visual components.
+            </summary>
+        </member>
+        <member name="M:VL.Lang.Menu.MenuForm.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the form.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.Lang.Menu.MenuForm.InitializeComponent">
+            <summary>
+            This method is required for Windows Forms designer support.
+            Do not change the method contents inside the source code editor. The Forms designer might
+            not be able to load this method if it was changed manually.
+            </summary>
+        </member>
+        <member name="T:VL.Forms.Resources.icons">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:VL.Forms.Resources.icons.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:VL.Forms.Resources.icons.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:VL.Forms.Resources.icons.document">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:VL.Forms.Resources.icons.function">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:VL.Forms.Resources.icons.functor">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:VL.Forms.Resources.icons.module">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="P:VL.Forms.Resources.icons.name_space">
+            <summary>
+              Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+            </summary>
+        </member>
+        <member name="M:VL.VLContext.Create(System.String,System.String,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Create a new VL context
+            </summary>
+            <param name="name"></param>
+            <param name="document"></param>
+            <param name="openEditor"></param>
+            <param name="openEditorInOtherThread"></param>
+            <param name="useInternalTimer"></param>
+            <param name="lazy"></param>
+            <returns></returns>
+        </member>
+        <member name="F:ConsoleWidget.ConsoleTextBox.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:ConsoleWidget.ConsoleTextBox.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:ConsoleWidget.ConsoleTextBox.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+    </members>
+</doc>

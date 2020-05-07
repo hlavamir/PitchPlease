@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VL.ExplorerTree</name>
+    </assembly>
+    <members>
+        <member name="T:VL.ExplorerTree.ExplorerTreeControl">
+            <summary>
+            Interaction logic for UserControl1.xaml
+            </summary>
+            <summary>
+            ExplorerTreeControl
+            </summary>
+        </member>
+        <member name="M:VL.ExplorerTree.ExplorerTreeControl.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:VL.ExplorerTree.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="T:VL.ExplorerTree.ViewModel.ExplorerTreeViewModel">
+            <summary>
+            Very simple class that serves as root data object for the tree view.
+            It only has the Children property that contains the top most entries in the tree.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.ExplorerTreeViewModel.Tag">
+            <summary>
+            Any user data object associated with the treeview entry
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.ExplorerTreeViewModel.Children">
+            <summary>
+            The top most entries in the tree view.
+            </summary>
+        </member>
+        <member name="T:VL.ExplorerTree.ViewModel.TreeNodeViewModel">
+            <summary>
+            Base class for all ViewModel classes displayed by TreeViewItems.  
+            This acts as an adapter between a raw data object and a TreeViewItem.
+            Credits: https://www.codeproject.com/kb/wpf/treeviewwithviewmodel.aspx
+            </summary>
+        </member>
+        <member name="F:VL.ExplorerTree.ViewModel.TreeNodeViewModel.ImagesFolder">
+            <summary>
+            The path to the images folder, with trailing "/"
+            </summary>
+        </member>
+        <member name="M:VL.ExplorerTree.ViewModel.TreeNodeViewModel.Refresh">
+            <summary>
+            Reloads the children.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.Tag">
+            <summary>
+            Any user data object associated with the treeview entry
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.Children">
+            <summary>
+            Returns the logical child items of this object.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.HasDummyChild">
+            <summary>
+            Returns true if this object's Children have not yet been populated.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.IsExpanded">
+            <summary>
+            Gets/sets whether the TreeViewItem 
+            associated with this object is expanded.
+            </summary>
+        </member>
+        <member name="M:VL.ExplorerTree.ViewModel.TreeNodeViewModel.LoadChildren(System.Windows.Threading.Dispatcher)">
+            <summary>
+            Invokes the the LoadChildrenAction delegate. 
+            Uses background loading if it was set in the constructor.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.IsSelected">
+            <summary>
+            Gets/sets whether the TreeViewItem 
+            associated with this object is selected.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.IsChecked">
+            <summary>
+            Gets/sets whether the TreeViewItem 
+            associated with this object is selected.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.HasToolTip">
+            <summary>
+            Gets/sets whether the TreeViewItem 
+            should show a tooltip.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.ToolTipHeader">
+            <summary>
+            Gets/sets the TreeViewItem tooltip Header.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.ToolTipContent">
+            <summary>
+            Gets/sets the TreeViewItem tooltip content text.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.AllowDrag">
+            <summary>
+            Gets/sets whether the TreeViewItem 
+            can be dragged.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.LoadChildrenAction">
+            <summary>
+            Invoked when the child items need to be loaded on demand.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.GetDragData">
+            <summary>
+            Invoked when the drag data is needed. Passes the index and total count of dragged element.
+            </summary>
+        </member>
+        <member name="P:VL.ExplorerTree.ViewModel.TreeNodeViewModel.OnDoubleClick">
+            <summary>
+            Action that gets called on double click on the tree node.
+            </summary>
+        </member>
+    </members>
+</doc>

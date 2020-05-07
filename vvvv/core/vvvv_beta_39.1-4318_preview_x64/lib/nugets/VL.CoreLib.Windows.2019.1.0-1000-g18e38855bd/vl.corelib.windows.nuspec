@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>VL.CoreLib.Windows</id>
+    <version>2019.1.0-1000-g18e38855bd</version>
+    <title></title>
+    <authors>vvvv group</authors>
+    <owners>vvvv group</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>http://vvvv.org/</projectUrl>
+    <description>Windows specific VL CoreLib</description>
+    <summary></summary>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright © 2020 by vvvv group. All rights reserved.</copyright>
+    <language></language>
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2">
+        <dependency id="SharpDX.Direct3D11" version="4.0.1" />
+        <dependency id="VL.CoreLib" version="2019.1.0-1000-g18e38855bd" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

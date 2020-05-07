@@ -1,6 +1,6 @@
-<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha38.2.dtd" >
-   <PATCH nodename="D:\repositories\PitchPlease\vvvv\root.v4p" systemname="200126 pitch please" filename="D:\hlava\Work\arduino\pitch_please_191222\vvvv\200126 pitch please.v4p" scrollx="0" scrolly="0">
-   <BOUNDS type="Window" left="-4710" top="-29190" width="36810" height="23745">
+<!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha39.1.dtd" >
+   <PATCH nodename="D:\repositories\PitchPlease\vvvv\root.v4p" systemname="200126 pitch please" filename="D:\hlava\Work\arduino\pitch_please_191222\vvvv\200126 pitch please.v4p" scrollx="465" scrolly="2505">
+   <BOUNDS type="Window" left="18120" top="585" width="8145" height="10515">
    </BOUNDS>
    <PACK Name="dx11" Version="1.3.1">
    </PACK>
@@ -11,13 +11,15 @@
    <NODE systemname="arduino msg set colors" filename="subpatches\arduino msg set colors.v4p" nodename="subpatches\arduino msg set colors.v4p" componentmode="Hidden" id="1">
    <BOUNDS type="Node" left="2475" top="8355" width="100" height="100">
    </BOUNDS>
-   <BOUNDS type="Window" left="1440" top="3780" width="13545" height="15705">
+   <BOUNDS type="Window" left="-9795" top="-25530" width="13545" height="15705">
    </BOUNDS>
    <PIN pinname="Message Out" visible="1">
    </PIN>
    <PIN pinname="Change" visible="1">
    </PIN>
-   <PIN pinname="Colors In" visible="1">
+   <PIN pinname="Colors In" visible="1" slicecount="1" values="|0.97406,0.59870,0.00000,1.00000|">
+   </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
    </PIN>
    </NODE>
    <NODE id="8" systemname="IOBox (Enumerations)" nodename="IOBox (Enumerations)" componentmode="InABox">
@@ -30,6 +32,8 @@
    <PIN pinname="Input Enum" slicecount="1" values="COM3">
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
    </PIN>
    </NODE>
    <NODE id="7" nodename="RS232 (Devices)" systemname="RS232 (Devices)" filename="%VVVV%\lib\nodes\plugins\VVVV.Nodes.dll" componentmode="Hidden">
@@ -67,6 +71,8 @@
    </PIN>
    <PIN pinname="Connected" visible="1">
    </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
+   </PIN>
    </NODE>
    <NODE id="6" systemname="IOBox (Value Advanced)" nodename="IOBox (Value Advanced)" componentmode="InABox">
    <PIN pinname="Y Output Value" visible="1">
@@ -85,6 +91,8 @@
    </PIN>
    <PIN pinname="Descriptive Name" slicecount="1" values="Connect">
    </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
+   </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="4">
    <BOUNDS type="Box" left="3105" top="10215" width="795" height="240">
@@ -99,6 +107,8 @@
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
+   </PIN>
    </NODE>
    <LINK srcnodeid="4" srcpinname="Y Output Value" dstnodeid="7" dstpinname="Baudrate">
    </LINK>
@@ -112,6 +122,8 @@
    <PIN pinname="Descriptive Name" slicecount="1" values="|Bytes To Send|">
    </PIN>
    <PIN pinname="Input Node" visible="1" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
    </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="2">
@@ -133,6 +145,8 @@
    </PIN>
    <PIN pinname="Y Input Value" visible="1">
    </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
+   </PIN>
    </NODE>
    <LINK srcnodeid="2" srcpinname="Y Output Value" dstnodeid="7" dstpinname="Do Send" linkstyle="VHV">
    <LINKPOINT x="4215" y="9900">
@@ -145,24 +159,6 @@
    <LINK srcnodeid="1" srcpinname="Message Out" dstnodeid="3" dstpinname="Input Node">
    </LINK>
    <LINK srcnodeid="1" srcpinname="Change" dstnodeid="2" dstpinname="Y Input Value">
-   </LINK>
-   <NODE nodename="IOBox (Color)" componentmode="InABox" id="9">
-   <BOUNDS type="Box" left="2475" top="7335" width="4965" height="390">
-   </BOUNDS>
-   <BOUNDS type="Node" left="2475" top="7335" width="0" height="0">
-   </BOUNDS>
-   <PIN pinname="Color Input" slicecount="2" visible="1" values="|0.84090,0.00000,0.81220,1.00000|,|0.83455,0.00000,0.30534,1.00000|">
-   </PIN>
-   <PIN pinname="Rows" slicecount="1" values="1">
-   </PIN>
-   <PIN pinname="Columns" slicecount="1" values="2">
-   </PIN>
-   <PIN pinname="SliceCount Mode" slicecount="1" values="ColsRowsPages">
-   </PIN>
-   <PIN pinname="Color Output" visible="1">
-   </PIN>
-   </NODE>
-   <LINK srcnodeid="9" srcpinname="Color Output" dstnodeid="1" dstpinname="Colors In">
    </LINK>
    <NODE systemname="PitchPlease (PitchPlease)" filename="D:\repositories\PitchPlease\vvvv\vl\VVVV.Value.PitchPlease.vl" nodename="PitchPlease (Value)" componentmode="Hidden" id="10">
    <BOUNDS type="Node" left="2475" top="6690" width="2160" height="270">
@@ -189,6 +185,8 @@
    </PIN>
    <PIN pinname="Colors Mono" visible="1">
    </PIN>
+   <BOUNDS type="Box" left="2475" top="6690">
+   </BOUNDS>
    </NODE>
    <NODE systemname="FFT (DShow9 4Channels)" filename="%VVVV%\lib\nodes\modules\DShow9\FFT (DShow9 4Channels).v4p" nodename="FFT (DShow9 4Channels)" componentmode="Hidden" id="11">
    <BOUNDS type="Node" left="2685" top="5790" width="100" height="100">
@@ -203,6 +201,8 @@
    </PIN>
    <PIN pinname="BassOut" visible="1">
    </PIN>
+   <BOUNDS type="Box" left="2685" top="5790">
+   </BOUNDS>
    </NODE>
    <NODE nodename="IOBox (Enumerations)" componentmode="InABox" id="12">
    <BOUNDS type="Box" left="3105" top="4635" width="1590" height="270">
@@ -289,6 +289,8 @@
    </PIN>
    <PIN pinname="Peers" visible="1">
    </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
+   </PIN>
    </NODE>
    <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="17">
    <BOUNDS type="Box" left="13560" top="3975" width="795" height="240">
@@ -302,6 +304,8 @@
    <PIN pinname="Precision" slicecount="1" values="4">
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
    </PIN>
    </NODE>
    <LINK srcnodeid="17" srcpinname="Y Output Value" dstnodeid="16" dstpinname="BPM In">
@@ -321,6 +325,8 @@
    </PIN>
    <PIN pinname="Behavior" slicecount="1" values="Bang">
    </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
+   </PIN>
    </NODE>
    <LINK srcnodeid="18" srcpinname="Y Output Value" dstnodeid="16" dstpinname="Set Tempo">
    </LINK>
@@ -338,6 +344,8 @@
    <PIN pinname="Value Type" slicecount="1" values="Boolean">
    </PIN>
    <PIN pinname="Behavior" slicecount="1" values="Bang">
+   </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
    </PIN>
    </NODE>
    <LINK srcnodeid="19" srcpinname="Y Output Value" dstnodeid="16" dstpinname="Reset">
@@ -359,6 +367,8 @@
    </PIN>
    <PIN pinname="X Input Value" slicecount="1" values="0">
    </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
+   </PIN>
    </NODE>
    <LINK srcnodeid="20" srcpinname="Y Output Value" dstnodeid="16" dstpinname="Enabled">
    </LINK>
@@ -373,6 +383,8 @@
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
+   </PIN>
    </NODE>
    <LINK srcnodeid="16" srcpinname="Beat" dstnodeid="21" dstpinname="Y Input Value">
    </LINK>
@@ -384,6 +396,8 @@
    <PIN pinname="Units" slicecount="1" values="||">
    </PIN>
    <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
    </PIN>
    </NODE>
    <LINK srcnodeid="16" srcpinname="Phase" dstnodeid="22" dstpinname="Y Input Value">
@@ -399,6 +413,8 @@
    </PIN>
    <PIN pinname="Y Output Value" visible="1">
    </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
+   </PIN>
    </NODE>
    <LINK srcnodeid="16" srcpinname="Session BPM" dstnodeid="23" dstpinname="Y Input Value">
    </LINK>
@@ -413,11 +429,41 @@
    </PIN>
    <PIN pinname="Value Type" slicecount="1" values="Integer">
    </PIN>
+   <PIN pinname="Evaluate" slicecount="1" values="0">
+   </PIN>
    </NODE>
    <LINK srcnodeid="16" srcpinname="Peers" dstnodeid="24" dstpinname="Y Input Value">
    </LINK>
    <LINK srcnodeid="3" srcpinname="Output Node" dstnodeid="7" dstpinname="Input">
    </LINK>
-   <LINK srcnodeid="10" srcpinname="Colors Mono" dstnodeid="9" dstpinname="Color Input">
+   <NODE systemname="MainLoop (VVVV)" nodename="MainLoop (VVVV)" componentmode="Hidden" id="-6">
+   <BOUNDS type="Node" left="5385" top="6690" width="100" height="100">
+   </BOUNDS>
+   <PIN pinname="Maximum Foreground FPS" visible="1">
+   </PIN>
+   <PIN pinname="Maximum Background FPS" visible="1">
+   </PIN>
+   </NODE>
+   <NODE nodename="IOBox (Value Advanced)" componentmode="InABox" id="25">
+   <BOUNDS type="Box" left="5385" top="5790" width="795" height="240">
+   </BOUNDS>
+   <BOUNDS type="Node" left="5385" top="5790" width="0" height="0">
+   </BOUNDS>
+   <PIN pinname="Y Input Value" slicecount="1" visible="1" values="60">
+   </PIN>
+   <PIN pinname="Units" slicecount="1" values="||">
+   </PIN>
+   <PIN pinname="Precision" slicecount="1" values="4">
+   </PIN>
+   <PIN pinname="Value Type" slicecount="1" values="Integer">
+   </PIN>
+   <PIN pinname="Descriptive Name" slicecount="1" values="|Maximum FPS|">
+   </PIN>
+   <PIN pinname="Y Output Value" visible="1">
+   </PIN>
+   </NODE>
+   <LINK srcnodeid="25" srcpinname="Y Output Value" dstnodeid="-6" dstpinname="Maximum Foreground FPS">
+   </LINK>
+   <LINK srcnodeid="25" srcpinname="Y Output Value" dstnodeid="-6" dstpinname="Maximum Background FPS">
    </LINK>
    </PATCH>

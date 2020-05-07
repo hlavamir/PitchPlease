@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>VL.UI.GraphicalEditor.Skia</name>
+    </assembly>
+    <members>
+        <member name="T:VL.GraphicalEditor.Skia.GraphEditor">
+            <summary>
+            A control on which graphical editing takes place
+            </summary>
+        </member>
+        <member name="F:VL.GraphicalEditor.Skia.GraphEditor.components">
+            <summary>
+            Designer variable used to keep track of non-visual components.
+            </summary>
+        </member>
+        <member name="M:VL.GraphicalEditor.Skia.GraphEditor.Dispose(System.Boolean)">
+            <summary>
+            Disposes resources used by the control.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:VL.GraphicalEditor.Skia.GraphEditor.InitializeComponent">
+            <summary>
+            This method is required for Windows Forms designer support.
+            Do not change the method contents inside the source code editor. The Forms designer might
+            not be able to load this method if it was changed manually.
+            </summary>
+        </member>
+        <member name="T:VL.GraphicalEditor.Skia.Polygon">
+            <remarks>
+            The relation between the polygons points, its position and its anchor are as follows:
+            - points are interpreted relative to the position
+            - the anchor specifies how the position relates to the points bounding rectangle
+            The two recommended ways of using a polygon are therefore:
+            - either specify points in a way that they assume position is their topleft corner and then use the anchor to move the polygon around in respect to the position
+            - or don't touch the anchor and specify points relatively around the position
+            </remarks>
+        </member>
+        <member name="T:VL.GraphicalEditor.Skia.Text">
+            <summary>
+            Text class
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -6,7 +6,7 @@
 
 #define NUM_LEDS_RECEIVE 10 // since the patterns are symmetrical, only receiving half of the data
 
-#define DATA_PIN_0 2
+#define DATA_PIN_0 4
 #define DATA_PIN_1 3
 
 CRGB leds[NUM_STRIPS][NUM_LEDS];
@@ -31,6 +31,16 @@ static int modeCrr  = 0;
 static byte incomingColorBuffer[incomingColorBufferSize];
 static int  incomingColorPos = 0;
 
+static unsigned long incomingLastTime = 0;
+
+// standalone mode variables
+static float idleHue[2];
+static float idleHueOffset = 0.1;
+
+static int idleSaturation = 192;
+static int idleBrightness = 255;
+static int idlePeriod = 600; // seconds
+
 void setup() {
   Serial.begin(57600);
 
@@ -41,6 +51,9 @@ void setup() {
   testRGB(); 
 
   for(int i = 0; i < incomingColorBufferSize; i++) incomingColorBuffer[i] = 0;
+
+  idleHue[0] = 0;
+  idleHue[1] = idleHueOffset;
 }
 
 void testRGB(){
@@ -111,6 +124,8 @@ void setLEDs(){
 
 void updateLEDs(){
   if(incomingColorBuffer[incomingColorBufferSize - 1] == 255){
+    incomingLastTime = millis();
+    
     LEDWriteStart = micros();
 
     modeCrr = incomingColorBuffer[incomingColorBufferSize - 2];
@@ -120,13 +135,11 @@ void updateLEDs(){
     incomingColorBuffer[incomingColorBufferSize - 1] = 0;
 
     LEDWriteEnd = micros();
-    processFps();
+    
   }  
 }
 
-void processFps(){
-  timeNow = millis();
-  
+void processFps(){  
   if(timeNow - timeLF > 0){
     fpsNow = 1000.0 / (timeNow - timeLF);
     fpsAvg = (0.99 * fpsAvg) + (0.01 * fpsNow);
@@ -140,13 +153,38 @@ void processFps(){
     Serial.print("/ LED ");
     Serial.println(LEDWriteEnd - LEDWriteStart);
   }
+}
 
-  timeLF = timeNow;
+void standaloneBehaviour(){
+  idleHue[0] = (idleHue[0] / 255) + (((timeNow - timeLF) / 1000.0) / idlePeriod);
+  idleHue[1] = idleHue[0] + idleHueOffset;
+
+  for(int i = 0; i < NUM_STRIPS; i++){
+    if(idleHue[i] >= 1) idleHue[i] -= 1;
+
+    idleHue[i] *= 255;
+    
+    for(int j = 0; j < NUM_LEDS; j++){
+      leds[i][j] = CHSV(idleHue[i],  idleSaturation, idleBrightness);
+    }
+  }
+
+  FastLED.show();   
 }
 
 void loop() {
+  timeNow = millis();
+  
   //testRGB(); // for debugging hardware problems
   
   processIncoming();
   updateLEDs();  
+  
+
+  if(timeNow - incomingLastTime >= 5000){
+    standaloneBehaviour();
+  }
+
+  processFps();
+  timeLF = timeNow;
 }

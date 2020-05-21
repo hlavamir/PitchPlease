@@ -6430,7 +6430,7 @@
             <Pin Id="JfPXjDCuw1bLR235WxHTOI" Name="Open Output Channels" Kind="OutputPin" />
             <Pin Id="FK1DGqeHoqQOn6DrLjoNoV" Name="Buffer Size" Kind="OutputPin" />
           </Node>
-          <Pad Id="HHoGWqaih9sPGjsnQ0XVvq" Comment="Driver" Bounds="1335,2129,154,15" ShowValueBox="true" isIOBox="true" Value="Komplete Audio 6">
+          <Pad Id="HHoGWqaih9sPGjsnQ0XVvq" Comment="Driver" Bounds="1335,2129,154,15" ShowValueBox="true" isIOBox="true" Value="ASIO4ALL v2">
             <p:TypeAnnotation LastCategoryFullName="Audio" LastSymbolSource="VL.Audio.vl">
               <Choice Kind="TypeFlag" Name="AsioInputDevice" />
             </p:TypeAnnotation>
@@ -6438,7 +6438,7 @@
           <Pad Id="JYolwNPoslVO3Ijzng1NTi" Comment="Driver Input Channels" Bounds="1390,2210,35,15" ShowValueBox="true" isIOBox="true" />
           <Pad Id="Nw1WrNUTGFqPrttPYqiQkr" Comment="Open Input Channels" Bounds="1500,2261,35,15" ShowValueBox="true" isIOBox="true" />
         </Canvas>
-        <Patch Id="CeSpNUykYr4MEjdBKV8mIq" Name="Create" ParticipatingElements="HVnFFTRwN6dLy1Ynm704QT,CY5dFMwNOZxOgAxJ0ibY1f,MiAJZPP05RSPpWgbDJCmKp,CSs80hkw4gJPJUq8UGBlkr,ILUht4AV0FjPhUmU319TGF,OKGgNcS4dHFNM8FKuG364Y" />
+        <Patch Id="CeSpNUykYr4MEjdBKV8mIq" Name="Create" ParticipatingElements="CY5dFMwNOZxOgAxJ0ibY1f,HVnFFTRwN6dLy1Ynm704QT,MiAJZPP05RSPpWgbDJCmKp,CSs80hkw4gJPJUq8UGBlkr,ILUht4AV0FjPhUmU319TGF,OKGgNcS4dHFNM8FKuG364Y" />
         <Patch Id="AFWHnnKwDoSMYgwtrogLS8" Name="Update" />
         <ProcessDefinition Id="PwhdyMmE08qOgbTPzwKgs4">
           <Fragment Id="TXuCSFnlhbNQS6u09EEnvH" Patch="CeSpNUykYr4MEjdBKV8mIq" Enabled="true" />

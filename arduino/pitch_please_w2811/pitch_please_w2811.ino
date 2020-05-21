@@ -75,6 +75,7 @@ void testRGB(){
 
 void processIncoming(){
   while(Serial.available() > 0){
+    incomingLastTime = timeNow;
     incomingColorBuffer[incomingColorPos] = byte(Serial.read());
 
     if(incomingColorBuffer[incomingColorPos] == 255){
@@ -123,9 +124,7 @@ void setLEDs(){
 }
 
 void updateLEDs(){
-  if(incomingColorBuffer[incomingColorBufferSize - 1] == 255){
-    incomingLastTime = millis();
-    
+  if(incomingColorBuffer[incomingColorBufferSize - 1] == 255){    
     LEDWriteStart = micros();
 
     modeCrr = incomingColorBuffer[incomingColorBufferSize - 2];
@@ -181,7 +180,7 @@ void loop() {
   updateLEDs();  
   
 
-  if(timeNow - incomingLastTime >= 5000){
+  if(timeNow - incomingLastTime >= 10000 || incomingLastTime == 0){
     standaloneBehaviour();
   }
 

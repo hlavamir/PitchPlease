@@ -1,6 +1,6 @@
 <!DOCTYPE PATCH  SYSTEM "http://vvvv.org/versions/vvvv50alpha39.1.dtd" >
    <PATCH nodename="D:\repositories\PitchPlease\vvvv\root.v4p" systemname="200126 pitch please" filename="D:\hlava\Work\arduino\pitch_please_191222\vvvv\200126 pitch please.v4p" scrollx="615" scrolly="3945">
-   <BOUNDS type="Window" left="1230" top="750" width="7695" height="4650">
+   <BOUNDS type="Window" left="12855" top="285" width="7695" height="4650">
    </BOUNDS>
    <PACK Name="dx11" Version="1.3.1">
    </PACK>
@@ -57,7 +57,7 @@
    </BOUNDS>
    <BOUNDS type="Node" left="2055" top="4875" width="0" height="0">
    </BOUNDS>
-   <PIN pinname="Input Enum" slicecount="1" visible="1" values="|Input 1/2 (Komplete Audio 6 WDM Audio)|">
+   <PIN pinname="Input Enum" slicecount="1" visible="1" values="|Input 3/4 (Komplete Audio 6 WDM Audio)|">
    </PIN>
    <PIN pinname="Default" slicecount="1" values="|Pole mikrofonu (Realtek High Definition Audio)|">
    </PIN>

@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>VL.Skia</id>
+    <version>2021.3.0-0042-g1caddcdcf2</version>
+    <authors>vvvv group</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">LGPL-3.0-only</license>
+    <licenseUrl>https://licenses.nuget.org/LGPL-3.0-only</licenseUrl>
+    <projectUrl>http://vvvv.org/</projectUrl>
+    <description>A 2d graphics rendering library</description>
+    <copyright>Copyright © 2021 by vvvv group. All rights reserved.</copyright>
+    <tags>2d, renderer, image, gif, svg, pdf, text, touch</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2">
+        <dependency id="VL.CoreLib" version="2021.3.0-0042-g1caddcdcf2" exclude="Build,Analyzers" />
+        <dependency id="VL.Core" version="2021.3.0-0042-g1caddcdcf2" exclude="Build,Analyzers" />
+        <dependency id="VL.UI.Core" version="2021.3.0-0042-g1caddcdcf2" exclude="Build,Analyzers" />
+        <dependency id="OpenTK" version="3.2.0" exclude="Build,Analyzers" />
+        <dependency id="OpenTK.GLControl" version="3.1.0" exclude="Build,Analyzers" />
+        <dependency id="SkiaSharp" version="1.68.2-preview.45" exclude="Build,Analyzers" />
+        <dependency id="SkiaSharp.Svg" version="1.60.0" exclude="Build,Analyzers" />
+        <dependency id="SkiaSharp.Views" version="1.68.2-preview.45" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.Win32.Primitives" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.AppContext" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Console" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Diagnostics.Tracing" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Drawing.Primitives" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Globalization.Calendars" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO.Compression" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO.Compression.ZipFile" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO.FileSystem" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO.FileSystem.Primitives" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO.Pipes" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Linq" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Linq.Expressions" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Net.Http" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Net.Sockets" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Reflection" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Runtime" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Runtime.Extensions" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Runtime.InteropServices" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Runtime.InteropServices.RuntimeInformation" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Security.Cryptography.Algorithms" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Security.Cryptography.Encoding" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Security.Cryptography.Primitives" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Security.Cryptography.X509Certificates" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Text.RegularExpressions" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Xml.ReaderWriter" targetFramework=".NETFramework4.7.2" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

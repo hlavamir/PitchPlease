@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>VL.CoreLib</id>
+    <version>2021.3.0-0042-g1caddcdcf2</version>
+    <authors>vvvv, Dominik Koller, Natan Sinigaglia, Woeishi Lean</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">LGPL-3.0-only</license>
+    <licenseUrl>https://licenses.nuget.org/LGPL-3.0-only</licenseUrl>
+    <projectUrl>https://vvvv.org/</projectUrl>
+    <description>The VL core node library.</description>
+    <copyright>Copyright © 2021 by vvvv group. All rights reserved.</copyright>
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2">
+        <dependency id="VL.Lang" version="2021.3.0-0042-g1caddcdcf2" exclude="Build,Analyzers" />
+        <dependency id="AudioSwitcher.AudioApi" version="4.0.0-alpha5" exclude="Build,Analyzers" />
+        <dependency id="AudioSwitcher.AudioApi.CoreAudio" version="4.0.0-alpha5" exclude="Build,Analyzers" />
+        <dependency id="FSharp.Core" version="5.0.0" exclude="Build,Analyzers" />
+        <dependency id="FsPickler" version="4.0.0" exclude="Build,Analyzers" />
+        <dependency id="FsPickler.CSharp" version="4.0.0" exclude="Build,Analyzers" />
+        <dependency id="FsPickler.Json" version="4.0.0" exclude="Build,Analyzers" />
+        <dependency id="MathNet.Numerics" version="3.20.2" exclude="Build,Analyzers" />
+        <dependency id="NUnit" version="3.12.0" exclude="Build,Analyzers" />
+        <dependency id="Ookii.Dialogs.WindowsForms" version="1.0.0" exclude="Build,Analyzers" />
+        <dependency id="SharpDX.Direct2D1" version="4.2.0" exclude="Build,Analyzers" />
+        <dependency id="WebSocketSharp" version="1.0.3-rc11" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.VisualBasic" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="Microsoft.Win32.Primitives" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.AppContext" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Console" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Diagnostics.Tracing" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Drawing.Primitives" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Globalization.Calendars" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO.Compression" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO.Compression.ZipFile" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO.FileSystem" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO.FileSystem.Primitives" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO.Pipes" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Linq" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Linq.Expressions" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Management" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Net.Http" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Net.Sockets" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Reflection" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Runtime" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Runtime.Extensions" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Runtime.InteropServices" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Runtime.InteropServices.RuntimeInformation" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Security.Cryptography.Algorithms" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Security.Cryptography.Encoding" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Security.Cryptography.Primitives" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Security.Cryptography.X509Certificates" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Text.RegularExpressions" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Xml.ReaderWriter" targetFramework=".NETFramework4.7.2" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

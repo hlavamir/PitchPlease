@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Pack>
+	<Topic title="IO">
+		<VLDocument link="IO\HowTo Receive a stream of data.vl" tags="tokenizer byte serialport rs232 tcp" />
+		<VLDocument link="IO\HowTo Send a stream of data.vl" tags="tokenizer byte serialport rs232 tcp" />		
+	</Topic>
+	<Topic title="Primitive">
+		<VLDocument link="Primitive\HowTo Convert a Number to a String.vl" tags="format" />
+	</Topic>
+</Pack>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>VL.Stride.DefaultAssets</id>
+    <version>0.9.51-g4d69f0ee2b</version>
+    <authors>vvvv group</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/vvvv/VL.Stride</projectUrl>
+    <description>VL.Stride.DefaultAssets</description>
+    <copyright>Copyright © 2021 by vvvv group. All rights reserved.</copyright>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Stride.Core.Assets.CompilerApp" version="4.0.1.1397-beta" exclude="Runtime,Compile,Build,Native,Analyzers" />
+        <dependency id="Stride.Engine" version="4.0.1.1397-beta" exclude="Build,Analyzers" />
+        <dependency id="Stride.Navigation" version="4.0.1.1397-beta" exclude="Build,Analyzers" />
+        <dependency id="Stride.Particles" version="4.0.1.1397-beta" exclude="Build,Analyzers" />
+        <dependency id="Stride.Physics" version="4.0.1.1397-beta" exclude="Build,Analyzers" />
+        <dependency id="Stride.UI" version="4.0.1.1397-beta" exclude="Build,Analyzers" />
+        <dependency id="Stride.Video" version="4.0.1.1397-beta" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

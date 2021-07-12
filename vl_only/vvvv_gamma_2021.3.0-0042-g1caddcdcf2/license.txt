@@ -1,0 +1,62 @@
+-------------------------------------------
+vvvv End User License Agreement 
+Last updated: ​February 19, 2020
+-------------------------------------------
+
+By downloading, installing or using vvvv, you're agreeing to the following terms. If you have any questions regarding this EULA, please contact us via:
+ licensing@vvvv.org
+
+1) License Grant
+Talking about the ownership of software is weird because of the fact that it can so easily be duplicated. Therefore it is commonly agreed that the creator of a software is its owner, who grants users a license to use the software.
+ 
+So in the present case of vvvv, we are the creators and owners and we grant you a limited, revocable, non-exclusive license to use it, if - and only if - you agree to all points of this very agreement.
+
+2) Commercial Use
+If you're using vvvv for purposes which are intended for, or directed toward, commercial advantage or private monetary compensation, such usage needs to be covered by commercial vvvv licenses.
+
+vvvv is distributed worldwide exclusively by:
+vvvv - Dießl & Gregor GbR
+Oranienstrasse 10
+10997 Berlin, Germany
+
+Commercial licenses can be optained online:
+ https://vvvv.org/licensing
+
+3) Restrictions on Use
+As we grant you a license to use vvvv, we can also tell you what you must not do with it! Let's see...
+
+- You must not reverse engineer, decompile or disassemble any part of vvvv
+- You must not modify and/or remove any copyright notices or labels on the software
+- You must not distribute or modify the software or parts of it, including graphics or text without written consent from us
+ 
+4) Ownership and Copyright
+Three things here:
+- Ownership rights and intellectual property rights in vvvv remain with us or the relevant third-party owners and you have no rights in or to vvvv other than the right to use it in accordance with the terms of this EULA
+- Related rights in the content accessed through vvvv is the property of the applicable content owner and may be protected by applicable law. This license gives you no rights to such content
+- You acknowledge and agree that, in case a third party claims that vvvv or your possession or use of vvvv violates any third party's intellectual property rights, we cannot be held responsible for that
+
+5) Disclaimer of Warranties
+This section is usually written in ALL CAPS to make it look more serious. Seriously, this only makes it harder to read, so here goes without the caps:
+
+vvvv is provided "as is", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or other dealings in the software.
+
+Why must this sound so harsh? Well, basically this is about the fact that as software developers we're standing on the shoulders of giants and even if vvvv itself was perfect, we cannot guarantee that those giants don't have their issues. And so whenever something goes wrong, while to you it may seem as vvvv's fault, it could actually be one of the giants. And defending against such claims is something we simply cannot afford.
+
+6) Termination of Licensing
+This one is simple: In case you fail to comply to this EULA, the license we grant you in 1) is revoked and you have to immediately delete all copies of vvvv and stop using it. 
+
+7) Open Source Parts
+vvvv itself humbly uses open source libraries, which are distributed under and are subject to the terms of their respective licenses. A detailed listing is available with the download in the file: 
+ opensource-dependencies.xml
+
+8) Amendments to this Agreement
+We reserve the right to change the terms of this agreement at any time. Should there be notable changes, they will be announced on our website. If you fail to receive notification of a change, this does not make those changes invalid.
+
+9) Governing Law and Juristiction
+In the unlikely event of any dispute between you and us regarding this EULA and/or your use of vvvv, you agree that only the laws of Germany/Berlin will apply. 
+
+That was it. 
+Thanks for reading and respecting the above. 
+Have a good patch!
+
+EOF.

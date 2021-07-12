@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>VL.CoreLib.Windows</id>
+    <version>2021.3.0-0042-g1caddcdcf2</version>
+    <authors>vvvv group</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">LGPL-3.0-only</license>
+    <licenseUrl>https://licenses.nuget.org/LGPL-3.0-only</licenseUrl>
+    <projectUrl>http://vvvv.org/</projectUrl>
+    <description>Windows specific VL CoreLib</description>
+    <copyright>Copyright © 2021 by vvvv group. All rights reserved.</copyright>
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2">
+        <dependency id="SharpDX.Direct3D11" version="4.2.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework=".NETFramework4.7.2" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

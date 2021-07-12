@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>VL.Core</id>
+    <version>2021.3.0-0042-g1caddcdcf2</version>
+    <authors>vvvv group</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>http://vvvv.org/</projectUrl>
+    <description>The VL core library.</description>
+    <copyright>Copyright © 2021 by vvvv group. All rights reserved.</copyright>
+    <dependencies>
+      <group targetFramework=".NETStandard2.0">
+        <dependency id="Irony.Interpreter" version="1.1.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Extensions.ObjectPool" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.NETCore.Platforms" version="2.2.3" exclude="Build,Analyzers" />
+        <dependency id="Stride.Core.Mathematics" version="4.0.1.1397-beta" include="Runtime,Compile,Native,ContentFiles,Analyzers" />
+        <dependency id="System.Buffers" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Collections.Immutable" version="1.6.0" exclude="Build,Analyzers" />
+        <dependency id="System.Configuration.ConfigurationManager" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Drawing.Common" version="4.5.1" exclude="Build,Analyzers" />
+        <dependency id="System.Drawing.Primitives" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Interactive" version="4.0.0" exclude="Build,Analyzers" />
+        <dependency id="System.Management" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Memory" version="4.5.3" exclude="Build,Analyzers" />
+        <dependency id="System.Numerics.Vectors" version="4.5.0" exclude="Build,Analyzers" />
+        <dependency id="System.Reactive" version="4.3.2" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.CompilerServices.Unsafe" version="4.5.2" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

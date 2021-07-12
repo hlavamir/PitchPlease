@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>VL.UI.Core</id>
+    <version>2021.3.0-0042-g1caddcdcf2</version>
+    <authors>vvvv group</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>http://vvvv.org/</projectUrl>
+    <description>The VL UI core library.</description>
+    <copyright>Copyright © 2021 by vvvv group. All rights reserved.</copyright>
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2">
+        <dependency id="VL.Core" version="2021.3.0-0042-g1caddcdcf2" exclude="Build,Analyzers" />
+        <dependency id="ExCSS-Core" version="4.0.5" exclude="Build,Analyzers" />
+        <dependency id="SkiaSharp" version="1.68.2-preview.45" exclude="Build,Analyzers" />
+        <dependency id="SkiaSharp.Svg" version="1.60.0" exclude="Build,Analyzers" />
+        <dependency id="VVVV.NuGetAssemblyLoader" version="0.1.25" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="System.Drawing.Primitives" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.IO.Pipes" targetFramework=".NETFramework4.7.2" />
+      <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework=".NETFramework4.7.2" />
+    </frameworkAssemblies>
+    <contentFiles>
+      <files include="any/net472/Icons/arrow.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/check-1.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/check-2.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/collaps-.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/collaps-1.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/collaps-2.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/definitionback.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/lock-1.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/lock-2.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/open.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/palette.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/plus.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/record-1.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/record-2.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Icons/screenshot.svg" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Stylesheets/CSharp-Mode.xshd" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Stylesheets/dark.css" buildAction="None" copyToOutput="true" />
+      <files include="any/net472/Stylesheets/light.css" buildAction="None" copyToOutput="true" />
+    </contentFiles>
+  </metadata>
+</package>

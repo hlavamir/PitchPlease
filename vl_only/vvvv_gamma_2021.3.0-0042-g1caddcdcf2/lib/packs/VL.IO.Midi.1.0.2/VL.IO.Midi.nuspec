@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>VL.IO.Midi</id>
+    <version>1.0.2</version>
+    <title>VL.IO.Midi</title>
+    <authors>vvvv, Leslie Sanford</authors>
+    <owners>vvvv</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>icon\nugeticon.png</icon>
+    <projectUrl>https://github.com/vvvv/VL.IO.Midi</projectUrl>
+    <description>Midi nodes for VL</description>
+    <summary>Midi nodes for VL</summary>
+    <tags>VL</tags>
+    <dependencies>
+      <group targetFramework=".NETFramework4.7.2">
+        <dependency id="Sanford.Multimedia.Midi" version="6.6.2" />
+      </group>
+    </dependencies>
+  </metadata>
+</package>

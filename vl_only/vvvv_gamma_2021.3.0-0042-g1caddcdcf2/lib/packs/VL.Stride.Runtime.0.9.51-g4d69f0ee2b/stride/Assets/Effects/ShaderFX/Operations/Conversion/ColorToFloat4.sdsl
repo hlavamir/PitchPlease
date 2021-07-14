@@ -1,9 +1,0 @@
-﻿shader ColorToFloat4 : ComputeFloat4
-{
-    compose ComputeColor Value;
-
-    override float4 Compute()
-    {
-        return Value.Compute();
-    }
-};

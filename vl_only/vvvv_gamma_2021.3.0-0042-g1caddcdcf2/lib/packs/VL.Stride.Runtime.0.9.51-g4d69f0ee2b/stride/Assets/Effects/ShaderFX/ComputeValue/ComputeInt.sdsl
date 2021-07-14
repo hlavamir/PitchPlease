@@ -1,7 +1,0 @@
-﻿shader ComputeInt
-{
-    int Compute()
-    {
-        return 0;
-    }
-};

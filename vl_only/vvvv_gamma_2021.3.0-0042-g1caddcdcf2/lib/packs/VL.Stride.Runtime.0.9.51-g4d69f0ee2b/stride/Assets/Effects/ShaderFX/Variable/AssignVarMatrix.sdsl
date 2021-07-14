@@ -1,9 +1,0 @@
-﻿shader AssignVarMatrix<MemberName VarName> : ComputeVoid, StreamVariableMatrix<VarName>
-{
-    compose ComputeMatrix Value;
-
-    override void Compute()
-    {
-        streams.VarName = Value.Compute();
-    }
-};

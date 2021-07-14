@@ -1,8 +1,0 @@
-﻿shader DeclBufferFloat4<LinkType BufferName, MemberName ResourceGroupName>
-{
-    rgroup ResourceGroupName
-    {
-        [Link("BufferName")]
-        stage Buffer<float4> DynamicBuffer;
-    }
-};

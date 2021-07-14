@@ -1,9 +1,0 @@
-﻿shader AssignVarUInt<MemberName VarName> : ComputeVoid, StreamVariableUInt<VarName>
-{
-    compose ComputeUInt Value;
-
-    override void Compute()
-    {
-        streams.VarName = Value.Compute();
-    }
-};

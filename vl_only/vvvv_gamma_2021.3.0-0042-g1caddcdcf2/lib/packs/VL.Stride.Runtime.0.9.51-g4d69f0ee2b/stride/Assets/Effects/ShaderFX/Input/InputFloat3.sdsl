@@ -1,7 +1,0 @@
-﻿shader InputFloat3<LinkType KeyName, MemberName CBufferName> : ComputeFloat3, DeclFloat3<KeyName, CBufferName>
-{
-    override float3 Compute()
-    {
-        return InputValue;
-    }
-};

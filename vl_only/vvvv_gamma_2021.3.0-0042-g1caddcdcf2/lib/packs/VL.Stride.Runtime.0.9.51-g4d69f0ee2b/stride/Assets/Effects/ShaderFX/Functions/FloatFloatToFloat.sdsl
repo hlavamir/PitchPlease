@@ -1,7 +1,0 @@
-shader FloatFloatToFloat
-{
-    float Compute(float a, float b)
-    {
-        return a + b;
-    }
-};

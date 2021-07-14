@@ -1,9 +1,0 @@
-﻿shader AssignVarBool<MemberName VarName> : ComputeVoid, StreamVariableBool<VarName>
-{
-    compose ComputeBool Value;
-
-    override void Compute()
-    {
-        streams.VarName = Value.Compute();
-    }
-};

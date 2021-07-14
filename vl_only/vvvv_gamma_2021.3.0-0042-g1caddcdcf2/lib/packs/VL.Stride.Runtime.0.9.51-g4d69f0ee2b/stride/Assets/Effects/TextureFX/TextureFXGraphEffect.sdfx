@@ -1,9 +1,0 @@
-﻿namespace VL.Stride.Effects.TextureFX
-{
-    effect TextureFXGraphEffect
-    {
-        using params TextureFXKeys;
-        mixin TextureFXGraph;
-        mixin TextureFXKeys.TextureFXRoot;
-    };
-}

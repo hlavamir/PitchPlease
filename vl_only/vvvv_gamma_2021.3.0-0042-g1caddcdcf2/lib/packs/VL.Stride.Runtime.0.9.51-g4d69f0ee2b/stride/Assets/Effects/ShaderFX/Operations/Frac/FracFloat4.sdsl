@@ -1,9 +1,0 @@
-﻿shader FracFloat4 : ComputeFloat4
-{
-    compose ComputeFloat4 Value;
-
-    override float4 Compute()
-    {
-        return frac(Value.Compute());
-    }
-};

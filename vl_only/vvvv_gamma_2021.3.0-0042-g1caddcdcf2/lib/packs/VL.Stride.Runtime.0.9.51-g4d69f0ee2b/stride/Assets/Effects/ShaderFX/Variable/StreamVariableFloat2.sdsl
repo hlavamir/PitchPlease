@@ -1,4 +1,0 @@
-﻿shader StreamVariableFloat2<MemberName VarName>
-{
-    stage stream float2 VarName;
-};

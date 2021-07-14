@@ -1,6 +1,0 @@
-﻿shader ComputeVoid
-{
-    void Compute()
-    {
-    }
-};

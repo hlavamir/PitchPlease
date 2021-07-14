@@ -1,7 +1,0 @@
-shader Float3ToFloat3
-{
-    float3 Compute(float3 p)
-    {
-        return p;
-    }
-};

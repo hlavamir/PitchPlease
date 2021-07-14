@@ -1,4 +1,0 @@
-﻿shader StreamVariableUInt<MemberName VarName>
-{
-    stage stream uint VarName;
-};

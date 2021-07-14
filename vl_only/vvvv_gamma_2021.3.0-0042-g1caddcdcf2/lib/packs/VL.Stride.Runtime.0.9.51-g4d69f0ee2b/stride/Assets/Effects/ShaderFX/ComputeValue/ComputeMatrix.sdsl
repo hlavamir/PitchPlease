@@ -1,7 +1,0 @@
-﻿shader ComputeMatrix
-{
-    float4x4 Compute()
-    {
-        return 0;
-    }
-};

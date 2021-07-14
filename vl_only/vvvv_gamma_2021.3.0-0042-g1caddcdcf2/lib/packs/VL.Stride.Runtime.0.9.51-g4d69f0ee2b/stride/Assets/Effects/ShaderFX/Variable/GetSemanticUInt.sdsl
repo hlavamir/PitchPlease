@@ -1,7 +1,0 @@
-﻿shader GetSemanticUInt<MemberName VarName, Semantic NAME> : ComputeUInt, SemanticUInt<VarName, NAME>
-{
-    override uint Compute()
-    {
-        return streams.VarName;
-    }
-};

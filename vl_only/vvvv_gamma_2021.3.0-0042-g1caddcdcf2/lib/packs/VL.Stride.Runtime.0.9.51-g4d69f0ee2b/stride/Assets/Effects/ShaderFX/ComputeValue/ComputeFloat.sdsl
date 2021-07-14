@@ -1,7 +1,0 @@
-﻿shader ComputeFloat
-{
-    float Compute()
-    {
-        return 0;
-    }
-};

@@ -1,9 +1,0 @@
-﻿shader AssignSemanticFloat<MemberName VarName, Semantic NAME> : ComputeVoid, SemanticFloat<VarName, NAME>
-{
-    compose ComputeFloat Value;
-
-    override void Compute()
-    {
-        streams.VarName = Value.Compute();
-    }
-};

@@ -1,7 +1,0 @@
-﻿shader GetVarUInt<MemberName VarName> : ComputeUInt, StreamVariableUInt<VarName>
-{
-    override uint Compute()
-    {
-        return streams.VarName;
-    }
-};

@@ -1,4 +1,0 @@
-﻿shader VS_PS_Base : ShaderBase, PositionStream4, NormalStream, Transformation
-{
-   
-};

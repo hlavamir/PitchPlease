@@ -118,8 +118,8 @@ void setLEDAbsoluteHsv(float hue, float saturation, float value, int ledPanel){
     
   int h = (int)hue;
   float f = hue - h;
-  float p = value * (1 - saturation);
-  float q = value * (1 - f * saturation);
+  /*float p = value * (1 - saturation);
+  float q = value * ((1 - f) * saturation);
   float t = value * (1 - (1 - f) * saturation);
 
   float result[3] = {0, 0, 0};
@@ -131,6 +131,23 @@ void setLEDAbsoluteHsv(float hue, float saturation, float value, int ledPanel){
       case 3:   result[0] = p * 255;      result[1] = q * 255;      result[2] = value * 255;    break;
       case 4:   result[0] = t * 255;      result[1] = p * 255;      result[2] = value * 255;    break;
       case 5:   result[0] = value * 255;  result[1] = p * 255;      result[2] = q * 25;         break;
+  }*/
+
+  float result[3] = {0, 0, 0};
+  
+  switch (h) {
+      case 0:   result[0] =     1; result[1] =     f; result[2] =     0;        break;
+      case 1:   result[0] = 1 - f; result[1] =     1; result[2] =     0;        break;
+      case 2:   result[0] =     0; result[1] =     1; result[2] =     f;        break;
+      case 3:   result[0] =     0; result[1] = 1 - f; result[2] =     1;        break;
+      case 4:   result[0] =     f; result[1] =     0; result[2] =     1;        break;
+      case 5:   result[0] =     1; result[1] =     0; result[2] = 1 - f;        break;
+  }
+
+  for(int i = 0; i < 3; i++){
+    result[i] = 1 - ((1 - result[i]) * saturation);
+    result[i] *= value;
+    result[i] *= 255; 
   }
 
   int off = min(max(ledPanel, 0), 1) * 3;
@@ -142,8 +159,8 @@ void setLEDAbsoluteHsv(float hue, float saturation, float value, int ledPanel){
 }
 
 void standaloneBehaviour(){
-  setLEDAbsoluteHsv(((millis() / 1000) +   0) % 360, 255, 255, 0);
-  setLEDAbsoluteHsv(((millis() / 1000) +  90) % 360, 255, 255, 1);
+  setLEDAbsoluteHsv(359 - (((millis() / 1000) +   0) % 360), 204, 255, 0);
+  setLEDAbsoluteHsv(359 - (((millis() / 1000) +  60) % 360), 204, 255, 1);
 }
 
 void setStatusLED(){

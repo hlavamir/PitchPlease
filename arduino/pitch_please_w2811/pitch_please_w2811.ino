@@ -6,14 +6,18 @@
 
 #define NUM_LEDS_RECEIVE 10 // since the patterns are symmetrical, only receiving half of the data
 
-#define DATA_PIN_0 4
-#define DATA_PIN_1 3
+#define DATA_PIN_0 7
+#define DATA_PIN_1 8
 
 CRGB leds[NUM_STRIPS][NUM_LEDS];
 
 // monitoring
-static float          fpsNow      = 0;
-static float          fpsAvg      = 0;
+static float          fpsNow                = 0;
+static float          fpsAvg                = 0;
+
+static float          calculatedCurrent     = 0;
+static float          maxCalculatedCurrent  = 0;
+
 static unsigned long  timeNow     = 0;
 static unsigned long  timeLF      = 0;
 static unsigned long  LEDWriteStart = 0;
@@ -89,6 +93,23 @@ void processIncoming(){
   }
 }
 
+void outputLED(){
+  // calculate power consumption
+  calculatedCurrent = 0;
+  for(int stripCrr = 0; stripCrr < NUM_STRIPS; stripCrr++){
+    for(int LEDCrr = 0; LEDCrr < NUM_LEDS; LEDCrr++){
+      calculatedCurrent += leds[stripCrr][LEDCrr].r;
+      calculatedCurrent += leds[stripCrr][LEDCrr].g;
+      calculatedCurrent += leds[stripCrr][LEDCrr].b;
+    } 
+  }
+
+  calculatedCurrent = (calculatedCurrent / 255) * (3 * 0.1 / 12); // 12 V strip using 0.1 w per LED, 3 LEDs per segment
+  maxCalculatedCurrent = max(maxCalculatedCurrent, calculatedCurrent);
+
+  FastLED.show(); 
+}
+
 void setLED(int id, int r, int g, int b){
   if(modeCrr == 1){
     for(stripCrr = 0; stripCrr < NUM_STRIPS; stripCrr++){
@@ -130,7 +151,7 @@ void updateLEDs(){
     modeCrr = incomingColorBuffer[incomingColorBufferSize - 2];
     setLEDs();
     
-    FastLED.show();  
+    outputLED();
     incomingColorBuffer[incomingColorBufferSize - 1] = 0;
 
     LEDWriteEnd = micros();
@@ -150,7 +171,12 @@ void processFps(){
     fpsLastMsg += fpsInterval;
 
     Serial.print("/ LED ");
-    Serial.println(LEDWriteEnd - LEDWriteStart);
+    Serial.print(LEDWriteEnd - LEDWriteStart);
+
+    Serial.print("/ Current ");
+    Serial.println(maxCalculatedCurrent);
+
+    maxCalculatedCurrent = 0;
   }
 }
 
@@ -168,7 +194,7 @@ void standaloneBehaviour(){
     }
   }
 
-  FastLED.show();   
+  outputLED(); 
 }
 
 void loop() {

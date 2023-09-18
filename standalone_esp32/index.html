@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="user-scalable=no">
+
+<title>PitchPlease! WebControl 1.0</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+
+body {
+    background: #111;
+    color: #999;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 16px;
+    overflow: hidden;
+    text-align: center;
+}
+
+body, div, h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.items-row-sliders, .items-row-buttons {    
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.items-row-sliders {
+    height: 35vh;
+}
+
+.items-row-buttons {
+    height: 10vh;
+}
+
+.item {
+    flex-grow: 1;
+    width: 25%;
+    margin: 1em;
+    background: #222;
+    border-radius: 1em;
+    overflow: hidden;
+}
+
+h1 {
+    position: relative;
+    left: 0;
+    top: 1em;
+    font-size: 1em;
+    z-index: 100;
+    color: #fff;
+}
+
+.slider {
+    position: relative;    
+}
+
+.slider .ui-slider-range {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+}
+
+.slider .ui-slider-range, .on {
+    background-color: #333;
+}
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+<script type = "text/javascript">
+var sliders = [255, 0, 168, 0, 0, 0, 0, 0];
+var buttons = [0, 1, 0, 0, 0, 0, 0, 0];
+
+$( document ).ready(function(){
+    setInterval(function(){
+        out = "";
+        sliders.forEach(function(element, i){
+            sliders[i] = $("#s" + i).slider("value");
+
+            if(i > 0) out += "-";
+            out += sliders[i];
+        });  
+        
+        buttons.forEach(function(element, i){
+            buttons[i] = $("#b" + i).hasClass("on") ? 1 : 0;
+            out += "-" + buttons[i];
+        });
+        
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/CC?value=" + out, true);
+        xhr.send();
+
+        console.log(out);
+    }, 125);
+
+    sliders.forEach(function(element, i){
+        $("#s" + i).slider({
+            orientation: "vertical",
+            range: "min",
+            min: 0,
+            max: 255,
+            value: sliders[i],
+            slide: function( event, ui ) { }
+        });
+    });
+
+    $(".button").click(function(){
+        $(this).toggleClass("on");
+    });
+
+    buttons.forEach(function(element, i){
+        if(element > 0) $("#b" + i).addClass("on");
+        else $("#b" + i).removeClass("on");
+    });
+});
+
+</script>
+</head>
+
+<body>
+
+<div class="items-row-sliders">
+    <div class="item slider" id="s0"><h1>Blink Decay</h1></div>
+    <div class="item slider" id="s1"><h1>Idle Attack</h1></div>
+    <div class="item slider" id="s2"><h1>Hue</h1></div>
+    <div class="item slider" id="s3"><h1>Strobo Mode</h1></div>
+</div>
+<div class="items-row-sliders">
+    <div class="item slider" id="s4"><h1>Blink Brightness</h1></div>
+    <div class="item slider" id="s5"><h1>Idle Brightness</h1></div>
+    <div class="item slider" id="s6"><h1>Glitch Intensity</h1></div>
+    <div class="item slider" id="s7"><h1>Sensitivity</h1></div>
+</div>
+<div class="items-row-buttons">
+    <div class="item button" id="b0"><h1>Blink Brightness</h1></div>
+    <div class="item button" id="b1"><h1>Idle Brightness</h1></div>
+    <div class="item button" id="b2"><h1>Glitch Intensity</h1></div>
+    <div class="item button" id="b3"><h1>Sensitivity</h1></div>
+</div>
+<div class="items-row-buttons">
+    <div class="item button" id="b4"><h1>Blink Brightness</h1></div>
+    <div class="item button" id="b5"><h1>Idle Brightness</h1></div>
+    <div class="item button" id="b6"><h1>Glitch Intensity</h1></div>
+    <div class="item button" id="b7"><h1>Sensitivity</h1></div>
+</div>
+
+
+</body>
+</html>

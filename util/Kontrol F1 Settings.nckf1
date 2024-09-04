@@ -776,7 +776,7 @@
         </button>
         <knob version="1" id="Volume1">
           <controller>6</controller>
-          <channel>0</channel>
+          <channel>12</channel>
           <min>0</min>
           <max>127</max>
           <default>0</default>

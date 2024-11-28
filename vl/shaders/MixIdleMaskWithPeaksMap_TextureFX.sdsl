@@ -1,0 +1,18 @@
+[Category("Filter")]
+[Summary("")]
+shader MixIdleMaskWithPeaksMap_TextureFX : FilterBase
+{
+
+    float4 Filter(float4 tex0col)
+    {
+        float2 uv = streams.TexCoord;
+
+        float4 idleMask = Texture0.Sample(Sampler0, uv);
+        float4 peaksMap = Texture1.Sample(Sampler1, float2(1 - idleMask.r, 0.5));
+
+        idleMask.rgb = peaksMap.b;
+        idleMask.a = 1;
+
+        return idleMask;
+    }
+};

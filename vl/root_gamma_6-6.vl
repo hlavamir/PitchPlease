@@ -3647,12 +3647,12 @@
                     <Pin Id="C2ue49D01COMG5fCUmrjZE" Name="Result" Kind="OutputPin" />
                   </Node>
                   <ControlPoint Id="UQ2v9H1gfCfMosHFpPeSOq" Bounds="1395,2452" />
-                  <ControlPoint Id="F6Q0U9snusBQOHgEKawzil" Bounds="1467,1791" />
-                  <ControlPoint Id="Q6FNm2s3rJnOA6kS84absu" Bounds="1520,1791" />
-                  <ControlPoint Id="H5RtdCoj0v1LLQe92Gz3MK" Bounds="1574,1791" />
+                  <ControlPoint Id="F6Q0U9snusBQOHgEKawzil" Bounds="1602,1791" />
+                  <ControlPoint Id="Q6FNm2s3rJnOA6kS84absu" Bounds="1655,1791" />
+                  <ControlPoint Id="H5RtdCoj0v1LLQe92Gz3MK" Bounds="1709,1791" />
                   <ControlPoint Id="GEGVMfsB9EILx352UtpmGF" Bounds="1251,1791" />
                   <ControlPoint Id="QM1Tt0LJLzXNkKqutvvaNR" Bounds="1358,1791" />
-                  <Node Bounds="1584,1814,25,19" Id="Ha5PK8stWEePITP1p2nVu6">
+                  <Node Bounds="1719,1814,25,19" Id="Ha5PK8stWEePITP1p2nVu6">
                     <p:NodeReference LastCategoryFullName="Math" LastDependency="VL.CoreLib.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                       <Choice Kind="OperationCallFlag" Name="&gt;" />
@@ -3661,9 +3661,10 @@
                     <Pin Id="IGwXaNy0wr8Ph2nQXaG77k" Name="Input 2" Kind="InputPin" DefaultValue="0.01" />
                     <Pin Id="ONECARPvfnDM0gt4ylsQUr" Name="Result" Kind="OutputPin" />
                   </Node>
-                  <ControlPoint Id="LXLOjsX3z74QBRUhZt99kP" Bounds="1574,2016" />
-                  <ControlPoint Id="OqlH0MIjq6kP0NhzoXJLyd" Bounds="1520,2201" />
-                  <ControlPoint Id="Mi02AEmQFonPaZYWSwepuQ" Bounds="1467,2192" />
+                  <ControlPoint Id="LXLOjsX3z74QBRUhZt99kP" Bounds="1709,2016" />
+                  <ControlPoint Id="OqlH0MIjq6kP0NhzoXJLyd" Bounds="1655,2201" />
+                  <ControlPoint Id="Mi02AEmQFonPaZYWSwepuQ" Bounds="1602,2192" />
+                  <ControlPoint Id="Rtzki7RxjlbMLIH9LpMxEu" Bounds="1481,1791" />
                 </Canvas>
                 <Patch Id="D3qOPGLqkiZNCjtL2Z63nN" Name="Create" />
                 <Patch Id="V8RnQGxYMpWQT3WADEzmSm" Name="Update">
@@ -3681,6 +3682,7 @@
                   <Pin Id="NWI24FEToXGLO2SBKUERwr" Name="Is Blocking" Kind="OutputPin" />
                   <Pin Id="JWCZiQpnb77OrmVnWXYgoZ" Name="Strobo Brightness" Kind="InputPin" />
                   <Pin Id="MSnumfFGtX8NnFyjifqjOF" Name="Idle Brightness" Kind="InputPin" />
+                  <Pin Id="NaX0wmixxbpN0xVx6kqT9i" Name="MixedMask" Kind="InputPin" />
                   <Pin Id="MNNjYJqJCnSQJUNDofalrv" Name="Phase" Kind="InputPin" />
                   <Pin Id="M3McRAO0ICvO6KNFQUJelL" Name="Color" Kind="InputPin" />
                   <Pin Id="Q8fcRqCdZoDLC8xySUyUQ0" Name="Decay" Kind="InputPin" />
@@ -3725,6 +3727,8 @@
                 <Link Id="TmrI3UsAloJQLqLAhFJMhQ" Ids="F6Q0U9snusBQOHgEKawzil,Mi02AEmQFonPaZYWSwepuQ,FxGge0ZgsMgLEeOsnbkKNw" />
                 <Link Id="BGWLADesQ7dQYaeSckjBIz" Ids="H5RtdCoj0v1LLQe92Gz3MK,L8oR8fBaWxtQc6fhhpN7EB" />
                 <Link Id="AEYkbeWo7ueNv4Vue3f2UK" Ids="H5RtdCoj0v1LLQe92Gz3MK,LXLOjsX3z74QBRUhZt99kP,KhSHRuR2cezOHcmGIzkX7M" />
+                <Link Id="HH2vSjR59adN48rL8ffsYr" Ids="Rtzki7RxjlbMLIH9LpMxEu,I8GDs9rKnmzNmxwVGqPLje" />
+                <Link Id="BfzlgmlzFwgLfqoLB1ls54" Ids="NaX0wmixxbpN0xVx6kqT9i,Rtzki7RxjlbMLIH9LpMxEu" IsHidden="true" />
               </Patch>
             </Node>
             <Node Bounds="455,2437,136,19" Id="KHitehV8G9fLe2zBzdrFb6">
@@ -3736,6 +3740,7 @@
               <Pin Id="R2oDizQXOuDLBk1VJfeaHC" Name="Group" Kind="InputPin" />
               <Pin Id="OcxwgDkNQKoQWiXPNnnHDb" Name="Strobo Brightness" Kind="InputPin" />
               <Pin Id="HRxGQ08nUUcN2NBSXcYCa2" Name="Idle Brightness" Kind="InputPin" />
+              <Pin Id="EQ0nSQxOsYoOOxTNLUeZwa" Name="MixedMask" Kind="InputPin" />
               <Pin Id="CKPMNUav5GELeiX4ENas2w" Name="Phase" Kind="InputPin" />
               <Pin Id="Ctj6wEvLHEiPLHQMVxzO0T" Name="Color" Kind="InputPin" />
               <Pin Id="KuPsHTR8J8OOEcwp0DZUdf" Name="Decay" Kind="InputPin" />
@@ -3751,6 +3756,7 @@
               <Pin Id="AucrWJhQJXjPmnSaB8Okob" Name="Group" Kind="InputPin" />
               <Pin Id="CauvYan04ibMf41vMrRSzM" Name="Strobo Brightness" Kind="InputPin" />
               <Pin Id="D4XIfOLcehILljmmBJA8V8" Name="Idle Brightness" Kind="InputPin" />
+              <Pin Id="UXfdg3kcgDILpQ1i6h44f7" Name="MixedMask" Kind="InputPin" />
               <Pin Id="Sof0n4hiwkTOF3WeyWeLpJ" Name="Phase" Kind="InputPin" />
               <Pin Id="Fx3tRqgn2hsMFXeidTTZ03" Name="Color" Kind="InputPin" />
               <Pin Id="DHXl5Z0sY3cNdOApVlMvCZ" Name="Decay" Kind="InputPin" />
@@ -4075,6 +4081,8 @@
           <Link Id="C3vcHCvrw7pNBJRSx4X6Af" Ids="IYYlAPKCnGKOxJjG8kQnIq,Fx3tRqgn2hsMFXeidTTZ03" />
           <Link Id="IXLj7IffS01M1MItzAGo12" Ids="Lak6tG3ibYzN8vnmDv4B8j,DHXl5Z0sY3cNdOApVlMvCZ" />
           <Link Id="OXbIgvvgTUNM9ZUwpsdE8h" Ids="ENvVly21kjCO8HhD4tZwiW,DQ2EbA4Cy25OQnRfYOphwV" />
+          <Link Id="RoX1A5y3OiIOSGFKtiY33W" Ids="TcjAhKhaffMN6cLBjd7PVM,EQ0nSQxOsYoOOxTNLUeZwa" />
+          <Link Id="IkUAhFsoyimOD2EDLEbrR7" Ids="TcjAhKhaffMN6cLBjd7PVM,UXfdg3kcgDILpQ1i6h44f7" />
         </Patch>
       </Node>
       <!--

@@ -6,7 +6,7 @@ shader VerticalSymmetry_TextureFX : FilterBase
     {
         float2 uv = streams.TexCoord;
 
-        uv.r = min(uv.r, 1 - uv.r);
+        uv.r = max(uv.r, 1 - uv.r);
 
         float4 c = Texture0.Sample(Sampler0, uv);
 

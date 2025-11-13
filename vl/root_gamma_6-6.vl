@@ -26199,7 +26199,7 @@
           <Link Id="NmVOhYFUR6NQQhCdgLJa7j" Ids="UIjgFaz9jSfNPlpCftFxvx,MTviRxuVjJ7OlRJIHqWKNJ" />
           <Link Id="NncMnXRruUZP6QwjWHYRES" Ids="IIMH4n6HpK3OrtgIOPpCTB,Vs3zLd6zgp5NtjsqSGmVJP" />
           <Link Id="DO9BuMvEAlJPwncJzBwOHN" Ids="MgouD8TUow1NsXFC5Cr9by,EZ8J2QH0dQgNnz2GW6iEjt" />
-          <Patch Id="BgFYmL6CLKBNDKyd1Y0xJt" Name="ProcessMidiInput" ParticipatingElements="Val5JV21vTZNutjUI44Kv7,QaFvLFe0FBdMIdzH4yfgK6,JGKedAQbnJTOXWqNqgG2bE,NxxaZUkVqNaNcTF6olIuHO,NQOZES6HZNXMpIk9VklMi6,USdmMRdU7JgMX7QnFFKzeD,O0cW5aLZIeBLelsySWISMp,FwolgB3LIj0Odojjj3IKDw,QNW1V2808qMPA3dch6tQDj,FBFgV1Uttp1PKho7xU23X4,KQPe2FQVGQXMV4c6wjP10f,Sl1kM9gwRI3OgwHmailyZh,DuxpaIzEmGvL5qOBiOd1aZ,J6XBg8CD8V0LtpCstrjoKa,RnnydTRAzfDQSbLO8FLFWF,PqUOPwRADm1Otnj216Fs02,QYZaqQHsaiQL75LglFprNC,CgySUX6QUDDPhuEXFcWOGQ">
+          <Patch Id="BgFYmL6CLKBNDKyd1Y0xJt" Name="ProcessMidiInput" ParticipatingElements="Val5JV21vTZNutjUI44Kv7,QaFvLFe0FBdMIdzH4yfgK6,JGKedAQbnJTOXWqNqgG2bE,NxxaZUkVqNaNcTF6olIuHO,NQOZES6HZNXMpIk9VklMi6,USdmMRdU7JgMX7QnFFKzeD,O0cW5aLZIeBLelsySWISMp,FwolgB3LIj0Odojjj3IKDw,QNW1V2808qMPA3dch6tQDj,FBFgV1Uttp1PKho7xU23X4,J6XBg8CD8V0LtpCstrjoKa,RnnydTRAzfDQSbLO8FLFWF,PqUOPwRADm1Otnj216Fs02,QYZaqQHsaiQL75LglFprNC,CgySUX6QUDDPhuEXFcWOGQ,KQPe2FQVGQXMV4c6wjP10f,Sl1kM9gwRI3OgwHmailyZh,DuxpaIzEmGvL5qOBiOd1aZ">
             <Pin Id="GjHS8X05LnYMwZjWKGqUrX" Name="Midi Input Value" Kind="InputPin">
               <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
                 <Choice Kind="TypeFlag" Name="Float32" />
@@ -26506,7 +26506,7 @@
               <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
               <Choice Kind="ProcessAppFlag" Name="Renderer" />
             </p:NodeReference>
-            <Pin Id="KqjUcITaCQFLatFsCTmPrs" Name="Bounds" Kind="InputPin" DefaultValue="1453, 88, 1572, 1328">
+            <Pin Id="KqjUcITaCQFLatFsCTmPrs" Name="Bounds" Kind="InputPin" DefaultValue="1452, 88, 1572, 1328">
               <p:TypeAnnotation LastCategoryFullName="System.Windows" LastDependency="VL.CoreLib.Windows.vl">
                 <Choice Kind="TypeFlag" Name="Rectangle" />
               </p:TypeAnnotation>
@@ -29129,7 +29129,6 @@
             <Pin Id="N5xJOjpwN3UOMmQhg78YtI" Name="Steps" Kind="OutputPin" />
           </Node>
           <Pad Id="NEzXfRuJHnJP0HR0e2cZSD" Comment="" Bounds="1598,857,35,35" ShowValueBox="true" isIOBox="true" />
-          <Pad Id="Pv53A47QTFYPbRDw3cSlID" Comment="Values" Bounds="1189,329,51,95" ShowValueBox="true" isIOBox="true" />
         </Canvas>
         <Patch Id="S5h0lygC6SONLOmMD3SGhw" Name="Create" />
         <Patch Id="AUzUbTVym8POKRL5dUEpJ0" Name="Update" />
@@ -29562,7 +29561,6 @@
         <Link Id="PHYtPBI7QydQXsaxeRXhLe" Ids="KszHlVnhP79QDuU6hxfsvD,HidEt2BvpKmPfD9EnJsHDF" />
         <Link Id="MtctNrPZXBrNZTO39s1J1p" Ids="LqaqPEsWUTHQZHhj4T355G,KRUYej8xRr7MRJzGEOb1ZT" />
         <Link Id="A8aAkRysRenNFd821udDIm" Ids="ArcGGwZCpTJPLO2e1VRmQA,NEzXfRuJHnJP0HR0e2cZSD" />
-        <Link Id="O4DuXSAggV1QVOxRKwUoLd" Ids="QqK4wFN459vLHCz1PaiExJ,Pv53A47QTFYPbRDw3cSlID" />
       </Patch>
     </Node>
   </Patch>

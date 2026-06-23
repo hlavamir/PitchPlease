@@ -3,8 +3,9 @@
 
 #include <dmx.h>
 
-#define FASTLED_ALLOW_INTERRUPTS 0
+#define FASTLED_ALLOW_INTERRUPTS 1     // allow the RMT refill ISR to run so it can't starve mid-strip
 #define FASTLED_ESP32_RMT 1
+#define FASTLED_RMT_BUILTIN_DRIVER 1   // buffer the whole frame in the RMT driver, removes mid-frame ISR underruns
 #include <FastLED.h>
 
 
@@ -28,7 +29,7 @@ const uint8_t TARGET_FPS = 30;
 const float GAMMA = 2.2;
 
 // DMX
-const uint16_t DMX_START_CHANNEL = 200;
+const uint16_t DMX_START_CHANNEL = 100;
 
 const uint16_t DMX_HEADER_CHANNELS = NUM_STRIPS + 2; // master dimmer, mode, 1 dimmer per strip
 

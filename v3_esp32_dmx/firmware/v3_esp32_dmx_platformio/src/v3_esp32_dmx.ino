@@ -24,9 +24,12 @@ const uint8_t DATA_PIN_1 = 26 /*27*/;
 const uint8_t DATA_PIN_2 = 19 /*26*/;
 const uint8_t DATA_PIN_3 = 21 /*25*/;
 
-const uint8_t TARGET_FPS = 30;
-
 const float GAMMA = 2.2;
+
+// Idle "breathing" animation (runs until the first DMX frame arrives)
+const uint16_t IDLE_ANIM_PERIOD_MS = 8000;  // full breathe cycle length
+const uint8_t  IDLE_ANIM_FPS = 50;          // idle animation refresh rate
+const float    IDLE_ANIM_MIN_LEVEL = 0.10;  // floor so the breathe never fully dims
 
 // DMX
 const uint16_t DMX_START_CHANNEL = 100;
@@ -61,6 +64,21 @@ float dmxBufferGroupA[DMX_GROUP_A_CHANNELS] = {0};
 float dmxBufferGroupB[DMX_GROUP_B_CHANNELS] = {0};
 
 SemaphoreHandle_t sync_DMX_LED_Buffers;
+
+// handle to the LED task so the DMX task can wake it when a frame completes
+TaskHandle_t ledTaskHandle = NULL;
+
+// set true when a DMX value inside our channel block changes; the LED task is
+// only woken on frame completion if something actually changed. Touched only
+// from the DMX task (OnDMXInput sets, OnDMXFrameComplete clears), so no lock.
+bool dmxFrameDirty = false;
+
+// latched true on the first received DMX frame; once set, the idle breathing
+// animation is replaced for good by DMX-driven output. Written by the DMX task,
+// read by the LED task, so volatile for cross-core visibility.
+volatile bool dmxActive = false;
+
+void idleAnimationFrame();   // forward decl (used by loopLED_Task)
 
 portMUX_TYPE mux = portMUX_INITIALIZER_UNLOCKED;
 
@@ -109,7 +127,7 @@ void setup(){
 
   // create and pin LED loop to core 1
   Serial.println("Starting LED loop");
-  xTaskCreatePinnedToCore(loopLED_Task, "FastLED_Task", 4096, NULL, 1, NULL, LED_CORE);
+  xTaskCreatePinnedToCore(loopLED_Task, "FastLED_Task", 4096, NULL, 2, &ledTaskHandle, LED_CORE);
 }
 
 void loop(){
@@ -118,17 +136,28 @@ void loop(){
 }
 
 void loopLED_Task(void *pvParameters){
-  TickType_t xLastWakeTime = xTaskGetTickCount();
-  const TickType_t xFrequency = 1000 / (TARGET_FPS * portTICK_PERIOD_MS);
+  // Before any DMX is seen we play the idle breathing animation as a liveness
+  // indicator. The first DMX frame latches dmxActive (see OnDMXFrameComplete)
+  // and from then on output is driven by the DMX frame rate: one render per
+  // completed (changed) frame, with a slow fallback refresh as a heartbeat /
+  // self-heal so a stale or corrupted frame can't stick forever.
+  const TickType_t idleRefresh = pdMS_TO_TICKS(1000);
+  const TickType_t animFrame   = pdMS_TO_TICKS(1000 / IDLE_ANIM_FPS);
 
-  // run LED loop at fixed framerate
   while(true){
-    // Update LED logic here
-    //Serial.println("LED loop");
-    frameUpdateLED();
-
-    // Wait until the next cycle
-    vTaskDelayUntil(&xLastWakeTime, xFrequency);
+    if(dmxActive){
+      // DMX is driving: wake on each completed frame, fall back occasionally
+      ulTaskNotifyTake(pdTRUE, idleRefresh);
+      frameUpdateLED();
+    } else {
+      // No DMX yet: render the breathing animation at a smooth rate, but wake
+      // immediately if a DMX frame arrives so we can hand over without delay
+      if(ulTaskNotifyTake(pdTRUE, animFrame) > 0){
+        frameUpdateLED();      // first DMX frame just arrived; show it now
+      } else {
+        idleAnimationFrame();  // timeout: draw the next breathing frame
+      }
+    }
   }
 }
 
@@ -188,6 +217,24 @@ void testRGB(){
   outputLED();
 }
 
+
+// breathing pure red driven by a sine, full cycle every IDLE_ANIM_PERIOD_MS.
+// runs only until the first DMX frame arrives (see loopLED_Task).
+void idleAnimationFrame(){
+  float phase = (millis() % IDLE_ANIM_PERIOD_MS) / (float)IDLE_ANIM_PERIOD_MS; // 0..1
+  // (1 - cos)/2 gives a smooth 0..1..0 breathe that starts dark
+  float level = (1.0f - cosf(2.0f * PI * phase)) * 0.5f;
+  // gamma-correct so the breathe is perceptually even, matching the DMX path,
+  // then lift the floor so it never reaches the steppy bottom few PWM steps
+  float out = powf(level, GAMMA);
+  out = IDLE_ANIM_MIN_LEVEL + (1.0f - IDLE_ANIM_MIN_LEVEL) * out;
+  uint8_t r = (uint8_t)(out * 255.0f + 0.5f);
+
+  for(int i = 0; i < NUM_LEDS_TOTAL; i++){
+    setLED(i, r, 0, 0);   // pure red, same channel mapping as testRGB
+  }
+  outputLED();
+}
 
 void setLED(int id, byte r, byte g, byte b){
   stripCrr = id / NUM_LEDS;
@@ -268,11 +315,26 @@ void SyncLEDWithDMX(){
   }  
 }
 
+// called from the DMX task (core 0) once a full DMX frame has arrived;
+// wake the LED task (core 1) so rendering is synced to the DMX frame rate
+void OnDMXFrameComplete(){
+  bool firstFrame = !dmxActive;
+  dmxActive = true;   // a DMX frame arrived; leave the idle animation for good
+
+  // notify the LED task on the first frame (to hand over from the animation),
+  // and thereafter only when an in-block channel actually changed
+  if(ledTaskHandle != NULL && (firstFrame || dmxFrameDirty)){
+    dmxFrameDirty = false;
+    xTaskNotifyGive(ledTaskHandle);
+  }
+}
+
 void OnDMXInput(uint16_t channel, uint8_t value){
   //Serial.print("dmx in on core ");
   //Serial.println(xPortGetCoreID());
 
   if(channel >= DMX_START_CHANNEL && channel < DMX_START_CHANNEL + DMX_CHANNELS_TOTAL){
+    dmxFrameDirty = true;
     dmxLocalizedChannel = channel - DMX_START_CHANNEL;
 
     xSemaphoreTake(sync_DMX_LED_Buffers, portMAX_DELAY);

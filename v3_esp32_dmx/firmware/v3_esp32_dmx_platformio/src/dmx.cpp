@@ -42,6 +42,7 @@
 #define DMX_IGNORE_THREADSAFETY 1           // set to 1 to disable all threadsafe mechanisms
 
 void OnDMXInput(uint16_t channel, uint8_t value);
+void OnDMXFrameComplete(void);
 
 QueueHandle_t DMX::dmx_rx_queue;
 
@@ -289,8 +290,13 @@ void DMX::uart_event_task(void *pvParameters)
                     }
                     break;
                 case UART_BREAK:
-                    // break detected
-                    // clear queue und flush received bytes                    
+                    // a break marks the boundary between packets; if we were
+                    // receiving data, the previous frame is now fully received
+                    if(dmx_state == DMX_DATA)
+                    {
+                        OnDMXFrameComplete();
+                    }
+                    // clear queue und flush received bytes
                     uart_flush_input(DMX_UART_NUM);
                     xQueueReset(dmx_rx_queue);
                     dmx_state = DMX_BREAK;

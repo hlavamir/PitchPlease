@@ -36,6 +36,26 @@ Applied frontmatter to all existing wiki pages. Created `wiki/raw/README.md`.
 
 ---
 
+## [2026-07-09] ingest | Chat transcript saved to raw/
+
+Saved today's conversation as `wiki/raw/2026-07-09_chat_project-description.md`. Covers: project overview, all 3 hardware versions, standalone_esp32 context, vvvv version clarification, DMX/ArtNet routing, v2 intermediate version explanation, v3 firmware clarification, repo restructuring.
+
+---
+
+## [2026-07-09] update | Repo restructured into version subfolders
+
+Repo reorganised by Miro. Updated all path references across the wiki:
+
+- `arduino/` removed — contents moved to `v1/firmware/` and `v2_ws2811/firmware/`
+- `pcbs/` removed — contents moved to `v1/hardware/pcb/`
+- `cases/` moved to `testing/cases/` — obsolete 3D print tests for a planned but never-built 19" rack version (screw hole tests, connector tests, etc.)
+- `standalone_esp32/` moved to `testing/standalone_esp32/`
+- `v2` folder is named `v2_ws2811` (not `v2`)
+
+Pages updated: [[overview]] (repo structure table), [[v1]] (firmware + PCB paths), [[v2]] (all three firmware paths), [[firmware-esp32]] (testing/ path).
+
+---
+
 ## [2026-07-09] ingest | Clarifications on v2 intermediate and v3 firmware
 
 - `arduino/pitch_please_w2811_4-channel/` identified as an intermediate v2b version using Arduino R3: 4 strips connected but bandwidth at 57600 baud was insufficient to drive all 4 independently, so only 2 strip's data was received and duplicated to the other 2. Fixed by switching to Arduino R4 (921600 baud). Updated [[v2]] accordingly.

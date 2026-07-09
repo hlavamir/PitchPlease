@@ -36,16 +36,16 @@ See [[vvvv-patch]] for details.
 
 | Path | Contents |
 |---|---|
-| `arduino/pitch_please_mono/` | V1 firmware (archived) |
-| `arduino/pitch_please_w2811/` | V2a firmware (archived) |
-| `arduino/pitch_please_w2811_4_channel_r4/` | V2b firmware (archived) |
-| `arduino/pitch_please_w2811_4-channel/` | Unknown intermediate firmware |
-| `v3_esp32_dmx/firmware/` | V3 firmware (active) |
+| `v1/firmware/pitch_please_mono/` | V1 firmware (archived) |
+| `v1/hardware/pcb/` | V1 PCB design — Fritzing, etching files, Gerbers |
+| `v2_ws2811/firmware/pitch_please_w2811/` | V2a firmware (archived) |
+| `v2_ws2811/firmware/pitch_please_w2811_4-channel/` | V2b-intermediate firmware (archived) |
+| `v2_ws2811/firmware/pitch_please_w2811_4_channel_r4/` | V2b firmware (archived) |
+| `v3_esp32_dmx/firmware/v3_esp32_dmx_platformio/` | V3 firmware — active PlatformIO project |
 | `v3_esp32_dmx/hardware/` | V3 PCB (Fritzing/Gerber) and 3D case files |
-| `pcbs/` | V1 PCB design (archived) |
 | `vl/` | vvvv gamma patch + shaders + scenes |
-| `cases/` | Early rack enclosure 3D files (pre-v3) |
-| `standalone_esp32/` | Deprecated v3 prototype (to be deleted) |
+| `testing/standalone_esp32/` | Deprecated v3 prototype (kept for reference) |
+| `testing/cases/` | Obsolete 3D print tests for a never-built 19" rack version (screw holes, connectors, etc.) |
 | `util/` | Installers and controller config |
 | `wiki/` | This wiki |
 

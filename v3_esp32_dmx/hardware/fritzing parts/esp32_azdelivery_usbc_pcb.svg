@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="1.3in" height="2.4in" version="1.1" viewBox="0 0 93.6 172.8">
+  <!-- Generator: Adobe Illustrator 29.1.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 142)  -->
+  <rect id="background" width="93.6" height="172.8" fill="gray"/>
+  <g id="silkscreen">
+    <text transform="translate(49.2 99.4) rotate(-90)" fill="#fff" font-family="OCRA" font-size="7.2" isolation="isolate"><tspan x="0" y="0">ESP32</tspan></text>
+    <rect x="34.2" y="151.2" width="25.2" height="18" fill="none" stroke="#fff" stroke-width=".8"/>
+    <rect x="30.6" y="28.8" width="32.4" height="39.6" fill="none" stroke="#fff" stroke-width=".8"/>
+    <path d="M7.2,7.2v155.9h79.4V7.2H7.2ZM80.2,8.6c2,0,3.5,1.6,3.5,3.5s-1.6,3.5-3.5,3.5-3.5-1.6-3.5-3.5,1.6-3.5,3.5-3.5ZM13.6,8.6c2,0,3.5,1.6,3.5,3.5s-1.6,3.5-3.5,3.5-3.5-1.6-3.5-3.5,1.6-3.5,3.5-3.5ZM13.6,161.7c-2,0-3.5-1.6-3.5-3.5s1.6-3.5,3.5-3.5,3.5,1.6,3.5,3.5-1.6,3.5-3.5,3.5ZM80.2,161.7c-2,0-3.5-1.6-3.5-3.5s1.6-3.5,3.5-3.5,3.5,1.6,3.5,3.5-1.6,3.5-3.5,3.5Z" fill="none" stroke="#fff" stroke-width=".8"/>
+    <g id="pinLabels">
+      <text transform="translate(16.6 151.8) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">V5</tspan></text>
+      <text transform="translate(16.6 145.6) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">CMD</tspan></text>
+      <text transform="translate(16.6 138.4) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">S03</tspan></text>
+      <text transform="translate(16.6 131.2) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">S02</tspan></text>
+      <text transform="translate(16.6 124) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G13</tspan></text>
+      <text transform="translate(16.6 116.8) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">GND</tspan></text>
+      <text transform="translate(16.6 109.6) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G12</tspan></text>
+      <text transform="translate(16.6 102.4) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G14</tspan></text>
+      <text transform="translate(16.6 95.2) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G27</tspan></text>
+      <text transform="translate(16.6 88) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G26</tspan></text>
+      <text transform="translate(16.6 80.8) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G25</tspan></text>
+      <text transform="translate(16.6 73.6) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G33</tspan></text>
+      <text transform="translate(16.6 66.4) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G32</tspan></text>
+      <text transform="translate(16.6 59.2) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G35</tspan></text>
+      <text transform="translate(16.6 52) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G34</tspan></text>
+      <text transform="translate(16.6 43.8) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">SN</tspan></text>
+      <text transform="translate(16.6 36.6) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">SP</tspan></text>
+      <text transform="translate(16.6 29.4) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">EN</tspan></text>
+      <text transform="translate(16.6 23.2) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">3V3</tspan></text>
+      <text transform="translate(78.9 23.2) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">GND</tspan></text>
+      <text transform="translate(78.9 30.4) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G23</tspan></text>
+      <text transform="translate(78.9 37.6) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G22</tspan></text>
+      <text transform="translate(78.9 44.8) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">TXD</tspan></text>
+      <text transform="translate(78.9 52) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">RXD</tspan></text>
+      <text transform="translate(78.9 59.2) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G21</tspan></text>
+      <text transform="translate(78.9 66.4) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">GND</tspan></text>
+      <text transform="translate(78.9 73.6) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G19</tspan></text>
+      <text transform="translate(78.9 80.8) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G18</tspan></text>
+      <text transform="translate(78.9 87) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G5</tspan></text>
+      <text transform="translate(78.9 95.2) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G17</tspan></text>
+      <text transform="translate(78.9 102.4) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G16</tspan></text>
+      <text transform="translate(78.9 108.6) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G4</tspan></text>
+      <text transform="translate(78.9 115.8) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G0</tspan></text>
+      <text transform="translate(78.9 123) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G2</tspan></text>
+      <text transform="translate(78.9 131.2) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">G15</tspan></text>
+      <text transform="translate(78.9 138.4) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">S01</tspan></text>
+      <text transform="translate(78.9 145.6) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">S00</tspan></text>
+      <text transform="translate(78.9 152.8) rotate(-90)" fill="#fff" font-family="OCRA" font-size="2.6" isolation="isolate"><tspan x="0" y="0">CLK</tspan></text>
+    </g>
+  </g>
+  <g id="copper1">
+    <g id="copper0">
+      <circle id="connector38pin" cx="10.9" cy="150" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector37pin" cx="10.9" cy="142.8" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector36pin" cx="10.9" cy="135.6" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector35pin" cx="10.9" cy="128.4" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector34pin" cx="10.9" cy="121.2" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector33pin" cx="10.9" cy="114" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector32pin" cx="10.9" cy="106.8" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector31pin" cx="10.9" cy="99.6" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector30pin" cx="10.9" cy="92.4" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector29pin" cx="10.9" cy="85.2" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector28pin" cx="10.9" cy="78" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector27pin" cx="10.9" cy="70.8" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector26pin" cx="10.9" cy="63.6" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector25pin" cx="10.9" cy="56.4" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector24pin" cx="10.9" cy="49.2" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector23pin" cx="10.9" cy="42" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector22pin" cx="10.9" cy="34.8" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector21pin" cx="10.9" cy="27.6" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector20pin" cx="10.9" cy="20.4" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector19pin" cx="82.9" cy="20.4" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector18pin" cx="82.9" cy="27.6" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector17pin" cx="82.9" cy="34.8" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector16pin" cx="82.9" cy="42" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector15pin" cx="82.9" cy="49.2" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector14pin" cx="82.9" cy="56.4" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector13pin" cx="82.9" cy="63.6" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector12pin" cx="82.9" cy="70.8" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector11pin" cx="82.9" cy="78" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector10pin" cx="82.9" cy="85.2" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector9pin" cx="82.9" cy="92.4" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector8pin" cx="82.9" cy="99.6" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector7pin" cx="82.9" cy="106.8" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector6pin" cx="82.9" cy="114" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector5pin" cx="82.9" cy="121.2" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector4pin" cx="82.9" cy="128.4" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector3pin" cx="82.9" cy="135.6" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector2pin" cx="82.9" cy="142.8" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+      <circle id="connector1pin" cx="82.9" cy="150" r="1.6" fill="none" stroke="#ffbf00" stroke-width="1.2"/>
+    </g>
+  </g>
+</svg>

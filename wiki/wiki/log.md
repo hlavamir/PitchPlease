@@ -106,6 +106,12 @@ Moved all wiki pages into `wiki/wiki/` and ingested sources into `wiki/raw/`, so
 
 ---
 
+## [2026-07-09] update | MIDI controller corrected + README updated
+
+Corrected MIDI controller from Traktor Kontrol F1 → Novation Launch Control XL Mk3 in [[vvvv-patch]] and [[hardware]]. Updated `README.md` with project description, hardware version table (with wiki links), annotated folder structure, and a wiki navigation section.
+
+---
+
 ## [2026-07-09] new-page | WiFi bridge broken out into own page
 
 Created [[wifi-bridge]] covering the future-dev WiFi bridge concept: phone → vvvv HTTP/WebSocket server → DMX → v3 devices. Page covers concept, vvvv implementation via `VL.IO.HTTP` + `VL.IO.WebSocket` NuGet packages, phone connection setup, candidate UI scope, and open questions. Updated [[v3]] Future Development section to reference [[wifi-bridge]], added [[wifi-bridge]] to [[index]] under a new "Future Development" section.

@@ -40,7 +40,7 @@ Designed in Fritzing (`pcbs/pitch_please_191222.fzz`), also available as DWG. Fu
 
 ## MIDI Controller
 
-The Traktor Kontrol F1 is used with the vvvv patch for live performance control (scene switching, parameter adjustment). Config file: `util/Kontrol F1 Settings.nckf1`.
+The Novation Launch Control XL Mk3 is used with the vvvv patch for live performance control (scene switching, parameter adjustment).
 
 ## USB-DMX Interfaces (V3)
 

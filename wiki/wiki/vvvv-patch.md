@@ -29,7 +29,7 @@ For v3, both devices (DMX address 100 and 200) can be driven simultaneously sinc
 
 ## MIDI Controller
 
-A Traktor Kontrol F1 is used for live performance control — scene switching, parameter automation. Config: `util/Kontrol F1 Settings.nckf1`.
+A Novation Launch Control XL Mk3 is used for live performance control — scene switching, parameter automation.
 
 ## Custom HLSL Shaders
 
@@ -41,7 +41,7 @@ Three `TextureFX` shaders in `vl/shaders/` (vvvv uses SDSL, a superset of HLSL):
 
 ## Scene System
 
-Eight scenes defined in `vl/Scenes/Scene1.ini` through `Scene8.ini`. These are parameter presets/snapshots, recalled during performance via the Kontrol F1.
+Eight scenes defined in `vl/Scenes/Scene1.ini` through `Scene8.ini`. These are parameter presets/snapshots, recalled during performance via the Launch Control XL.
 
 ## Shader Development
 

@@ -36,6 +36,26 @@ Applied frontmatter to all existing wiki pages. Created `wiki/raw/README.md`.
 
 ---
 
+## [2026-07-09] note | v3 open questions answered
+
+- DMX connectors confirmed as XLR-3 (3-pin). Updated [[v3]] Hardware section and [[hardware]] comparison table.
+- Two more units planned (DMX addresses TBD). Updated [[v3]] Physical Devices section.
+- Removed both from Open Questions.
+
+---
+
+## [2026-07-09] note | v3 known PCB issues
+
+Added Known PCB Issues section to [[v3]]: (1) ESP32 solder holes too small — Fritzing part needs redesign; (2) two legs of one MAX485 module need to be disconnected — reason/legs TBD, flagged for clarification.
+
+---
+
+## [2026-07-09] note | v3 future dev — axis flip mode
+
+Added to [[v3]] Future Development section: axis flip mode — resample the 24-pixel brightness curve at t = 0, 0.333, 0.666, 1.0 to get 4 values, one per strip. Also noted WiFi bridge idea (phone → vvvv, not phone → ESP32). Moved WiFi bridge from Open Questions to Future Development.
+
+---
+
 ## [2026-07-09] ingest | Chat transcript saved to raw/
 
 Saved today's conversation as `wiki/raw/2026-07-09_chat_project-description.md`. Covers: project overview, all 3 hardware versions, standalone_esp32 context, vvvv version clarification, DMX/ArtNet routing, v2 intermediate version explanation, v3 firmware clarification, repo restructuring.
@@ -83,3 +103,9 @@ Open questions logged: role of `arduino/pitch_please_w2811_4-channel/`, vvvv aud
 ## [2026-07-09] update | Folder structure reorganized
 
 Moved all wiki pages into `wiki/wiki/` and ingested sources into `wiki/raw/`, so the entire wiki lives self-contained under the `wiki/` subfolder. Updated `CLAUDE.md` to reflect the new structure.
+
+---
+
+## [2026-07-09] new-page | WiFi bridge broken out into own page
+
+Created [[wifi-bridge]] covering the future-dev WiFi bridge concept: phone → vvvv HTTP/WebSocket server → DMX → v3 devices. Page covers concept, vvvv implementation via `VL.IO.HTTP` + `VL.IO.WebSocket` NuGet packages, phone connection setup, candidate UI scope, and open questions. Updated [[v3]] Future Development section to reference [[wifi-bridge]], added [[wifi-bridge]] to [[index]] under a new "Future Development" section.

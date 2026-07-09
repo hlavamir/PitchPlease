@@ -16,7 +16,7 @@ date_modified: 2026-07-09
 | Strip type | Mono RGB (PWM) | WS2811 12V | WS2811 12V | WS2811 12V |
 | Strip length | 1m | 1m | 1m | 140 cm |
 | LEDs/strip | N/A | 38 | 38 | 24 |
-| Control protocol | Serial 57600 | Serial 57600 | Serial 921600 | DMX512 |
+| Control protocol | Serial 57600 | Serial 57600 | Serial 921600 | DMX512 (XLR-3) |
 | PCB | Custom (Fritzing, 2019) | — | — | Custom (Fritzing, 2025) |
 | Case | — | — | — | 3D printed (Rhino) |
 | Status | Archived | Archived | Archived | Active |

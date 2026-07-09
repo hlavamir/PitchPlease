@@ -23,6 +23,12 @@ Catalog of all pages in the PitchPlease wiki. Updated on every ingest.
 | [[v2]] | Version 2: WS2811 addressable strips, sub-versions 2a and 2b (archived) |
 | [[v3]] | Version 3: ESP32 + DMX512, two physical devices (current) |
 
+## Future Development
+
+| Page | Summary |
+|---|---|
+| [[wifi-bridge]] | WiFi bridge: phone → vvvv HTTP/WebSocket server → DMX (future dev) |
+
 ## Deprecated
 
 | Page | Summary |

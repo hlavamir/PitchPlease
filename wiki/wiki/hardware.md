@@ -11,15 +11,16 @@ date_modified: 2026-07-09
 
 | | V1 | V2a | V2b | V3 |
 |---|---|---|---|---|
-| MCU | Arduino | Arduino | Arduino R4 | ESP32 (AZ-Delivery USB-C) |
+| MCU | Arduino Uno R3 | Arduino | Arduino R4 | AZDelivery ESP32-WROOM-32 (USB-C, CP2102) |
 | Strips | 2 | 2 | 4 | 4 |
-| Strip type | Mono RGB (PWM) | WS2811 12V | WS2811 12V | WS2811 12V |
-| Strip length | 1m | 1m | 1m | 140 cm |
-| LEDs/strip | N/A | 38 | 38 | 24 |
+| Strip type | Basic RGB, non-addressable (4-pin R/G/B/+) | WS2811 12V, 60 LEDs/m | WS2811 12V, 60 LEDs/m | WS2811 12V, 60 LEDs/m |
+| Strip length | 1m | 1m profile (2×19 segments/tube) | 1m profile (2×19 segments/tube) | 130 cm tube (24 LEDs/strip) |
+| LEDs/strip | N/A | 38 (2 physical strips chained) | 38 (2 physical strips chained) | 24 |
 | Control protocol | Serial 57600 | Serial 57600 | Serial 921600 | DMX512 (XLR-3) |
+| PSU | — | 12V 3A | 12V 6A | 12V 10A |
 | PCB | Custom (Fritzing, 2019) | — | — | Custom (Fritzing, 2025) |
 | Case | — | — | — | 3D printed (Rhino) |
-| Status | Archived | Archived | Archived | Active |
+| Status | Archived (1 device intact) | Archived (backup) | Archived (shoebox prototype) | Active |
 
 ## V3 PCB
 
@@ -55,8 +56,3 @@ Two Enttec interfaces are used depending on setup:
 - [[v3]] — V3 details
 - [[vvvv-patch]] — Software side of the signal chain
 
-## Open Questions
-
-- What is the LED density (LEDs/meter) of the WS2811 strips used in v1 and v2?
-- What power supply specs were used for v1 and v2?
-- Are the v1 and v2 physical devices still intact?

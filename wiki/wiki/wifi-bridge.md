@@ -1,61 +1,66 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-07-09
+date_modified: 2026-07-10
 ---
 
-# WiFi Bridge — Phone to vvvv
+# Phone Remote Control — TouchOSC + vvvv
 
-> Future dev: a phone-accessible web UI hosted directly in vvvv, allowing remote control of lights over local WiFi without any changes to the ESP32 firmware.
+> Future dev: control lights from a phone during live performance, without touching the laptop.
 
-## Concept
+## Recommended approach: TouchOSC via RTP-MIDI
 
-Run a small HTTP server inside the vvvv patch that serves a control interface (sliders, buttons, scene triggers) accessible from a phone browser on the same local network. The phone talks to vvvv; vvvv handles DMX output to the v3 devices as normal. The ESP32 firmware requires no changes.
+[TouchOSC Mk2](https://hexler.net/touchosc) (~€20, one-time) is a phone app for building custom control surfaces. It sends MIDI over the local network using **RTP-MIDI** (also called Network MIDI / AppleMIDI), appearing as a standard MIDI device on the laptop. vvvv reads it via the same MIDI input nodes already used for the Launch Control XL — no new patch plumbing needed.
 
-```
-Phone browser → WiFi → vvvv HTTP/WebSocket server → DMX → v3 devices
-```
+**Why MIDI over custom HTTP/WebSocket:**
+- No NuGet packages or custom server code required in vvvv
+- Slots into existing MIDI infrastructure in the patch
+- TouchOSC handles the phone UI — no HTML/JS to maintain
+- Standard protocol, low latency (UDP)
 
-This is strictly a vvvv-side feature. The `testing/standalone_esp32/` prototype explored a different approach (web server on the ESP32 itself), which was abandoned because it decoupled the visual logic from vvvv. This approach avoids that problem entirely.
+## Setup
 
-## Implementation in vvvv Gamma
+### 1. Laptop side
 
-vvvv gamma supports HTTP and WebSocket servers via NuGet packages installable directly from the vvvv package browser:
+**macOS** — no extra software needed. Open *Audio MIDI Setup → Window → Show MIDI Studio*, click the Network icon, create a session. TouchOSC connects to it and appears as a MIDI device in vvvv automatically.
 
-- **`VL.IO.HTTP`** — HTTP server nodes. Use to serve the HTML control page.
-- **`VL.IO.WebSocket`** — WebSocket nodes. Use for real-time bidirectional communication so slider/button events reach vvvv instantly without page reloads.
+**Windows** — install [rtpMIDI](https://www.tobias-erichsen.de/software/rtpmidi.html) (free, Tobias Erichsen). Creates the same virtual MIDI endpoint. Any software including vvvv sees it as a MIDI device.
 
-Basic setup:
-1. Install `VL.IO.HTTP` and `VL.IO.WebSocket` via the vvvv NuGet package manager.
-2. Add an HTTP server node listening on a port (e.g. 8080) and serve a single HTML page with the control UI.
-3. Add a WebSocket server node (same or different port) and wire incoming messages to the relevant patch parameters (scene selection, brightness, mode, etc.).
-4. The control HTML page connects to the WebSocket and sends messages on user interaction.
+### 2. Build the control surface
 
-## Connecting from a Phone
+TouchOSC has a built-in drag-and-drop editor, available on both desktop (Mac/Windows) and iPhone. Typical workflow:
 
-Both devices must be on the same local WiFi network. Find the laptop's local IP (System Settings → Network on macOS, or `ipconfig` / `ifconfig` in terminal), then navigate to:
+1. Design the layout on desktop — add faders, buttons, XY pads, labels
+2. Save as a `.tosc` file
+3. Transfer to iPhone via AirDrop, TouchOSC's built-in WiFi sync, or Finder file sharing over USB
 
-```
-http://<laptop-ip>:8080
-```
+You can also build and edit the layout directly on the iPhone.
 
-No app installation required — any phone browser works.
+### 3. Network
 
-## Control UI Scope (TBD)
+Both devices need to be on the same network. Options:
 
-What the phone UI should expose is TBD. Candidates:
+| Setup | Reliability | Notes |
+|---|---|---|
+| Venue WiFi | Low | Can't control it; congestion, firewalls, etc. |
+| Phone hotspot → laptop | High | Phone hosts, laptop connects. No router needed. Best for live use. |
 
-- Scene selection (maps to existing 8-scene system)
-- Master brightness
-- Per-strip brightness (if axis flip mode is implemented — see [[v3]])
-- Mode switching
+**Recommended: phone hotspot.** Phone hosts a personal hotspot, laptop connects to it. The phone then also runs TouchOSC — both the hotspot and the control surface run on the same device. No venue WiFi dependency.
+
+## Control UI scope
+
+Everything currently in the vvvv UI:
+
+- Brightnesses (master + per-strip)
+- Audio signal sensitivity
+- Shader presets and parameters
+- Various switches
+- Scene loading and saving
+
+## Protocol: MIDI confirmed
+
+MIDI (0–127) is sufficient — none of the parameters need sub-127 resolution. OSC (float) is not needed.
 
 ## See Also
 
 - [[v3]] — Hardware context, DMX setup
 - [[vvvv-patch]] — The patch this feature extends
-
-## Open Questions
-
-- Which parameters should the phone UI expose?
-- Should the UI be a bespoke HTML/JS page embedded in the vvvv patch, or a separate file served from disk?
-- Is WebSocket sufficient or would OSC over UDP be simpler to wire up in vvvv?

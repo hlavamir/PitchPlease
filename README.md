@@ -48,8 +48,6 @@ vl/                         vvvv gamma 7.0 patch
   Scenes/                       8 saved scene presets (Scene1.ini–Scene8.ini)
   EditShaders/                  Shader dev sdpkg project
 
-util/                       Misc utilities
-
 testing/                    Archived prototypes and experiments
   standalone_esp32/             Deprecated ESP32 prototype (onboard FFT + web UI)
   cases/                        Obsolete 3D print tests for a never-built 19" rack version

@@ -46,7 +46,6 @@ See [[vvvv-patch]] for details.
 | `vl/` | vvvv gamma patch + shaders + scenes |
 | `testing/standalone_esp32/` | Deprecated v3 prototype (kept for reference) |
 | `testing/cases/` | Obsolete 3D print tests for a never-built 19" rack version (screw holes, connectors, etc.) |
-| `util/` | Installers and controller config |
 | `wiki/` | This wiki |
 
 ## See Also

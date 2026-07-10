@@ -106,6 +106,97 @@ Moved all wiki pages into `wiki/wiki/` and ingested sources into `wiki/raw/`, so
 
 ---
 
+## [2026-07-10] update | util/ folder cleared
+
+All files in `util/` removed (obsolete). Removed references from [[vvvv-patch]] file layout table, [[overview]] repo structure table, and README.
+
+---
+
+## [2026-07-10] update | vvvv-patch — full rewrite
+
+Rewrote [[vvvv-patch]] with complete documentation based on Miro's description and patch file inspection (`root_gamma_6-6.vl`). Now covers: full signal flow diagram, audio analysis pipeline (SignalToSpectrum → AudioData → normalised FFT → 1D texture), 2D shader stage (background shaders, UV-based audio warping, VerticalSymmetry, MixIdleMaskWithPeaksMap), light fixture sampling (UV positions, groups A/B, RGB/RGBW), strobo/idle state machine, full macro list (confirmed against patch), scene system (8 INI presets of macro state), MIDI controller (MidiHardwareController, VL.IO.Midi), DMX/serial output nodes. All open questions closed.
+
+---
+
+## [2026-07-10] update | vvvv-patch — QLC+ usage clarified
+
+QLC+ / Enttec Open path is a fallback only: used when Enttec Pro is not available or an extra DMX universe is needed. Updated [[vvvv-patch]] connection table and closed open question.
+
+---
+
+## [2026-07-10] update | hardware open questions answered
+
+- V1 strip type clarified: basic non-addressable RGB strip (4-pin R/G/B/+), not WS2811. Updated [[v1]] and [[hardware]].
+- WS2811 LED density confirmed: 60 LEDs/m (3 LEDs per 5cm segment), used in v2 and v3. Updated [[hardware]] comparison table.
+- PSU specs: v2a = 12V 3A, v2b = 12V 6A. Updated [[v2]] and [[hardware]]. All hardware open questions closed.
+
+---
+
+## [2026-07-10] update | v3 physical design documented
+
+Added Physical Design section to [[v3]]: 130cm PLEXIGLAS® Satinice tubes (Ø60/54mm, frosted, 0D010 DF), plastic square profile backbone with 4 LED strips glued to each face, 3D printed end caps (one housing all electronics). Documented v3.0 vs v3.1 case iterations — v3.1 added a screw rod through the full pipe length to fix structural breakage in v3.0. Added level shifter (74AHCT125N) to component list. Added DollaTek ADS-5.5V as the abandoned onboard step-down part.
+
+---
+
+## [2026-07-10] update | v3 component links added
+
+Added specific product details and Amazon links for: ESP32 (AZDelivery ESP32-WROOM-32, USB-C, CP2102), PSU (LXLQZXW 12V 10A 120W), and external step-down module (YOURRYONG DE, 9–36V → 5V 5A). Updated [[v3]] hardware section and comparison table in [[hardware]].
+
+---
+
+## [2026-07-10] update | v3 PCB — step-down module issue
+
+Added third known PCB issue: onboard STPDWN 12V→5V step-down footprint proved unreliable (ESP32 lost power after seconds). Workaround: external 12V→5V module. PCB fix: remove footprint, route external 5V. Updated [[v3]] Known PCB Issues preamble to note all three issues require a redesign.
+
+---
+
+## [2026-07-10] update | v3 MAX485 leg disconnection explained
+
+RE and DE pins of the DMX Out MAX485 module were routed to GPIO33 in the PCB. Firmware approach to drive them couldn't be made to work. Workaround: physically cut the RE/DE legs on assembled boards. PCB fix for next revision: remove the GPIO33→RE/DE trace. PCB redesign already needed for ESP32 hole issue. Updated [[v3]] Known PCB Issues. Open question closed.
+
+---
+
+## [2026-07-10] update | v2 clarifications — strip length and LED modes
+
+- Strip length confirmed: 1m aluminium profile (same physical construction as stated previously).
+- v2a LED modes decoded from source code: Mode 0 = "double symmetry" (each strip independent, each 19-LED half is a palindrome of 10 values); Mode 1 = "all same, simple mirror" (both strips identical, all 20 buffer values as a simple palindrome). 10 values/strip was the serial bandwidth limit at 57600 baud. Updated [[v2]] v2a section with mode table and corrected standalone idle description.
+
+---
+
+## [2026-07-10] update | v2 open questions answered
+
+- Physical construction documented: each firmware strip channel = 2× WS2811 strips (19 segments each) in a triangular aluminium profile. Strip B is reversed and chained to Strip A's end; LEDs interleave at a slight offset. Physical reversal produces the mirror effect — firmware only needs to send 19 values per channel. Updated [[v2]] with a Physical Construction section.
+- Device status: V2a intact (backup for V2b). V2b (R4) intact but caseless "shoebox" prototype — used at events, may be scrapped for V3 parts eventually. Added Physical Devices table to [[v2]].
+- Updated [[hardware]] comparison table with correct strip construction; closed open question on v2 physical devices.
+
+---
+
+## [2026-07-10] update | v1 open questions answered
+
+- Arduino model confirmed: Uno R3. Updated [[v1]] and [[hardware]] comparison table.
+- One physical v1 device still exists and is occasionally used standalone — runs an onboard idle animation on power-up without needing vvvv. Updated [[v1]] status section. Updated [[hardware]] open questions.
+
+---
+
+## [2026-07-10] update | wifi-bridge open questions answered
+
+- Control surface scope: everything in the vvvv UI — brightnesses, audio sensitivity, shader presets/params, switches, scene load/save.
+- Protocol: MIDI (0–127) confirmed sufficient. No parameter needs higher resolution. OSC ruled out.
+
+---
+
+## [2026-07-10] ingest | TouchOSC / MIDI bridge research
+
+Saved `wiki/raw/2026-07-10_chat_touchosc-midi-bridge.md`. Rewrote [[wifi-bridge]] with concrete implementation detail:
+
+- Recommended approach shifted from custom HTTP/WebSocket → TouchOSC via RTP-MIDI
+- RTP-MIDI setup documented for macOS (built-in Audio MIDI Setup) and Windows (rtpMIDI, free)
+- TouchOSC interface editor workflow: build on desktop, transfer via AirDrop/WiFi sync/Finder
+- Network options: venue WiFi (unreliable) vs phone hotspot → laptop (recommended for live use)
+- OSC noted as alternative to MIDI for higher precision (float vs 0–127)
+
+---
+
 ## [2026-07-09] update | MIDI controller corrected + README updated
 
 Corrected MIDI controller from Traktor Kontrol F1 → Novation Launch Control XL Mk3 in [[vvvv-patch]] and [[hardware]]. Updated `README.md` with project description, hardware version table (with wiki links), annotated folder structure, and a wiki navigation section.

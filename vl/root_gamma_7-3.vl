@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" xmlns:r="reflection" Id="D4mjYpkcd6IPVq0XBihpIt" LanguageVersion="2025.7.0" Version="0.128">
-  <NugetDependency Id="EQOXt5aDkCbOYoQy2TI4yv" Location="VL.CoreLib" Version="2025.7.0" />
+<Document xmlns:p="property" xmlns:r="reflection" Id="D4mjYpkcd6IPVq0XBihpIt" LanguageVersion="2025.7.3" Version="0.128">
+  <NugetDependency Id="EQOXt5aDkCbOYoQy2TI4yv" Location="VL.CoreLib" Version="2025.7.3" />
   <Patch Id="AxuDiCLFwRkN8UTMf20ZbB">
     <Canvas Id="REVvsMB7pvMLf4z0AYzUKL" DefaultCategory="Main" CanvasType="FullCategory">
       <!--
@@ -13688,6 +13688,7 @@
                     <Pin Id="UzTLcN8ravvMwWtakap945" Name="Extend Into Title Bar" Kind="InputPin" IsHidden="true" />
                     <Pin Id="OSZA4L6TUaCQIhrSx6L4bh" Name="Input" Kind="InputPin" />
                     <Pin Id="M1CjpUaOdJuMUH00PnwxrL" Name="Title" Kind="InputPin" />
+                    <Pin Id="MJntfctb2j5LwH0uHDUIOG" Name="Title Bar Interaction Width" Kind="InputPin" IsHidden="true" />
                     <Pin Id="NnCikAWlkaxMBrPChYrzxJ" Name="Color" Kind="InputPin" DefaultValue="0.04, 0.04, 0.04, 1" />
                     <Pin Id="IByrXxXZtgKPb708ikqy9v" Name="Clear" Kind="InputPin" />
                     <Pin Id="Cc66suYcwG7MBCasz0Fcst" Name="Space" Kind="InputPin" />
@@ -29971,6 +29972,7 @@
             <Pin Id="HawshDmEzR5NpkKdISMWBP" Name="Extend Into Title Bar" Kind="InputPin" IsHidden="true" />
             <Pin Id="OQtnpz9FyWeOE79DmibNoi" Name="Input" Kind="InputPin" />
             <Pin Id="MQH0tp8SgF9Nh9tWpwR4UH" Name="Title" Kind="InputPin" />
+            <Pin Id="DErIKcZe6oXP5mQnwv4P9i" Name="Title Bar Interaction Width" Kind="InputPin" IsHidden="true" />
             <Pin Id="J4dqgVjrhOmNkJt2YA7dYI" Name="Color" Kind="InputPin" DefaultValue="0.2, 0.2, 0.2, 1">
               <p:TypeAnnotation LastCategoryFullName="Color" LastDependency="VL.CoreLib.vl">
                 <Choice Kind="TypeFlag" Name="RGBA" />
@@ -30268,7 +30270,7 @@
             <Pin Id="R3pWUmmsgKYQXLp5rfeTBG" Name="Last Error" Kind="OutputPin" />
             <Pin Id="DkgNggqrAOUQEZSXfmX2Ua" Name="Is ASIO" Kind="OutputPin" />
           </Node>
-          <Pad Id="UetgamhWK5qQOA5dB727CT" Comment="Driver" Bounds="-21,-28,286,15" ShowValueBox="true" isIOBox="true" Value="ASIO: Komplete Audio 6">
+          <Pad Id="UetgamhWK5qQOA5dB727CT" Comment="Driver" Bounds="-21,-28,287,15" ShowValueBox="true" isIOBox="true" Value="ASIO: Komplete Audio 6">
             <p:TypeAnnotation LastCategoryFullName="Audio" LastDependency="VL.Audio.vl">
               <Choice Kind="TypeFlag" Name="AudioDevice" />
             </p:TypeAnnotation>
@@ -30326,7 +30328,7 @@
             </p:NodeReference>
             <p:HelpFocus p:Assembly="VL.Lang" p:Type="VL.Model.HelpPriority">High</p:HelpFocus>
             <Pin Id="OnlLnDH3vUYPdeJunJYCur" Name="Node Context" Kind="InputPin" IsHidden="true" />
-            <Pin Id="TXMPTsU4N00Phkv3DwoAq0" Name="Local Address" Kind="InputPin" IsHidden="true" />
+            <Pin Id="TXMPTsU4N00Phkv3DwoAq0" Name="Local Address" Kind="InputPin" />
             <Pin Id="LhtRB3IzNqkMZEhthHJAUq" Name="Local Port" Kind="InputPin" IsHidden="true" />
             <Pin Id="EIKQQP3cjMjNpy7CjswAdY" Name="Remote Host" Kind="InputPin" />
             <Pin Id="LWW2uhVsYS6PFRYsrp0MbJ" Name="Remote Port" Kind="InputPin" IsHidden="true" />
@@ -30852,7 +30854,7 @@
               <Choice Kind="ProcessAppFlag" Name="ArtNet" />
             </p:NodeReference>
             <Pin Id="GiyagmyuvjkOccd7Ew0nz6" Name="Node Context" Kind="InputPin" IsHidden="true" />
-            <Pin Id="EQl5yRbwuOWLoqqungjO1N" Name="Local Address" Kind="InputPin" IsHidden="true" />
+            <Pin Id="EQl5yRbwuOWLoqqungjO1N" Name="Local Address" Kind="InputPin" />
             <Pin Id="DLTkDc02eUvOxJrCote6SR" Name="Local Port" Kind="InputPin" IsHidden="true" />
             <Pin Id="OLvm0BqyG2nPXW12FN6MrJ" Name="Remote Host" Kind="InputPin" />
             <Pin Id="FOE18mGGLl3MqAZRbaieI1" Name="Remote Port" Kind="InputPin" IsHidden="true" />
@@ -31123,11 +31125,11 @@
       </Patch>
     </Node>
   </Patch>
-  <NugetDependency Id="KqY3qOGyEqBNOCqgqc9hxm" Location="VL.Skia" Version="2025.7.0" />
-  <NugetDependency Id="QSGAcBOPjnEPsQ5T9q8Y4K" Location="VL.Audio" Version="1.9.14" />
-  <NugetDependency Id="Omjwdjw1i78Lrf7o9osUNh" Location="VL.IO.Midi" Version="2.0.4" />
-  <NugetDependency Id="PAdB1m6M9xwQSmPwG18HN7" Location="VL.IO.ArtNet" Version="2.1.2" />
-  <NugetDependency Id="N94Y6PRsDgrN99MCTjpjAH" Location="VL.Stride" Version="2025.7.0" />
-  <NugetDependency Id="Q4c41ZzLj4sPSjHiG75J70" Location="VL.Stride.TextureFX" Version="2025.7.0" />
+  <NugetDependency Id="KqY3qOGyEqBNOCqgqc9hxm" Location="VL.Skia" Version="2025.7.3" />
+  <NugetDependency Id="QSGAcBOPjnEPsQ5T9q8Y4K" Location="VL.Audio" Version="1.9.19" />
+  <NugetDependency Id="Omjwdjw1i78Lrf7o9osUNh" Location="VL.IO.Midi" Version="2.1.1" />
+  <NugetDependency Id="PAdB1m6M9xwQSmPwG18HN7" Location="VL.IO.ArtNet" Version="2.2.0" />
+  <NugetDependency Id="N94Y6PRsDgrN99MCTjpjAH" Location="VL.Stride" Version="2025.7.3" />
+  <NugetDependency Id="Q4c41ZzLj4sPSjHiG75J70" Location="VL.Stride.TextureFX" Version="2025.7.3" />
   <DocumentDependency Id="QnSVLvBIKcgN9a9VHoLCkN" Location="./vl/VL.Devices.ENTTEC.vl" />
 </Document>

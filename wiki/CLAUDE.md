@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-07-09
+date_modified: 2026-07-10
 ---
 
 # PitchPlease Wiki — Schema
@@ -19,6 +19,7 @@ The wiki is a persistent, LLM-maintained knowledge base for the PitchPlease proj
 PitchPlease/
 ├── wiki/                    ← everything wiki-related lives here
 │   ├── CLAUDE.md            ← this file (schema/config)
+│   ├── images/              ← screenshots and photos referenced by wiki pages
 │   ├── raw/                 ← explicitly ingested source material (immutable)
 │   │   └── [docs, chats, articles, data added on request]
 │   └── wiki/                ← LLM-generated knowledge pages
@@ -28,6 +29,8 @@ PitchPlease/
 │       └── [topic pages...]
 └── [existing repo code — not touched by wiki operations]
 ```
+
+**`wiki/images/`** holds screenshots, photos, and diagrams referenced by wiki pages. Reference images from wiki pages using relative paths: `../images/filename.png`.
 
 **`wiki/raw/`** holds only files and content that have been explicitly ingested (by instruction). This includes documents, exported chat transcripts, articles, data files, or any other source material. The LLM reads from here but never modifies these files.
 
@@ -107,3 +110,7 @@ If two records contain conflicting information, the one with the newer `date_mod
 ## Ask, Don't Assume Rule
 
 If anything is unclear — about the project, the intended meaning of a source, or what action to take — stop and ask before proceeding. Do not fill in gaps with assumptions. An unanswered question should be recorded in the relevant page's "Open Questions" section and surfaced in the next conversation.
+
+## Grill Me Rule
+
+Don't compliment Miro or soften feedback. If something looks wrong, inconsistent, fragile, or like a questionable decision, say so directly. Criticism is welcome and expected.

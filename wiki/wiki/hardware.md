@@ -9,13 +9,13 @@ date_modified: 2026-07-09
 
 ## Comparison Table
 
-| | V1 | V2a | V2b | V3 |
+| | V1 | V2.0 | V2.2 | V3 |
 |---|---|---|---|---|
 | MCU | Arduino Uno R3 | Arduino | Arduino R4 | AZDelivery ESP32-WROOM-32 (USB-C, CP2102) |
 | Strips | 2 | 2 | 4 | 4 |
 | Strip type | Basic RGB, non-addressable (4-pin R/G/B/+) | WS2811 12V, 60 LEDs/m | WS2811 12V, 60 LEDs/m | WS2811 12V, 60 LEDs/m |
-| Strip length | 1m | 1m profile (2×19 segments/tube) | 1m profile (2×19 segments/tube) | 130 cm tube (24 LEDs/strip) |
-| LEDs/strip | N/A | 38 (2 physical strips chained) | 38 (2 physical strips chained) | 24 |
+| Strip length | 1m | 1m profile (2×19 segments/tube) | 1m profile (2×19 segments/tube) | 130 cm tube (24 segments/strip) |
+| LEDs/strip | N/A | 38 (2 physical strips chained) | 38 (2 physical strips chained) | 72 (24 segments × 3 LEDs/segment) |
 | Control protocol | Serial 57600 | Serial 57600 | Serial 921600 | DMX512 (XLR-3) |
 | PSU | — | 12V 3A | 12V 6A | 12V 10A |
 | PCB | Custom (Fritzing, 2019) | — | — | Custom (Fritzing, 2025) |

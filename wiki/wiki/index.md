@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-07-09
+date_modified: 2026-07-10
 ---
 
 # Wiki Index
@@ -13,7 +13,8 @@ Catalog of all pages in the PitchPlease wiki. Updated on every ingest.
 |---|---|
 | [[overview]] | Project summary, version history, and repo structure |
 | [[hardware]] | Cross-version hardware comparison: MCUs, LED strips, PCBs, cases |
-| [[vvvv-patch]] | vvvv gamma 7.0 patch: HLSL shaders, scenes, MIDI, serial/DMX output |
+| [[vvvv-patch]] | vvvv gamma 7.3 patch: HLSL shaders, scenes, MIDI, serial/DMX output |
+| [[fixtures]] | Third-party DMX fixtures used at events (Stairville Beam Ball, pinspots) |
 
 ## Version Pages
 

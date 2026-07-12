@@ -17,16 +17,17 @@ PitchPlease is a custom audio-reactive LED controller built for live music and p
 Two 1m LED strips, each showing a single RGB color at a time. Arduino controlled via serial from vvvv. Custom PCB (Dec 2019). Superseded by v2.
 
 **[[v2]] — WS2811 addressable strips (archived/still functional)**
-Switched to WS2811 12V addressable strips where every ~5 cm segment can have a different color. Two sub-versions:
-- V2a: 2 strips, original Arduino, 57600 baud
-- V2b: 4 strips, Arduino R4, 921600 baud
+Switched to WS2811 12V addressable strips where every ~5 cm segment can have a different color. Three sub-versions:
+- V2.0: 2 strips, original Arduino, 57600 baud
+- V2.1: 4 strips, Arduino R3, 57600 baud (intermediate — bandwidth limited, duplicated 2 strips to other 2)
+- V2.2: 4 strips, Arduino R4, 921600 baud
 
 **[[v3]] — ESP32 + DMX (current)**
 Major architecture shift. ESP32 microcontroller receives DMX512 from the vvvv patch via USB-DMX interface. 4× 140 cm WS2811 strips per device. Two physical devices built (DMX addresses 100 and 200). Custom PCB and 3D-printed case.
 
 ## Control Software
 
-The vvvv gamma 7.0 patch (`vl/root_gamma_6-6.vl` — filename pending rename) runs on a connected computer and drives all hardware versions:
+The vvvv gamma 7.0 patch (`vl/root_gamma_7-3.vl` — filename pending rename) runs on a connected computer and drives all hardware versions:
 - v1, v2: via serial (USB)
 - v3: via DMX (Enttec Pro directly, or ArtNet → QLC+ → Enttec Open)
 
@@ -38,9 +39,9 @@ See [[vvvv-patch]] for details.
 |---|---|
 | `v1/firmware/pitch_please_mono/` | V1 firmware (archived) |
 | `v1/hardware/pcb/` | V1 PCB design — Fritzing, etching files, Gerbers |
-| `v2_ws2811/firmware/pitch_please_w2811/` | V2a firmware (archived) |
-| `v2_ws2811/firmware/pitch_please_w2811_4-channel/` | V2b-intermediate firmware (archived) |
-| `v2_ws2811/firmware/pitch_please_w2811_4_channel_r4/` | V2b firmware (archived) |
+| `v2_ws2811/firmware/pitch_please_w2811/` | V2.0 firmware (archived) |
+| `v2_ws2811/firmware/pitch_please_w2811_4-channel/` | V2.1 firmware (archived) |
+| `v2_ws2811/firmware/pitch_please_w2811_4_channel_r4/` | V2.2 firmware (archived) |
 | `v3_esp32_dmx/firmware/v3_esp32_dmx_platformio/` | V3 firmware — active PlatformIO project |
 | `v3_esp32_dmx/hardware/` | V3 PCB (Fritzing/Gerber) and 3D case files |
 | `vl/` | vvvv gamma patch + shaders + scenes |

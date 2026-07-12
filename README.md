@@ -43,7 +43,7 @@ v3_esp32_dmx/               Version 3 — ESP32 + DMX512 (current)
   hardware/                     Fritzing PCB, Gerbers, Rhino 3D case files
 
 vl/                         vvvv gamma 7.0 patch
-  root_gamma_6-6.vl             Main patch (filename stale, pending rename)
+  root_gamma_7-3.vl             Main patch (filename stale, pending rename)
   shaders/                      Custom HLSL/SDSL shaders
   Scenes/                       8 saved scene presets (Scene1.ini–Scene8.ini)
   EditShaders/                  Shader dev sdpkg project

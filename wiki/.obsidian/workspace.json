@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "wiki/wifi-bridge.md",
+                "file": "CLAUDE.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for wifi-bridge"
+              "title": "Backlinks for CLAUDE"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "wiki/wifi-bridge.md",
+                "file": "CLAUDE.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from wifi-bridge"
+              "title": "Outgoing links from CLAUDE"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "wiki/wifi-bridge.md",
+                "file": "CLAUDE.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of wifi-bridge"
+              "title": "Outline of CLAUDE"
             }
           }
         ]
@@ -186,7 +186,25 @@
   "active": "4e49b89c563232bd",
   "lastOpenFiles": [
     "wiki/v3.md",
+    "CLAUDE.md",
+    "wiki/vvvv-patch.md",
+    "raw/2026-07-10_cameo-qspot15-manual.md",
+    "raw/Cameo_Q_Spot_15_RGBW.pdf",
+    "raw/2026-07-10_stairville-beam-ball-manual.md",
+    "wiki/fixtures.md",
+    "raw/Stairville_Beam_Ball_100_Quad_LED_10x10w.pdf",
+    "raw/2026-07-10_images-added.md",
+    "images/ui_dimmers.png",
+    "images/ui_general.png",
+    "images/Screenshot 2026-07-10 154706.png",
+    "images/Screenshot 2026-07-10 154657.png",
+    "images",
+    "untitled folder",
+    "raw/Screenshot 2026-07-10 154706.png",
+    "raw/Screenshot 2026-07-10 154657.png",
+    "raw/2026-07-10_vvvv-ui-screenshots.md",
     "wiki/wifi-bridge.md",
+    "raw/2026-07-10_chat_touchosc-midi-bridge.md",
     "wiki/overview.md"
   ]
 }

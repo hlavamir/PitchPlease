@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-07-09
+date_modified: 2026-07-10
 ---
 
 # Log
@@ -106,6 +106,24 @@ Moved all wiki pages into `wiki/wiki/` and ingested sources into `wiki/raw/`, so
 
 ---
 
+## [2026-07-10] ingest | UI screenshots moved to wiki/images/
+
+Screenshots `ui_general.png` and `ui_dimmers.png` added to `wiki/images/`. Embedded in [[vvvv-patch]] under a UI Screenshots section. Added `wiki/images/` to directory structure in `CLAUDE.md`. Saved image manifest to `wiki/raw/2026-07-10_images-added.md`.
+
+---
+
+## [2026-07-10] ingest | vvvv UI screenshots (General + Dimmers tabs)
+
+Saved `wiki/raw/2026-07-10_vvvv-ui-screenshots.md`. Extracted and ingested into [[vvvv-patch]]: complete macro list with M-index numbers (M0–M47), all button labels including previously undocumented `Audio Filter` (M23) and `Art-Net Color`, shader presets named Preset A/B/C/D, fixture UV panel (devices at [100]/[200], point fixture at [30]), named dimmers (D PitchPlsl v3/v2, D Pinspots, D Panel Center), BB Vert/Horz Pos/Speed parameters (BB meaning unknown — open question), group A/B channel count (9 each).
+
+---
+
+## [2026-07-10] update | vvvv patch updated to 7.3 and renamed
+
+Patch updated to vvvv gamma 7.3 and renamed from `root_gamma_6-6.vl` to `root_gamma_7-3.vl`. Updated all references in [[vvvv-patch]], [[overview]], and README. Removed stale filename note.
+
+---
+
 ## [2026-07-10] update | util/ folder cleared
 
 All files in `util/` removed (obsolete). Removed references from [[vvvv-patch]] file layout table, [[overview]] repo structure table, and README.
@@ -194,6 +212,59 @@ Saved `wiki/raw/2026-07-10_chat_touchosc-midi-bridge.md`. Rewrote [[wifi-bridge]
 - TouchOSC interface editor workflow: build on desktop, transfer via AirDrop/WiFi sync/Finder
 - Network options: venue WiFi (unreliable) vs phone hotspot → laptop (recommended for live use)
 - OSC noted as alternative to MIDI for higher precision (float vs 0–127)
+
+---
+
+## [2026-07-10] update | v2 sub-version naming formalised
+
+Renamed sub-versions throughout the wiki:
+- v2a → **v2.0** (2 strips, Arduino, 57600 baud)
+- v2b-intermediate → **v2.1** (4 strips, Arduino R3, 57600 baud — bandwidth limited)
+- v2b → **v2.2** (4 strips, Arduino R4, 921600 baud)
+
+Updated: [[v2]], [[overview]], [[hardware]], [[v1]], [[vvvv-patch]]. Raw files left unchanged (immutable records).
+
+---
+
+## [2026-07-10] update | fixtures.md simplified
+
+Third-party fixtures other than the pinspots don't need detailed docs — setup varies per event and equipment is often mixed with a friend's gear. Miro only owns the Cameo Q Spot pinspots. Trimmed [[fixtures]] to keep full detail only for the pinspots; Beam Ball and LED panel reduced to brief event-history notes.
+
+---
+
+## [2026-07-10] update | Panel Center fixture documented
+
+"D Panel Center" (M35) = a Stairville RGB LED panel (model unknown), rectangular grid of RGB LEDs that outputs a single colour per panel — treated as a generic single-pixel RGB fixture. Used as a centre wash at events. Updated [[vvvv-patch]] dimmer label and added a stub entry in [[fixtures]].
+
+---
+
+## [2026-07-10] ingest | Cameo Q Spot 15 RGBW manual + fixture table corrected
+
+Ingested manual for the Cameo Q Spot 15 RGBW (18W RGBW LED spot, 5 DMX modes, XLR 3-pin). Two units used as pinspots at DMX addresses 6 and 10 — these appear as orange dots at [6] and [10] in the vvvv fixture UV panel. M34 "D Pinspots" is their master dimmer.
+
+Also corrected: [0], [1], [2], [3] in the fixture panel are **v2b strip IDs**, not DMX addresses.
+
+PDF saved to `wiki/raw/Cameo_Q_Spot_15_RGBW.pdf`. Ingest record: `wiki/raw/2026-07-10_cameo-qspot15-manual.md`. Updated [[fixtures]] (new Cameo Q Spot section) and [[vvvv-patch]] (fixture table, M34 label).
+
+---
+
+## [2026-07-10] update | Beam Ball — ArtNet/MadMapper control workflow
+
+Clarified how the Beam Ball was actually used at events: a second laptop running MadMapper connected via ArtNet, with vvvv receiving the ArtNet stream. vvvv remaps the received signal and either uses the received hue (Art-Net Color mode) or overwrites with its own colour logic. The "Art-Net Color" button toggles between these two. The BB macros (M44–M47) were an earlier direct-DMX approach, with additional translation logic in vvvv for the speed→position conversion; superseded by the MadMapper workflow. Updated [[fixtures]] and [[vvvv-patch]].
+
+---
+
+## [2026-07-10] ingest | Stairville Beam Ball 100 Quad LED manual
+
+Ingested PDF manual to resolve the "BB" open question in [[vvvv-patch]].
+
+- **BB** = Stairville Beam Ball 100 Quad LED — 10×10W RGBW moving head, 540° pan, infinite tilt, DMX address 30 in vvvv.
+- 7-channel DMX mode confirmed as the relevant mode: Ch1=Pan, Ch2=Tilt, Ch3=Speed, Ch4=Master Dimmer.
+- BB macros: M44 (BB Vert Pos) → Tilt (ch2), M45 (BB Horz Pos) → Pan (ch1), M46–M47 (BB Vert/Horz Speed) → Movement Speed (ch3).
+- Clarified that vvvv "Dimmers" tab is a misnomer: the 16 faders are generic static DMX channel outputs, not limited to brightness control.
+- Fixture at [30] in the UV placement panel = Stairville Beam Ball.
+- PDF saved to `wiki/raw/Stairville_Beam_Ball_100_Quad_LED_10x10w.pdf`. Ingest record: `wiki/raw/2026-07-10_stairville-beam-ball-manual.md`.
+- Created new page [[fixtures]] with full specs and DMX map. Updated [[vvvv-patch]], [[index]].
 
 ---
 

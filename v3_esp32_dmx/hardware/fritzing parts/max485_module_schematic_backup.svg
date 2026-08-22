@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" width=".7in" height="1.9in" xmlns:xml="http://www.w3.org/XML/1998/namespace" version="1.1" viewBox="0 0 50.4 136.8">
+  <!-- Generator: Adobe Illustrator 29.1.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 142)  -->
+  <g id="schematic">
+    <rect id="part_symbol" x="7.1999998" y="7.1999998" width="36" height="122.4" fill="#fff" stroke="#000" stroke-linecap="round" stroke-width=".9002"/>
+    <g id="pins">
+      <line x1="35.9999992" y1="129.5990036" x2="35.9999992" y2="136.8" fill="none" stroke="#555" stroke-linecap="round" stroke-linejoin="round" stroke-width=".7"/>
+      <line x1="28.7999992" y1="129.5990036" x2="28.7999992" y2="136.8" fill="none" stroke="#555" stroke-linecap="round" stroke-linejoin="round" stroke-width=".7"/>
+      <line x1="21.5999992" y1="129.5990036" x2="21.5999992" y2="136.8" fill="none" stroke="#555" stroke-linecap="round" stroke-linejoin="round" stroke-width=".7"/>
+      <line x1="14.3999992" y1="129.5990036" x2="14.3999992" y2="136.8" fill="none" stroke="#555" stroke-linecap="round" stroke-linejoin="round" stroke-width=".7"/>
+      <line x1="35.9999992" y1="7.2010002" x2="35.9999992" fill="none" stroke="#555" stroke-linecap="round" stroke-linejoin="round" stroke-width=".7"/>
+      <line x1="28.7999992" y1="7.2010002" x2="28.7999992" fill="none" stroke="#555" stroke-linecap="round" stroke-linejoin="round" stroke-width=".7"/>
+      <line x1="21.5999992" y1="7.2010002" x2="21.5999992" fill="none" stroke="#555" stroke-linecap="round" stroke-linejoin="round" stroke-width=".7"/>
+      <line x1="14.3999992" y1="7.2010002" x2="14.3999992" fill="none" stroke="#555" stroke-linecap="round" stroke-linejoin="round" stroke-width=".7"/>
+    </g>
+    <g id="pin_numbers">
+      <text transform="translate(37.3623047 133.9094238)" fill="#555" font-family="DroidSans" font-size="3" isolation="isolate"><tspan x="0" y="0">8</tspan></text>
+      <text transform="translate(30.1623535 133.9094238)" fill="#555" font-family="DroidSans" font-size="3" isolation="isolate"><tspan x="0" y="0">7</tspan></text>
+      <text transform="translate(22.9624023 133.9094238)" fill="#555" font-family="DroidSans" font-size="3" isolation="isolate"><tspan x="0" y="0">6</tspan></text>
+      <text transform="translate(15.7624512 133.9094238)" fill="#555" font-family="DroidSans" font-size="3" isolation="isolate"><tspan x="0" y="0">5</tspan></text>
+      <text transform="translate(37.3623047 3.8730469)" fill="#555" font-family="DroidSans" font-size="3" isolation="isolate"><tspan x="0" y="0">4</tspan></text>
+      <text transform="translate(30.1623535 3.8730469)" fill="#555" font-family="DroidSans" font-size="3" isolation="isolate"><tspan x="0" y="0">3</tspan></text>
+      <text transform="translate(22.9624023 3.8730469)" fill="#555" font-family="DroidSans" font-size="3" isolation="isolate"><tspan x="0" y="0">2</tspan></text>
+      <text transform="translate(15.7624512 3.8730469)" fill="#555" font-family="DroidSans" font-size="3" isolation="isolate"><tspan x="0" y="0">1</tspan></text>
+    </g>
+    <g id="pin_labels">
+      <text transform="translate(33.6982422 127.2844238)" fill="#555" font-family="DroidSans" font-size="4.5" isolation="isolate"><tspan x="0" y="0">DI</tspan></text>
+      <text transform="translate(26.0734863 127.2844238)" fill="#555" font-family="DroidSans" font-size="4.5" isolation="isolate"><tspan x="0" y="0">DE</tspan></text>
+      <text transform="translate(19.0854492 127.2844238)" fill="#555" font-family="DroidSans" font-size="4.5" isolation="isolate"><tspan x="0" y="0">RE</tspan></text>
+      <text transform="translate(11.4030762 127.2844238)" fill="#555" font-family="DroidSans" font-size="4.5" isolation="isolate"><tspan x="0" y="0">RO</tspan></text>
+      <text transform="translate(31.2675781 12.5351562)" fill="#555" font-family="DroidSans" font-size="4.5" isolation="isolate"><tspan x="0" y="0">GND</tspan></text>
+      <text transform="translate(27.4020996 12.5351562)" fill="#555" font-family="DroidSans" font-size="4.5" isolation="isolate"><tspan x="0" y="0">B</tspan></text>
+      <text transform="translate(20.2319336 12.5351562)" fill="#555" font-family="DroidSans" font-size="4.5" isolation="isolate"><tspan x="0" y="0">A</tspan></text>
+      <text transform="translate(11.0388184 12.5351562)" fill="#555" font-family="DroidSans" font-size="4.5" isolation="isolate"><tspan x="0" y="0">Vcc</tspan></text>
+    </g>
+    <text transform="translate(13.3886719 66.5577393)" font-family="DroidSans" font-size="6" isolation="isolate"><tspan x="0" y="0">MAX485 </tspan></text>
+    <text transform="translate(14.0949707 73.7579346)" font-family="DroidSans" font-size="6" isolation="isolate"><tspan x="0" y="0">module </tspan></text>
+  </g>
+</svg>

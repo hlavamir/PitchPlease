@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-07-10
+date_modified: 2026-08-22
 ---
 
 # Log
@@ -277,3 +277,31 @@ Corrected MIDI controller from Traktor Kontrol F1 → Novation Launch Control XL
 ## [2026-07-09] new-page | WiFi bridge broken out into own page
 
 Created [[wifi-bridge]] covering the future-dev WiFi bridge concept: phone → vvvv HTTP/WebSocket server → DMX → v3 devices. Page covers concept, vvvv implementation via `VL.IO.HTTP` + `VL.IO.WebSocket` NuGet packages, phone connection setup, candidate UI scope, and open questions. Updated [[v3]] Future Development section to reference [[wifi-bridge]], added [[wifi-bridge]] to [[index]] under a new "Future Development" section.
+
+---
+
+## [2026-08-22] update | v3.2 PCB revision — all three known issues addressed
+
+Started the v3.2 PCB revision (`v3_esp32_dmx/hardware/260822_v3-2_esp32_dmx.fzz`) to fix the three known v3 PCB issues logged in [[v3]].
+
+- **ESP32 + MAX485 solder holes** (both used 0.6×0.6mm square pins, drilled at ~0.71mm — too tight): fixed by editing the custom parts' PCB-view SVGs directly (pin hole radius enlarged to give a ~1.1mm hole on unchanged pad pitch/position). Fritzing has no "reimport SVG onto a placed part" workflow — editing via the Part Editor while the part is placed in a sketch creates a disconnected duplicate part instead of updating in place. Worked around by closing Fritzing and patching the actual resource SVG files in its library folder (`~/Documents/Fritzing/parts/svg/user/`) directly, plus the matching source SVGs in `v3_esp32_dmx/hardware/fritzing parts/`. Reopening Fritzing picked up the new geometry on the already-placed instances with no rewiring or trace loss. Backups of all original files kept with `_backup` suffix.
+- **MAX485 GPIO33→RE/DE trace**: removed.
+- **STPDWN step-down**: footprint left on the board but unpopulated; external DC-DC converter used instead (no PCB change).
+
+Verified against the routed PCB export (`v3_esp32_dmx/hardware/export/260822_v3-2_esp32_dmx_pcb.svg`) — all ESP32 and MAX485 pads confirmed at the new hole size, no leftover undersized pads anywhere in the board. Updated [[v3]] with a new "v3.2 PCB Revision" section; the old "Known PCB Issues" section is kept as a historical record with fix status noted inline.
+
+---
+
+## [2026-08-22] update | v3.2 circuit fully traced; RE/DE floating confirmed correct
+
+Reconstructed the full v3.2 netlist to understand the circuit and check for issues. First attempt (reverse-engineering connectivity from the flattened PCB-view SVG export's copper geometry) produced a false "nothing on this board is routed" conclusion — wrong, caused by trace segments not always sharing exact endpoint coordinates and by top/bottom-copper-layer copies of one physical part rendering under different transform chains, which also caused an earlier false read of which MAX485 chip had floating DE/RE pins (visually mislabeled which chip was which due to the same transform issue). Corrected by parsing the actual Fritzing sketch file's own connectivity data (`.fz` XML inside the `.fzz`) instead of guessing from rendered geometry — filtering to real copper-layer connects (excluding stale breadboard-view remnants also present in the same data) and manually bridging each routed wire segment's own two ends (not linked to each other in the data model). Full method and pitfalls recorded in [[v3]] Open Questions for future reference.
+
+Verified circuit: clean 3-rail power distribution, 1:1 GPIO→buffer→resistor→LED-header path for all 4 strips (with a labeling mismatch between firmware's "Strip N" and the board's "LEDN" header numbers, not a functional bug), and a DMX hardware repeat path (ESP32.GPIO16 shared between the DMX-In chip's RO and DMX-Out chip's DI) with GPIO32 controlling the DMX-In chip's RE/DE for likely RDM-style bidirectional use.
+
+The DMX-Out MAX485's RE/DE floating (after the GPIO33 trace removal) initially looked like an unresolved problem by RS-485 convention. Miro confirmed both built v3 units use the identical fix (physically cutting the module's RE/DE legs, i.e. floating them) and it works in the field — so v3.2's floating RE/DE is the validated correct end state, not a stopgap needing a follow-up tie-off. Updated [[v3]] "Known PCB Issues" and added a new "v3.2 Circuit Topology" section.
+
+---
+
+## [2026-08-22] update | C1/C2 confirmed unpopulated (STPDWN-only caps)
+
+Miro confirmed C1 (12V/GND) and C2 (5V/GND) are left unpopulated in practice on the real board — they were only ever the input/output decoupling caps for the onboard STPDWN step-down, which is itself unpopulated (see earlier entry this session). Footprints and traces for both remain on the PCB, unused, same as STPDWN. Updated [[v3]] in two places: the v3.2 PCB Revision STPDWN bullet, and the Circuit Topology power-rail description.

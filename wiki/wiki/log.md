@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-08-22
+date_modified: 2026-08-23
 ---
 
 # Log
@@ -305,3 +305,22 @@ The DMX-Out MAX485's RE/DE floating (after the GPIO33 trace removal) initially l
 ## [2026-08-22] update | C1/C2 confirmed unpopulated (STPDWN-only caps)
 
 Miro confirmed C1 (12V/GND) and C2 (5V/GND) are left unpopulated in practice on the real board — they were only ever the input/output decoupling caps for the onboard STPDWN step-down, which is itself unpopulated (see earlier entry this session). Footprints and traces for both remain on the PCB, unused, same as STPDWN. Updated [[v3]] in two places: the v3.2 PCB Revision STPDWN bullet, and the Circuit Topology power-rail description.
+
+---
+
+## [2026-08-23] ingest | v3.2 PCB updated — STPDWN/C1/C2 removed, two labels cleaned up
+
+Ingested the new sketch `v3_esp32_dmx/hardware/260823_v3-2_esp32_dmx.fzz` (Gerbers + PCB SVG also re-exported same day). Rebuilt the full netlist using the same `.fz`-XML method established yesterday and diffed it against the 2026-08-22 version.
+
+Actual changes:
+- **STPDWN, C1, and C2 removed from the sketch entirely** — not just left unpopulated as of yesterday, now genuinely deleted (component count 23→20, confirmed via the instance list, not just visual inspection).
+- **"12+" renamed to "+12V-"** — same physical part (same Fritzing modelIndex, same position, same rails), purely a clearer label. It's a secondary 12V connection point on the same rail as the main "+ 12V -" terminal, likely for daisy-chaining power to a second fixture.
+- **"+ 5V -" renamed to "+5V-"** — cosmetic only, same part.
+
+Nothing else changed: DMX path, LED driver chain, GPIO assignments, and all remaining power-rail membership are identical to the verified 2026-08-22 topology. Updated [[v3]] — new sketch/Gerber/export file paths throughout, STPDWN section rewritten to reflect removal rather than non-population, Circuit Topology power paragraph updated to drop STPDWN/C1/C2.
+
+---
+
+## [2026-08-23] update | power terminal purposes clarified
+
+Miro clarified the three physical power screw terminals, which the netlist alone couldn't distinguish (same net memberships don't reveal physical intent): the large "+ 12V -" terminal (right edge, wider `screw_terminal_2_200mil` pitch) is the main power input from the external 12V PSU. The two smaller bottom-edge terminals, "+12V-" and "+5V-" (`screw_terminal_2_100mil`), connect to the external power module that replaced the onboard STPDWN step-down — 12V out to that module, regulated 5V back in from it. Corrected an earlier wrong guess in [[v3]] that "+12V-" was a daisy-chain point to a second fixture.

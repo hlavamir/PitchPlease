@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-07-09
+date_modified: 2026-08-24
 ---
 
 # PitchPlease — Project Overview
@@ -42,8 +42,10 @@ See [[vvvv-patch]] for details.
 | `v2_ws2811/firmware/pitch_please_w2811/` | V2.0 firmware (archived) |
 | `v2_ws2811/firmware/pitch_please_w2811_4-channel/` | V2.1 firmware (archived) |
 | `v2_ws2811/firmware/pitch_please_w2811_4_channel_r4/` | V2.2 firmware (archived) |
-| `v3_esp32_dmx/firmware/v3_esp32_dmx_platformio/` | V3 firmware — active PlatformIO project |
-| `v3_esp32_dmx/hardware/` | V3 PCB (Fritzing/Gerber) and 3D case files |
+| `v3_esp32_dmx/firmware/v3-2_esp32_dmx_platformio/` | V3 firmware — active PlatformIO project |
+| `v3_esp32_dmx/firmware/v3-0_esp32_dmx_arduino_ide/` | V3 firmware — original Arduino IDE project, outdated |
+| `v3_esp32_dmx/pcb/` | V3 PCB — Fritzing sketches (`v3-0`, `v3-2-0`, `v3-2-1`), Gerbers per revision, `fritzing custom parts/` |
+| `v3_esp32_dmx/case/` | V3 3D-printed case files (`v3-0`, `v3-1`) |
 | `vl/` | vvvv gamma patch + shaders + scenes |
 | `testing/standalone_esp32/` | Deprecated v3 prototype (kept for reference) |
 | `testing/cases/` | Obsolete 3D print tests for a never-built 19" rack version (screw holes, connectors, etc.) |

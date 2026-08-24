@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-07-09
+date_modified: 2026-08-24
 ---
 
 # Hardware
@@ -24,13 +24,21 @@ date_modified: 2026-07-09
 
 ## V3 PCB
 
-Designed in Fritzing (`v3_esp32_dmx/hardware/250802_v3_esp32_dmx.fzz`). Key components: ESP32 (AZ-Delivery USB-C), MAX485 RS-485 transceiver module for DMX. Gerber files exported August 2025 in `v3_esp32_dmx/hardware/250805 pcb/`. Fritzing parts for both components are included in `v3_esp32_dmx/hardware/fritzing parts/`.
+Designed in Fritzing, under `v3_esp32_dmx/pcb/`. Key components: ESP32 (AZ-Delivery USB-C), 2× MAX485 RS-485 transceiver modules for DMX In/Out, SN74AHCT125 level-shifting buffer. Three sketch revisions:
+
+- **v3-0** (`250802_v3-0_esp32_dmx.fzz`, Aug 2025): original board. Gerbers in `250805 pcb v3-0/`.
+- **v3-2-0** (`260822_v3-2-0_esp32_dmx.fzz`, 2026-08-22): fixed undersized ESP32/MAX485 solder holes, removed the broken GPIO33→RE/DE trace. Gerbers + PCB view SVG in `260822 pcb v3-2-0/`.
+- **v3-2-1** (`260823_v3-2-1_esp32_dmx.fzz`, 2026-08-23): removed the unused STPDWN step-down footprint and its two decoupling caps; cosmetic terminal relabeling. Gerbers + PCB view SVG in `260823 pcb v3-2-1/`.
+
+Full fix history and verified circuit topology: [[v3]].
+
+Fritzing custom parts (ESP32 and MAX485 footprints, both loose SVGs and importable `.fzpz` packages) are in `v3_esp32_dmx/pcb/fritzing custom parts/`, one subfolder per part.
 
 ## V3 Case
 
-3D-printed enclosure designed in Rhino 3D. Two design iterations:
+3D-printed enclosure designed in Rhino 3D, under `v3_esp32_dmx/case/`. Two design iterations:
 
-- **v3** (`3d print/`, Aug–Sep 2025): body, front cap, end cap, inner spacer
+- **v3-0** (`3d print v3-0/`, Aug–Sep 2025): body, front cap, end cap, inner spacer
 - **v3-1** (`3d print v3-1/`, Nov–Dec 2025): revised body, front cap, end caps, inner spacers (start + end), middle block, internal frame
 
 Files exported as STEP (`.stp`) and 3MF. The Rhino source files are `250603_v3_esp32_dmx.3dm` and `251124_v3-1_esp32_dmx.3dm`.

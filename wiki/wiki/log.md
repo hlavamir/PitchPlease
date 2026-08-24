@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-08-23
+date_modified: 2026-08-24
 ---
 
 # Log
@@ -324,3 +324,13 @@ Nothing else changed: DMX path, LED driver chain, GPIO assignments, and all rema
 ## [2026-08-23] update | power terminal purposes clarified
 
 Miro clarified the three physical power screw terminals, which the netlist alone couldn't distinguish (same net memberships don't reveal physical intent): the large "+ 12V -" terminal (right edge, wider `screw_terminal_2_200mil` pitch) is the main power input from the external 12V PSU. The two smaller bottom-edge terminals, "+12V-" and "+5V-" (`screw_terminal_2_100mil`), connect to the external power module that replaced the onboard STPDWN step-down — 12V out to that module, regulated 5V back in from it. Corrected an earlier wrong guess in [[v3]] that "+12V-" was a daisy-chain point to a second fixture.
+
+---
+
+## [2026-08-24] update | fzpz packages fixed; v3_esp32_dmx reorganized, wiki paths updated
+
+Two unrelated fixes today.
+
+**Stale `.fzpz` packages.** Checking whether `v3_esp32_dmx/pcb/fritzing custom parts/` was fully up to date turned up a gap: the loose PCB SVGs had the corrected hole sizes, but the importable `.fzpz` packages (what someone would actually import into their own Fritzing library to reuse the part) still had the original undersized holes — they were never regenerated after the 2026-08-22 fix. Patched both by unzipping, editing the embedded PCB-view SVG the same way as before, and rezipping; verified zip integrity and hole radii afterward. Miro also confirmed the `_backup` files (kept alongside the originally-edited files) are no longer needed now that the fix is proven working, and removed them — the pre-fix originals stay recoverable via git history if ever needed.
+
+**Directory reorganization.** `v3_esp32_dmx/hardware/` (the old flat folder holding PCB, case, and Gerber files together) has been split into `v3_esp32_dmx/{case,firmware,pcb}/`, with explicit version tags added throughout (`v3-0`, `v3-2-0`, `v3-2-1` for PCB revisions; `v3-0`/`v3-1` for case iterations). The wiki hadn't caught up — [[v3]], [[hardware]], and [[overview]] all still pointed at the old `hardware/` paths. Updated all three: file paths throughout, the Firmware/Case/PCB tables, and the v3.2 Revision section (which now also notes the reorg happened, in case old paths surface again in git history or old notes).

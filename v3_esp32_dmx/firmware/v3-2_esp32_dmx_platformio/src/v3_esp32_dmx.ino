@@ -32,7 +32,11 @@ const uint8_t  IDLE_ANIM_FPS = 50;          // idle animation refresh rate
 const float    IDLE_ANIM_MIN_LEVEL = 0.10;  // floor so the breathe never fully dims
 
 // DMX
-const uint16_t DMX_START_CHANNEL = 100;
+// Set per device at flash time via -DDMX_START_CHANNEL_VALUE (firmware-flasher.command); 100 is the default
+#ifndef DMX_START_CHANNEL_VALUE
+#define DMX_START_CHANNEL_VALUE 100
+#endif
+const uint16_t DMX_START_CHANNEL = DMX_START_CHANNEL_VALUE;
 
 const uint16_t DMX_HEADER_CHANNELS = NUM_STRIPS + 2; // master dimmer, mode, 1 dimmer per strip
 

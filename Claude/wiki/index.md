@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-07-10
+date_modified: 2026-09-27
 ---
 
 # Wiki Index
@@ -23,6 +23,7 @@ Catalog of all pages in the PitchPlease wiki. Updated on every ingest.
 | [[v1]] | Version 1: Arduino mono-color strips via PWM (archived) |
 | [[v2]] | Version 2: WS2811 addressable strips, sub-versions 2a and 2b (archived) |
 | [[v3]] | Version 3: ESP32 + DMX512, two physical devices (current) |
+| [[v3-assembly]] | Build notes for v3 devices 3 and 4: v3.2 case assembly procedure, internal cable set, corrections and lessons learned |
 
 ## Future Development
 

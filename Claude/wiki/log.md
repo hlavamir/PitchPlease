@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-07-10
+date_modified: 2026-09-27
 ---
 
 # Log
@@ -277,3 +277,89 @@ Corrected MIDI controller from Traktor Kontrol F1 → Novation Launch Control XL
 ## [2026-07-09] new-page | WiFi bridge broken out into own page
 
 Created [[wifi-bridge]] covering the future-dev WiFi bridge concept: phone → vvvv HTTP/WebSocket server → DMX → v3 devices. Page covers concept, vvvv implementation via `VL.IO.HTTP` + `VL.IO.WebSocket` NuGet packages, phone connection setup, candidate UI scope, and open questions. Updated [[v3]] Future Development section to reference [[wifi-bridge]], added [[wifi-bridge]] to [[index]] under a new "Future Development" section.
+
+---
+
+## [2026-09-06] new-page | Discoball art installation + motor datasheet ingest
+
+New side project, discussed and specced in chat before this ingest: a discoball resting in a rotating 3D-printed bowl bearing, driven via an internal ring gear (~8cm, slewing-ring style) by an off-axis stepper motor. Target rotation ~1–3 RPM ambient, up to ~60 RPM "strobe" mode, low-speed precision prioritized over top speed.
+
+Key decisions captured: reusing the [[v3]] PCB v3.2 for the motor was considered and rejected (its 4 LED headers are 5V logic-level buffer outputs, not power drivers — no benefit over a plain breadboard build for this one-off). A DC gear motor + TB6612FNG was the initial plan but dropped once the wide (20×) speed range with low-speed precision became the actual requirement — open-loop PWM on a brushed DC motor is nonlinear at low duty due to static friction, whereas a stepper's speed (step-pulse frequency) has no such dead zone. Settled on a NEMA17 pancake stepper (StepperOnline 17HE08-1004S, 17Ncm/1A) driven by a TMC2209 (chosen for silent "stealthChop" operation, important for an ambient art piece) with VIO tied to the ESP32's 3.3V rail (no level shifter needed — TMC2209 logic supply is independent of motor voltage).
+
+PDF label/datasheet for the purchased motor ingested: `raw/290906 Setpper Motor.pdf`. Ingest record: `raw/2026-09-06_stepperonline-17he08-1004s-datasheet.md` — confirms exact pinout (1=A+/black, 3=A−/blue, 2=B+/green, 4=B−/red), electrical specs (3.6Ω/phase, 4mH, 22g·cm² rotor inertia), and mechanical dimensions (5mm shaft w/ flat, 31mm bolt pattern, 23mm pancake body).
+
+Created new page [[discoball]] covering the full concept, mechanical design, motor/driver selection rationale, wiring notes, and open questions (bearing friction interface undecided — flagged as the most likely weak point; ring gear module/tooth count and DMX channel mapping not yet finalised). Added new "Side Projects" section to [[index]].
+
+---
+
+## [2026-09-25] update | Discoball — slewing bearing terminology + reference video
+
+Recorded that the correct technical term for the rotating holder/bearing with integrated drive gear under the discoball is a **slew bearing / slewing bearing** (internal-teeth variant), useful as a search term for printable designs. Saved a reference link: [Slew Bearing Design & Manufacture — Mahdi Designs](https://www.youtube.com/watch?v=CtQzOOL7SQg) (only the title and channel were looked up; the video itself was not reviewed). Added a "Terminology: slewing bearing" subsection and a See Also link to [[discoball]]. New Open Question recorded: Miro wrote "internal thread", interpreted as internal gear teeth — unconfirmed.
+
+
+---
+
+## [2026-09-25] ingest | Discoball — slewing bearing inspiration images, "internal thread" resolved
+
+Miro clarified that "internal thread" in the previous entry meant **internal gear teeth**; the open question is resolved (struck through in [[discoball]]). Saved four slewing-bearing product renders as inspiration for the general principle (two rings, captured rolling elements in a raceway, one ring with gear teeth, mounting holes on both rings, seal), not for size or load: `images/discoball-slewing-bearing-1-roller-external-teeth.png`, `-2-yellow-cage-rollers.webp`, `-3-ball-race-cutaway.png`, `-4-internal-teeth.webp`. Only image 4 shows internal teeth. Added an "Inspiration images" subsection to [[discoball]] and a note under Bearing that the slewing-bearing references suggest replacing the plain plastic pivot with a proper split raceway (undecided).
+
+---
+
+## [2026-09-26] new-page | v3 devices 3 and 4 — internal cable set prepared
+
+Miro is building two more v3 devices (units 3 and 4) and cut/prepared their internal cables on 2026-09-25, one identical set per device: PCB↔external power module 45 mm (2× red, 2× white); power connector→PCB 90 mm (1× red, 1× white); DMX connectors→PCB 70 mm (2 cables × GND/A/B); LED leads 110 mm female end (strip side) and 60 mm male end (PCB side), 4 cables each × positive/data/GND, joined by an in-line connector per strip so PCB and strips can be separated during assembly. Lengths are first-pass; Miro will report corrections after test-fitting.
+
+Created [[v3-assembly]] with the cable table, a note that the destinations (which PCB terminals/headers each cable serves) are inferred and unconfirmed, and Open Questions: wire colors for the LED/DMX cables and connector types weren't recorded, and the DMX header silkscreen letters (GND/A/B) appear swapped relative to the MAX485's A/B pins in the v3.2 netlist — which naming the new cables follow is unconfirmed. Added the page to [[index]] and linked it from [[v3]] (Physical Devices and See Also).
+
+
+---
+
+## [2026-09-26] update | Motor datasheet PDF renamed (typo fix)
+
+Miro fixed the typo in the datasheet's filename: `raw/290906 Setpper Motor.pdf` is now `raw/290906 Stepper Motor.pdf`. Updated the `file:` pointer in the ingest record `raw/2026-09-06_stepperonline-17he08-1004s-datasheet.md` (and its `date_modified`); no wiki page linked to the PDF by name. The earlier 2026-09-06 log entry above still shows the old misspelled name, left as-is because the log is append-only — read it as the same file.
+
+---
+
+## [2026-09-26] update | v3 devices 3 and 4 — 12 V cable extended, tape over MAX485s, spine rod length
+
+Miro reported three findings from assembling units 3 and 4. (1) The pair of 12 V power cables from the PCB to the external power module, cut at 45 mm, had to be extended to 90 mm; nothing was said about the other pair to the module, so its 45 mm is assumed unchanged. This also confirms part of the earlier inferred cable-destination mapping: a 12 V pair runs PCB → power module. (2) A piece of tape now covers the MAX485 modules as a precaution against them accidentally touching two metal components on the power module and short-circuiting the device — judged unlikely, done as cheap insurance. (3) The "spine" — the structural screw rod through the hollow square profile — needs to be 134 cm long.
+
+Updated [[v3-assembly]]: the cable table now shows the extended 12 V pair (original 45 mm kept visible as "was"), and a new "Corrections and build notes" section holds all three items. The rod length is also noted in [[v3]]'s v3.1 case-iteration row. New Open Question: it wasn't stated whether the extension and the tape apply to both units 3 and 4, or whether units 1 and 2 should get the tape as well.
+
+---
+
+## [2026-09-27] ingest | v3.2 case iteration + full assembly procedure for devices 3 and 4
+
+Discovered a third case iteration exists: `v3_esp32_dmx/case/3d print v3-2/` (Rhino source `280925_v3-2_esp32_dmx.3dm`), used for devices 3 and 4 — not previously documented (wiki only knew about v3.0 and v3.1). Its main structural difference from v3.1: two middle blocks on the spine rod (each centred 47 cm from an end, 40 cm apart) instead of v3.1's single midpoint block. Body/end cap/front cap are black, both inner spacers white. Added a "v3.2" row to [[v3]]'s Case iterations table; "Two iterations" language updated to "Three".
+
+Miro then logged the full 11-step assembly procedure followed for both units on 2026-09-26 (spine rod cutting and middle-block threading with measurements, sliding on the square profile and inner spacers, sizing against the Plexiglas tube, gluing and taping the 4 LED strips with the alternating start-line pattern, internal frame and XLR/front-cap attachment, final body/end-cap assembly with M3 16mm screws, then flashing firmware — via `firmware-flasher.command`, the tool built earlier this week — and labeling the DMX address). Added as a new "Assembly procedure (v3.2 case)" section in [[v3-assembly]], referencing each printed part by its actual filename. Both units are complete except for 2 missing printed covers — not specified whether one per device or both for one device; recorded as an Open Question.
+
+Also logged 5 lessons-learned notes for future case/cable revisions, as a new section in [[v3-assembly]]: LED cables (both leads) should be ~1cm longer; the internal frame's holes (especially the rod's middle hole) and the inner-spacer holes are slightly too tight; the inner spacers have ~1mm too much play where they meet the square profile; and the assembly needs a way to stop the nuts backing off over time (thread lock / lock nuts / glue).
+
+---
+
+## [2026-09-27] update | Units 3/4 status: power+LED confirmed working, XLR untested; unit 2 body reprint pending
+
+Miro clarified the "missing 2 printed covers" from the previous entry: both units 3 and 4 are each missing their body, end cap, and front cap (the front cap carries the XLR connectors) — not just two covers total. Power delivery and LED communication have been tested and confirmed working on both units; the XLR/DMX signal path can't be tested yet since neither unit has its front cap (and therefore XLR connectors) attached. Updated the Status section in [[v3-assembly]] accordingly, replaced the old "which 2 covers" open question with an XLR-testability one, and left the "same body design as v3.2?" question open on the new Units 1 and 2 section below.
+
+Miro is not planning further changes to units 1 and 2, except possibly reprinting unit 2's body: a modeling mistake left out the screw hole joining the body to the inner spacer start through the Plexiglas tube (bottom side). Already fixed in the model and reprinted for unit 1; unit 2's body hasn't been reprinted yet. Added a new "Units 1 and 2" section to [[v3-assembly]] — unconfirmed whether units 1/2 use the v3.2 body design or an earlier one.
+
+---
+
+## [2026-09-27] update | XLR/DMX testing not actually blocked on the front cap
+
+Corrected a wrong claim from the previous entry: the XLR/DMX path on units 3/4 is not blocked on the front cap being attached — the front cap is only the mechanical mount, and the XLR connectors can be wired directly to the PCB without it. Miro may test this today; the cost is having to unplug the connectors again afterward to route their cables through the front cap during final assembly. Updated the Status section and the corresponding Open Question in [[v3-assembly]].
+
+---
+
+## [2026-09-27] update | Future-revision note: middle blocks closer together
+
+Miro would move the two middle blocks on the spine rod closer together in a future case revision — 30 cm apart instead of the current 40 cm, still centred symmetrically. Added to the "Lessons learned" section in [[v3-assembly]].
+
+---
+
+## [2026-09-27] new-part | Nut retainer designed to fix the nut-unscrewing lesson learned
+
+Asked what to call a 3D-printed piece that mechanically stops a nut from unscrewing; landed on "nut keeper" as the general term. Miro named the actual part **nut retainer** and placed it at `v3_esp32_dmx/case/3d print v3-2/nut retainer end.3mf` (verified it exists, 2026-09-27). It fits under the end cap and addresses the rod's end-side nut specifically — the one that stays permanently tensioned in the finished assembly, unlike the start side which is fixed via M3 screws rather than a permanent nut.
+
+Marked the corresponding "Lessons learned" bullet in [[v3-assembly]] as resolved (struck through, not deleted) and added a "Nut retainer" note describing the part and where it fits into the assembly procedure (step 10). Not yet used in an actual build.

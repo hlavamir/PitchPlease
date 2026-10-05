@@ -31,6 +31,12 @@ Catalog of all pages in the PitchPlease wiki. Updated on every ingest.
 |---|---|
 | [[wifi-bridge]] | WiFi bridge: phone → vvvv HTTP/WebSocket server → DMX (future dev) |
 
+## Side Projects
+
+| Page | Summary |
+|---|---|
+| [[discoball]] | Motorized discoball art installation — bowl bearing, internal ring gear, NEMA17 stepper + TMC2209 (prototype, not a PitchPlease light-pole device) |
+
 ## Deprecated
 
 | Page | Summary |

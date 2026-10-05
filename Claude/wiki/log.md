@@ -280,6 +280,31 @@ Created [[wifi-bridge]] covering the future-dev WiFi bridge concept: phone → v
 
 ---
 
+## [2026-09-06] new-page | Discoball art installation + motor datasheet ingest
+
+New side project, discussed and specced in chat before this ingest: a discoball resting in a rotating 3D-printed bowl bearing, driven via an internal ring gear (~8cm, slewing-ring style) by an off-axis stepper motor. Target rotation ~1–3 RPM ambient, up to ~60 RPM "strobe" mode, low-speed precision prioritized over top speed.
+
+Key decisions captured: reusing the [[v3]] PCB v3.2 for the motor was considered and rejected (its 4 LED headers are 5V logic-level buffer outputs, not power drivers — no benefit over a plain breadboard build for this one-off). A DC gear motor + TB6612FNG was the initial plan but dropped once the wide (20×) speed range with low-speed precision became the actual requirement — open-loop PWM on a brushed DC motor is nonlinear at low duty due to static friction, whereas a stepper's speed (step-pulse frequency) has no such dead zone. Settled on a NEMA17 pancake stepper (StepperOnline 17HE08-1004S, 17Ncm/1A) driven by a TMC2209 (chosen for silent "stealthChop" operation, important for an ambient art piece) with VIO tied to the ESP32's 3.3V rail (no level shifter needed — TMC2209 logic supply is independent of motor voltage).
+
+PDF label/datasheet for the purchased motor ingested: `raw/290906 Setpper Motor.pdf`. Ingest record: `raw/2026-09-06_stepperonline-17he08-1004s-datasheet.md` — confirms exact pinout (1=A+/black, 3=A−/blue, 2=B+/green, 4=B−/red), electrical specs (3.6Ω/phase, 4mH, 22g·cm² rotor inertia), and mechanical dimensions (5mm shaft w/ flat, 31mm bolt pattern, 23mm pancake body).
+
+Created new page [[discoball]] covering the full concept, mechanical design, motor/driver selection rationale, wiring notes, and open questions (bearing friction interface undecided — flagged as the most likely weak point; ring gear module/tooth count and DMX channel mapping not yet finalised). Added new "Side Projects" section to [[index]].
+
+---
+
+## [2026-09-25] update | Discoball — slewing bearing terminology + reference video
+
+Recorded that the correct technical term for the rotating holder/bearing with integrated drive gear under the discoball is a **slew bearing / slewing bearing** (internal-teeth variant), useful as a search term for printable designs. Saved a reference link: [Slew Bearing Design & Manufacture — Mahdi Designs](https://www.youtube.com/watch?v=CtQzOOL7SQg) (only the title and channel were looked up; the video itself was not reviewed). Added a "Terminology: slewing bearing" subsection and a See Also link to [[discoball]]. New Open Question recorded: Miro wrote "internal thread", interpreted as internal gear teeth — unconfirmed.
+
+
+---
+
+## [2026-09-25] ingest | Discoball — slewing bearing inspiration images, "internal thread" resolved
+
+Miro clarified that "internal thread" in the previous entry meant **internal gear teeth**; the open question is resolved (struck through in [[discoball]]). Saved four slewing-bearing product renders as inspiration for the general principle (two rings, captured rolling elements in a raceway, one ring with gear teeth, mounting holes on both rings, seal), not for size or load: `images/discoball-slewing-bearing-1-roller-external-teeth.png`, `-2-yellow-cage-rollers.webp`, `-3-ball-race-cutaway.png`, `-4-internal-teeth.webp`. Only image 4 shows internal teeth. Added an "Inspiration images" subsection to [[discoball]] and a note under Bearing that the slewing-bearing references suggest replacing the plain plastic pivot with a proper split raceway (undecided).
+
+---
+
 ## [2026-09-26] new-page | v3 devices 3 and 4 — internal cable set prepared
 
 Miro is building two more v3 devices (units 3 and 4) and cut/prepared their internal cables on 2026-09-25, one identical set per device: PCB↔external power module 45 mm (2× red, 2× white); power connector→PCB 90 mm (1× red, 1× white); DMX connectors→PCB 70 mm (2 cables × GND/A/B); LED leads 110 mm female end (strip side) and 60 mm male end (PCB side), 4 cables each × positive/data/GND, joined by an in-line connector per strip so PCB and strips can be separated during assembly. Lengths are first-pass; Miro will report corrections after test-fitting.

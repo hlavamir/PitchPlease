@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-08-24
+date_modified: 2026-09-12
 ---
 
 # Log
@@ -334,3 +334,17 @@ Two unrelated fixes today.
 **Stale `.fzpz` packages.** Checking whether `v3_esp32_dmx/pcb/fritzing custom parts/` was fully up to date turned up a gap: the loose PCB SVGs had the corrected hole sizes, but the importable `.fzpz` packages (what someone would actually import into their own Fritzing library to reuse the part) still had the original undersized holes — they were never regenerated after the 2026-08-22 fix. Patched both by unzipping, editing the embedded PCB-view SVG the same way as before, and rezipping; verified zip integrity and hole radii afterward. Miro also confirmed the `_backup` files (kept alongside the originally-edited files) are no longer needed now that the fix is proven working, and removed them — the pre-fix originals stay recoverable via git history if ever needed.
 
 **Directory reorganization.** `v3_esp32_dmx/hardware/` (the old flat folder holding PCB, case, and Gerber files together) has been split into `v3_esp32_dmx/{case,firmware,pcb}/`, with explicit version tags added throughout (`v3-0`, `v3-2-0`, `v3-2-1` for PCB revisions; `v3-0`/`v3-1` for case iterations). The wiki hadn't caught up — [[v3]], [[hardware]], and [[overview]] all still pointed at the old `hardware/` paths. Updated all three: file paths throughout, the Firmware/Case/PCB tables, and the v3.2 Revision section (which now also notes the reorg happened, in case old paths surface again in git history or old notes).
+
+---
+
+## [2026-09-12] update | R1-R4 resistor value resolved: 200Ω 1%, field-confirmed
+
+R1-R4's value had been an open question since the netlist trace (board silkscreen prints the designators but not the value). Miro asked about the right series resistor for the LED data lines; discussed the standard 300-500Ω WS281x guidance and initially recommended something in that range given the AHCT125 buffer's fast, low-impedance drive. Miro then supplied the missing measurement — PCB-to-strip cable is only 10-15cm — which changes the calculus: at that length only the *first* WS2811 IC on each strip sees the raw resistor+cable RC (each IC reshapes and re-transmits to the next), so the time constant is on the order of single-digit nanoseconds regardless of exact resistor value in the 100-500Ω range. Revised the recommendation accordingly — any value in that range is fine here, no strong preference.
+
+Miro then photographed one of the resistors actually populated on a built board and asked for the color-code read. Bands: red-black-black-black, gap, brown → 200Ω, 1% (5-band metal-film, blue body consistent with the brown ±1% band). Miro confirmed all 8 resistors (R1-R4 × 2 built/field-tested devices) use this same value — so 200Ω 1% is now a field-validated fact, not a guess. Updated [[v3]]'s LED driver path description with the confirmed value and the short-cable reasoning for why the exact value doesn't matter much here.
+
+---
+
+## [2026-09-12] update | C5 (EN reset cap) value confirmed: 10µF 50V
+
+Miro asked for a guess at C5's capacitance (between ESP32.EN and GND) with no way to check without opening a built device. Reasoned from the Fritzing part type — `SmallElectrolyticCapacitorModuleID`, not ceramic — that this was likely a deliberate µF-range power-on delay rather than the standard 100nF-ceramic debounce cap from Espressif's reference auto-reset circuit; guessed 10µF as the most common value used in that role. Miro then opened one of the two built devices and confirmed: **10µF, 50V**. Capacitance guess was exactly right; voltage rating (50V) higher than guessed but functionally irrelevant. Added a new "EN reset capacitor" paragraph to [[v3]]'s Circuit Topology section — this hadn't been documented there before at all.

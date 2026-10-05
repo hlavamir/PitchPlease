@@ -1,0 +1,34 @@
+[project]
+name = "pitchcontrol"
+version = "0.1.0"
+description = "PitchControl — audio-reactive light control engine for PitchPlease (port of the vvvv patch)"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26",
+    "pydantic>=2.6",
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.29",
+    "pyserial>=3.5",
+    "sounddevice>=0.4.6",
+    "mido>=1.3",
+    "python-rtmidi>=1.5",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "httpx>=0.27"]
+app = ["pywebview>=5"]
+build = ["pywebview>=5", "pyinstaller>=6.10", "pillow>=10"]
+
+[project.scripts]
+pitchcontrol = "pitchcontrol.__main__:main"
+pitchcontrol-app = "pitchcontrol.desktop:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pitchcontrol"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

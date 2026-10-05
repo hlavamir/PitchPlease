@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "pitchcontrol-nohw",
+      "runtimeExecutable": "/Users/hlavamir/Repositories/PitchPlease/pitch_control/backend/.venv/bin/python",
+      "runtimeArgs": [
+        "-m",
+        "pitchcontrol",
+        "--no-hardware",
+        "--port",
+        "8420"
+      ],
+      "port": 8420
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "fps": 40,
+  "preview_fps": 15,
+  "active_rig": "default",
+  "active_controller": "lcxl3",
+  "audio": {
+    "device": "Komplete Audio 6",
+    "channels": [
+      1,
+      2
+    ],
+    "gain": 1.0
+  },
+  "outputs": {
+    "enttec": {
+      "enabled": false,
+      "universe": 0,
+      "device": {}
+    },
+    "artnet": {
+      "enabled": false,
+      "targets": [
+        {
+          "universe": 2,
+          "ip": "127.255.255.255"
+        }
+      ]
+    },
+    "pitchpls_v2": {
+      "enabled": false,
+      "baudrate": 921600,
+      "device": {}
+    }
+  },
+  "fog": {
+    "_note": "Channels from the vvvv DMXOutput patch (SetDMXChannel, 1-based): fog = 1, ground fog = 2, universe 0, 255 when on. Timers as in the patch.",
+    "machines": [
+      {
+        "name": "Fog",
+        "enabled": true,
+        "universe": 0,
+        "channel": 1,
+        "on_value": 255,
+        "off_value": 0,
+        "interval_s": 60,
+        "duration_s": 4,
+        "manual_macro": "Fog Machine"
+      },
+      {
+        "name": "Ground fog",
+        "enabled": true,
+        "universe": 0,
+        "channel": 2,
+        "on_value": 255,
+        "off_value": 0,
+        "interval_s": 60,
+        "duration_s": 2,
+        "manual_macro": null
+      }
+    ]
+  }
+}

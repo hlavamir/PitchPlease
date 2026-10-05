@@ -1,0 +1,36 @@
+# Builds the standalone PitchControl app for Windows and macOS.
+# Manual only: GitHub → Actions → "PitchControl app" → Run workflow. Download the zips from the run's artifacts.
+name: PitchControl app
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            script: pitch_control\packaging\build_windows.bat
+            artifact: pitch_control/dist/PitchControl-windows-x64.zip
+          - os: macos-14 # Apple Silicon
+            script: pitch_control/packaging/build_macos.sh
+            artifact: pitch_control/dist/PitchControl-macos-arm64.zip
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Build
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" = "Windows" ]; then cmd //c "${{ matrix.script }}"; else bash "${{ matrix.script }}"; fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PitchControl-${{ runner.os }}
+          path: ${{ matrix.artifact }}

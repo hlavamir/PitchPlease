@@ -1,0 +1,64 @@
+{
+  "name": "Novation Launch Control XL 3",
+  "port_match": "LCXL3",
+  "channel": 13,
+  "_note": "MIDI channel 13 (1-based). The vvvv patch shows 'Channel 12' because VL.IO.Midi uses a 0-based channel index. CC numbers are a best-effort reading of MidiMappingLCXL3 (knob row 3 = CC 29-36, faders = CC 5-12); scene buttons and the shift layer are not mapped yet. Verify with the MIDI monitor on the Inputs page.",
+  "mappings": [
+    {
+      "cc": 29,
+      "macro": "Strobo Decay"
+    },
+    {
+      "cc": 30,
+      "macro": "Idle Attack"
+    },
+    {
+      "cc": 31,
+      "macro": "Shader Speed"
+    },
+    {
+      "cc": 32,
+      "macro": "Shader Param"
+    },
+    {
+      "cc": 33,
+      "macro": "Hue A"
+    },
+    {
+      "cc": 35,
+      "macro": "Hue B"
+    },
+    {
+      "cc": 5,
+      "macro": "Audio Reactivity"
+    },
+    {
+      "cc": 6,
+      "macro": "Strobo"
+    },
+    {
+      "cc": 7,
+      "macro": "Strobo Brightness"
+    },
+    {
+      "cc": 8,
+      "macro": "Idle Brightness"
+    },
+    {
+      "cc": 9,
+      "macro": "Strobo Bright. A"
+    },
+    {
+      "cc": 10,
+      "macro": "Idle Bright. A"
+    },
+    {
+      "cc": 11,
+      "macro": "Strobo Bright. B"
+    },
+    {
+      "cc": 12,
+      "macro": "Idle Bright. B"
+    }
+  ]
+}

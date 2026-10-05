@@ -1,0 +1,277 @@
+"""Configuration models.
+
+Every model allows unknown keys (``extra="allow"``) so that a typo never stops the
+show; the loader reports unknown keys to the log instead (see ``loader.py``).
+Missing keys are filled with the defaults defined here.
+"""
+
+from __future__ import annotations
+
+from typing import Literal
+
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+
+class Model(BaseModel):
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
+
+
+# --------------------------------------------------------------------------- colours
+
+
+class HSB(Model):
+    """A colour as hue / saturation / brightness, all 0..1 (hue wraps)."""
+
+    h: float = 0.0
+    s: float = 1.0
+    b: float = 1.0
+
+
+# --------------------------------------------------------------------------- fixture types
+
+PixelFormat = Literal["R", "RGB", "RGBW"]
+
+
+class Shutter(Model):
+    """Shutter / strobe channel values used for "real strobo" (see port-design, Future: Hardware Strobe)."""
+
+    open: int = 0
+    strobo: int = 255
+
+
+class ChannelSlot(Model):
+    """One entry of a fixture profile.
+
+    Exactly one of ``value`` (constant), ``pixels`` (the pixel block), ``macro``
+    (a macro's value scaled to 0..255) or ``shutter`` must be given.
+    """
+
+    name: str | None = None
+    value: int | None = Field(default=None, ge=0, le=255)
+    pixels: PixelFormat | None = None
+    macro: str | None = None
+    shutter: Shutter | None = None
+
+    @model_validator(mode="after")
+    def _exactly_one_kind(self) -> "ChannelSlot":
+        kinds = [self.value is not None, self.pixels is not None, self.macro is not None, self.shutter is not None]
+        if sum(kinds) != 1:
+            raise ValueError("a channel needs exactly one of: value, pixels, macro, shutter")
+        return self
+
+    @property
+    def kind(self) -> str:
+        if self.value is not None:
+            return "value"
+        if self.pixels is not None:
+            return "pixels"
+        if self.macro is not None:
+            return "macro"
+        return "shutter"
+
+
+class FixtureType(Model):
+    name: str = ""
+    description: str = ""
+    transport: Literal["dmx", "pitchpls_v2"] = "dmx"
+    pixels: int = Field(default=1, ge=1)
+    channels: list[ChannelSlot] = Field(default_factory=lambda: [ChannelSlot(pixels="RGB")])
+    brightness_gamma: float = 1.0
+    rgb_gamma: float = 1.0
+    react_to_strobo: bool = False
+    strobo_color: HSB = Field(default_factory=lambda: HSB(h=0, s=0, b=1))
+
+    def channel_count(self, pixels: int | None = None) -> int:
+        px = pixels if pixels is not None else self.pixels
+        total = 0
+        for ch in self.channels:
+            total += px * len(ch.pixels) if ch.pixels else 1
+        return total
+
+
+# --------------------------------------------------------------------------- rigs
+
+
+class IdleMaskRange(Model):
+    """Remap of the sampled mask value: ``lerp(min, max, mask ** (2 ** curve))``.
+
+    If ``macro`` is set, the range only applies while that macro is on (> 0.5),
+    otherwise the identity range is used. This is how "Invert Discoball" works.
+    """
+
+    min: float = 0.0
+    max: float = 1.0
+    curve: float = 0.0
+    macro: str | None = None
+
+
+class FixtureInstance(Model):
+    name: str = ""
+    type: str = ""
+    enabled: bool = True
+    group: Literal["A", "B"] = "A"
+
+    # DMX placement (1-based address, as printed on fixtures)
+    universe: int = Field(default=0, ge=0)
+    address: int = Field(default=1, ge=1, le=512)
+
+    # placement in the square UV scene (u right, v down, 0..1)
+    position: tuple[float, float] = (0.5, 0.5)
+    rotation: float = 0.0  # turns (0.25 = 90°)
+    length: float = 0.0  # pixels are spread along this length, centred on position
+    pixel_positions: list[tuple[float, float]] | None = None  # explicit positions override the spread
+
+    # overrides of fixture-type defaults (None = take from type)
+    pixels: int | None = None
+    brightness_gamma: float | None = None
+    rgb_gamma: float | None = None
+    react_to_strobo: bool | None = None
+    strobo_color: HSB | None = None
+    real_strobo: bool = False
+    channel_values: dict[str, int] = Field(default_factory=dict)
+
+    dimmer_macro: str | None = None
+
+    # colour sources (see port-design, Colour and Brightness Model)
+    hue_source: Literal["group", "A", "B", "const"] = "group"
+    hue: float = 0.0
+    saturation_source: Literal["group", "A", "B", "const"] = "group"
+    saturation: float = 1.0
+    brightness_source: Literal["pipeline", "const"] = "pipeline"
+    brightness: float = 1.0
+
+    idle_mask_range: IdleMaskRange = Field(default_factory=IdleMaskRange)
+
+
+class Rig(Model):
+    name: str = ""
+    description: str = ""
+    fixtures: list[FixtureInstance] = Field(default_factory=list)
+
+
+# --------------------------------------------------------------------------- settings
+
+
+class DeviceRef(Model):
+    """A USB serial device, matched by serial number + VID:PID first, port path as fallback."""
+
+    serial_number: str | None = None
+    vid: int | None = None
+    pid: int | None = None
+    description: str | None = None
+    port: str | None = None
+
+
+class AudioSettings(Model):
+    device: str | None = None  # name (substring) of the input device; None = system default
+    channels: list[int] = Field(default_factory=lambda: [1, 2])  # 1-based input channels, summed
+    gain: float = 1.0
+    sample_rate: int = 48000
+    fft_size: int = 2048
+    hop: int = 512
+    bands: int = 32
+    fmin: float = 35.0
+    fmax: float = 10000.0
+    floor_db: float = -80.0
+    range_db: float = 80.0
+    release_s: float = 0.08
+    normalisation_decay: float = 0.998  # per frame
+    normalisation_floor: float = 0.25  # stops quiet bands (noise) from being scaled up to full level
+    trigger_full_hz: float = 100.0
+    trigger_zero_hz: float = 5000.0
+
+
+class EnttecSettings(Model):
+    enabled: bool = False
+    device: DeviceRef = Field(default_factory=DeviceRef)
+    universe: int = 0
+
+
+class ArtNetTarget(Model):
+    universe: int = 0  # internal universe
+    ip: str = "127.255.255.255"
+    artnet_universe: int | None = None  # defaults to ``universe``
+
+
+class ArtNetSettings(Model):
+    enabled: bool = False
+    targets: list[ArtNetTarget] = Field(default_factory=list)
+
+
+class PitchPlsV2Settings(Model):
+    enabled: bool = False
+    device: DeviceRef = Field(default_factory=DeviceRef)
+    baudrate: int = 921600
+    mode: int = 0  # mirror mode byte understood by the v2.2 firmware
+    strips: int = 4
+    pixels_per_strip: int = 19  # the firmware mirrors these to 38 LEDs
+
+
+class OutputSettings(Model):
+    enttec: EnttecSettings = Field(default_factory=EnttecSettings)
+    artnet: ArtNetSettings = Field(default_factory=ArtNetSettings)
+    pitchpls_v2: PitchPlsV2Settings = Field(default_factory=PitchPlsV2Settings)
+
+
+class FogMachine(Model):
+    name: str = "Fog"
+    enabled: bool = True
+    universe: int = 0
+    channel: int = Field(default=1, ge=1, le=512)
+    on_value: int = Field(default=255, ge=0, le=255)
+    off_value: int = Field(default=0, ge=0, le=255)
+    interval_s: float = 60.0
+    duration_s: float = 4.0
+    manual_macro: str | None = "Fog Machine"
+
+
+class FogSettings(Model):
+    machines: list[FogMachine] = Field(default_factory=list)
+
+
+class MaskSettings(Model):
+    line_falloff: float = 0.12  # soft edge width of the line masks, in UV units
+    transition_s: float = 2.5  # preset crossfade time
+
+
+def _default_palette() -> list[HSB]:
+    hues = [0, 0.041666668, 0.097222224, 0.30555555, 0.375, 0.6388889, 0.6805556, 0.7222222, 0.7777778]
+    return [HSB(h=h, s=1, b=1) for h in hues]
+
+
+class Settings(Model):
+    fps: float = 40.0
+    preview_fps: float = 15.0
+    active_rig: str = "default"
+    active_controller: str | None = "lcxl3"
+    midi_input: str | None = None  # MIDI input port name (substring); None = take it from the controller file
+    audio: AudioSettings = Field(default_factory=AudioSettings)
+    outputs: OutputSettings = Field(default_factory=OutputSettings)
+    fog: FogSettings = Field(default_factory=FogSettings)
+    masks: MaskSettings = Field(default_factory=MaskSettings)
+    auto_colors: list[HSB] = Field(default_factory=_default_palette)
+
+
+# --------------------------------------------------------------------------- MIDI controllers
+
+
+class MidiMapping(Model):
+    cc: int = Field(ge=0, le=127)
+    macro: str
+    # absolute: CC value / 127 -> control value; toggle: flips on press; momentary: on while held
+    mode: Literal["absolute", "toggle", "momentary"] = "absolute"
+
+
+class Controller(Model):
+    name: str = ""
+    port_match: str = ""  # substring of the MIDI port name
+    channel: int = Field(default=1, ge=1, le=16)  # 1-based MIDI channel
+    mappings: list[MidiMapping] = Field(default_factory=list)
+
+
+# --------------------------------------------------------------------------- scenes
+
+
+class Scene(Model):
+    name: str = ""
+    values: dict[str, float] = Field(default_factory=dict)  # macro name -> control value (0..1)

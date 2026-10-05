@@ -1,0 +1,6 @@
+{
+  "description": "Generic single-pixel RGB fixture (Stairville panels behind the DJ, back panel, chillout zone).",
+  "pixels": 1,
+  "channels": [{ "pixels": "RGB" }],
+  "_note": "VERIFY: the front panels are spaced 4 channels apart (14, 18, 22); a 4th channel (e.g. a dimmer) may be needed."
+}

@@ -1,0 +1,17 @@
+# runtime
+logs/
+config/state/
+
+# python
+backend/.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+
+# frontend
+frontend/node_modules/
+frontend/dist/
+
+# standalone app builds
+/build/
+/dist/

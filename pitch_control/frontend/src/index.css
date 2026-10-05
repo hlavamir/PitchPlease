@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme {
+  --color-panel: #17181c;
+  --color-panel-2: #202228;
+  --color-edge: #2e3038;
+  --color-accent: #f5a524;
+  --color-group-a: #f08c2e;
+  --color-group-b: #9b6cf0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #0e0f12;
+  color: #e6e6e9;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+  background: var(--color-panel-2);
+  border: 1px solid var(--color-edge);
+  border-radius: 4px;
+  padding: 2px 6px;
+  color: inherit;
+  min-width: 0;
+}

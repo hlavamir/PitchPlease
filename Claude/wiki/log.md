@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-09-27
+date_modified: 2026-10-05
 ---
 
 # Log
@@ -363,3 +363,146 @@ Miro would move the two middle blocks on the spine rod closer together in a futu
 Asked what to call a 3D-printed piece that mechanically stops a nut from unscrewing; landed on "nut keeper" as the general term. Miro named the actual part **nut retainer** and placed it at `v3_esp32_dmx/case/3d print v3-2/nut retainer end.3mf` (verified it exists, 2026-09-27). It fits under the end cap and addresses the rod's end-side nut specifically — the one that stays permanently tensioned in the finished assembly, unlike the start side which is fixed via M3 screws rather than a permanent nut.
 
 Marked the corresponding "Lessons learned" bullet in [[v3-assembly]] as resolved (struck through, not deleted) and added a "Nut retainer" note describing the part and where it fits into the assembly procedure (step 10). Not yet used in an actual build.
+
+---
+
+## [2026-10-05] ingest | vvvv port planning: patch reverse-engineering, VL library sources, v3 header check
+
+Parsed `vl/root_gamma_7-3.vl` programmatically (definitions, node graphs, IOBox values) and read the public vvvv repos `VL.Audio` and `VL.StandardLibs` (VL.Stride TextureFX shaders, CoreLib `TimerFlop`). Created [[vvvv-patch-logic]] with the reconstructed algorithms. Main findings:
+- The FFT node's Bin Count 64 means a 128-sample Hann FFT with 375 Hz bins. Bin 1 covers ~0–750 Hz, dB is taken on |X|² (doubling level differences), and AudioData normalises with one shared max. Together these explain why the first band dominates.
+- `MixIdleMaskWithPeaksMap` uses Stride `FilterBase`'s `Control` lerp. The Glitches macro drives it, so Glitches = 0 means no audio reactivity.
+- Preset crossfade is a linear 2.5 s blend (Blend default op "Average").
+- Fixture brightness and phase logic reconstructed, including exclusive strobo/idle switching and gamma applied to HSV value only.
+
+Verified the v3 DMX framing against the v3.2 firmware. vvvv sends `255, 0` (master, mode) from `CreateLightFixtures` plus `255×4` strip dimmers hardcoded in `PitchPlsToDMXv3`, then 24 × RGB, which matches the firmware. Added a note to [[v3]]. (A 7-byte header `0,0,0,0,191,255,0` seen in the patch belongs to the Beam Ball, not v3.)
+
+Created [[port-design]] with the decisions so far: Python engine + Vite/React/TS/Tailwind client, CPU-only per-pixel masks with a 256×256 preview, distance-to-line masks instead of rectangle + blur, `fixtures/types/*.json` + `rigs/<event>.json`, `logs/YYMMDD_hhmm.log` per backend start, two-colour groups (Hue/Sat A/B) with Auto Color and Swap as group overrides, per-fixture hue/sat/brightness sources, USB-device dropdowns by serial number, and an Audio input page. Beam Ball and Audio Filter are dropped from the port.
+
+Corrected [[vvvv-patch]]: VerticalSymmetry averages with the left↔right flip rather than mirroring around the horizontal centre (old wording marked as corrected), and the Glitches description was extended.
+
+---
+
+## [2026-10-05] update | Port design decisions, round 2
+
+Miro's decisions, recorded in [[port-design]]:
+- Groups A/B are kept, including the per-group strobo/idle brightness. The non-strobo "dark on peak" behaviour and exclusive strobo/idle phases are intentional.
+- Gamma is split into Brightness Gamma (HSV value) and RGB Gamma (per channel).
+- The Auto Color palette becomes full HSB colours; A = B is allowed.
+- Glitches gets renamed.
+- MIDI mappings go in `controllers/*.json`, selected on an "Inputs" page (which replaces "Audio input").
+- The old scene INIs will be imported. A Fog page is added.
+- Logs are named `YYMMDD_hhmmss.log`.
+
+Proposed a techno/house FFT config (2048/512, 32 log bands 35 Hz–10 kHz, per-band normalisation). Frame rate, the profile model and the FFT config are still open. In [[vvvv-patch-logic]], Swap Colors is confirmed as a plain A↔B swap and the non-strobo darkening as intentional.
+
+---
+
+## [2026-10-05] build | PitchControl first version
+
+Named the port **PitchControl** and built a first version in `pitch_control/`:
+- Python engine: 32-band analysis with octave-weighted strobo trigger, ports of AudioData, UpdatePhase and LightFixture, the mask generators (including a numpy port of the simplex noise shader), fixture profiles, Enttec/Art-Net/v2 outputs, fog, scenes, macro autosave.
+- FastAPI/WebSocket server.
+- React frontend with the General, Dimmers, Fixtures, Output, Inputs and Fog pages.
+- Default config reconstructed from the patch.
+
+33 tests pass. Hardware I/O is not yet verified. Updated [[port-design]]:
+- profiles confirmed;
+- trigger weighting linear over octaves (100 Hz → 5 kHz);
+- 40 FPS;
+- 9-entry HSB palette;
+- new sections Implementation Status and Future: Hardware Strobe (proposal);
+- new open questions about the fixture details the patch doesn't pin down.
+
+Added the extracted rig, dimmer assignment, macro table and LCXL3 reading to [[vvvv-patch-logic]]. Corrected the idle-mask-range attribution there (pinspots with Invert Discoball, not LED bars).
+
+---
+
+## [2026-10-05] update | PitchControl: fog channels, v3 #3/#4, launcher, audio check
+
+- Fog channels found in the patch: fog = DMX 1, ground fog = DMX 2 (universe 0, 255 = on, 1-based like the fixtures). Both timers are enabled as in vvvv.
+- v3 units #3 and #4 are re-enabled in the default rig.
+- LED bar address is still open. The patch has 300, while Miro remembered 30, which is the back panel's address in the patch.
+- Pinspot hardware strobe is dropped for now (it needs the 9-channel mode). Mask reset on peak is confirmed as intended.
+- Added `pitch_control/run.command` (macOS launcher).
+- Audio capture from the Komplete Audio 6 works after the microphone permission was granted. All inputs were silent during the test, so the reaction to music is untested.
+
+Updated [[port-design]].
+
+---
+
+## [2026-10-05] update | PitchControl: LED bars removed, run.bat, audio inputs 1/2
+
+- Miro had mixed up the LED bars and the back panel. LED bars are removed from the default rig and their fixture type is deleted.
+- The pinspots' 4-channel mode is confirmed.
+- The default audio input is now channels 1/2 of the Komplete Audio 6, since nothing is connected to 3/4.
+- Added `pitch_control/run.bat` (Windows launcher, not yet tested on Windows).
+
+---
+
+## [2026-10-05] build | PitchControl standalone app
+
+Miro chose the app's own window (pywebview), `~/Documents/PitchControl/` as the data folder, and unsigned builds.
+
+Added:
+- `pitchcontrol.desktop` (first-run config install, server thread, native window, clean shutdown on window close or Quit);
+- `pitch_control/packaging/` (PyInstaller spec with the macOS microphone permission, icon generator, `build_macos.sh`, `build_windows.bat`);
+- a manual GitHub Actions workflow for both platforms.
+
+The macOS arm64 app builds and runs: 46 MB, smoke test with audio and MIDI loaded, and Quit stops the engine and saves the macros. The Windows build is not yet tested. Recorded in [[port-design]] (Standalone App).
+
+---
+
+## [2026-10-05] update | PitchControl app uses the repo config
+
+Miro wants rigs and fixture types committed, so the standalone app now uses the repo's `pitch_control/config/` directly. The build records the repo path. The order of precedence is `--data`, then `~/Documents/PitchControl/data_folder.txt`, then the repo, then `~/Documents/PitchControl/` as fallback. Default files are only installed into the fallback or into an empty folder.
+
+This supersedes the earlier "data in Documents" decision in [[port-design]]. Verified: a macOS build started without arguments uses the repo folder. 38 tests pass.
+
+---
+
+## [2026-10-05] update | PitchControl UI round: live rig edits, output monitor, MIDI monitor
+
+Changes after Miro's first hands-on session:
+- Scenes stay in git.
+- The first pixel of multi-pixel fixtures has a thicker ring in the preview, so the direction is visible.
+- New live output monitor (Output page, and the selected fixture on the Fixtures page): pixel colours and raw channel values.
+- Rig edits apply to the engine on Enter or blur. "Save rig" writes the file, "Revert" reloads it, and the server tracks unsaved changes.
+- Number fields keep the typed text until committed. They accept ".5" and ",5", allow an empty field while typing, and Escape reverts.
+- Launch Control did nothing although the status was green. The correct port, "LCXL3 1 MIDI Out", is open, but no messages arrived during a 20 s listen. Added a MIDI monitor (Inputs page: last 20 messages, whether each is mapped, or why not) and a log warning when CCs arrive on an unmapped channel.
+
+Open: whether the LCXL3 sends on channel 12 and the CCs from the patch. Check with the monitor. 41 tests pass.
+
+---
+
+## [2026-10-05] fix | LCXL3 MIDI channel is 13
+
+The MIDI monitor showed the Launch Control XL 3 sending on MIDI channel 13. The vvvv patch's "Channel 12" is VL.IO.Midi's 0-based channel index. Fixed `pitch_control/config/controllers/lcxl3.json` and corrected [[vvvv-patch-logic]].
+
+---
+
+## [2026-10-05] update | PitchControl: whole-tile faders
+
+Miro confirmed MIDI works with channel 13. Faders in the UI are now custom controls where the whole tile is draggable. Dragging is relative (no jump on click), Shift gives fine control, double-click resets to the default, and arrow keys step the value. While dragging, the tile shows the local value, and the engine gets at most one update per animation frame.
+
+---
+
+## [2026-10-05] update | PitchControl: fader centre line and colour tracks
+
+Every fader has a subtle centre line. The Hue A/B and Saturation A/B faders show their range as a colour gradient, plus the resulting colour (marker and swatch). The colours are computed from the macro values, not the auto colours, so the colour you'll get after switching Auto Color off is visible beforehand.
+
+---
+
+## [2026-10-05] update | PitchControl: calmer colour faders
+
+The colour gradient on the Hue/Saturation faders is now a narrow strip (10 % width) on the left edge. The rest of the fader is filled with the selected colour, like the other faders.
+
+---
+
+## [2026-10-05] update | PitchControl: layout fits a 14" MacBook
+
+Target viewport: 1512×915, the usable area of a 14" MacBook Pro at default scaling. All pages now fit without scrolling:
+- General: shorter faders and buttons; functions and shader presets merged into one panel; tighter spacing.
+- Fixtures: inputs shrink instead of overlapping; the editor uses two columns only when its panel is wide enough (container query).
+- Output: live output moved to its own column.
+
+The app window opens maximized.

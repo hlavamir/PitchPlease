@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-09-27
+date_modified: 2026-10-05
 ---
 
 # Wiki Index
@@ -14,6 +14,7 @@ Catalog of all pages in the PitchPlease wiki. Updated on every ingest.
 | [[overview]] | Project summary, version history, and repo structure |
 | [[hardware]] | Cross-version hardware comparison: MCUs, LED strips, PCBs, cases |
 | [[vvvv-patch]] | vvvv gamma 7.3 patch: HLSL shaders, scenes, MIDI, serial/DMX output |
+| [[vvvv-patch-logic]] | Reverse-engineered algorithms of the vvvv patch and VL libraries: FFT, masks, phase, fixture colour, DMX framing |
 | [[fixtures]] | Third-party DMX fixtures used at events (Stairville Beam Ball, pinspots) |
 
 ## Version Pages
@@ -29,6 +30,7 @@ Catalog of all pages in the PitchPlease wiki. Updated on every ingest.
 
 | Page | Summary |
 |---|---|
+| [[port-design]] | PitchControl: cross-platform port of the vvvv patch — Python engine + web frontend, CPU per-pixel masks, JSON fixture types/rigs, hardware-strobe proposal |
 | [[wifi-bridge]] | WiFi bridge: phone → vvvv HTTP/WebSocket server → DMX (future dev) |
 
 ## Side Projects

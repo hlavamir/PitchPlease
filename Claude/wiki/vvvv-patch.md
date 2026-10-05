@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-07-10
+date_modified: 2026-10-05
 ---
 
 # vvvv Gamma Patch
@@ -61,7 +61,7 @@ The 1D audio texture is combined with one of several **preset background shaders
 
 In each case the **brightness of the background image** is used as a U coordinate to sample into the 1D audio texture. This warps the audio spectrum differently across 2D space depending on which shader is active — bright areas of the background map to high-frequency audio energy, dark areas to low-frequency.
 
-An optional **VerticalSymmetry** pass (`VerticalSymmetry_TextureFX.sdsl`) mirrors the 2D image around the horizontal centre.
+An optional **VerticalSymmetry** pass (`VerticalSymmetry_TextureFX.sdsl`) averages the 2D image with its left↔right flipped copy (`0.5·(f(u,v) + f(1−u,v))`). *(Corrected 2026-10-05: earlier versions of this page said it "mirrors the image around the horizontal centre"; the shader source shows a 50/50 average with the horizontally flipped image, see [[vvvv-patch-logic]].)*
 
 The result is then composited with an **idle mask** and a **peaks map** using `MixIdleMaskWithPeaksMap_TextureFX.sdsl`. The idle mask accumulates audio data over time (`AddAudioDataToIdleMask`) and fades in during quiet periods; the peaks map highlights transient audio peaks.
 
@@ -105,7 +105,7 @@ The UI has two tabs: **General** (main controls) and **Dimmers** (per-fixture di
 | M2 | Idle Attack | How fast idle fades in after strobo |
 | M3 | Idle Brightness | Brightness during idle |
 | M4 | Hue A | Hue for group A (orange) |
-| M5 | Glitches | Controls 1D audio texture construction — higher = more aggressive output |
+| M5 | Glitches | Controls 1D audio texture construction — higher = more aggressive output. Also sets how much the audio mapping is applied at all: at 0 the raw mask is output with no audio reactivity, full from ≈0.33 (see [[vvvv-patch-logic]]) |
 | M6 | Hue B | Hue for group B (purple) |
 | M7 | Strobo | Strobo sensitivity/level |
 | M16 | Strobo Bright. A | Strobo brightness for group A |
@@ -123,7 +123,7 @@ The UI has two tabs: **General** (main controls) and **Dimmers** (per-fixture di
 | Manual Strobo | Forces strobo on next audio peak |
 | Fog Machine | Triggers fog machine |
 | Invert Discoball | Inverts brightness of selected fixtures |
-| Vertical Symmetry | Mirrors 2D shader image around horizontal centre |
+| Vertical Symmetry | Averages the 2D shader image with its left↔right flip (corrected 2026-10-05, previously described as a mirror around the horizontal centre) |
 | Auto Color Change | Changes colour after a random number of strobo moments |
 | Swap Colors | Swaps colour assignment between groups |
 | Art-Net Color | Toggles between received ArtNet hue (from MadMapper on second laptop) and vvvv's own colour logic |
@@ -177,7 +177,7 @@ A Novation Launch Control XL Mk3 is used for live performance — scene switchin
 Three `TextureFX` shaders in `vl/shaders/` (SDSL, a superset of HLSL):
 
 - **`GeneratorNoise_TextureFX.sdsl`** — animated 3D simplex noise background
-- **`VerticalSymmetry_TextureFX.sdsl`** — mirrors the 2D scene image around horizontal centre
+- **`VerticalSymmetry_TextureFX.sdsl`** — averages the 2D scene image with its left↔right flip
 - **`MixIdleMaskWithPeaksMap_TextureFX.sdsl`** — composites idle mask with audio peaks map
 
 ## Shader Development
@@ -196,6 +196,9 @@ A separate Visual Studio / sdpkg project in `vl/EditShaders/` is used for develo
 | `vl/EditShaders/` | Shader development project |
 
 ## See Also
+
+- [[vvvv-patch-logic]] — reverse-engineered algorithms (FFT, masks, phase, fixture colour)
+- [[port-design]] — planned cross-platform port
 
 - [[v1]], [[v2]], [[v3]] — Hardware targets
 - [[hardware]] — USB-DMX interfaces

@@ -536,3 +536,25 @@ Miro reported that the LCXL3 only worked on the General page. In vvvv, the same 
 CC 34 and 36 now drive Saturation A and B. Tested with unit tests and a simulated page change in the browser; not yet with the controller.
 
 General and Dimmers now always use 8-column grids, like the controller. Updated [[vvvv-patch-logic]] and [[port-design]].
+
+---
+
+## [2026-10-06] design | PitchControl UI redesign
+
+Made a mockup canvas with three boards (General page, control states, Settings) from Miro's inspiration images. Iterated on his feedback:
+- no scanlines;
+- no dithering in the scene preview;
+- glow at full strength;
+- gap-free segments that fade with the value;
+- hue/saturation segments in the ink colour, with the colour only in the scale and the value dot;
+- hue shown as ±180°, saturation as 0–100 %.
+
+Then implemented it in `pitch_control/frontend`:
+- theme driven by Settings → Appearance and persisted in `settings.json`;
+- bundled fonts;
+- segmented faders and meters;
+- full keyboard navigation;
+- a new Settings page;
+- all pages restyled.
+
+Backend: macro display units, `ui` settings, WebSocket messages for keyboard-deferred hue/saturation and for cancelling them. Recorded in [[port-design]] (UI Design).

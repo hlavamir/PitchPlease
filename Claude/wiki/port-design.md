@@ -75,6 +75,16 @@ Per fixture: membership in group A or B as today, plus optional overrides. Hue a
 
 **Glitches** is renamed to reflect that it controls the amount of audio reactivity (exact name TBD, e.g. "Audio Reactivity").
 
+## UI Design
+
+Redesigned 2026-10-06 from Miro's inspiration (old military computer UIs, Elektron Digitakt screens) via a mockup canvas, then implemented:
+- **Palette:** very dark ground (#0f1011) and one bright monochrome "ink" for text, lines and lit elements. The ink is selectable on the Settings page (grey #d8d9d4, amber #e9c46a, phosphor #a8e6b5), as are glow strength, UI brightness (40–100 %, less light at the DJ booth) and key hints; all saved in `settings.json → ui`.
+- **Colour:** only where it carries information: the hue/saturation scales (12 half-desaturated steps) with the target colour in the value dot, the group A/B output swatches, and the fixture pixels in the scene preview (plain greyscale mask, no dithering).
+- **Layout:** square panels with 1px hairlines and numbered header strips. Bloom glow only under selected, active and held elements. No scanlines or CRT imitation (flat minimal).
+- **Faders:** 20 segments with no gaps, separated by a dark 1px seam; each segment fades with the value. Hue is shown as −180…180°, saturation as 0…100 %.
+- **Fonts:** Chakra Petch for labels, Share Tech Mono for numbers. Both are bundled, so no internet is needed at a gig.
+- **Keyboard:** works fully without a mouse: W/S/A/D select, ↑/↓ change (Shift fine), ⏎ press (Shift+⏎ save scene), Esc cancels pending colour, 1–7 switch pages.
+
 ## Frontend Pages
 
 - **General** and **Dimmers**: carried over from the vvvv UI. Their grids always use 8 columns, matching the LCXL3's 8 columns of knobs, faders and buttons.
@@ -84,6 +94,7 @@ Per fixture: membership in group A or B as today, plus optional overrides. Hue a
   - ArtNet: enabled, universe → IP mapping.
   - PitchPlease v2: enabled, device, baudrate.
 - **Inputs**: audio device, input channels, gain; active MIDI controller.
+- **Settings**: appearance (ink colour, glow, UI brightness, key hints) and the keyboard reference.
 - **Fog**: fog machines (the current patch has two timers: every 60 s for 4 s, and ground fog every 60 s for 2 s, plus manual trigger).
 
 Serial devices are chosen from a **dropdown of USB device names**. The app stores the USB serial number and VID:PID, and keeps the port path only as a fallback, since COM numbers and `/dev/cu.*` names are not stable.

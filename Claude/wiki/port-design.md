@@ -85,6 +85,14 @@ Redesigned 2026-10-06 from Miro's inspiration (old military computer UIs, Elektr
 - **Fonts:** Chakra Petch for labels, Share Tech Mono for numbers. Both are bundled, so no internet is needed at a gig.
 - **Keyboard:** works fully without a mouse: W/S/A/D select, ↑/↓ change (Shift fine), ⏎ press (Shift+⏎ save scene), Esc cancels pending colour, 1–7 switch pages.
 
+## Full Screen (Desktop App)
+
+macOS native full screen keeps windows below the camera notch of the 14" MacBook Pro and paints the 32 px strip beside it black. Decided 2026-10-06: PitchControl has its own full-screen mode (`fullscreen.py`). It hides the menu bar and Dock and stretches a borderless window over the whole screen, notch strip included, with the window shadow off (its 1 px outline showed at the rounded screen corners). The green window button becomes a plain zoom.
+
+The header has two rows to make this work. The top row is 38 px tall (notch 32 px + 6 px, so the line below it clears the camera island): logo on the left, indicators on the right, nothing in the middle, so the notch sits in empty space. The page tabs are in the second row. F toggles full screen, and Settings → App has "Start in full screen" (`ui.start_fullscreen`).
+
+Tested: the window covers 1512×982 at (0,0) and is restored afterwards. On Windows, pywebview's own full screen is used.
+
 ## Frontend Pages
 
 - **General** and **Dimmers**: carried over from the vvvv UI. Their grids always use 8 columns, matching the LCXL3's 8 columns of knobs, faders and buttons.

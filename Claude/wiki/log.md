@@ -558,3 +558,30 @@ Then implemented it in `pitch_control/frontend`:
 - all pages restyled.
 
 Backend: macro display units, `ui` settings, WebSocket messages for keyboard-deferred hue/saturation and for cancelling them. Recorded in [[port-design]] (UI Design).
+
+---
+
+## [2026-10-06] update | PitchControl UI tweaks; notch gap in full screen
+
+Changes:
+- Section gaps and page padding halved.
+- Header indicators never wrap, and FPS has a fixed width so it doesn't shift the indicators. The desktop-only "Open in browser" and "Data folder" buttons moved to Settings → App to make room.
+- Verified that General/Dimmers faders fill the height on larger screens (1920×1200).
+
+The black strip at the top in macOS full screen is the camera-notch safe area of the 14" MacBook Pro (`safeAreaInsets.top` = 32 px). macOS places full-screen windows below it for every app. Fixing it needs a custom full-screen mode; open question in [[port-design]].
+
+---
+
+## [2026-10-06] build | PitchControl custom full screen, two-row header
+
+Added the full-screen mode Miro asked for, with the two-row header he designed (top row: logo left, indicators right, empty middle for the camera notch; second row: page tabs). F toggles it, and Settings → App has "Start in full screen". Verified on the 14" MacBook: the window covers 1512×982 including the notch strip, the top row is 32 px, and the notch range (≈664–849 px) is free. Recorded in [[port-design]] (Full Screen).
+
+---
+
+## [2026-10-06] update | PitchControl visual polish
+
+- Window shadow off in full screen: its 1 px outline showed at the rounded screen corners.
+- Header and footer use the same 6 px side margin as the page content.
+- The top header row is 38 px, so its bottom line clears the camera island.
+- Hue/saturation colour strips are half as wide (5 px).
+- Renamed `build_macos.sh` to `build_macos.command`, so it can be double-clicked.

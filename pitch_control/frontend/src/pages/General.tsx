@@ -32,6 +32,10 @@ const PRESETS: [string, string][] = [
   ['Preset D', 'Noise'],
 ]
 
+function emptySlots(n: number) {
+  return Array.from({ length: n }, (_, i) => <div key={`empty-${i}`} className="h-11 rounded border border-dashed border-edge" />)
+}
+
 interface SceneInfo {
   index: number
   name: string | null
@@ -41,6 +45,8 @@ interface SceneInfo {
 export function General({ engine, defs }: { engine: EngineConnection; defs: Record<string, MacroDef> }) {
   const { state, preview, setMacro, toggleMacro } = engine
   const macros = state?.macros ?? {}
+  const pending = state?.pending ?? {}
+  const shown = { ...macros, ...pending } // MIDI knobs still moving: show where they are heading
   const [scenes, setScenes] = useState<SceneInfo[]>([])
   const [saveMode, setSaveMode] = useState(false)
 
@@ -64,33 +70,40 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
       <MacroControl
         key={name}
         def={defs[name]}
-        value={macros[name] ?? 0}
+        value={shown[name] ?? 0}
         setMacro={setMacro}
         toggleMacro={toggleMacro}
-        colorTrack={colorTrackFor(name, macros, defs)}
+        colorTrack={colorTrackFor(name, shown, defs)}
+        pending={name in pending}
+        className="h-full"
       />
     ) : null
 
   return (
-    <div className="grid gap-3 xl:grid-cols-[minmax(0,1fr)_26rem]">
-      <div className="flex min-w-0 flex-col gap-3">
-        <Section title="Macros">
-          <div className="grid grid-cols-4 gap-2 sm:grid-cols-8">{FADERS.map(control)}</div>
+    <div className="grid gap-3 xl:h-full xl:grid-cols-[minmax(0,1fr)_26rem]">
+      <div className="flex min-h-0 min-w-0 flex-col gap-3">
+        <Section title="Macros" className="min-h-[24rem] flex-1">
+          <div className="grid h-full grid-cols-8 grid-rows-2 gap-2">{FADERS.map(control)}</div>
         </Section>
         <Section title="Functions · shader preset">
-          <div className="grid grid-cols-3 gap-2 sm:grid-cols-6">{BUTTONS.map(control)}</div>
-          <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {/* 8 columns like the LCXL3 button rows; empty slots keep the grid aligned */}
+          <div className="grid grid-cols-8 gap-2">
+            {BUTTONS.map(control)}
+            {emptySlots(8 - BUTTONS.length)}
+          </div>
+          <div className="mt-2 grid grid-cols-8 gap-2">
             {PRESETS.map(([name, label]) =>
               defs[name] ? (
                 <MacroControl
                   key={name}
-                  def={{ ...defs[name], label: `${defs[name].label} · ${label}` }}
+                  def={{ ...defs[name], label }}
                   value={macros[name] ?? 0}
                   setMacro={setMacro}
                   toggleMacro={toggleMacro}
                 />
               ) : null,
             )}
+            {emptySlots(8 - PRESETS.length)}
           </div>
         </Section>
         <Section
@@ -101,7 +114,7 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
             </Button>
           }
         >
-          <div className="grid grid-cols-4 gap-2 sm:grid-cols-8">
+          <div className="grid grid-cols-8 gap-2">
             {scenes.map((s) => (
               <button
                 key={s.index}

@@ -1,14 +1,24 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { api, type Settings } from '../api'
 
-export function Section({ title, children, right }: { title: string; children: ReactNode; right?: ReactNode }) {
+export function Section({
+  title,
+  children,
+  right,
+  className = '',
+}: {
+  title: string
+  children: ReactNode
+  right?: ReactNode
+  className?: string // e.g. "flex-1" to let the panel (and its content) stretch
+}) {
   return (
-    <section className="@container min-w-0 rounded-lg border border-edge bg-panel p-3">
+    <section className={`@container flex min-w-0 flex-col rounded-lg border border-edge bg-panel p-3 ${className}`}>
       <div className="mb-2 flex items-center justify-between gap-2">
         <h2 className="text-sm font-semibold tracking-wide text-neutral-300 uppercase">{title}</h2>
         {right}
       </div>
-      {children}
+      <div className="flex min-h-0 flex-1 flex-col">{children}</div>
     </section>
   )
 }

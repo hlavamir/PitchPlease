@@ -245,6 +245,7 @@ class Settings(Model):
     active_rig: str = "default"
     active_controller: str | None = "lcxl3"
     midi_input: str | None = None  # MIDI input port name (substring); None = take it from the controller file
+    midi_settle_s: float = 0.4  # hue/saturation knobs apply once they rest this long
     audio: AudioSettings = Field(default_factory=AudioSettings)
     outputs: OutputSettings = Field(default_factory=OutputSettings)
     fog: FogSettings = Field(default_factory=FogSettings)
@@ -266,7 +267,12 @@ class Controller(Model):
     name: str = ""
     port_match: str = ""  # substring of the MIDI port name
     channel: int = Field(default=1, ge=1, le=16)  # 1-based MIDI channel
-    mappings: list[MidiMapping] = Field(default_factory=list)
+    mappings: list[MidiMapping] = Field(default_factory=list)  # active on every page
+    # per control page ("general", "dimmers"): the same physical controls drive the active page,
+    # as in vvvv; page mappings win over the global ones
+    pages: dict[str, list[MidiMapping]] = Field(default_factory=dict)
+    # CC of an absolute knob that switches pages: turning it up = next page, down = previous page
+    page_knob: int | None = None
 
 
 # --------------------------------------------------------------------------- scenes

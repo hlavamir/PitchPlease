@@ -101,8 +101,6 @@ Working and covered by tests:
 
 The UI runs against the engine at 40 FPS in no-hardware mode.
 
-Audio capture from the Komplete Audio 6 works on macOS (the reaction to real music is not yet tested). **Not yet verified on hardware:** MIDI, Enttec, Art-Net and v2 output. Values marked `VERIFY` in the config files are best guesses from the vvvv patch:
-- front panel channel count;
-- the LCXL3 mapping.
+Verified by Miro on macOS: audio input and analysis (microphone test) and the LCXL3 MIDI controller. **Not yet verified on hardware:** Enttec, Art-Net and v2 output. Fixture details and the LCXL3 mapping were confirmed by Miro on 2026-10-05.
 
-The line and noise masks are approximations of the vvvv look and need tuning side by side.
+The masks match the vvvv look so far, except that Back and Forth rotates in 45° steps (vvvv: 90°); left as is for now.

@@ -16,7 +16,10 @@ from typing import Literal
 log = logging.getLogger(__name__)
 
 Kind = Literal["fader", "toggle", "button", "momentary", "radio"]
-Page = Literal["general", "dimmers", "scenes"]
+Page = Literal["general", "dimmers", "scenes", "system"]
+
+# pages the MIDI controller can drive; the "Page …" radio macros select the active one
+CONTROL_PAGES = ["general", "dimmers"]
 
 
 @dataclass(frozen=True)
@@ -31,6 +34,9 @@ class MacroDef:
     display_name: str = ""
     radio_group: str | None = None
     legacy_index: int | None = None  # index in the vvvv macros.ini / scene files
+    # apply on release (UI) / once the knob stops moving (MIDI) instead of continuously,
+    # so a colour does not sweep through the whole gradient during a show
+    deferred: bool = False
 
     @property
     def label(self) -> str:
@@ -43,13 +49,13 @@ def _defs() -> list[MacroDef]:
         MacroDef("Strobo Brightness", legacy_index=1),
         MacroDef("Idle Attack", 0.1, 20.0, legacy_index=2),
         MacroDef("Idle Brightness", legacy_index=3),
-        MacroDef("Hue A", -0.5, 0.5, legacy_index=4),
+        MacroDef("Hue A", -0.5, 0.5, legacy_index=4, deferred=True),
         # renamed from "Glitches": it sets how much the audio drives the mask (see vvvv-patch-logic)
         MacroDef("Audio Reactivity", legacy_index=5),
-        MacroDef("Hue B", -0.5, 0.5, legacy_index=6),
+        MacroDef("Hue B", -0.5, 0.5, legacy_index=6, deferred=True),
         MacroDef("Strobo", 0.0, 0.95, legacy_index=7),
-        MacroDef("Saturation A", default=1.0),
-        MacroDef("Saturation B", default=1.0),
+        MacroDef("Saturation A", default=1.0, deferred=True),
+        MacroDef("Saturation B", default=1.0, deferred=True),
         MacroDef("Swap Colors", steps=2, kind="toggle", legacy_index=8),
         MacroDef("Auto Color Change", steps=2, kind="toggle", legacy_index=9),
         MacroDef("Vertical Symmetry", steps=2, kind="toggle", legacy_index=10),
@@ -92,6 +98,19 @@ def _defs() -> list[MacroDef]:
                 legacy_index=32 + i,
             )
         )
+    # active control page (UI tab / controller page), like the vvvv "General" / "Dimmers" tab macros
+    for i, page in enumerate(CONTROL_PAGES):
+        d.append(
+            MacroDef(
+                f"Page {page.title()}",
+                steps=2,
+                kind="radio",
+                radio_group="page",
+                page="system",
+                default=1.0 if i == 0 else 0.0,
+                legacy_index=92 + i,
+            )
+        )
     for i in range(8):
         d.append(MacroDef(f"Scene {i + 1} Save", steps=2, kind="button", page="scenes", legacy_index=64 + 2 * i))
         d.append(MacroDef(f"Scene {i + 1} Load", steps=2, kind="button", page="scenes", legacy_index=65 + 2 * i))
@@ -115,6 +134,7 @@ class MacroBank:
         self.defs: dict[str, MacroDef] = {m.name: m for m in (defs or MACRO_DEFS)}
         self._values: dict[str, float] = {m.name: m.default for m in self.defs.values()}
         self._pending_buttons: set[str] = set()
+        self._deferred: dict[str, tuple[float, float]] = {}  # name -> (value, time of last change)
         self._lock = threading.Lock()
         self.version = 0  # increments on every change (used for change detection)
 
@@ -162,6 +182,24 @@ class MacroBank:
     def toggle(self, name: str) -> None:
         self.set(name, 0.0 if self.on(name) else 1.0)
 
+    def set_deferred(self, name: str, control: float, now: float) -> None:
+        """Remember a value from a moving knob; ``apply_settled`` applies it once the knob rests."""
+        if name not in self.defs:
+            return
+        with self._lock:
+            self._deferred[name] = (min(max(float(control), 0.0), 1.0), now)
+
+    def apply_settled(self, now: float, settle_s: float) -> None:
+        with self._lock:
+            ready = [n for n, (_, t) in self._deferred.items() if now - t >= settle_s]
+            values = {n: self._deferred.pop(n)[0] for n in ready}
+        for name, value in values.items():
+            self.set(name, value)
+
+    def pending(self) -> dict[str, float]:
+        with self._lock:
+            return {n: v for n, (v, _) in self._deferred.items()}
+
     def take_buttons(self) -> set[str]:
         """Return and clear the buttons pressed since the last call."""
         with self._lock:
@@ -179,6 +217,14 @@ class MacroBank:
                     continue
                 self._values[name] = min(max(float(control), 0.0), 1.0)
             self.version += 1
+
+    @property
+    def control_page(self) -> str:
+        return CONTROL_PAGES[self.radio_index("page")]
+
+    def set_control_page(self, page: str) -> None:
+        if page in CONTROL_PAGES:
+            self.set(f"Page {page.title()}", 1.0)
 
     def radio_index(self, group: str) -> int:
         members = [m for m in self.defs.values() if m.radio_group == group]

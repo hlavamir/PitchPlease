@@ -137,6 +137,7 @@ class Engine:
             m = self.macros
             s = self.store.settings
             self._handle_buttons()
+            m.apply_settled(time.monotonic(), s.midi_settle_s)
 
             levels = self.analyzer.read_frame()
             self.features.update(levels)
@@ -211,7 +212,7 @@ class Engine:
 
     # ------------------------------------------------------------------ scenes & persistence
     def save_scene(self, index: int, name: str | None = None) -> None:
-        values = {k: v for k, v in self.macros.snapshot().items() if self.macros.defs[k].page != "scenes"}
+        values = {k: v for k, v in self.macros.snapshot().items() if self.macros.defs[k].page not in ("scenes", "system")}
         old = self.store.load_scene(index)
         scene = Scene(name=name or (old.name if old and old.name else f"Scene {index + 1}"), values=values)
         self.store.save_scene(index, scene)
@@ -327,6 +328,7 @@ class Engine:
                 "fps": round(self.fps, 1),
                 "tick_ms": round(self.tick_ms, 2),
                 "macros": self.macros.snapshot(),
+                "pending": self.macros.pending(),
                 "phase": round(self.phase.phase, 4),
                 "strobo": round(self.phase.strobo, 4),
                 "idle": round(self.phase.idle, 4),

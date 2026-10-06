@@ -13,6 +13,7 @@ export interface MacroDef {
   default: number
   display_name: string
   radio_group: string | null
+  deferred: boolean // applied on release / when the MIDI knob rests (hue, saturation)
 }
 
 export interface FixtureState {
@@ -52,6 +53,7 @@ export interface EngineState {
   fps: number
   tick_ms: number
   macros: Record<string, number>
+  pending: Record<string, number> // deferred macro values waiting for the knob to rest
   phase: number
   strobo: number
   idle: number

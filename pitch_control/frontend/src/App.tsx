@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { api, type MacroDef } from './api'
 import { StatusDot } from './components/forms'
 import { Dimmers } from './pages/Dimmers'
@@ -9,11 +9,12 @@ import { Inputs } from './pages/Inputs'
 import { Output } from './pages/Output'
 import { useEngine } from './useEngine'
 
-const PAGES = ['General', 'Dimmers', 'Fixtures', 'Output', 'Inputs', 'Fog'] as const
+const PAGES = ['General', 'Dimmers', 'Fixtures', 'Inputs', 'Outputs', 'Fog'] as const
 type Page = (typeof PAGES)[number]
 
 function initialPage(): Page {
-  const hash = decodeURIComponent(location.hash.slice(1))
+  let hash = decodeURIComponent(location.hash.slice(1))
+  if (hash === 'Output') hash = 'Outputs' // old bookmark
   return (PAGES as readonly string[]).includes(hash) ? (hash as Page) : 'General'
 }
 
@@ -31,6 +32,25 @@ export default function App() {
     return () => window.removeEventListener('hashchange', onHash)
   }, [])
 
+  // The MIDI controller drives the faders of the active control page (General or Dimmers), like the
+  // vvvv tabs: opening one of those pages selects it on the controller ...
+  const { connected, setMacro } = engine
+  useEffect(() => {
+    if (connected && (page === 'General' || page === 'Dimmers')) setMacro(`Page ${page}`, 1)
+  }, [page, connected, setMacro])
+
+  // ... and turning the controller's page knob switches the UI between them.
+  const enginePage = engine.state ? ((engine.state.macros['Page Dimmers'] ?? 0) > 0.5 ? 'Dimmers' : 'General') : null
+  const lastEnginePage = useRef<string | null>(null)
+  useEffect(() => {
+    const last = lastEnginePage.current
+    lastEnginePage.current = enginePage
+    if (enginePage && last && enginePage !== last && (page === 'General' || page === 'Dimmers') && enginePage !== page) {
+      setPage(enginePage)
+      history.replaceState(null, '', `#${enginePage}`)
+    }
+  }, [enginePage, page])
+
   const go = (p: Page) => {
     setPage(p)
     history.replaceState(null, '', `#${p}`)
@@ -39,7 +59,7 @@ export default function App() {
   const s = engine.state
   const out = s?.io.outputs
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex h-full flex-col">
       <header className="flex flex-wrap items-center gap-x-6 gap-y-2 border-b border-edge bg-panel px-4 py-2">
         <h1 className="text-lg font-bold tracking-tight">
           Pitch<span className="text-accent">Control</span>
@@ -74,11 +94,11 @@ export default function App() {
           <StatusDot ok={out?.pitchpls_v2 ? out.pitchpls_v2.connected : null} label="v2" error={out?.pitchpls_v2?.error} />
         </div>
       </header>
-      <main className="flex-1 p-3">
+      <main className="min-h-0 flex-1 overflow-auto p-3">
         {page === 'General' && <General engine={engine} defs={defs} />}
         {page === 'Dimmers' && <Dimmers engine={engine} defs={defs} />}
         {page === 'Fixtures' && <Fixtures engine={engine} defs={defs} />}
-        {page === 'Output' && <Output engine={engine} />}
+        {page === 'Outputs' && <Output engine={engine} />}
         {page === 'Inputs' && <Inputs engine={engine} />}
         {page === 'Fog' && <Fog engine={engine} />}
       </main>

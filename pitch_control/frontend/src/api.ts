@@ -14,6 +14,9 @@ export interface MacroDef {
   display_name: string
   radio_group: string | null
   deferred: boolean // applied on release / when the MIDI knob rests (hue, saturation)
+  display_scale: number // shown value = value in range × display_scale
+  unit: string
+  decimals: number
 }
 
 export interface FixtureState {
@@ -64,6 +67,7 @@ export interface EngineState {
   peaks_map: number[]
   preset: string
   colors: { A: number[]; B: number[] }
+  colors_hsb: { A: number[]; B: number[] }
   fixtures: FixtureState[]
   fog: Record<string, boolean>
   io: {
@@ -138,6 +142,7 @@ export interface Settings {
   fog: { machines: FogMachine[] }
   masks: { line_falloff: number; transition_s: number }
   auto_colors: HSB[]
+  ui: { ink: 'grey' | 'amber' | 'phosphor'; glow: number; brightness: number; key_hints: boolean }
   [key: string]: unknown
 }
 

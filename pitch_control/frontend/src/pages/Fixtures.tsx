@@ -105,6 +105,7 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
   return (
     <div className="grid gap-3 xl:grid-cols-[16rem_minmax(0,1fr)_22rem]">
       <Section
+        index="01"
         title="Rig"
         right={
           <select value={rigs.active} onChange={(e) => activate(e.target.value)}>
@@ -114,19 +115,19 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
           </select>
         }
       >
-        {rig?.description && <p className="mb-3 text-xs text-neutral-500">{rig.description}</p>}
+        {rig?.description && <p className="mb-3 text-[11px] text-dim">{rig.description}</p>}
         <ul className="flex max-h-[calc(100vh-17rem)] flex-col gap-0.5 overflow-auto">
           {rig?.fixtures.map((f, i) => (
             <li key={i}>
               <button
                 onClick={() => setSelected(i)}
-                className={`flex w-full items-center gap-2 rounded px-2 py-1.5 text-left text-sm ${
-                  i === selected ? 'bg-edge' : 'hover:bg-panel-2'
-                } ${f.enabled ? '' : 'text-neutral-500'}`}
+                className={`flex w-full items-center gap-2 px-2 py-1.5 text-left text-[13px] ${
+                  i === selected ? 'glow-on bg-ink text-ground' : 'hover:bg-panel-2'
+                } ${f.enabled ? '' : 'text-dim'}`}
               >
-                <span className={`size-2 rounded-full ${f.group === 'A' ? 'bg-group-a' : 'bg-group-b'}`} />
+                <span className="flex-none border border-edge px-1 font-mono text-[10px] leading-[14px] text-dim">{f.group}</span>
                 <span className="flex-1 truncate">{f.name}</span>
-                <span className="font-mono text-xs text-neutral-500">
+                <span className="font-mono text-[11px] text-dim">
                   {types[f.type]?.transport === 'pitchpls_v2' ? 'serial' : `${f.universe}:${f.address}`}
                 </span>
               </button>
@@ -151,7 +152,7 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
           </Button>
         </div>
         {problems.length > 0 && (
-          <ul className="mt-3 list-disc pl-5 text-xs text-amber-400">
+          <ul className="mt-3 list-disc pl-5 text-[11px] text-ink">
             {problems.map((p) => (
               <li key={p}>{p}</li>
             ))}
@@ -159,7 +160,7 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
         )}
       </Section>
 
-      <Section title={fx ? fx.name : 'Fixture'}>
+      <Section index="02" title={fx ? fx.name : 'Fixture'}>
         {fx && (
           <div className="grid gap-x-6 @3xl:grid-cols-2">
             <div>
@@ -295,15 +296,15 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
         )}
         {ftype && (
           <details className="mt-4">
-            <summary className="cursor-pointer text-xs text-neutral-400">Fixture type “{ftype.name}”</summary>
-            <pre className="mt-2 max-h-64 overflow-auto rounded bg-panel-2 p-2 text-xs">{JSON.stringify(ftype, null, 2)}</pre>
+            <summary className="cursor-pointer text-[11px] text-dim">Fixture type “{ftype.name}”</summary>
+            <pre className="mt-2 max-h-64 overflow-auto bg-panel-2 p-2 text-[11px]">{JSON.stringify(ftype, null, 2)}</pre>
           </details>
         )}
       </Section>
 
-      <Section title="Placement">
+      <Section index="03" title="Placement">
         <Preview preview={engine.preview} state={engine.state} highlight={fx?.name} />
-        <p className="mt-2 text-xs text-neutral-500">
+        <p className="mt-2 text-[11px] text-dim">
           Changes apply live (Enter or leaving a field); “Save rig” writes the rig file, “Revert” reloads it. The thick ring
           marks the first pixel.
         </p>

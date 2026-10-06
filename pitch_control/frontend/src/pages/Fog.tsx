@@ -28,6 +28,7 @@ export function Fog({ engine }: { engine: EngineConnection }) {
       {machines.map((m, i) => (
         <Section
           key={i}
+          index={String(i + 1).padStart(2, '0')}
           title={m.name}
           right={<StatusDot ok={engine.state?.fog[m.name] ?? null} label={engine.state?.fog[m.name] ? 'fogging' : 'idle'} />}
         >

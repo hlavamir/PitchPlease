@@ -37,6 +37,10 @@ class MacroDef:
     # apply on release (UI) / once the knob stops moving (MIDI) instead of continuously,
     # so a colour does not sweep through the whole gradient during a show
     deferred: bool = False
+    # how the UI shows the value in range: value × display_scale, with unit and decimals
+    display_scale: float = 1.0
+    unit: str = ""
+    decimals: int = 2
 
     @property
     def label(self) -> str:
@@ -49,13 +53,13 @@ def _defs() -> list[MacroDef]:
         MacroDef("Strobo Brightness", legacy_index=1),
         MacroDef("Idle Attack", 0.1, 20.0, legacy_index=2),
         MacroDef("Idle Brightness", legacy_index=3),
-        MacroDef("Hue A", -0.5, 0.5, legacy_index=4, deferred=True),
+        MacroDef("Hue A", -0.5, 0.5, legacy_index=4, deferred=True, display_scale=360, unit="°", decimals=0),
         # renamed from "Glitches": it sets how much the audio drives the mask (see vvvv-patch-logic)
         MacroDef("Audio Reactivity", legacy_index=5),
-        MacroDef("Hue B", -0.5, 0.5, legacy_index=6, deferred=True),
+        MacroDef("Hue B", -0.5, 0.5, legacy_index=6, deferred=True, display_scale=360, unit="°", decimals=0),
         MacroDef("Strobo", 0.0, 0.95, legacy_index=7),
-        MacroDef("Saturation A", default=1.0, deferred=True),
-        MacroDef("Saturation B", default=1.0, deferred=True),
+        MacroDef("Saturation A", default=1.0, deferred=True, display_scale=100, unit="%", decimals=0),
+        MacroDef("Saturation B", default=1.0, deferred=True, display_scale=100, unit="%", decimals=0),
         MacroDef("Swap Colors", steps=2, kind="toggle", legacy_index=8),
         MacroDef("Auto Color Change", steps=2, kind="toggle", legacy_index=9),
         MacroDef("Vertical Symmetry", steps=2, kind="toggle", legacy_index=10),
@@ -195,6 +199,10 @@ class MacroBank:
             values = {n: self._deferred.pop(n)[0] for n in ready}
         for name, value in values.items():
             self.set(name, value)
+
+    def cancel_deferred(self, name: str) -> None:
+        with self._lock:
+            self._deferred.pop(name, None)
 
     def pending(self) -> dict[str, float]:
         with self._lock:

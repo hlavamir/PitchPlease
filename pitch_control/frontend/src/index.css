@@ -1,12 +1,30 @@
-@import "tailwindcss";
+/* fonts are bundled (no internet needed at a gig) */
+@import '@fontsource/chakra-petch/latin-400.css';
+@import '@fontsource/chakra-petch/latin-500.css';
+@import '@fontsource/chakra-petch/latin-600.css';
+@import '@fontsource/share-tech-mono/latin-400.css';
+@import 'tailwindcss';
 
+/*
+ * Monochrome theme: a very dark ground, one bright "ink" for everything that matters, colour only
+ * where it carries information (hue/saturation scales, output colours). The ink, its brightness and
+ * the glow strength come from Settings → Appearance (theme.ts sets --ink-rgb and --glow).
+ */
 @theme {
-  --color-panel: #17181c;
-  --color-panel-2: #202228;
-  --color-edge: #2e3038;
-  --color-accent: #f5a524;
-  --color-group-a: #f08c2e;
-  --color-group-b: #9b6cf0;
+  --font-sans: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Share Tech Mono', ui-monospace, monospace;
+  --color-ground: #0f1011;
+  --color-panel: #111213;
+  --color-panel-2: #17181a;
+  --color-edge: #34363a;
+  --color-seam: #26282b;
+  --color-dim: #8a8c87;
+  --color-ink: rgb(var(--ink-rgb));
+}
+
+:root {
+  --ink-rgb: 216 217 212;
+  --glow: 1;
 }
 
 html,
@@ -17,18 +35,91 @@ body,
 
 body {
   margin: 0;
-  background: #0e0f12;
-  color: #e6e6e9;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
-input[type="number"],
-input[type="text"],
+/* uppercase technical labels */
+.lbl {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* bloom under selected / active elements — the "modern take" */
+.glow-sel {
+  position: relative;
+  z-index: 1;
+  box-shadow:
+    0 0 0 1px var(--color-ink),
+    0 0 calc(2px + 14px * var(--glow)) rgb(var(--ink-rgb) / calc(0.38 * var(--glow))),
+    0 0 calc(4px + 44px * var(--glow)) rgb(var(--ink-rgb) / calc(0.16 * var(--glow)));
+}
+.glow-on {
+  box-shadow: 0 0 calc(16px * var(--glow)) rgb(var(--ink-rgb) / calc(0.3 * var(--glow)));
+}
+.glow-held {
+  box-shadow:
+    0 0 calc(26px * var(--glow)) rgb(var(--ink-rgb) / calc(0.5 * var(--glow))),
+    0 0 calc(60px * var(--glow)) rgb(var(--ink-rgb) / calc(0.2 * var(--glow)));
+}
+.glow-hover:hover {
+  outline: 1px solid var(--color-ink);
+  outline-offset: -1px;
+  box-shadow: 0 0 calc(10px * var(--glow)) rgb(var(--ink-rgb) / calc(0.22 * var(--glow)));
+}
+.text-glow {
+  text-shadow: 0 0 calc(8px * var(--glow)) rgb(var(--ink-rgb) / calc(0.45 * var(--glow)));
+}
+.dot-on {
+  background: var(--color-ink);
+  box-shadow: 0 0 calc(6px * var(--glow)) rgb(var(--ink-rgb) / calc(0.5 * var(--glow)));
+}
+
+/* empty grid slot (keeps the 8-column controller layout readable) */
+.hatch {
+  background-color: var(--color-ground);
+  background-image: repeating-linear-gradient(135deg, #1a1b1d 0 2px, transparent 2px 7px);
+}
+
+/* form controls: square, dark, ink text */
+input[type='number'],
+input[type='text'],
 select {
-  background: var(--color-panel-2);
+  background: var(--color-ground);
   border: 1px solid var(--color-edge);
-  border-radius: 4px;
-  padding: 2px 6px;
-  color: inherit;
+  border-radius: 0;
+  padding: 3px 6px;
+  color: var(--color-ink);
   min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+select {
+  font-family: var(--font-sans);
+}
+input[type='text']:focus,
+input[type='number']:focus,
+select:focus {
+  outline: 1px solid var(--color-ink);
+  outline-offset: -1px;
+  box-shadow: 0 0 calc(10px * var(--glow)) rgb(var(--ink-rgb) / calc(0.25 * var(--glow)));
+}
+input[type='checkbox'] {
+  accent-color: var(--color-ink);
+}
+option {
+  background: var(--color-ground);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-edge);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
 }

@@ -1,37 +1,61 @@
+const SEAM = 'inset 0 1px 0 rgba(15,16,17,.6)'
+
 interface Props {
   bands: number[]
   peaks?: number[]
-  weights?: number[]
-  height?: number
+  weights?: number[] // strobo trigger weight per band, drawn as a dotted mark
+  rows?: number
+  height?: number | string
 }
 
-/** Bar meter of the 32 audio bands; peaking bands are highlighted, trigger weights drawn as a line. */
-export function BandMeter({ bands, peaks, weights, height = 80 }: Props) {
-  const n = bands.length || 1
+/**
+ * Segmented meter of the audio bands: cells without gaps that fade in with the level; the top cell
+ * of a peaking band is bright and glows.
+ */
+export function BandMeter({ bands, peaks, weights, rows = 12, height = 80 }: Props) {
   return (
-    <svg viewBox={`0 0 ${n * 10} ${height}`} className="w-full rounded bg-panel-2" style={{ height }} preserveAspectRatio="none">
+    <div className="grid w-full gap-px" style={{ height, gridTemplateColumns: `repeat(${bands.length || 1}, minmax(0, 1fr))` }}>
       {bands.map((v, i) => {
-        const h = Math.max(0, Math.min(1, v)) * (height - 4)
+        const level = Math.max(0, Math.min(1, v)) * rows
+        const top = Math.ceil(level) - 1
+        const peak = Boolean(peaks?.[i])
+        const weightRow = weights ? Math.round(weights[i] * (rows - 1)) : -1
         return (
-          <rect
-            key={i}
-            x={i * 10 + 1}
-            y={height - h}
-            width={8}
-            height={h}
-            fill={peaks?.[i] ? 'var(--color-accent)' : '#5b5f6b'}
-          />
+          <div key={i} className="flex flex-col-reverse">
+            {Array.from({ length: rows }, (_, c) => {
+              const fill = Math.max(0, Math.min(1, level - c))
+              const bright = peak && c === top
+              const alpha = bright ? 0.06 + 0.94 * fill : 0.06 + 0.55 * fill
+              return (
+                <div
+                  key={c}
+                  className="relative flex-1"
+                  style={{
+                    background: `rgb(var(--ink-rgb) / ${alpha.toFixed(3)})`,
+                    boxShadow: SEAM + (bright ? ', 0 0 calc(8px * var(--glow)) rgb(var(--ink-rgb) / calc(0.45 * var(--glow)))' : ''),
+                    zIndex: bright ? 1 : undefined,
+                    borderTop: fill === 0 && c === weightRow ? '1px dotted var(--color-dim)' : undefined,
+                    transition: 'background-color 80ms linear',
+                  }}
+                />
+              )
+            })}
+          </div>
         )
       })}
-      {weights && (
-        <polyline
-          fill="none"
-          stroke="#7dd3fc"
-          strokeWidth={1.5}
-          vectorEffect="non-scaling-stroke"
-          points={weights.map((w, i) => `${i * 10 + 5},${height - w * (height - 4)}`).join(' ')}
-        />
-      )}
-    </svg>
+    </div>
+  )
+}
+
+/** One-row segmented bar (phase, settings sliders): cells fade in with the value. */
+export function SegmentBar({ value, cells = 32, height = 8, gap = 2 }: { value: number; cells?: number; height?: number; gap?: number }) {
+  const level = Math.max(0, Math.min(1, value)) * cells
+  return (
+    <div className="grid flex-1" style={{ gridTemplateColumns: `repeat(${cells}, minmax(0, 1fr))`, gap, height }}>
+      {Array.from({ length: cells }, (_, i) => {
+        const fill = Math.max(0, Math.min(1, level - i))
+        return <div key={i} style={{ background: `rgb(var(--ink-rgb) / ${(0.06 + 0.94 * fill).toFixed(3)})` }} />
+      })}
+    </div>
   )
 }

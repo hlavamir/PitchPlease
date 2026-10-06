@@ -1,23 +1,6 @@
 import { useRef, useState, type PointerEvent } from 'react'
 import type { MacroDef } from '../api'
 
-interface Props {
-  def: MacroDef
-  value: number
-  setMacro: (name: string, value: number) => void
-  toggleMacro: (name: string) => void
-  accent?: 'A' | 'B'
-  colorTrack?: ColorTrack
-  pending?: boolean // a MIDI value is waiting to be applied
-  className?: string
-}
-
-/** A fader whose track shows colours: the full range as a gradient plus the selected colour. */
-export interface ColorTrack {
-  gradient: string // CSS gradient, bottom (control 0) to top (control 1)
-  colorAt: (control: number) => string // the colour this fader produces at a control value
-}
-
 /** HSV (0..1, hue wraps) → CSS rgb(). */
 export function hsvCss(h: number, s: number, v: number): string {
   const hh = (((h % 1) + 1) % 1) * 6
@@ -37,118 +20,130 @@ export function hsvCss(h: number, s: number, v: number): string {
   return `rgb(${Math.round(r * 255)}, ${Math.round(g * 255)}, ${Math.round(b * 255)})`
 }
 
-/**
- * Colour tracks for the Hue A/B and Saturation A/B faders, computed from the macro values (not the
- * auto colours), so they show what the group colour will be once Auto Color is switched off.
- */
-export function colorTrackFor(name: string, macros: Record<string, number>, defs: Record<string, MacroDef>): ColorTrack | undefined {
-  const m = /^(Hue|Saturation) ([AB])$/.exec(name)
-  if (!m) return undefined
-  const group = m[2]
-  const hueDef = defs[`Hue ${group}`]
-  const satDef = defs[`Saturation ${group}`]
-  if (!hueDef || !satDef) return undefined
-  const hue = valueInRange(hueDef, macros[hueDef.name] ?? 0)
-  const sat = valueInRange(satDef, macros[satDef.name] ?? 1)
-  const isHue = m[1] === 'Hue'
-  const stops: string[] = []
-  for (let i = 0; i <= 12; i++) {
-    const t = i / 12
-    const c = isHue ? hsvCss(hueDef.min + t * (hueDef.max - hueDef.min), 1, 1) : hsvCss(hue, satDef.min + t * (satDef.max - satDef.min), 1)
-    stops.push(`${c} ${(t * 100).toFixed(1)}%`)
-  }
-  return {
-    gradient: `linear-gradient(to top, ${stops.join(', ')})`,
-    colorAt: (control) => (isHue ? hsvCss(valueInRange(hueDef, control), sat, 1) : hsvCss(hue, valueInRange(satDef, control), 1)),
-  }
-}
-
-function valueInRange(def: MacroDef, control: number) {
+export function valueInRange(def: MacroDef, control: number): number {
   const steps = def.steps > 1 ? def.steps - 1 : 1
   const q = Math.floor(control * steps + 0.5) / steps
   return def.min + q * (def.max - def.min)
 }
 
-function accentFor(name: string): 'A' | 'B' | undefined {
-  if (/\bA$/.test(name)) return 'A'
-  if (/\bB$/.test(name)) return 'B'
-  return undefined
+/** The value as shown in the UI: scaled, with decimals and unit (hue in degrees, saturation in %). */
+export function formatValue(def: MacroDef, control: number): string {
+  const v = valueInRange(def, control) * (def.display_scale ?? 1)
+  const text = v.toFixed(def.decimals ?? 2)
+  const signed = def.unit === '°' && v > 0.5 ? `+${text}` : text
+  return `${signed}${def.unit ?? ''}`
 }
 
-/** One macro: vertical fader, toggle, momentary button or radio button. */
-export function MacroControl({ def, value, setMacro, toggleMacro, accent, colorTrack, pending, className }: Props) {
-  const group = accent ?? accentFor(def.name)
-  const color = group === 'A' ? 'var(--color-group-a)' : group === 'B' ? 'var(--color-group-b)' : 'var(--color-accent)'
+/** Hue/saturation faders: a stepped colour scale on the left and the resulting colour in the value dot. */
+export interface ColorTrack {
+  steps: string[] // colour scale, bottom (control 0) → top (control 1), desaturated for the UI
+  colorAt: (control: number) => string // the output colour this fader produces at a control value
+}
 
-  if (def.kind === 'fader') {
-    return (
-      <Fader def={def} value={value} color={color} setMacro={setMacro} colorTrack={colorTrack} pending={pending} className={className} />
-    )
+const UI_SAT = 0.6 // the scale is shown half-desaturated; the dot shows the real colour
+
+export function colorTrackFor(name: string, macros: Record<string, number>, defs: Record<string, MacroDef>): ColorTrack | undefined {
+  const m = /^(Hue|Saturation) ([AB])$/.exec(name)
+  if (!m) return undefined
+  const hueDef = defs[`Hue ${m[2]}`]
+  const satDef = defs[`Saturation ${m[2]}`]
+  if (!hueDef || !satDef) return undefined
+  const hue = valueInRange(hueDef, macros[hueDef.name] ?? 0)
+  const sat = valueInRange(satDef, macros[satDef.name] ?? 1)
+  const isHue = m[1] === 'Hue'
+  const steps = Array.from({ length: 12 }, (_, i) => {
+    const t = i / 11
+    return isHue ? hsvCss(hueDef.min + t * (hueDef.max - hueDef.min), UI_SAT, 0.86) : hsvCss(hue, t * UI_SAT, 0.86)
+  })
+  return {
+    steps,
+    colorAt: (control) => (isHue ? hsvCss(valueInRange(hueDef, control), sat, 1) : hsvCss(hue, valueInRange(satDef, control), 1)),
   }
+}
+
+interface Props {
+  def: MacroDef
+  value: number // shown value (a pending target, if any)
+  applied?: number // value the engine is using now (differs while a hue/saturation change is pending)
+  setMacro: (name: string, value: number) => void
+  toggleMacro: (name: string) => void
+  colorTrack?: ColorTrack
+  pending?: boolean
+  selected?: boolean
+  onSelect?: () => void
+  tag?: string // small hint on buttons: TGL, HOLD, A…D
+  index?: number // position number shown in the fader head
+  className?: string
+}
+
+/** One macro: segmented fader, toggle, momentary button or radio button. */
+export function MacroControl(props: Props) {
+  const { def, value, setMacro, toggleMacro, selected, onSelect, tag } = props
+  if (def.kind === 'fader') return <Fader {...props} />
 
   const on = value > 0.5
-  const base = 'h-11 w-full rounded px-2 text-sm font-medium transition-colors select-none'
-  const style = on ? { background: color, color: '#111' } : undefined
-  const off = on ? '' : 'bg-panel-2 text-neutral-300 hover:bg-edge'
+  const cls = `lbl flex h-10 w-full items-center justify-between gap-1.5 px-2.5 text-left text-[11px] select-none transition-colors ${
+    on ? `bg-ink text-ground ${def.kind === 'momentary' ? 'glow-held' : 'glow-on'}` : 'glow-hover bg-panel text-ink'
+  } ${selected ? 'glow-sel' : ''}`
+  const content = (
+    <>
+      <span className="truncate">{def.label}</span>
+      {tag && <span className="font-mono text-[10px] opacity-70">{tag}</span>}
+    </>
+  )
 
   if (def.kind === 'momentary') {
     return (
       <button
-        className={`${base} ${off}`}
-        style={style}
-        onPointerDown={() => setMacro(def.name, 1)}
+        className={cls}
+        onPointerDown={() => {
+          onSelect?.()
+          setMacro(def.name, 1)
+        }}
         onPointerUp={() => setMacro(def.name, 0)}
         onPointerLeave={() => on && setMacro(def.name, 0)}
       >
-        {def.label}
+        {content}
       </button>
     )
   }
-  if (def.kind === 'radio') {
-    return (
-      <button className={`${base} ${off}`} style={style} onClick={() => setMacro(def.name, 1)}>
-        {def.label}
-      </button>
-    )
-  }
-  if (def.kind === 'button') {
-    return (
-      <button className={`${base} bg-panel-2 hover:bg-edge`} onClick={() => setMacro(def.name, 1)}>
-        {def.label}
-      </button>
-    )
+  const press = () => {
+    onSelect?.()
+    if (def.kind === 'radio' || def.kind === 'button') setMacro(def.name, 1)
+    else toggleMacro(def.name)
   }
   return (
-    <button className={`${base} ${off}`} style={style} onClick={() => toggleMacro(def.name)}>
-      {def.label}
+    <button className={cls} onClick={press}>
+      {content}
     </button>
   )
 }
 
+const SEGMENTS = 20
+const SEAM = 'inset 0 1px 0 rgba(15,16,17,.6)'
+const halo = 'calc(10px * var(--glow))'
+
+/** One segment: no gaps, a 1px darker seam; the ink fades in with the fill (0..1). */
+function segmentStyle(fill: number, bright: boolean, pending: boolean) {
+  if (pending) {
+    return { background: 'rgb(var(--ink-rgb) / 0.14)', boxShadow: `${SEAM}, inset 0 0 0 1px rgb(var(--ink-rgb) / 0.7)` }
+  }
+  const glow = bright && fill > 0.5 ? `, 0 0 ${halo} rgb(var(--ink-rgb) / calc(0.4 * var(--glow)))` : ''
+  return {
+    background: `rgb(var(--ink-rgb) / ${(0.06 + 0.94 * fill).toFixed(3)})`,
+    boxShadow: SEAM + glow,
+    zIndex: glow ? 1 : undefined,
+    position: 'relative' as const,
+    transition: 'background-color 120ms linear',
+  }
+}
+
 /**
- * Vertical fader where the whole tile is the control: drag up/down anywhere (relative, no jump on
- * click), hold Shift for fine control, double-click to reset to the default value.
- *
- * Deferred macros (hue, saturation) are only sent when the mouse is released; a dashed outline
- * marks a value that is not applied yet (also while a MIDI knob is still moving).
+ * Segmented fader; the whole tile is the control: drag up/down anywhere (relative, no jump on
+ * click), Shift for fine control, double-click to reset. Deferred macros (hue, saturation) are sent
+ * on release; until applied, the segments between the applied value and the target are outlined.
  */
-function Fader({
-  def,
-  value,
-  color,
-  setMacro,
-  colorTrack,
-  pending,
-  className,
-}: {
-  def: MacroDef
-  value: number
-  color: string
-  setMacro: (name: string, value: number) => void
-  colorTrack?: ColorTrack
-  pending?: boolean
-  className?: string
-}) {
+function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, onSelect, index, className }: Props) {
   const [dragValue, setDragValue] = useState<number | null>(null)
   const drag = useRef<{
     startY: number
@@ -159,9 +154,9 @@ function Fader({
     pending: number | null
     frame: number
   } | null>(null)
-  const current = dragValue ?? value // while dragging, show the local value (the engine echoes at ~15 fps)
-  const notApplied = Boolean(pending) || (def.deferred && dragValue !== null && dragValue !== value)
-  const fillColor = colorTrack ? colorTrack.colorAt(current) : color
+  const current = dragValue ?? value
+  const engineValue = applied ?? value
+  const notApplied = Boolean(pending) || (def.deferred && dragValue !== null && Math.abs(dragValue - engineValue) > 1e-6)
 
   const send = () => {
     const d = drag.current
@@ -173,17 +168,10 @@ function Fader({
 
   const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
     if (e.button !== 0) return
+    onSelect?.()
     e.currentTarget.setPointerCapture(e.pointerId)
     const rect = e.currentTarget.getBoundingClientRect()
-    drag.current = {
-      startY: e.clientY,
-      startValue: value,
-      last: value,
-      height: Math.max(rect.height - 16, 40),
-      fine: e.shiftKey,
-      pending: null,
-      frame: 0,
-    }
+    drag.current = { startY: e.clientY, startValue: value, last: value, height: Math.max(rect.height - 70, 40), fine: e.shiftKey, pending: null, frame: 0 }
     setDragValue(value)
   }
 
@@ -196,12 +184,11 @@ function Fader({
       d.startY = e.clientY
       d.startValue = d.last
     }
-    const scale = d.fine ? 0.1 : 1
-    const next = Math.min(1, Math.max(0, d.startValue + ((d.startY - e.clientY) / d.height) * scale))
+    const next = Math.min(1, Math.max(0, d.startValue + ((d.startY - e.clientY) / d.height) * (d.fine ? 0.1 : 1)))
     d.last = next
     setDragValue(next)
     d.pending = next
-    // deferred macros wait for the release; others are sent at most once per animation frame
+    // deferred macros wait for the release; others go out at most once per animation frame
     if (!def.deferred && !d.frame) d.frame = requestAnimationFrame(send)
   }
 
@@ -213,6 +200,17 @@ function Fader({
     setDragValue(null)
   }
 
+  const level = current * SEGMENTS
+  const top = Math.ceil(level) - 1
+  const appliedLevel = engineValue * SEGMENTS
+  // while a change is pending, the segments between the applied value and the target are outlined
+  const lo = Math.floor(Math.min(level, appliedLevel))
+  const hi = Math.ceil(Math.max(level, appliedLevel))
+  const segments = Array.from({ length: SEGMENTS }, (_, s) => {
+    const fill = Math.max(0, Math.min(1, level - s))
+    return segmentStyle(fill, s === top || Boolean(selected), notApplied && s >= lo && s < hi)
+  })
+
   return (
     <div
       role="slider"
@@ -220,48 +218,47 @@ function Fader({
       aria-valuemin={0}
       aria-valuemax={1}
       aria-valuenow={current}
-      tabIndex={0}
-      className={`relative flex min-h-28 cursor-ns-resize touch-none flex-col justify-between overflow-hidden rounded bg-panel-2 p-2 select-none ${
-        notApplied ? 'outline-2 outline-offset-[-2px] outline-white/60 outline-dashed' : ''
+      className={`relative flex min-h-28 cursor-ns-resize touch-none flex-col bg-panel select-none ${selected ? 'glow-sel' : ''} ${
+        notApplied ? 'outline outline-1 outline-offset-[-4px] outline-dashed outline-ink' : ''
       } ${className ?? 'h-44'}`}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
       onDoubleClick={() => setMacro(def.name, def.default)}
-      onKeyDown={(e) => {
-        const step = e.shiftKey ? 0.01 : 1 / 32
-        if (e.key === 'ArrowUp') setMacro(def.name, Math.min(1, value + step))
-        if (e.key === 'ArrowDown') setMacro(def.name, Math.max(0, value - step))
-      }}
       title={`Drag up/down · Shift = fine · double-click = reset${def.deferred ? ' · applied on release' : ''}`}
     >
-      {/* fill below the value: the selected colour for colour faders, the accent colour otherwise */}
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0"
-        style={{ height: `${current * 100}%`, background: fillColor, opacity: dragValue !== null ? 0.55 : 0.4 }}
-      />
-      {colorTrack && (
-        // the full colour range as a narrow strip on the left edge
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-[10%] opacity-80" style={{ background: colorTrack.gradient }} />
-      )}
-      {/* subtle centre mark */}
-      <div className="pointer-events-none absolute inset-x-2 top-1/2 h-px bg-white/15" />
-      <div
-        className="pointer-events-none absolute inset-x-0"
-        style={{
-          height: colorTrack ? 4 : 2,
-          bottom: `calc(${current * 100}% - ${colorTrack ? 2 : 1}px)`,
-          background: fillColor,
-          boxShadow: colorTrack ? '0 0 0 1px rgba(0,0,0,0.6)' : undefined,
-        }}
-      />
-      <div className="relative h-8 text-center text-xs leading-tight text-neutral-200 [text-shadow:0_1px_2px_rgba(0,0,0,0.8)]">
-        {def.label}
+        className={`lbl flex h-[30px] flex-none items-center gap-2 overflow-hidden px-2.5 text-[11px] whitespace-nowrap ${
+          selected ? 'bg-ink text-ground' : 'border-b border-seam'
+        }`}
+      >
+        {index !== undefined && <span className="font-mono opacity-60">{String(index).padStart(2, '0')}</span>}
+        <span className="truncate">{def.label}</span>
       </div>
-      <div className="relative flex items-center justify-center gap-1.5 font-mono text-xs text-neutral-200 [text-shadow:0_1px_2px_rgba(0,0,0,0.8)]">
-        {colorTrack && <span className="size-3 rounded-sm ring-1 ring-black/60" style={{ background: fillColor }} />}
-        {valueInRange(def, current).toFixed(2)}
+      <div className="flex min-h-0 flex-1 gap-1.5 py-2 pr-2.5 pl-2">
+        <div className="flex w-2.5 flex-none flex-col-reverse">
+          {colorTrack
+            ? colorTrack.steps.map((c, i) => (
+                <div key={i} className="flex-1" style={{ background: c, boxShadow: 'inset 0 1px 0 rgba(15,16,17,.35)' }} />
+              ))
+            : Array.from({ length: 9 }, (_, i) => (
+                <div key={i} className={`flex-1 self-end border-b ${i % 4 === 0 ? 'w-2.5 border-dim' : 'w-1.5 border-edge'}`} />
+              ))}
+        </div>
+        <div className="flex flex-1 flex-col-reverse">
+          {segments.map((st, i) => (
+            <div key={i} className="flex-1" style={st} />
+          ))}
+        </div>
+      </div>
+      <div className="flex h-[26px] flex-none items-center justify-between border-t border-seam px-2.5">
+        {colorTrack ? (
+          <span className="size-3" style={{ background: colorTrack.colorAt(current), boxShadow: `0 0 0 1px #0f1011, 0 0 8px ${colorTrack.colorAt(current)}` }} />
+        ) : (
+          <span />
+        )}
+        <span className="text-glow font-mono text-[16px]">{formatValue(def, current)}</span>
       </div>
     </div>
   )

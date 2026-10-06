@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
+import time
 import os
 import subprocess
 import sys
@@ -254,6 +255,10 @@ def create_app(engine: Engine, static_dir: Path | None = None, desktop: dict | N
                     engine.macros.set(str(msg.get("name")), float(msg.get("value", 0)))
                 elif msg.get("type") == "toggle":
                     engine.macros.toggle(str(msg.get("name")))
+                elif msg.get("type") == "macro_deferred":  # keyboard: hue/saturation apply once keys rest
+                    engine.macros.set_deferred(str(msg.get("name")), float(msg.get("value", 0)), time.monotonic())
+                elif msg.get("type") == "cancel_pending":
+                    engine.macros.cancel_deferred(str(msg.get("name")))
         except WebSocketDisconnect:
             pass
         finally:

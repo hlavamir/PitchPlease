@@ -339,6 +339,7 @@ class Engine:
                 "peaks_map": np.round(self.peaks.blue, 3).tolist(),
                 "preset": PRESET_NAMES[self.masks.current],
                 "colors": {"A": rgb_a, "B": rgb_b},
+                "colors_hsb": {"A": [ca.h, ca.s, ca.b], "B": [cb.h, cb.s, cb.b]},
                 "fixtures": fixtures,
                 "fog": self.fog.active,
                 "io": {

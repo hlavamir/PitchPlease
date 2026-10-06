@@ -37,6 +37,7 @@ export function Inputs({ engine }: { engine: EngineConnection }) {
       </div>
 
       <Section
+        index="01"
         title="Audio input"
         right={<StatusDot ok={io?.audio ? io.audio.running : null} label={io?.audio?.running ? 'running' : 'stopped'} error={io?.audio?.error} />}
       >
@@ -66,16 +67,16 @@ export function Inputs({ engine }: { engine: EngineConnection }) {
               )
             }
           />
-          {selected && <span className="text-xs text-neutral-500">device has {selected.channels} inputs</span>}
+          {selected && <span className="text-[11px] text-dim">device has {selected.channels} inputs</span>}
         </Row>
         <Row label="Gain">
           <NumberInput value={a.gain} step={0.1} min={0} onChange={(v) => update((s) => (s.audio.gain = v))} />
-          <div className="h-2 w-40 rounded bg-panel-2">
-            <div className="h-2 rounded bg-emerald-500" style={{ width: `${Math.min(1, io?.audio?.level ?? 0) * 100}%` }} />
+          <div className="h-2 w-40 bg-panel-2">
+            <div className="h-2 dot-on" style={{ width: `${Math.min(1, io?.audio?.level ?? 0) * 100}%` }} />
           </div>
         </Row>
         <div className="mt-3">
-          <div className="mb-1 flex justify-between text-xs text-neutral-500">
+          <div className="mb-1 flex justify-between text-[11px] text-dim">
             <span>{bands ? `${bands.edges[0]} Hz` : ''}</span>
             <span>32 bands · blue line = strobo trigger weight</span>
             <span>{bands ? `${bands.edges[bands.edges.length - 1]} Hz` : ''}</span>
@@ -85,6 +86,7 @@ export function Inputs({ engine }: { engine: EngineConnection }) {
       </Section>
 
       <Section
+        index="02"
         title="MIDI controller"
         right={<StatusDot ok={io?.midi ? Boolean(io.midi.port) : null} label={io?.midi?.port ?? 'not connected'} error={io?.midi?.error} />}
       >
@@ -105,20 +107,20 @@ export function Inputs({ engine }: { engine: EngineConnection }) {
           </select>
         </Row>
         <div className="mt-3">
-          <div className="mb-1 flex justify-between text-xs text-neutral-500">
+          <div className="mb-1 flex justify-between text-[11px] text-dim">
             <span>MIDI monitor — last messages (newest first)</span>
             <span>
               {io?.midi?.received ?? 0} received · mapping on channel {io?.midi?.channel ?? '–'}
             </span>
           </div>
-          <div className="max-h-64 overflow-auto rounded bg-panel-2 p-2 font-mono text-xs">
+          <div className="max-h-64 overflow-auto bg-panel-2 p-2 font-mono text-[11px]">
             {(io?.midi?.recent ?? []).length === 0 && (
-              <div className="text-neutral-500">Nothing received yet — move a fader or knob on the controller.</div>
+              <div className="text-dim">Nothing received yet — move a fader or knob on the controller.</div>
             )}
             {(io?.midi?.recent ?? []).map((m, i) => (
               <div key={`${m.t}-${i}`} className="flex gap-3">
-                <span className="flex-1 truncate text-neutral-300">{m.text}</span>
-                {m.macro ? <span className="text-emerald-400">→ {m.macro}</span> : <span className="text-amber-400">{m.note}</span>}
+                <span className="flex-1 truncate text-ink">{m.text}</span>
+                {m.macro ? <span className="text-ink">→ {m.macro}</span> : <span className="text-ink">{m.note}</span>}
               </div>
             ))}
           </div>

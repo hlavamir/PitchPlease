@@ -239,6 +239,15 @@ def _default_palette() -> list[HSB]:
     return [HSB(h=h, s=1, b=1) for h in hues]
 
 
+class UiSettings(Model):
+    """Appearance of the web UI, chosen on the Settings page."""
+
+    ink: Literal["grey", "amber", "phosphor"] = "grey"
+    glow: float = Field(default=1.0, ge=0.0, le=1.0)
+    brightness: float = Field(default=1.0, ge=0.4, le=1.0)  # dims the ink: less light at the DJ booth
+    key_hints: bool = True
+
+
 class Settings(Model):
     fps: float = 40.0
     preview_fps: float = 15.0
@@ -251,6 +260,7 @@ class Settings(Model):
     fog: FogSettings = Field(default_factory=FogSettings)
     masks: MaskSettings = Field(default_factory=MaskSettings)
     auto_colors: list[HSB] = Field(default_factory=_default_palette)
+    ui: UiSettings = Field(default_factory=UiSettings)
 
 
 # --------------------------------------------------------------------------- MIDI controllers

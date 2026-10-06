@@ -1,32 +1,43 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { api, type Settings } from '../api'
 
+/**
+ * A panel: square, 1px hairline border, a header strip with an optional number ("01 / Macros").
+ * ``bodyClassName`` replaces the default padding (e.g. "p-0" for grids drawn with 1px gaps).
+ */
 export function Section({
   title,
+  index,
   children,
   right,
   className = '',
+  bodyClassName = 'p-3',
 }: {
   title: string
+  index?: string
   children: ReactNode
   right?: ReactNode
   className?: string // e.g. "flex-1" to let the panel (and its content) stretch
+  bodyClassName?: string
 }) {
   return (
-    <section className={`@container flex min-w-0 flex-col rounded-lg border border-edge bg-panel p-3 ${className}`}>
-      <div className="mb-2 flex items-center justify-between gap-2">
-        <h2 className="text-sm font-semibold tracking-wide text-neutral-300 uppercase">{title}</h2>
-        {right}
+    <section className={`@container flex min-w-0 flex-col border border-edge bg-panel ${className}`}>
+      <div className="flex h-[26px] flex-none items-center justify-between gap-2 border-b border-edge px-2.5 text-[11px]">
+        <h2 className="lbl truncate font-medium">
+          {index && <span className="font-mono opacity-55">{index} / </span>}
+          {title}
+        </h2>
+        <div className="lbl flex items-center gap-2 text-dim">{right}</div>
       </div>
-      <div className="flex min-h-0 flex-1 flex-col">{children}</div>
+      <div className={`flex min-h-0 flex-1 flex-col ${bodyClassName}`}>{children}</div>
     </section>
   )
 }
 
 export function Row({ label, children, hint }: { label: string; children: ReactNode; hint?: string }) {
   return (
-    <label className="grid grid-cols-[8.5rem_minmax(0,1fr)] items-center gap-2 py-0.5 text-sm">
-      <span className="truncate text-neutral-400" title={hint ?? label}>
+    <label className="grid grid-cols-[8.5rem_minmax(0,1fr)] items-center gap-2 py-0.5 text-[13px]">
+      <span className="lbl truncate text-[11px] text-dim" title={hint ?? label}>
         {label}
       </span>
       {/* inputs shrink instead of overflowing into the next column */}
@@ -120,8 +131,8 @@ export function NumberInput({
 export function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label?: string }) {
   return (
     <span className="inline-flex items-center gap-2">
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="size-4 accent-amber-500" />
-      {label && <span>{label}</span>}
+      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="size-4" />
+      {label && <span className="lbl text-[11px]">{label}</span>}
     </span>
   )
 }
@@ -141,8 +152,8 @@ export function Button({
     <button
       disabled={disabled}
       onClick={onClick}
-      className={`rounded px-3 py-1.5 text-sm font-medium disabled:opacity-40 ${
-        primary ? 'bg-accent text-neutral-900 hover:brightness-110' : 'bg-panel-2 text-neutral-200 hover:bg-edge'
+      className={`lbl h-8 px-3 text-[11px] font-medium disabled:opacity-35 ${
+        primary ? 'glow-on bg-ink text-ground' : 'glow-hover border border-edge bg-panel text-ink'
       }`}
     >
       {children}
@@ -151,10 +162,14 @@ export function Button({
 }
 
 export function StatusDot({ ok, label, error }: { ok: boolean | null | undefined; label: string; error?: string | null }) {
-  const color = ok ? 'bg-emerald-500' : ok === false ? 'bg-red-500' : 'bg-neutral-600'
+  // filled = OK, hollow = off, crossed = error
   return (
-    <span className="inline-flex items-center gap-1.5 text-xs text-neutral-400" title={error ?? undefined}>
-      <span className={`size-2 rounded-full ${color}`} />
+    <span className={`lbl inline-flex items-center gap-1.5 text-[11px] ${ok ? 'text-ink' : 'text-dim'}`} title={error ?? undefined}>
+      <span
+        className={`relative inline-block size-[7px] ${ok ? 'dot-on' : 'border border-dim'} ${
+          ok === false ? "after:absolute after:inset-[-2px] after:content-['×'] after:text-[9px] after:leading-[9px]" : ''
+        }`}
+      />
       {label}
     </span>
   )
@@ -202,7 +217,7 @@ export function useSettings() {
 export function SaveBar({ dirty, save, reload, message }: { dirty: boolean; save: () => void; reload: () => void; message: string | null }) {
   return (
     <div className="flex items-center gap-3">
-      {message && <span className="text-xs text-neutral-400">{message}</span>}
+      {message && <span className="lbl text-[11px] text-dim">{message}</span>}
       <Button onClick={reload} disabled={!dirty}>
         Revert
       </Button>

@@ -60,6 +60,23 @@ macOS asks once for microphone access.
 
 App options (for example from a terminal) are the same as for the backend, plus `--data <folder>` and `--no-window` (use the browser instead of a window). `--host 0.0.0.0` makes the UI reachable from a phone on the LAN.
 
+## Using the UI
+
+The UI is monochrome (Settings → Appearance: grey, amber or phosphor ink, glow strength, UI brightness, key hints; saved in `settings.json`). Colour only appears where it carries information: the hue/saturation scales and the output colours.
+
+Everything works without a mouse — one control is always selected:
+
+| Key | Action |
+|---|---|
+| W / S | move the selection up / down a row |
+| A / D | move the selection left / right |
+| ↑ / ↓ | change the selected value (Shift = fine) |
+| ⏎ | press the selected button, load the selected scene (Shift + ⏎ = save) |
+| Esc | cancel a pending hue / saturation change |
+| 1 – 7 | switch page |
+
+Hue and saturation apply on mouse release, or once keys / the MIDI knob rest; until then the fader shows the target with a dashed outline.
+
 ## Config folder
 
 | Path | Content |

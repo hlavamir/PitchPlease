@@ -9,6 +9,8 @@ export interface EngineConnection {
   connected: boolean
   setMacro: (name: string, value: number) => void
   toggleMacro: (name: string) => void
+  setDeferred: (name: string, value: number) => void // hue/saturation from the keyboard: applied once keys rest
+  cancelPending: (name: string) => void
 }
 
 /** Live connection to the engine: JSON state + binary 256×256 preview, reconnecting automatically. */
@@ -52,6 +54,8 @@ export function useEngine(): EngineConnection {
 
   const setMacro = useCallback((name: string, value: number) => send({ type: 'macro', name, value }), [send])
   const toggleMacro = useCallback((name: string) => send({ type: 'toggle', name }), [send])
+  const setDeferred = useCallback((name: string, value: number) => send({ type: 'macro_deferred', name, value }), [send])
+  const cancelPending = useCallback((name: string) => send({ type: 'cancel_pending', name }), [send])
 
-  return { state, preview, connected, setMacro, toggleMacro }
+  return { state, preview, connected, setMacro, toggleMacro, setDeferred, cancelPending }
 }

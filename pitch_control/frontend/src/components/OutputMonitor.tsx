@@ -13,16 +13,16 @@ export function OutputMonitor({ state, only }: { state: EngineState | null; only
   const fixtures = (state?.fixtures ?? []).filter((f) => !only || f.name === only)
   return (
     <div className="flex flex-col gap-2">
-      <label className="flex items-center gap-2 self-end text-xs text-neutral-400">
-        <input type="checkbox" checked={showBytes} onChange={(e) => setShowBytes(e.target.checked)} className="accent-amber-500" />
+      <label className="flex items-center gap-2 self-end text-[11px] text-dim">
+        <input type="checkbox" checked={showBytes} onChange={(e) => setShowBytes(e.target.checked)} />
         show channel values
       </label>
       {fixtures.map((fx) => (
-        <div key={fx.name} className="rounded bg-panel-2 px-2 py-1.5">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm @2xl:flex-nowrap">
-            <span className={`size-2 shrink-0 rounded-full ${fx.group === 'A' ? 'bg-group-a' : 'bg-group-b'}`} />
+        <div key={fx.name} className="bg-panel-2 px-2 py-1.5">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] @2xl:flex-nowrap">
+            <span className="flex-none border border-edge px-1 font-mono text-[10px] leading-[14px] text-dim">{fx.group}</span>
             <span className="min-w-0 flex-1 truncate @2xl:w-40 @2xl:flex-none">{fx.name}</span>
-            <span className="shrink-0 font-mono text-xs text-neutral-500 @2xl:w-32">{channelRange(fx)}</span>
+            <span className="shrink-0 font-mono text-[11px] text-dim @2xl:w-32">{channelRange(fx)}</span>
             <div className="flex min-w-0 basis-full gap-px @2xl:basis-auto @2xl:flex-1">
               {fx.rgb.map(([r, g, b], i) => (
                 <span
@@ -35,11 +35,11 @@ export function OutputMonitor({ state, only }: { state: EngineState | null; only
             </div>
           </div>
           {showBytes && (
-            <div className="mt-1 font-mono text-[11px] leading-snug break-all text-neutral-400">{fx.output.join(' ')}</div>
+            <div className="mt-1 font-mono text-[11px] leading-snug break-all text-dim">{fx.output.join(' ')}</div>
           )}
         </div>
       ))}
-      {fixtures.length === 0 && <div className="text-sm text-neutral-500">No enabled fixtures.</div>}
+      {fixtures.length === 0 && <div className="text-[13px] text-dim">No enabled fixtures.</div>}
     </div>
   )
 }

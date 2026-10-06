@@ -58,7 +58,7 @@ export function Output({ engine }: { engine: EngineConnection }) {
         <SaveBar dirty={dirty} save={save} reload={reload} message={message} />
       </div>
 
-      <Section title="Enttec DMX USB Pro" right={<StatusDot ok={io?.enttec?.connected ?? null} label={io?.enttec ? (io.enttec.connected ? 'connected' : 'not connected') : 'off'} error={io?.enttec?.error} />}>
+      <Section index="01" title="Enttec DMX USB Pro" right={<StatusDot ok={io?.enttec?.connected ?? null} label={io?.enttec ? (io.enttec.connected ? 'connected' : 'not connected') : 'off'} error={io?.enttec?.error} />}>
         <Row label="Enabled">
           <Toggle checked={o.enttec.enabled} onChange={(v) => update((s) => (s.outputs.enttec.enabled = v))} />
         </Row>
@@ -70,23 +70,23 @@ export function Output({ engine }: { engine: EngineConnection }) {
         </Row>
       </Section>
 
-      <Section title="Art-Net" right={<StatusDot ok={io?.artnet?.connected ?? null} label={io?.artnet ? 'sending' : 'off'} error={io?.artnet?.error} />}>
+      <Section index="02" title="Art-Net" right={<StatusDot ok={io?.artnet?.connected ?? null} label={io?.artnet ? 'sending' : 'off'} error={io?.artnet?.error} />}>
         <Row label="Enabled">
           <Toggle checked={o.artnet.enabled} onChange={(v) => update((s) => (s.outputs.artnet.enabled = v))} />
         </Row>
         <div className="mt-2 flex flex-col gap-2">
           {o.artnet.targets.map((t, i) => (
-            <div key={i} className="flex items-center gap-2 text-sm">
-              <span className="text-neutral-400">Universe</span>
+            <div key={i} className="flex items-center gap-2 text-[13px]">
+              <span className="text-dim">Universe</span>
               <NumberInput value={t.universe} min={0} className="w-16" onChange={(v) => update((s) => (s.outputs.artnet.targets[i].universe = v))} />
-              <span className="text-neutral-400">→ IP</span>
+              <span className="text-dim">→ IP</span>
               <input
                 type="text"
                 className="w-40"
                 value={t.ip}
                 onChange={(e) => update((s) => (s.outputs.artnet.targets[i].ip = e.target.value))}
               />
-              <span className="text-neutral-400">Art-Net universe</span>
+              <span className="text-dim">Art-Net universe</span>
               <NumberInput
                 value={t.artnet_universe ?? t.universe}
                 min={0}
@@ -105,6 +105,7 @@ export function Output({ engine }: { engine: EngineConnection }) {
       </Section>
 
       <Section
+        index="03"
         title="PitchPlease v2 (serial)"
         right={<StatusDot ok={io?.pitchpls_v2?.connected ?? null} label={io?.pitchpls_v2 ? (io.pitchpls_v2.connected ? 'connected' : 'not connected') : 'off'} error={io?.pitchpls_v2?.error} />}
       >
@@ -128,7 +129,7 @@ export function Output({ engine }: { engine: EngineConnection }) {
       </div>
 
       <div className="min-w-0">
-        <Section title="Live output">
+        <Section index="04" title="Live output">
           <OutputMonitor state={engine.state} />
         </Section>
       </div>

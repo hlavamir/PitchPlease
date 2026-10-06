@@ -20,7 +20,7 @@ export function Fog({ engine }: { engine: EngineConnection }) {
   const machines = settings.fog.machines
 
   return (
-    <div className="flex max-w-3xl flex-col gap-3">
+    <div className="flex max-w-3xl flex-col gap-1.5">
       <div className="flex justify-between">
         <Button onClick={() => update((s) => s.fog.machines.push({ ...NEW_MACHINE }))}>Add fog machine</Button>
         <SaveBar dirty={dirty} save={save} reload={reload} message={message} />

@@ -246,6 +246,7 @@ class UiSettings(Model):
     glow: float = Field(default=1.0, ge=0.0, le=1.0)
     brightness: float = Field(default=1.0, ge=0.4, le=1.0)  # dims the ink: less light at the DJ booth
     key_hints: bool = True
+    start_fullscreen: bool = False  # desktop app: open in full screen
 
 
 class Settings(Model):

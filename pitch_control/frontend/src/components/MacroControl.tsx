@@ -237,7 +237,7 @@ function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, o
         <span className="truncate">{def.label}</span>
       </div>
       <div className="flex min-h-0 flex-1 gap-1.5 py-2 pr-2.5 pl-2">
-        <div className="flex w-2.5 flex-none flex-col-reverse">
+        <div className={`flex flex-none flex-col-reverse ${colorTrack ? 'w-[5px]' : 'w-2.5'}`}>
           {colorTrack
             ? colorTrack.steps.map((c, i) => (
                 <div key={i} className="flex-1" style={{ background: c, boxShadow: 'inset 0 1px 0 rgba(15,16,17,.35)' }} />

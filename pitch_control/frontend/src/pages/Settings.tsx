@@ -19,6 +19,7 @@ const KEYMAP: [string, string][] = [
   ['SHIFT ⏎', 'Save the selected scene'],
   ['ESC', 'Cancel a pending hue / saturation change'],
   ['1 – 7', 'Switch page'],
+  ['F', 'Full screen on / off (desktop app)'],
 ]
 
 /** Horizontal segmented slider: click or drag anywhere, ←/→ style keyboard handled by the page grid. */
@@ -66,7 +67,7 @@ function HSlider({ value, min, max, onChange, selected, onSelect }: { value: num
  * Settings: appearance (ink colour, glow, brightness, key hints) and the keyboard reference.
  * Changes apply immediately and are saved to settings.json, so they are restored next session.
  */
-export function Settings({ ui, onChange }: { ui: UiSettings; onChange: (ui: UiSettings) => void }) {
+export function Settings({ ui, onChange, desktop }: { ui: UiSettings; onChange: (ui: UiSettings) => void; desktop?: boolean }) {
   const saveTimer = useRef<number | undefined>(undefined)
 
   const change = (patch: Partial<UiSettings>) => {
@@ -94,7 +95,7 @@ export function Settings({ ui, onChange }: { ui: UiSettings; onChange: (ui: UiSe
   const { selectedId, select } = useGridNav('Settings', [inkItems, [glowItem], [brightItem], [hintsItem]])
 
   return (
-    <div className="grid gap-3 xl:grid-cols-2">
+    <div className="grid gap-1.5 xl:grid-cols-2">
       <Section index="01" title="Appearance" right="saved · restored next session" bodyClassName="p-3.5 gap-[18px]">
         <div className="flex flex-col gap-2">
           <span className="lbl text-[11px] text-dim">Ink colour</span>
@@ -158,6 +159,7 @@ export function Settings({ ui, onChange }: { ui: UiSettings; onChange: (ui: UiSe
         </div>
       </Section>
 
+      <div className="flex min-w-0 flex-col gap-1.5">
       <Section index="02" title="Keyboard" right="no mouse needed" bodyClassName="px-3.5 pb-3.5 pt-1.5">
         {KEYMAP.map(([cap, what]) => (
           <div key={cap} className="flex h-[34px] items-center gap-3.5 border-b border-[#1d1f21]">
@@ -166,6 +168,32 @@ export function Settings({ ui, onChange }: { ui: UiSettings; onChange: (ui: UiSe
           </div>
         ))}
       </Section>
+      {desktop && (
+        <Section index="03" title="App" right="desktop app">
+          <div className="flex gap-1.5">
+            <button className="lbl glow-hover h-8 border border-edge px-3 text-[11px]" onClick={() => api.post('/api/open-browser')}>
+              Open in browser
+            </button>
+            <button className="lbl glow-hover h-8 border border-edge px-3 text-[11px]" onClick={() => api.post('/api/open-data-folder')}>
+              Open data folder
+            </button>
+          </div>
+          <div className="mt-3 flex items-center justify-between border-t border-seam pt-3">
+            <span className="flex flex-col gap-1">
+              <span className="lbl text-[12px]">Start in full screen</span>
+              <span className="lbl text-[10px] text-dim">F toggles full screen any time · covers the notch strip, hides menu bar and Dock</span>
+            </span>
+            <button
+              onClick={() => change({ start_fullscreen: !ui.start_fullscreen })}
+              className={`lbl h-[34px] px-4 text-[12px] ${ui.start_fullscreen ? 'glow-on bg-ink text-ground' : 'glow-hover border border-edge'}`}
+            >
+              {ui.start_fullscreen ? 'On' : 'Off'}
+            </button>
+          </div>
+          <span className="lbl mt-3 text-[10px] text-dim">The browser view can also be used on a second screen or a phone (start with --host 0.0.0.0)</span>
+        </Section>
+      )}
+      </div>
     </div>
   )
 }

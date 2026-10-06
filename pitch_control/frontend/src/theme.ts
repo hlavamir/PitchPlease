@@ -7,9 +7,10 @@ export interface UiSettings {
   glow: number // 0..1
   brightness: number // 0.4..1, dims the ink (less light at the DJ booth)
   key_hints: boolean
+  start_fullscreen: boolean // desktop app: open in full screen
 }
 
-export const DEFAULT_UI: UiSettings = { ink: 'grey', glow: 1, brightness: 1, key_hints: true }
+export const DEFAULT_UI: UiSettings = { ink: 'grey', glow: 1, brightness: 1, key_hints: true, start_fullscreen: false }
 
 export const INKS: Record<InkName, string> = {
   grey: '#d8d9d4',

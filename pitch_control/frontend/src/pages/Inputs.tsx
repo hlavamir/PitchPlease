@@ -30,7 +30,7 @@ export function Inputs({ engine }: { engine: EngineConnection }) {
   const selected = audioDevices.find((d) => a.device && d.label.toLowerCase().includes(a.device.toLowerCase()))
 
   return (
-    <div className="flex max-w-4xl flex-col gap-3">
+    <div className="flex max-w-4xl flex-col gap-1.5">
       <div className="flex justify-between">
         <Button onClick={refresh}>Rescan devices</Button>
         <SaveBar dirty={dirty} save={save} reload={reload} message={message} />

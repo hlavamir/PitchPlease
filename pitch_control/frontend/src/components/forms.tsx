@@ -164,7 +164,7 @@ export function Button({
 export function StatusDot({ ok, label, error }: { ok: boolean | null | undefined; label: string; error?: string | null }) {
   // filled = OK, hollow = off, crossed = error
   return (
-    <span className={`lbl inline-flex items-center gap-1.5 text-[11px] ${ok ? 'text-ink' : 'text-dim'}`} title={error ?? undefined}>
+    <span className={`lbl inline-flex flex-none items-center gap-1.5 text-[11px] whitespace-nowrap ${ok ? 'text-ink' : 'text-dim'}`} title={error ?? undefined}>
       <span
         className={`relative inline-block size-[7px] ${ok ? 'dot-on' : 'border border-dim'} ${
           ok === false ? "after:absolute after:inset-[-2px] after:content-['×'] after:text-[9px] after:leading-[9px]" : ''

@@ -159,7 +159,8 @@ def main() -> None:
 
     port = free_port(args.port)
     url = f"http://127.0.0.1:{port}"
-    app = create_app(engine, static_dir=bundled_frontend(res), desktop={"url": url, "data_dir": str(data)})
+    desktop_hooks: dict = {"url": url, "data_dir": str(data)}
+    app = create_app(engine, static_dir=bundled_frontend(res), desktop=desktop_hooks)
     server = uvicorn.Server(uvicorn.Config(app, host=args.host, port=port, log_level="warning"))
     server_thread = threading.Thread(target=server.run, name="server", daemon=True)
     server_thread.start()
@@ -209,6 +210,18 @@ def main() -> None:
     # from webview.start(); pywebview waits for "closing" handlers, so stop the engine there
     window.events.closing += shutdown
     window.events.closed += shutdown
+
+    from .fullscreen import Fullscreen
+
+    fullscreen = Fullscreen(window)
+    desktop_hooks["fullscreen"] = fullscreen
+
+    def on_shown() -> None:
+        fullscreen.setup()
+        if store.settings.ui.start_fullscreen:
+            fullscreen.set(True)
+
+    window.events.shown += on_shown
     webview.start()  # blocks until the window is closed
     shutdown()
 

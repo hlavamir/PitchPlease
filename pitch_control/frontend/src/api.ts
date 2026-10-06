@@ -142,7 +142,7 @@ export interface Settings {
   fog: { machines: FogMachine[] }
   masks: { line_falloff: number; transition_s: number }
   auto_colors: HSB[]
-  ui: { ink: 'grey' | 'amber' | 'phosphor'; glow: number; brightness: number; key_hints: boolean }
+  ui: { ink: 'grey' | 'amber' | 'phosphor'; glow: number; brightness: number; key_hints: boolean; start_fullscreen: boolean }
   [key: string]: unknown
 }
 

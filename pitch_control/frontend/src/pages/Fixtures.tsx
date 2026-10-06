@@ -103,7 +103,7 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
   const ftype = fx ? types[fx.type] : undefined
 
   return (
-    <div className="grid gap-3 xl:grid-cols-[16rem_minmax(0,1fr)_22rem]">
+    <div className="grid gap-1.5 xl:grid-cols-[16rem_minmax(0,1fr)_22rem]">
       <Section
         index="01"
         title="Rig"

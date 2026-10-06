@@ -39,7 +39,7 @@ Tests: `cd backend && .venv/bin/python -m pytest`.
 
 `packaging/` builds a self-contained app (no Python or Node needed on the target machine). It must be built on the target OS:
 
-- **macOS:** `packaging/build_macos.sh` produces `dist/PitchControl.app` and `dist/PitchControl-macos-<arch>.zip` (about 46 MB, 22 MB zipped). An Apple Silicon build runs only on Apple Silicon Macs.
+- **macOS:** double-click `packaging/build_macos.command` (or run it from Terminal); it produces `dist/PitchControl.app` and `dist/PitchControl-macos-<arch>.zip` (about 46 MB, 22 MB zipped). An Apple Silicon build runs only on Apple Silicon Macs.
 - **Windows:** `packaging\build_windows.bat` produces `dist\PitchControl\PitchControl.exe` and a zip.
 - **Both, on GitHub:** Actions → "PitchControl app" → Run workflow (`.github/workflows/pitchcontrol-app.yml`), then download the zips from the run.
 
@@ -74,6 +74,7 @@ Everything works without a mouse — one control is always selected:
 | ⏎ | press the selected button, load the selected scene (Shift + ⏎ = save) |
 | Esc | cancel a pending hue / saturation change |
 | 1 – 7 | switch page |
+| F | full screen on / off (desktop app; on a MacBook it also covers the camera-notch strip) |
 
 Hue and saturation apply on mouse release, or once keys / the MIDI knob rest; until then the fader shows the target with a dashed outline.
 

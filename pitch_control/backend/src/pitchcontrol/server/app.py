@@ -46,14 +46,31 @@ class SceneName(BaseModel):
 
 
 def create_app(engine: Engine, static_dir: Path | None = None, desktop: dict | None = None) -> FastAPI:
-    """``desktop``: set by the standalone app (``url``, ``data_dir``) to enable the app-only actions."""
+    """``desktop``: set by the standalone app (``url``, ``data_dir``, later ``fullscreen``: a
+    ``Fullscreen`` controller once the window exists) to enable the app-only actions."""
     app = FastAPI(title="PitchControl", version="0.1.0")
     store = engine.store
 
     # ------------------------------------------------------------------ app info
     @app.get("/api/app-info")
     def app_info():
-        return {"desktop": desktop is not None, "config_dir": str(store.root), **(desktop or {})}
+        fs = (desktop or {}).get("fullscreen")
+        return {
+            "desktop": desktop is not None,
+            "config_dir": str(store.root),
+            "url": (desktop or {}).get("url"),
+            "data_dir": (desktop or {}).get("data_dir"),
+            "fullscreen_supported": fs is not None,
+            "fullscreen": bool(fs and fs.active),
+        }
+
+    @app.post("/api/fullscreen")
+    def fullscreen(body: dict | None = None):
+        fs = (desktop or {}).get("fullscreen")
+        if fs is None:
+            raise HTTPException(404, "full screen is only available in the desktop app")
+        on = (body or {}).get("on")
+        return {"fullscreen": fs.toggle() if on is None else fs.set(bool(on))}
 
     @app.post("/api/open-browser")
     def open_browser():

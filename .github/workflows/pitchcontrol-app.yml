@@ -15,7 +15,7 @@ jobs:
             script: pitch_control\packaging\build_windows.bat
             artifact: pitch_control/dist/PitchControl-windows-x64.zip
           - os: macos-14 # Apple Silicon
-            script: pitch_control/packaging/build_macos.sh
+            script: pitch_control/packaging/build_macos.command
             artifact: pitch_control/dist/PitchControl-macos-arm64.zip
     runs-on: ${{ matrix.os }}
     steps:

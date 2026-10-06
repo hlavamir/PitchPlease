@@ -1,5 +1,5 @@
 # PyInstaller spec for the standalone PitchControl app (macOS .app / Windows folder with .exe).
-# Build with packaging/build_macos.sh or packaging/build_windows.bat — must run on the target OS.
+# Build with packaging/build_macos.command or packaging/build_windows.bat — must run on the target OS.
 import sys
 from pathlib import Path
 

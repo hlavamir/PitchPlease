@@ -506,3 +506,33 @@ Target viewport: 1512×915, the usable area of a 14" MacBook Pro at default scal
 - Output: live output moved to its own column.
 
 The app window opens maximized.
+
+---
+
+## [2026-10-05] update | PitchControl: full-height faders, on-release colours, hardware feedback
+
+Miro's feedback:
+- Audio works (microphone test).
+- LCXL3 works.
+- Front panels need only 3 channels; the address step of 4 is just continuity with the pinspots.
+- Masks look identical to vvvv except Back and Forth rotating in 45° steps instead of 90° (left for now).
+
+Changes:
+- General and Dimmers faders fill the window height.
+- Pages are now ordered General, Dimmers, Fixtures, Inputs, Outputs, Fog ("Output" renamed to "Outputs").
+- Hue and Saturation macros are "deferred": the UI applies them on mouse release, MIDI once the knob rests for `midi_settle_s` (0.4 s). A dashed outline shows a pending value.
+
+Recorded in [[port-design]].
+
+---
+
+## [2026-10-06] fix | LCXL3 drives the active page; 8-column grids
+
+Miro reported that the LCXL3 only worked on the General page. In vvvv, the same 16 controls drive the faders of the active tab, and CC 13 switches tabs. PitchControl now does the same:
+- controller files get per-page mappings and a `page_knob`;
+- new "Page General"/"Page Dimmers" radio macros, which are not saved in scenes;
+- the UI page and the controller page stay in sync in both directions.
+
+CC 34 and 36 now drive Saturation A and B. Tested with unit tests and a simulated page change in the browser; not yet with the controller.
+
+General and Dimmers now always use 8-column grids, like the controller. Updated [[vvvv-patch-logic]] and [[port-design]].

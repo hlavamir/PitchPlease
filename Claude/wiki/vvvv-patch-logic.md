@@ -152,6 +152,10 @@ The scene and `macros.ini` files store the 128 control values in this index orde
 - knobs: Strobo Decay, Idle Attack, Shader Speed, Shader Param, Hue A, (unassigned), Hue B, Audio Filter;
 - faders: Glitches, Strobo, Strobo Brightness, Idle Brightness, Strobo/Idle Bright. A, Strobo/Idle Bright. B.
 
+**LCXL3 pages** (traced 2026-10-06): the 16 "general inputs" are knob row 3 (CC 29–36) and the faders (CC 5–12). They drive the 16 faders of the **active tab** in display order (Dimmers tab: Dimmer 01–08 on the knobs, Dimmer 09–16 on the faders). The tab macros are General/Dimmers (indices 92/93).
+
+The first knob of row 1 (**CC 13**) switches tabs: an increase selects the next tab, a decrease the previous one. Button row 1 (CC 37–43) and row 2 (CC 45–51) feed further general inputs and the scene selection; CC 44 and CC 52 act as shift buttons for their rows. The exact button-to-function mapping was not traced.
+
 ## Open Questions
 
 - MIDI mapping (`MidiMappingLCXL3`) and the macro definitions (names, ranges, steps) in `GUI_Manager` are readable but not yet extracted.

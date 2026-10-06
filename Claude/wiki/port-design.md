@@ -69,13 +69,15 @@ Per fixture: membership in group A or B as today, plus optional overrides. Hue a
 - Non-strobo fixtures go dark on a peak and fade from black to the idle colour during the strobo phase. This deliberately gives strobo fixtures visual space. During the idle phase they stay at full idle-colour brightness.
 - The phases never overlap, so strobo and idle colours are exclusive, not additive.
 
+**Hue and saturation apply "on release":** dragging the Hue A/B or Saturation A/B fader in the UI applies the value when the mouse is released. A MIDI knob applies it once the knob has rested for `midi_settle_s` (default 0.4 s), because the LCXL3 knobs have no touch/release event. Until then the fader shows the target with a dashed outline and the lights keep the old colour, so a show never sweeps through the whole gradient.
+
 **Gamma is split into two keys:** *Brightness Gamma* (on HSV value, the current behaviour) and *RGB Gamma* (per R/G/B channel, new).
 
 **Glitches** is renamed to reflect that it controls the amount of audio reactivity (exact name TBD, e.g. "Audio Reactivity").
 
 ## Frontend Pages
 
-- **General** and **Dimmers**: carried over from the vvvv UI.
+- **General** and **Dimmers**: carried over from the vvvv UI. Their grids always use 8 columns, matching the LCXL3's 8 columns of knobs, faders and buttons.
 - **Fixtures**: rig editing.
 - **Output**:
   - Enttec Pro: enabled, device, universe.
@@ -109,14 +111,14 @@ Everything Beam Ball related: Wanderer, ArtNet input from MadMapper, BB macros M
 ## Open Questions
 
 - The current patch normalises all FFT bins by **one shared** running max (see [[vvvv-patch-logic]]); the port uses per-band normalisation as agreed. Confirm this behaviour change is intended.
-- The LCXL3 mapping in the default controller file is a best-effort reading of the patch (knob row 3 + faders only; scene buttons and shift layer not mapped); verify on hardware.
+- ~~LCXL3 mapping~~ Confirmed working 2026-10-05 (MIDI channel 13, knob row 3 + faders). On 2026-10-06 the mapping became page-aware: the same controls drive the active page (General or Dimmers), and CC 13 switches pages (see [[vvvv-patch-logic]]). The UI and controller page stay in sync. Untested on hardware. Scene buttons and the shift layer are not mapped yet.
 - Fixture details the patch does not pin down (all marked `VERIFY` in `pitch_control/config`):
   - Pinspots: 4-channel RGBW (confirmed). Hardware strobe would need the 9-channel mode; dropped for now (see Future: Hardware Strobe).
   - LED bars: the 6-channel header is unknown.
-  - Front panels: possibly 4 channels each (they sit at 14, 18, 22).
+  - ~~Front panels: possibly 4 channels each~~ Resolved: 3 channels; addresses step by 4 only for continuity with the pinspots.
   - Fog machines: resolved — fog on DMX 1, ground fog on DMX 2 (universe 0, 255 = on), found in the patch's `DMXOutput` (`SetDMXChannel` is 1-based).
 - ~~LED bar address~~ Resolved 2026-10-05: LED bars are not part of the setup and were removed from the default rig; v3 units #1–#4 are all enabled.
-- Mask look: the line masks (band width, 45° orientation steps) and noise speed/offset are approximations of the vvvv rectangle + blur and need side-by-side tuning.
+- Mask look: confirmed to match vvvv so far, except that Back and Forth rotates in 45° steps where vvvv uses 90° steps. Left as is for now (Miro, 2026-10-05).
 - ~~Is the restart of the line movement on every peak intended?~~ Yes (confirmed 2026-10-05): some masks deliberately reset on a peak.
 
 ## Engine Rate

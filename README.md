@@ -1,69 +1,90 @@
 # PitchPlease
 
-A hobby project: audio-reactive LED lighting, controlled from a custom [vvvv gamma](https://visualprogramming.net/) patch. Three hardware generations have been built, evolving from simple PWM-dimmed strips to fully addressable WS2811 strips over DMX512.
+A hobby project: audio-reactive LED lighting for live music. Custom LED light poles, built over three hardware generations, from PWM-dimmed strips to addressable WS2811 strips over DMX512. They are played together with off-the-shelf DMX fixtures (pinspots, LED panels) by control software on a laptop.
 
 ## How it works
 
-vvvv analyses audio in real time, generates a visual signal (brightness/color curves), and sends it to one or more LED controller devices. The current version (V3) uses ESP32 microcontrollers receiving DMX512 over RS-485, each driving four 140 cm WS2811 LED strips. Live scene switching is done with a Novation Launch Control XL Mk3 MIDI controller.
+The control software analyses the music in real time and turns it into light. Kicks trigger strobes; between them, shader-like masks drift across the rig in two colour groups. The output goes over DMX to the PitchPlease V3 devices and third-party fixtures, and over USB serial to the older V2 strips. A Novation Launch Control XL Mk3 is used to play it live.
 
 ```
-Audio → vvvv patch → USB-DMX (Enttec) → DMX512 → ESP32 devices → WS2811 strips
+Audio in → PitchControl → Enttec DMX USB Pro → DMX512 → V3 light poles, pinspots, LED panels
+                       ↘ USB serial → V2 strips      ↘ Art-Net (optional)
 ```
 
-→ [vvvv patch details](wiki/wiki/vvvv-patch.md) · [V3 hardware details](wiki/wiki/v3.md)
+There are two versions of the control software:
+
+- **[PitchControl](pitch_control/README.md)** (`pitch_control/`, current): a cross-platform app (macOS, Windows) with a Python engine and a web UI in its own window. It ports the vvvv patch and adds JSON fixture types and rigs, a full-keyboard UI, MIDI page switching and a Control Desk for manual DMX overrides. Audio, the LCXL3 and Enttec output have been verified on hardware. Art-Net, V2 serial and the Windows build have not.
+- **vvvv gamma patch** (`vl/`, original): the patch PitchControl was ported from. Its logic is reverse-engineered in the wiki ([vvvv patch](Claude/wiki/vvvv-patch.md), [patch logic](Claude/wiki/vvvv-patch-logic.md)).
 
 ## Hardware versions
 
 | Version | MCU | Strips | Protocol | Status |
 |---|---|---|---|---|
-| [V1](wiki/wiki/v1.md) | Arduino | 2× mono RGB (PWM) | Serial 57600 | Archived |
-| [V2a](wiki/wiki/v2.md) | Arduino | 2× WS2811 | Serial 57600 | Archived |
-| [V2b](wiki/wiki/v2.md) | Arduino R4 | 4× WS2811 | Serial 921600 | Archived |
-| [V3](wiki/wiki/v3.md) | ESP32 | 4× WS2811 per device | DMX512 | **Active** |
+| [V1](Claude/wiki/v1.md) | Arduino | 2× mono RGB (PWM) | Serial 57600 | Archived |
+| [V2a](Claude/wiki/v2.md) | Arduino | 2× WS2811 | Serial 57600 | Archived |
+| [V2b](Claude/wiki/v2.md) | Arduino R4 | 4× WS2811 | Serial 921600 | Archived, still usable |
+| [V3](Claude/wiki/v3.md) | ESP32 | 4× 140 cm WS2811 per device | DMX512 | **Active** |
 
-→ [Cross-version hardware comparison](wiki/wiki/hardware.md)
+Two V3 units are in use (DMX start addresses 100 and 200) and two more are being built ([assembly notes](Claude/wiki/v3-assembly.md)). The PitchControl rig already places them at 300 and 400. See also the [cross-version hardware comparison](Claude/wiki/hardware.md) and the [third-party fixtures](Claude/wiki/fixtures.md).
 
 ## Folder structure
 
 ```
-v1/                         Version 1 — Arduino PWM mono-color strips
-  firmware/pitch_please_mono/   Arduino sketch
-  hardware/pcb/                 Fritzing PCB design + Gerbers (2019)
+pitch_control/              PitchControl, the current control software (see its README)
+  backend/                    Python engine: audio, masks, fixtures, DMX / serial / MIDI, API
+  frontend/                   Vite + React + TypeScript UI
+  config/                     Fixture types, rigs, controllers, scenes, settings (JSON, committed)
+  packaging/                  Standalone app builds (macOS .app, Windows .exe)
+  run.command, run.bat        Start from source on macOS / Windows
 
-v2_ws2811/                  Version 2 — WS2811 addressable strips
+v3_esp32_dmx/               Version 3: ESP32 + DMX512 (current hardware)
   firmware/
-    pitch_please_w2811/         V2a: 2 strips, 57600 baud
-    pitch_please_w2811_4-channel/  V2b-intermediate: 4 strips, R3, bandwidth-limited
+    v3-2_esp32_dmx_platformio/    Active PlatformIO project (+ firmware-flasher.command)
+    v3-0_esp32_dmx_arduino_ide/   Outdated Arduino IDE project
+  pcb/                          Fritzing PCB designs and Gerbers (v3.0, v3.2.0, v3.2.1)
+  case/                         Rhino 3D case files and print exports (v3.0, v3.1, v3.2)
+
+v2_ws2811/                  Version 2: WS2811 addressable strips (serial)
+  firmware/
+    pitch_please_w2811/               V2a: 2 strips, 57600 baud
+    pitch_please_w2811_4-channel/     V2b intermediate: 4 strips, R3, bandwidth-limited
     pitch_please_w2811_4_channel_r4/  V2b: 4 strips, R4, 921600 baud
 
-v3_esp32_dmx/               Version 3 — ESP32 + DMX512 (current)
-  firmware/
-    v3_esp32_dmx_platformio/    Active PlatformIO project (src/ has .ino, .cpp, .h)
-    v3_esp32_dmx/               Outdated Arduino IDE project (to be deleted)
-  hardware/                     Fritzing PCB, Gerbers, Rhino 3D case files
+v1/                         Version 1: Arduino PWM mono-colour strips
+  firmware/pitch_please_mono/   Arduino sketch
+  hardware/pcb/                 Fritzing PCB design and Gerbers (2019)
 
-vl/                         vvvv gamma 7.0 patch
-  root_gamma_7-3.vl             Main patch (filename stale, pending rename)
+vl/                         The original vvvv gamma 7 patch
+  root_gamma_7-3.vl             Main patch
   shaders/                      Custom HLSL/SDSL shaders
-  Scenes/                       8 saved scene presets (Scene1.ini–Scene8.ini)
-  EditShaders/                  Shader dev sdpkg project
+  Scenes/                       8 saved scenes (imported into PitchControl)
+  EditShaders/                  Shader development project
 
 testing/                    Archived prototypes and experiments
   standalone_esp32/             Deprecated ESP32 prototype (onboard FFT + web UI)
-  cases/                        Obsolete 3D print tests for a never-built 19" rack version
+  cases/                        3D print tests for a never-built 19" rack version
 
-wiki/                       Project wiki (Obsidian + LLM-maintained)
+Claude/                     Project wiki (Obsidian vault, LLM-maintained)
   CLAUDE.md                     Wiki schema and conventions
-  raw/                          Ingested source documents
-  wiki/                         Generated wiki pages
+  wiki/                         Wiki pages
+  raw/, images/                 Ingested sources and images
+
+wiki/                       Earlier copy of the wiki (the current one is Claude/)
 ```
+
+## Quick start (PitchControl)
+
+macOS: double-click `pitch_control/run.command`. Windows: double-click `pitch_control/run.bat`. On first start they set up Python and build the UI, then open the app in the browser. To build the standalone app instead, run `pitch_control/packaging/build_macos.command` or `build_windows.bat`. Details are in the [PitchControl README](pitch_control/README.md).
 
 ## Wiki
 
-The `wiki/` folder contains a project wiki maintained with the help of an LLM (following the [Karpathy llm-wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)). Open the folder in [Obsidian](https://obsidian.md/) for graph navigation, or browse the pages directly:
+The wiki in `Claude/` is maintained with the help of an LLM, following the [Karpathy llm-wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). Open the folder in [Obsidian](https://obsidian.md/) for graph navigation, or browse the pages directly:
 
-- [Overview](wiki/wiki/overview.md) — project summary and full version history
-- [Hardware](wiki/wiki/hardware.md) — cross-version comparison, PCBs, case, USB-DMX interfaces
-- [vvvv patch](wiki/wiki/vvvv-patch.md) — shaders, scenes, MIDI, serial/DMX output
-- [V1](wiki/wiki/v1.md) · [V2](wiki/wiki/v2.md) · [V3](wiki/wiki/v3.md) — per-version details
-- [WiFi bridge](wiki/wiki/wifi-bridge.md) — future dev: phone remote control via vvvv
+- [Index](Claude/wiki/index.md): all pages · [Log](Claude/wiki/log.md): chronological activity log
+- [Overview](Claude/wiki/overview.md): project summary and version history
+- [Hardware](Claude/wiki/hardware.md): cross-version comparison, PCBs, case, USB-DMX interfaces
+- [V1](Claude/wiki/v1.md) · [V2](Claude/wiki/v2.md) · [V3](Claude/wiki/v3.md) · [V3 assembly](Claude/wiki/v3-assembly.md): per-version details
+- [PitchControl design](Claude/wiki/port-design.md): architecture, decisions and status of the port
+- [vvvv patch](Claude/wiki/vvvv-patch.md) · [vvvv patch logic](Claude/wiki/vvvv-patch-logic.md): the original control software
+- [Fixtures](Claude/wiki/fixtures.md): third-party DMX fixtures used at events
+- [WiFi bridge](Claude/wiki/wifi-bridge.md): future idea, phone remote control

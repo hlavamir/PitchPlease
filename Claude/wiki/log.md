@@ -670,3 +670,9 @@ New page with every DMX output channel as a slider for manual overrides: univers
 ## [2026-10-07] update | PitchControl channel value table
 
 "Show channel values" (Fixtures → Placement, Outputs → Live output) now shows a table per fixture with only the channels it writes: DMX channel number over the value, both as 3 digits so nothing shifts, and a level bar per cell. v2 serial strips are numbered by byte position.
+
+---
+
+## [2026-10-07] update | PitchControl Control Desk Q / E subpages
+
+Q / E step to the previous / next Control Desk subpage, stopping at the first and last; the keyboard selection keeps its slot. Shown in the footer legend on that page, the Settings keyboard reference and the README.

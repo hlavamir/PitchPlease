@@ -198,7 +198,14 @@ async function request<T>(method: string, url: string, body?: unknown): Promise<
   })
   if (!res.ok) {
     const text = await res.text()
-    throw new Error(`${method} ${url}: ${res.status} ${text}`)
+    let detail: unknown
+    try {
+      detail = JSON.parse(text).detail
+    } catch {
+      detail = undefined
+    }
+    // FastAPI errors carry a readable "detail"; show that alone
+    throw new Error(typeof detail === 'string' ? detail : `${method} ${url}: ${res.status} ${text}`)
   }
   return res.json() as Promise<T>
 }
@@ -207,6 +214,7 @@ export const api = {
   get: <T>(url: string) => request<T>('GET', url),
   put: <T>(url: string, body: unknown) => request<T>('PUT', url, body),
   post: <T>(url: string, body?: unknown) => request<T>('POST', url, body ?? {}),
+  delete: <T>(url: string) => request<T>('DELETE', url),
 }
 
 export function rgbCss(rgb: number[], scale = 255): string {

@@ -59,3 +59,44 @@ def test_api_and_websocket(store):
         ws.send_json({"type": "macro", "name": "Strobo", "value": 0.25})
         ws.receive_json()
     assert engine.macros.control("Strobo") == 0.25
+
+
+def test_rig_management(store):
+    engine = Engine(store, enable_hardware=False)
+    client = TestClient(create_app(engine))
+    rigs = lambda: client.get("/api/rigs").json()  # noqa: E731
+
+    # live edit, then "save as": the copy gets the edit, the original file keeps its saved content
+    rig = client.get("/api/rig").json()
+    rig["fixtures"][0]["address"] = 101
+    client.put("/api/rig?persist=false", json=rig)
+    assert rigs()["unsaved"]
+    assert client.post("/api/rig/duplicate", json={"name": "club"}).json()["name"] == "club"
+    assert rigs() == {"active": "club", "available": ["club", "default"], "unsaved": False}
+    assert store.settings.active_rig == "club"
+    assert client.post("/api/rig/activate", json={"name": "default"}).json()["ok"]
+    assert client.get("/api/rig").json()["fixtures"][0]["address"] == 100
+    client.post("/api/rig/activate", json={"name": "club"})
+    assert client.get("/api/rig").json()["fixtures"][0]["address"] == 101
+
+    # names: taken (any case), unsafe
+    assert client.post("/api/rig/duplicate", json={"name": "Default"}).status_code == 409
+    assert client.post("/api/rig/new", json={"name": "../evil"}).status_code == 409
+    assert client.post("/api/rig/new", json={"name": ""}).status_code == 409
+
+    # rename keeps unsaved live changes unsaved and the saved file as it was
+    rig = client.get("/api/rig").json()
+    rig["fixtures"][0]["address"] = 102
+    client.put("/api/rig?persist=false", json=rig)
+    assert client.post("/api/rig/rename", json={"name": "club 2"}).json()["ok"]
+    assert rigs() == {"active": "club 2", "available": ["club 2", "default"], "unsaved": True}
+    assert (store.rigs_dir / "club 2.json").exists() and not (store.rigs_dir / "club.json").exists()
+    assert client.post("/api/rig/reload").json()["fixtures"][0]["address"] == 101
+
+    # new empty rig, delete it (switches to a neighbour), the last rig stays
+    assert client.post("/api/rig/new", json={"name": "empty"}).json()["ok"]
+    assert client.get("/api/rig").json()["fixtures"] == []
+    assert client.delete("/api/rig").json()["active"] == "default"  # the next name, or the previous for the last
+    assert client.delete("/api/rig").json()["active"] == "club 2"
+    assert client.delete("/api/rig").status_code == 409
+    assert rigs()["available"] == ["club 2"]

@@ -203,6 +203,68 @@ def create_app(engine: Engine, static_dir: Path | None = None, desktop: dict | N
         engine.rebuild_fixtures()
         return store.rig.model_dump(mode="json", exclude_none=True)
 
+    def check_new_name(name: str) -> str:
+        name = name.strip()
+        problem = store.rig_name_problem(name)
+        if problem:
+            raise HTTPException(409, problem)
+        return name
+
+    @app.post("/api/rig/rename")
+    def rename_rig(body: Activate):
+        """Rename the active rig (file and name); unsaved live changes stay unsaved."""
+        name = check_new_name(body.name)
+        with engine.lock:
+            store.rename_rig(name)
+        return {"ok": True, "name": name}
+
+    @app.post("/api/rig/duplicate")
+    def duplicate_rig(body: Activate):
+        """Save the live rig (with unsaved changes) as a new rig file and make it active.
+        The original file keeps its saved content."""
+        name = check_new_name(body.name)
+        with engine.lock:
+            store.rig = store.rig.model_copy(deep=True, update={"name": name})
+            store.save_rig()
+            store.settings.active_rig = name
+        store.save_settings()
+        rig_state["unsaved"] = False
+        engine.rebuild_fixtures()
+        return {"ok": True, "name": name}
+
+    @app.post("/api/rig/new")
+    def new_rig(body: Activate):
+        """Create an empty rig and make it active (unsaved changes of the current rig are dropped)."""
+        name = check_new_name(body.name)
+        with engine.lock:
+            store.rig = Rig(name=name)
+            store.save_rig()
+            store.settings.active_rig = name
+        store.save_settings()
+        rig_state["unsaved"] = False
+        engine.rebuild_fixtures()
+        return {"ok": True, "name": name}
+
+    @app.delete("/api/rig")
+    def delete_rig():
+        """Delete the active rig's file and load the next one. The last rig can't be deleted."""
+        names = store.list_names(store.rigs_dir)
+        current = store.rig.name
+        if current not in names:
+            raise HTTPException(404, f"rig '{current}' has no file")
+        if len(names) < 2:
+            raise HTTPException(409, "the last rig can't be deleted")
+        i = names.index(current)
+        following = names[i + 1] if i + 1 < len(names) else names[i - 1]
+        store.delete_rig(current)
+        store.settings.active_rig = following
+        store.save_settings()
+        with engine.lock:
+            store.load_rig(following)
+        rig_state["unsaved"] = False
+        engine.rebuild_fixtures()
+        return {"ok": True, "active": following}
+
     @app.post("/api/rig/activate")
     def activate_rig(body: Activate):
         if body.name not in store.list_names(store.rigs_dir):

@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, type FixtureInstance, type FixtureType, type MacroDef, type Rig } from '../api'
 import { OutputMonitor } from '../components/OutputMonitor'
 import { Preview } from '../components/Preview'
+import { RigPanel, type RigList } from '../components/RigPanel'
 import { Button, NumberInput, Row, Section, Toggle } from '../components/forms'
 import type { EngineConnection } from '../useEngine'
 
@@ -33,7 +34,7 @@ const MIXED_OPTION = '__mixed__'
 
 export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Record<string, MacroDef> }) {
   const [rig, setRig] = useState<Rig | null>(null)
-  const [rigs, setRigs] = useState<{ active: string; available: string[] }>({ active: '', available: [] })
+  const [rigs, setRigs] = useState<RigList>({ active: '', available: [] })
   const [types, setTypes] = useState<Record<string, FixtureType>>({})
   // indices into rig.fixtures; click selects one, Shift + click adds / removes one (multi-edit)
   const [selection, setSelection] = useState<number[]>([0])
@@ -42,7 +43,7 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
 
   const reload = useCallback(() => {
     api.get<Rig>('/api/rig').then(setRig)
-    api.get<typeof rigs & { unsaved: boolean }>('/api/rigs').then((r) => {
+    api.get<RigList & { unsaved: boolean }>('/api/rigs').then((r) => {
       setRigs(r)
       setDirty(r.unsaved)
     })
@@ -50,9 +51,11 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
   }, [])
   useEffect(reload, [reload])
 
-  // every committed edit is applied to the engine immediately; "Save rig" writes the file
+  // every committed edit is applied to the engine immediately; the rig's Save writes the file.
+  // Live updates are chained, so rig actions (duplicate, rename …) can wait for the last one.
+  const live = useRef<Promise<unknown>>(Promise.resolve())
   const applyLive = (next: Rig) => {
-    api.put('/api/rig?persist=false', next).catch((e) => setProblems([String(e)]))
+    live.current = live.current.then(() => api.put('/api/rig?persist=false', next).catch((e) => setProblems([String(e)])))
   }
 
   const commitRig = (next: Rig, live = true) => {
@@ -104,6 +107,7 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
 
   const save = async () => {
     if (!rig) return
+    await live.current // a live update arriving after the save would mark the rig unsaved again
     const res = await api.put<{ ok: boolean; problems: string[] }>('/api/rig', rig)
     setProblems(res.problems)
     setDirty(false)
@@ -113,12 +117,6 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
     setRig(await api.post<Rig>('/api/rig/reload'))
     setDirty(false)
     setProblems([])
-  }
-
-  const activate = async (name: string) => {
-    await api.post('/api/rig/activate', { name })
-    setSelection([0])
-    reload()
   }
 
   const addFixture = (copyOf?: FixtureInstance) => {
@@ -150,66 +148,60 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
   const selectedNames = fxs.map((f) => f.name)
 
   return (
-    <div className="grid gap-1.5 xl:grid-cols-[16rem_minmax(0,1fr)_22rem]">
-      <Section
-        index="01"
-        title="Rig"
-        right={
-          <select value={rigs.active} onChange={(e) => activate(e.target.value)}>
-            {rigs.available.map((r) => (
-              <option key={r}>{r}</option>
-            ))}
-          </select>
-        }
-      >
-        {rig?.description && <p className="mb-3 text-[11px] text-dim">{rig.description}</p>}
-        <ul className="flex max-h-[calc(100vh-17rem)] flex-col gap-0.5 overflow-auto select-none">
-          {rig?.fixtures.map((f, i) => (
-            <li key={i}>
-              <button
-                onClick={(e) => clickFixture(i, e.shiftKey)}
-                className={`flex w-full items-center gap-2 px-2 py-1.5 text-left text-[13px] ${
-                  sel.includes(i) ? 'glow-on bg-ink text-ground' : 'hover:bg-panel-2'
-                } ${f.enabled ? '' : 'text-dim'}`}
-              >
-                <span className="flex-none border border-edge px-1 font-mono text-[10px] leading-[14px] text-dim">{f.group}</span>
-                <span className="flex-1 truncate">{f.name}</span>
-                <span className="font-mono text-[11px] text-dim">
-                  {types[f.type]?.transport === 'pitchpls_v2' ? 'serial' : `${f.universe}:${f.address}`}
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
-        <p className="lbl mt-2 text-[10px] text-dim">Shift + click: add to / remove from the selection</p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          <Button onClick={() => addFixture()}>Add</Button>
-          <Button onClick={() => fx && addFixture(fx)} disabled={!fx || multi}>
-            Duplicate
-          </Button>
-          <Button onClick={removeFixture} disabled={!fx || multi}>
-            Remove
-          </Button>
-        </div>
-        <div className="mt-3 flex gap-2">
-          <Button onClick={revert} disabled={!dirty}>
-            Revert
-          </Button>
-          <Button onClick={save} primary disabled={!dirty}>
-            Save rig
-          </Button>
-        </div>
-        {problems.length > 0 && (
-          <ul className="mt-3 list-disc pl-5 text-[11px] text-ink">
-            {problems.map((p) => (
-              <li key={p}>{p}</li>
+    <div className="grid gap-1.5 xl:h-full xl:grid-cols-[17rem_minmax(0,1fr)_22rem] xl:grid-rows-[minmax(0,1fr)]">
+      {/* left: the rig as a whole (file) above the lights in it */}
+      <div className="flex min-h-0 min-w-0 flex-col gap-1.5">
+        <RigPanel
+          index="01"
+          rigs={rigs}
+          dirty={dirty}
+          description={rig?.description ?? ''}
+          problems={problems}
+          onDescription={(text) => rig && commitRig({ ...rig, description: text }, false)}
+          onDescriptionCommit={() => rig && dirty && applyLive(rig)}
+          save={save}
+          revert={revert}
+          settle={() => live.current}
+          changed={() => {
+            setSelection([0])
+            setProblems([])
+            reload()
+          }}
+        />
+        <Section index="02" title="Fixtures" right={rig && `${rig.fixtures.length} in rig`} className="min-h-0 flex-1" bodyClassName="p-2.5 min-h-0">
+          <ul className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-auto select-none">
+            {rig?.fixtures.map((f, i) => (
+              <li key={i}>
+                <button
+                  onClick={(e) => clickFixture(i, e.shiftKey)}
+                  className={`flex w-full items-center gap-2 px-2 py-1.5 text-left text-[13px] ${
+                    sel.includes(i) ? 'glow-on bg-ink text-ground' : 'hover:bg-panel-2'
+                  } ${f.enabled ? '' : 'text-dim'}`}
+                >
+                  <span className="flex-none border border-edge px-1 font-mono text-[10px] leading-[14px] text-dim">{f.group}</span>
+                  <span className="flex-1 truncate">{f.name}</span>
+                  <span className="font-mono text-[11px] text-dim">
+                    {types[f.type]?.transport === 'pitchpls_v2' ? 'serial' : `${f.universe}:${f.address}`}
+                  </span>
+                </button>
+              </li>
             ))}
           </ul>
-        )}
-      </Section>
+          <p className="lbl mt-2 text-[10px] text-dim">Shift + click: add to / remove from the selection</p>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            <Button onClick={() => addFixture()}>Add</Button>
+            <Button onClick={() => fx && addFixture(fx)} disabled={!fx || multi}>
+              Duplicate
+            </Button>
+            <Button onClick={removeFixture} disabled={!fx || multi}>
+              Remove
+            </Button>
+          </div>
+        </Section>
+      </div>
 
       <Section
-        index="02"
+        index="03"
         title={multi ? `${fxs.length} fixtures` : fx ? fx.name : 'Fixture'}
         right={multi && 'multi-edit · a value you enter applies to all'}
       >
@@ -364,10 +356,10 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
         )}
       </Section>
 
-      <Section index="03" title="Placement">
+      <Section index="04" title="Placement" bodyClassName="p-3 min-h-0 overflow-auto">
         <Preview preview={engine.preview} state={engine.state} highlight={selectedNames} />
         <p className="mt-2 text-[11px] text-dim">
-          Changes apply live (Enter or leaving a field); “Save rig” writes the rig file, “Revert” reloads it. The thick ring
+          Changes apply live (Enter or leaving a field); the rig’s Save writes the rig file, Revert reloads it. The thick ring
           marks the first pixel.
         </p>
         {fx && (

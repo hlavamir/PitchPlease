@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import TypeVar
@@ -28,6 +29,9 @@ from .models import Controller, FixtureType, Rig, Scene, Settings
 log = logging.getLogger(__name__)
 
 M = TypeVar("M", bound=BaseModel)
+
+# rig names are file names: keep them portable (macOS / Windows) and free of path separators
+RIG_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9 _.\-]{0,63}")
 
 
 def report_unknown_keys(model: BaseModel, source: str, path: str = "") -> list[str]:
@@ -133,6 +137,7 @@ class ConfigStore:
     def load_rig(self, name: str) -> None:
         rig = load_model(self.rigs_dir / f"{name}.json", Rig, name=name)
         self.rig = rig or Rig(name=name)
+        self.rig.name = name  # the file name is the rig name
         self.validate_rig()
         log.info("loaded rig '%s' with %d fixtures", self.rig.name, len(self.rig.fixtures))
 
@@ -190,6 +195,37 @@ class ConfigStore:
 
     def save_rig(self) -> None:
         save_model(self.rigs_dir / f"{self.rig.name}.json", self.rig)
+
+    # -- rig files
+    def rig_path(self, name: str) -> Path:
+        return self.rigs_dir / f"{name}.json"
+
+    def rig_name_problem(self, name: str) -> str | None:
+        """Why ``name`` can't be used for a new rig file, or None."""
+        if not RIG_NAME.fullmatch(name):
+            return "use letters, digits, space, - _ . (max 64, starting with a letter or digit)"
+        taken = next((n for n in self.list_names(self.rigs_dir) if n.lower() == name.lower()), None)
+        if taken is not None:  # case-insensitive: macOS and Windows file names are
+            return f"the rig '{taken}' already exists"
+        return None
+
+    def rename_rig(self, new: str) -> None:
+        """Rename the active rig's file. Unsaved live changes stay unsaved."""
+        old = self.rig.name
+        path = self.rig_path(old)
+        # the file keeps its saved content; a missing or broken file takes the live rig
+        saved = (load_model(path, Rig, name=old) if path.exists() else None) or self.rig.model_copy(deep=True)
+        saved.name = new
+        save_model(self.rig_path(new), saved)
+        path.unlink(missing_ok=True)
+        self.rig.name = new
+        self.settings.active_rig = new
+        self.save_settings()
+        log.info("renamed rig '%s' to '%s'", old, new)
+
+    def delete_rig(self, name: str) -> None:
+        self.rig_path(name).unlink()
+        log.info("deleted rig '%s'", name)
 
     def save_fixture_type(self, ftype: FixtureType) -> None:
         save_model(self.types_dir / f"{ftype.name}.json", ftype)

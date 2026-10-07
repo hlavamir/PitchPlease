@@ -128,7 +128,7 @@ export default function App() {
           <div className="flex h-[38px] items-center justify-between border-b border-edge">
             <div className="flex flex-none items-center gap-2.5 px-2.5">
               <Glyph />
-              <h1 className="lbl text-glow text-[15px] font-semibold tracking-[0.14em]">PitchControl</h1>
+              <h1 className="lbl text-glow text-[15px] font-semibold tracking-[0.14em]">PitchControl!</h1>
             </div>
             <div className="flex flex-none items-center gap-4 px-2.5 whitespace-nowrap">
               {/* fixed width: a changing FPS value never shifts the indicators */}

@@ -70,7 +70,7 @@ export function Inputs({ engine }: { engine: EngineConnection }) {
           {selected && <span className="text-[11px] text-dim">device has {selected.channels} inputs</span>}
         </Row>
         <Row label="Gain">
-          <NumberInput value={a.gain} step={0.1} min={0} onChange={(v) => update((s) => (s.audio.gain = v))} />
+          <NumberInput value={a.gain} min={0} onChange={(v) => update((s) => (s.audio.gain = v))} />
           <div className="h-2 w-40 bg-panel-2">
             <div className="h-2 dot-on" style={{ width: `${Math.min(1, io?.audio?.level ?? 0) * 100}%` }} />
           </div>

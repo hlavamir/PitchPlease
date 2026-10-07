@@ -39,16 +39,16 @@ export function Fog({ engine }: { engine: EngineConnection }) {
             <Toggle checked={m.enabled} onChange={(v) => update((s) => (s.fog.machines[i].enabled = v))} />
           </Row>
           <Row label="Universe / channel">
-            <NumberInput value={m.universe} min={0} className="w-16" onChange={(v) => update((s) => (s.fog.machines[i].universe = v))} />
-            <NumberInput value={m.channel} min={1} max={512} className="w-20" onChange={(v) => update((s) => (s.fog.machines[i].channel = v))} />
+            <NumberInput value={m.universe} integer min={0} className="w-16" onChange={(v) => update((s) => (s.fog.machines[i].universe = v))} />
+            <NumberInput value={m.channel} integer min={1} max={512} className="w-20" onChange={(v) => update((s) => (s.fog.machines[i].channel = v))} />
           </Row>
           <Row label="On / off value">
-            <NumberInput value={m.on_value} min={0} max={255} className="w-20" onChange={(v) => update((s) => (s.fog.machines[i].on_value = v))} />
-            <NumberInput value={m.off_value} min={0} max={255} className="w-20" onChange={(v) => update((s) => (s.fog.machines[i].off_value = v))} />
+            <NumberInput value={m.on_value} integer min={0} max={255} className="w-20" onChange={(v) => update((s) => (s.fog.machines[i].on_value = v))} />
+            <NumberInput value={m.off_value} integer min={0} max={255} className="w-20" onChange={(v) => update((s) => (s.fog.machines[i].off_value = v))} />
           </Row>
           <Row label="Every … for … seconds">
             <NumberInput value={m.interval_s} min={1} className="w-20" onChange={(v) => update((s) => (s.fog.machines[i].interval_s = v))} />
-            <NumberInput value={m.duration_s} min={0} step={0.5} className="w-20" onChange={(v) => update((s) => (s.fog.machines[i].duration_s = v))} />
+            <NumberInput value={m.duration_s} min={0} className="w-20" onChange={(v) => update((s) => (s.fog.machines[i].duration_s = v))} />
           </Row>
           <Row label="Manual trigger" hint="Macro that fogs while held (Fog Machine button)">
             <Toggle

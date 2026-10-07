@@ -21,7 +21,7 @@ def pixel_positions(inst: FixtureInstance, count: int) -> np.ndarray:
             pts = np.vstack([pts, np.repeat(pts[-1:], count - len(pts), axis=0)])
         return pts[:count]
     t = ((np.arange(count) + 0.5) / count - 0.5) * inst.length
-    a = inst.rotation * 2.0 * math.pi
+    a = math.radians(inst.rotation)
     direction = np.array([math.cos(a), math.sin(a)])
     return np.array(inst.position, dtype=np.float64) + t[:, None] * direction
 

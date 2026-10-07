@@ -7,7 +7,7 @@ interface Props {
   preview: Uint8Array | null
   state: EngineState | null
   showFixtures?: boolean
-  highlight?: string | null
+  highlight?: string | string[] | null // fixture name(s) to outline
   className?: string
 }
 
@@ -54,7 +54,7 @@ export function Preview({ preview, state, showFixtures = true, highlight, classN
 
     if (showFixtures && state) {
       for (const fx of state.fixtures) {
-        const focused = highlight === fx.name
+        const focused = Array.isArray(highlight) ? highlight.includes(fx.name) : highlight === fx.name
         const multi = fx.uv.length > 1
         const px = (multi ? (fx.uv.length > 20 ? 6 : 5) : 10) * unit
         fx.uv.forEach(([u, v], i) => {

@@ -54,84 +54,159 @@ export function parseNumber(text: string): number | null {
   return Number.isFinite(v) ? v : null
 }
 
+/** Float noise off: 0.1 + 0.2 → 0.3. */
+const tidy = (v: number) => Number(v.toFixed(6))
+
+/** Vertical right-drag distance (px) for one step. */
+const DRAG_PX = 6
+
 /**
- * Number field that keeps exactly what you type and only applies the value on Enter or when
- * the field loses focus. Invalid input (or Escape) reverts to the current value.
+ * Number field that keeps exactly what you type and applies it on Enter (the field keeps focus,
+ * so you can type the next value right away) or when the field loses focus. Escape reverts.
+ *
+ * ↑ / ↓ and a vertical right-mouse drag change the value by ``step`` (with Shift: ``fineStep``)
+ * and apply each change immediately. Defaults: integers 1 / 1, floats 0.1 / 0.01. Without a value
+ * (empty, or "multiple values" in multi-edit) only typing works.
  */
 export function NumberInput({
   value,
   onChange,
   min,
   max,
+  integer = false,
+  step,
+  fineStep,
   className = 'w-24 shrink',
   placeholder,
+  disabled,
 }: {
   value: number | null | undefined
   onChange: (v: number) => void
-  step?: number
   min?: number
   max?: number
+  integer?: boolean
+  step?: number
+  fineStep?: number
   className?: string
   placeholder?: string
+  disabled?: boolean
 }) {
+  const coarse = step ?? (integer ? 1 : 0.1)
+  const fine = fineStep ?? (integer ? 1 : 0.01)
   const shown = value == null ? '' : String(value)
   const [text, setText] = useState(shown)
-  const [editing, setEditing] = useState(false)
+  // true while the field holds typed text that is not applied yet
+  const [dirty, setDirty] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const drag = useRef<{ id: number; lastY: number; acc: number; v: number } | null>(null)
 
   useEffect(() => {
-    if (!editing) setText(shown)
-  }, [shown, editing])
+    if (!dirty) setText(shown)
+  }, [shown, dirty])
 
-  const cancelled = useRef(false)
+  const limit = (v: number) => {
+    let r = integer ? Math.round(v) : tidy(v)
+    if (min !== undefined) r = Math.max(min, r)
+    if (max !== undefined) r = Math.min(max, r)
+    return r
+  }
 
+  const apply = (v: number) => {
+    setDirty(false)
+    setText(String(v))
+    if (v !== value) onChange(v)
+  }
+
+  /** Apply typed text; invalid text reverts. */
   const commit = () => {
-    setEditing(false)
-    if (cancelled.current) {
-      cancelled.current = false
-      setText(shown)
-      return
-    }
+    if (!dirty) return
     const v = parseNumber(text)
     if (v === null) {
+      setDirty(false)
       setText(shown)
       return
     }
-    let clamped = v
-    if (min !== undefined) clamped = Math.max(min, clamped)
-    if (max !== undefined) clamped = Math.min(max, clamped)
-    setText(String(clamped))
-    if (clamped !== value) onChange(clamped)
+    apply(limit(v))
   }
+
+  /** One step up (+1) or down (-1); the keys step from the typed text if it is valid. */
+  const nudge = (from: number, dir: number, fineMode: boolean) => limit(from + dir * (fineMode ? fine : coarse))
 
   return (
     <input
+      ref={inputRef}
       type="text"
       inputMode="decimal"
-      className={`${className} font-mono`}
+      className={`${className} font-mono ${value != null && !disabled ? 'cursor-ns-resize focus:cursor-text' : ''}`}
       value={text}
       placeholder={placeholder}
-      onFocus={() => setEditing(true)}
+      disabled={disabled}
       onChange={(e) => {
-        setEditing(true)
+        setDirty(true)
         setText(e.target.value)
       }}
       onBlur={commit}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
-          ;(e.target as HTMLInputElement).blur() // blur commits
+          e.preventDefault()
+          commit()
+          e.currentTarget.select() // stays focused: type the next value and Enter again
         } else if (e.key === 'Escape') {
-          cancelled.current = true
-          ;(e.target as HTMLInputElement).blur()
+          setDirty(false)
+          setText(shown)
+          e.currentTarget.blur()
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+          e.preventDefault()
+          if (value == null) return // nothing to step from (empty, or different values in multi-edit)
+          const typed = dirty ? parseNumber(text) : null
+          apply(nudge(typed ?? value, e.key === 'ArrowUp' ? 1 : -1, e.shiftKey))
         }
       }}
+      onContextMenu={(e) => e.preventDefault()}
+      onPointerDown={(e) => {
+        if (e.button !== 2 || value == null || disabled) return
+        e.preventDefault()
+        e.currentTarget.setPointerCapture(e.pointerId)
+        drag.current = { id: e.pointerId, lastY: e.clientY, acc: 0, v: value }
+        setDirty(false)
+      }}
+      onPointerMove={(e) => {
+        const d = drag.current
+        if (!d || d.id !== e.pointerId) return
+        d.acc += d.lastY - e.clientY // up = more
+        d.lastY = e.clientY
+        let v = d.v
+        while (Math.abs(d.acc) >= DRAG_PX) {
+          const dir = Math.sign(d.acc)
+          v = nudge(v, dir, e.shiftKey)
+          d.acc -= dir * DRAG_PX
+        }
+        if (v !== d.v) {
+          d.v = v
+          apply(v)
+        }
+      }}
+      onPointerUp={(e) => {
+        if (drag.current?.id === e.pointerId) drag.current = null
+      }}
+      onPointerCancel={() => (drag.current = null)}
     />
   )
 }
 
-export function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label?: string }) {
+/** Checkbox; ``mixed`` shows the indeterminate state (multi-edit with different values). */
+export function Toggle({ checked, onChange, label, mixed }: { checked: boolean; onChange: (v: boolean) => void; label?: string; mixed?: boolean }) {
   return (
     <span className="inline-flex items-center gap-2">
-      <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="size-4" />
+      <input
+        type="checkbox"
+        checked={checked}
+        ref={(el) => {
+          if (el) el.indeterminate = Boolean(mixed)
+        }}
+        onChange={(e) => onChange(e.target.checked)}
+        className="size-4"
+      />
       {label && <span className="lbl text-[11px]">{label}</span>}
     </span>
   )

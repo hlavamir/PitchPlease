@@ -149,7 +149,7 @@ def test_gamma_keys(store):
 
 
 def test_pixel_spread_vertical():
-    inst = FixtureInstance(position=(0.5, 0.5), rotation=0.75, length=0.6)
+    inst = FixtureInstance(position=(0.5, 0.5), rotation=270, length=0.6)
     uv = pixel_positions(inst, 4)
     assert np.allclose(uv[:, 0], 0.5)
     assert uv[0, 1] == pytest.approx(0.725) and uv[-1, 1] == pytest.approx(0.275)

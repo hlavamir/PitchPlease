@@ -8,9 +8,9 @@ function channelRange(fx: FixtureState): string {
 }
 
 /** Live view of what every fixture outputs: pixel colours and (optionally) the raw DMX / serial bytes. */
-export function OutputMonitor({ state, only }: { state: EngineState | null; only?: string | null }) {
+export function OutputMonitor({ state, only }: { state: EngineState | null; only?: string | string[] | null }) {
   const [showBytes, setShowBytes] = useState(false)
-  const fixtures = (state?.fixtures ?? []).filter((f) => !only || f.name === only)
+  const fixtures = (state?.fixtures ?? []).filter((f) => !only || (Array.isArray(only) ? only.includes(f.name) : f.name === only))
   return (
     <div className="flex flex-col gap-2">
       <label className="flex items-center gap-2 self-end text-[11px] text-dim">

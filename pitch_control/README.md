@@ -76,6 +76,10 @@ Everything works without a mouse — one control is always selected:
 | 1 – 7 | switch page |
 | F | full screen on / off (desktop app; on a MacBook it also covers the camera-notch strip) |
 
+Number fields apply on Enter and keep the focus, so you can type the next value right away (Escape reverts). ↑ / ↓ or dragging up / down with the right mouse button changes the value in steps (Shift = fine steps): integers 1, floats 0.1 / 0.01, fixture rotation 15° / 1°.
+
+On the Fixtures page, Shift + click adds fixtures to the selection (or removes them) to edit several at once. A field shows a value only if all selected fixtures share it, otherwise "multiple"; a value you enter applies to all of them.
+
 Hue and saturation apply on mouse release, or once keys / the MIDI knob rest; until then the fader shows the target with a dashed outline.
 
 ## Config folder
@@ -84,7 +88,7 @@ Hue and saturation apply on mouse release, or once keys / the MIDI knob rest; un
 |---|---|
 | `settings.json` | outputs (Enttec, Art-Net, v2 serial), audio input, fog machines, Auto Color palette, engine options |
 | `fixtures/types/*.json` | one file per fixture model; all files are loaded on startup, missing keys get defaults |
-| `rigs/<name>.json` | fixture instances for one event: type, group A/B, universe/address, UV placement, dimmer macro, colour sources |
+| `rigs/<name>.json` | fixture instances for one event: type, group A/B, universe/address, UV placement (rotation in degrees), dimmer macro, colour sources |
 | `controllers/*.json` | MIDI controller mappings (CC → macro) |
 | `scenes/scene_N.json` | the 8 scenes (macro name → control value) |
 | `state/macros.json` | auto-saved macro values for crash recovery (not in git) |

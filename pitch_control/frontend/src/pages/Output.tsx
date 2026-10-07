@@ -66,7 +66,7 @@ export function Output({ engine }: { engine: EngineConnection }) {
           <DevicePicker value={o.enttec.device} devices={devices} onChange={(d) => update((s) => (s.outputs.enttec.device = d))} />
         </Row>
         <Row label="Universe">
-          <NumberInput value={o.enttec.universe} min={0} onChange={(v) => update((s) => (s.outputs.enttec.universe = v))} />
+          <NumberInput value={o.enttec.universe} integer min={0} onChange={(v) => update((s) => (s.outputs.enttec.universe = v))} />
         </Row>
       </Section>
 
@@ -78,7 +78,7 @@ export function Output({ engine }: { engine: EngineConnection }) {
           {o.artnet.targets.map((t, i) => (
             <div key={i} className="flex items-center gap-2 text-[13px]">
               <span className="text-dim">Universe</span>
-              <NumberInput value={t.universe} min={0} className="w-16" onChange={(v) => update((s) => (s.outputs.artnet.targets[i].universe = v))} />
+              <NumberInput value={t.universe} integer min={0} className="w-16" onChange={(v) => update((s) => (s.outputs.artnet.targets[i].universe = v))} />
               <span className="text-dim">→ IP</span>
               <input
                 type="text"
@@ -89,6 +89,7 @@ export function Output({ engine }: { engine: EngineConnection }) {
               <span className="text-dim">Art-Net universe</span>
               <NumberInput
                 value={t.artnet_universe ?? t.universe}
+                integer
                 min={0}
                 className="w-16"
                 onChange={(v) => update((s) => (s.outputs.artnet.targets[i].artnet_universe = v))}
@@ -123,7 +124,7 @@ export function Output({ engine }: { engine: EngineConnection }) {
           </select>
         </Row>
         <Row label="Mirror mode byte">
-          <NumberInput value={o.pitchpls_v2.mode} min={0} max={254} onChange={(v) => update((s) => (s.outputs.pitchpls_v2.mode = v))} />
+          <NumberInput value={o.pitchpls_v2.mode} integer min={0} max={254} onChange={(v) => update((s) => (s.outputs.pitchpls_v2.mode = v))} />
         </Row>
       </Section>
       </div>

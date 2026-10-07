@@ -13,7 +13,7 @@
         0.2,
         0.5
       ],
-      "rotation": 0.75,
+      "rotation": 270.0,
       "length": 0.6,
       "real_strobo": false,
       "channel_values": {},
@@ -41,7 +41,7 @@
         0.4,
         0.5
       ],
-      "rotation": 0.75,
+      "rotation": 270.0,
       "length": 0.6,
       "real_strobo": false,
       "channel_values": {},
@@ -69,7 +69,7 @@
         0.6,
         0.5
       ],
-      "rotation": 0.75,
+      "rotation": 270.0,
       "length": 0.6,
       "real_strobo": false,
       "channel_values": {},
@@ -97,7 +97,7 @@
         0.8,
         0.5
       ],
-      "rotation": 0.75,
+      "rotation": 270.0,
       "length": 0.6,
       "real_strobo": false,
       "channel_values": {},
@@ -125,7 +125,7 @@
         0.1,
         0.8
       ],
-      "rotation": 0.75,
+      "rotation": 270.0,
       "length": 0.333,
       "real_strobo": false,
       "channel_values": {},
@@ -153,7 +153,7 @@
         0.3,
         0.8
       ],
-      "rotation": 0.75,
+      "rotation": 270.0,
       "length": 0.333,
       "real_strobo": false,
       "channel_values": {},
@@ -181,7 +181,7 @@
         0.7,
         0.8
       ],
-      "rotation": 0.75,
+      "rotation": 270.0,
       "length": 0.333,
       "real_strobo": false,
       "channel_values": {},
@@ -209,7 +209,7 @@
         0.9,
         0.8
       ],
-      "rotation": 0.75,
+      "rotation": 270.0,
       "length": 0.333,
       "real_strobo": false,
       "channel_values": {},

@@ -117,7 +117,7 @@ class FixtureInstance(Model):
 
     # placement in the square UV scene (u right, v down, 0..1)
     position: tuple[float, float] = (0.5, 0.5)
-    rotation: float = 0.0  # turns (0.25 = 90°)
+    rotation: float = 0.0  # degrees, clockwise on screen (90 = down, 270 = vertical with the first pixel at the bottom)
     length: float = 0.0  # pixels are spread along this length, centred on position
     pixel_positions: list[tuple[float, float]] | None = None  # explicit positions override the spread
 

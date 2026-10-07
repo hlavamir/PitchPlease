@@ -104,3 +104,37 @@ def test_rig_management(store):
     assert client.delete("/api/rig").json()["active"] == "club 2"
     assert client.delete("/api/rig").status_code == 409
     assert rigs()["available"] == ["club 2"]
+
+
+def test_dimmer_names_and_unused_dimmers_ignore_midi(store):
+    import mido
+
+    from pitchcontrol.config.models import Controller, MidiMapping
+    from pitchcontrol.io.midi_in import MidiInput
+
+    engine = Engine(store, enable_hardware=False)
+    client = TestClient(create_app(engine))
+    store.rig.dimmer_names = {"Dimmer 01": "Front"}
+
+    # rename live: the rig is unsaved, an empty name removes the name
+    res = client.post("/api/rig/dimmer-name", json={"macro": "Dimmer 02", "name": "  Back  "}).json()
+    assert res["dimmer_names"] == {"Dimmer 01": "Front", "Dimmer 02": "Back"}
+    assert client.get("/api/rigs").json()["unsaved"]
+    client.post("/api/rig/dimmer-name", json={"macro": "Dimmer 01", "name": ""})
+    assert client.get("/api/rig").json()["dimmer_names"] == {"Dimmer 02": "Back"}
+    assert client.post("/api/rig/dimmer-name", json={"macro": "Strobo", "name": "x"}).status_code == 404
+
+    # MIDI moves only dimmers that a fixture uses
+    store.rig.fixtures[0].dimmer_macro = "Dimmer 02"
+    for f in store.rig.fixtures[1:]:
+        f.dimmer_macro = None
+    ctrl = Controller(name="t", channel=1, mappings=[MidiMapping(cc=1, macro="Dimmer 01"), MidiMapping(cc=2, macro="Dimmer 02")])
+    midi = MidiInput(ctrl, None, engine.macros, ignored=store.dimmer_unassigned)
+    engine.macros.set("Dimmer 01", 1.0)
+    engine.macros.set("Dimmer 02", 1.0)
+    for cc in (1, 2):
+        midi.handle(mido.Message("control_change", channel=0, control=cc, value=0))
+    assert engine.macros.control("Dimmer 01") == 1.0  # unassigned: ignored
+    assert engine.macros.control("Dimmer 02") == 0.0
+    assert "unassigned" in midi.recent[0]["note"]
+    assert not store.dimmer_unassigned("Dimmer 02") and store.dimmer_unassigned("Dimmer 01")

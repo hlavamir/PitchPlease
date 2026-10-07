@@ -31,6 +31,8 @@ from ..io.midi_in import list_midi_inputs
 
 log = logging.getLogger(__name__)
 
+MACROS_BY_NAME = {m.name: m for m in MACRO_DEFS}
+
 
 class MacroUpdate(BaseModel):
     name: str
@@ -38,6 +40,11 @@ class MacroUpdate(BaseModel):
 
 
 class Activate(BaseModel):
+    name: str
+
+
+class DimmerName(BaseModel):
+    macro: str
     name: str
 
 
@@ -194,6 +201,24 @@ def create_app(engine: Engine, static_dir: Path | None = None, desktop: dict | N
         rig_state["unsaved"] = not persist
         engine.rebuild_fixtures()
         return {"ok": True, "problems": problems}
+
+    @app.post("/api/rig/dimmer-name")
+    def dimmer_name(body: DimmerName):
+        """Name a dimmer of the active rig live (unsaved until the rig is saved); an empty name
+        removes the name (the UI shows the macro name)."""
+        macro = MACROS_BY_NAME.get(body.macro)
+        if macro is None or macro.page != "dimmers":
+            raise HTTPException(404, f"'{body.macro}' is not a dimmer")
+        name = body.name.strip()
+        with engine.lock:
+            names = dict(store.rig.dimmer_names)
+            if name:
+                names[body.macro] = name
+            else:
+                names.pop(body.macro, None)
+            store.rig.dimmer_names = names
+        rig_state["unsaved"] = True
+        return {"ok": True, "dimmer_names": names}
 
     @app.post("/api/rig/reload")
     def reload_rig():

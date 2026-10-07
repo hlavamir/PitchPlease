@@ -92,7 +92,7 @@ Hue and saturation apply on mouse release, or once keys / the MIDI knob rest; un
 |---|---|
 | `settings.json` | outputs (Enttec, Art-Net, v2 serial), audio input, fog machines, Auto Color palette, engine options |
 | `fixtures/types/*.json` | one file per fixture model; all files are loaded on startup, missing keys get defaults |
-| `rigs/<name>.json` | fixture instances for one event: type, group A/B, universe/address, UV placement (rotation in degrees), dimmer macro, colour sources |
+| `rigs/<name>.json` | fixture instances for one event: type, group A/B, universe/address, UV placement (rotation in degrees), dimmer, colour sources; the dimmer names (`dimmer_names`) |
 | `controllers/*.json` | MIDI controller mappings (CC → macro) |
 | `scenes/scene_N.json` | the 8 scenes (macro name → control value) |
 | `state/macros.json` | auto-saved macro values for crash recovery (not in git) |
@@ -127,6 +127,6 @@ Working and covered by tests:
 
 The UI runs against the engine at 40 FPS in no-hardware mode.
 
-Verified by Miro on macOS: audio input and analysis (microphone test) and the LCXL3 MIDI controller. **Not yet verified on hardware:** Enttec, Art-Net and v2 output. Fixture details and the LCXL3 mapping were confirmed by Miro on 2026-10-05.
+Verified by Miro on macOS: audio input and analysis (microphone test), the LCXL3 MIDI controller, and DMX output through the Enttec DMX USB Pro to one Cameo pinspot (2026-10-07). **Not yet verified on hardware:** Art-Net and v2 serial output, and the Windows build. Fixture details and the LCXL3 mapping were confirmed by Miro on 2026-10-05.
 
 The masks match the vvvv look so far, except that Back and Forth rotates in 45° steps (vvvv: 90°); left as is for now.

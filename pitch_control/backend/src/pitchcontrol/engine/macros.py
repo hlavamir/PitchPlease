@@ -84,24 +84,9 @@ def _defs() -> list[MacroDef]:
                 legacy_index=12 + i,
             )
         )
-    dimmer_names = [
-        "D PitchPls! v3",
-        "D PitchPls! v2",
-        "D Pinspots",
-        "D Panels DJ",
-        "D Panel Back",
-        "D Chillout Z",
-    ]
+    # dimmer names live in the rig (Rig.dimmer_names), they depend on the lights
     for i in range(16):
-        d.append(
-            MacroDef(
-                f"Dimmer {i + 1:02d}",
-                page="dimmers",
-                default=1.0,
-                display_name=dimmer_names[i] if i < len(dimmer_names) else "",
-                legacy_index=32 + i,
-            )
-        )
+        d.append(MacroDef(f"Dimmer {i + 1:02d}", page="dimmers", default=1.0, legacy_index=32 + i))
     # active control page (UI tab / controller page), like the vvvv "General" / "Dimmers" tab macros
     for i, page in enumerate(CONTROL_PAGES):
         d.append(

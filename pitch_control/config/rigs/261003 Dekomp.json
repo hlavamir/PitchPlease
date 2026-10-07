@@ -117,7 +117,7 @@
     {
       "name": "PitchPls v2 strip 1",
       "type": "pitchpls_v2",
-      "enabled": true,
+      "enabled": false,
       "group": "A",
       "universe": 0,
       "address": 1,
@@ -145,7 +145,7 @@
     {
       "name": "PitchPls v2 strip 2",
       "type": "pitchpls_v2",
-      "enabled": true,
+      "enabled": false,
       "group": "A",
       "universe": 0,
       "address": 1,
@@ -173,7 +173,7 @@
     {
       "name": "PitchPls v2 strip 3",
       "type": "pitchpls_v2",
-      "enabled": true,
+      "enabled": false,
       "group": "A",
       "universe": 0,
       "address": 1,
@@ -201,7 +201,7 @@
     {
       "name": "PitchPls v2 strip 4",
       "type": "pitchpls_v2",
-      "enabled": true,
+      "enabled": false,
       "group": "A",
       "universe": 0,
       "address": 1,
@@ -450,5 +450,13 @@
         "curve": 0.0
       }
     }
-  ]
+  ],
+  "dimmer_names": {
+    "Dimmer 01": "PitchPls! v3",
+    "Dimmer 02": "PitchPls! v2",
+    "Dimmer 03": "Pinspots",
+    "Dimmer 04": "Panels DJ",
+    "Dimmer 05": "Panel Entrance",
+    "Dimmer 06": "Chillout Zone"
+  }
 }

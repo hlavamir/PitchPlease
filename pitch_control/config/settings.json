@@ -27,8 +27,14 @@
   },
   "outputs": {
     "enttec": {
-      "enabled": false,
-      "device": {},
+      "enabled": true,
+      "device": {
+        "serial_number": "ENP4G7UV",
+        "vid": 1027,
+        "pid": 24577,
+        "description": "FT245R USB FIFO",
+        "port": "/dev/cu.usbserial-ENP4G7UV"
+      },
       "universe": 0
     },
     "artnet": {

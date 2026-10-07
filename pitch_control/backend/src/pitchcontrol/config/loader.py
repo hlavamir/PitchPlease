@@ -196,6 +196,11 @@ class ConfigStore:
     def save_rig(self) -> None:
         save_model(self.rigs_dir / f"{self.rig.name}.json", self.rig)
 
+    def dimmer_unassigned(self, macro: str) -> bool:
+        """A dimmer macro no fixture of the active rig uses (enabled or not): disabled in the UI,
+        ignored by MIDI."""
+        return macro.startswith("Dimmer ") and not any(f.dimmer_macro == macro for f in self.rig.fixtures)
+
     # -- rig files
     def rig_path(self, name: str) -> Path:
         return self.rigs_dir / f"{name}.json"

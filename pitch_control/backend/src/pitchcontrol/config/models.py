@@ -147,6 +147,10 @@ class Rig(Model):
     name: str = ""
     description: str = ""
     fixtures: list[FixtureInstance] = Field(default_factory=list)
+    # names of the dimmer macros in this rig ("Dimmer 03" → "D Pinspots"); without a name the UI
+    # shows the macro name. Which dimmer a fixture follows is its dimmer_macro; a dimmer that no
+    # fixture uses is unassigned: disabled in the UI and ignored by MIDI.
+    dimmer_names: dict[str, str] = Field(default_factory=dict)
 
 
 # --------------------------------------------------------------------------- settings

@@ -28,8 +28,9 @@ def list_midi_inputs() -> list[str]:
 
 
 class MidiInput:
-    def __init__(self, controller: Controller | None, port_override: str | None, macros):
+    def __init__(self, controller: Controller | None, port_override: str | None, macros, ignored=None):
         self.controller = controller
+        self.ignored = ignored or (lambda macro: False)  # macro → True: drop the message (unassigned dimmer)
         self.port_override = port_override
         self.macros = macros
         self.port = None
@@ -94,6 +95,10 @@ class MidiInput:
             entry["note"] = f"CC {msg.control} not mapped on page '{page}'"
             return
         entry["macro"] = mapping.macro
+        if self.ignored(mapping.macro):
+            entry["macro"] = None
+            entry["note"] = f"{mapping.macro} is unassigned (no fixture uses it), ignored"
+            return
         value = msg.value / 127.0
         macro_def = self.macros.defs.get(mapping.macro)
         if mapping.mode == "absolute" and macro_def is not None and macro_def.deferred:

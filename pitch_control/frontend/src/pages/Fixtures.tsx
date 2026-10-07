@@ -258,14 +258,14 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
                 <Row label="Length">
                   <NumberInput {...num((f) => f.length)} onChange={(v) => edit((f) => (f.length = v))} />
                 </Row>
-                <Row label="Dimmer macro">
+                <Row label="Dimmer" hint="The dimmer this fixture follows (Dimmers page); a dimmer no fixture uses is disabled there">
                   <select value={opt((f) => f.dimmer_macro ?? '')} onChange={(e) => edit((f) => (f.dimmer_macro = e.target.value || null))}>
                     {mixedOption(opt((f) => f.dimmer_macro ?? ''))}
                     <option value="">none</option>
                     {dimmerNames.map((d) => (
                       <option key={d.name} value={d.name}>
                         {d.name}
-                        {d.display_name ? ` — ${d.display_name}` : ''}
+                        {rig?.dimmer_names?.[d.name] ? ` — ${rig.dimmer_names[d.name]}` : ''}
                       </option>
                     ))}
                   </select>

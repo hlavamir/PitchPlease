@@ -127,7 +127,7 @@ class Engine:
         self.midi = None
         if not self.enable_hardware:
             return
-        self.midi = MidiInput(self.store.controller, self.store.settings.midi_input, self.macros)
+        self.midi = MidiInput(self.store.controller, self.store.settings.midi_input, self.macros, ignored=self.store.dimmer_unassigned)
         self.midi.start()
 
     # ------------------------------------------------------------------ frame

@@ -179,6 +179,7 @@ export interface Rig {
   name: string
   description: string
   fixtures: FixtureInstance[]
+  dimmer_names?: Record<string, string> // "Dimmer 03" → "D Pinspots"
 }
 
 export interface FixtureType {

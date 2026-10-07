@@ -74,7 +74,13 @@ interface Props {
   tag?: string // small hint on buttons: TGL, HOLD, A…D
   index?: number // position number shown in the fader head
   className?: string
+  disabled?: boolean // fader: greyed out, no input (a dimmer no fixture uses)
+  name?: string // fader: editable name (Dimmers); double-click the head to rename, '' = macro name
+  onRename?: (name: string) => void
 }
+
+// scale next to a fader: a primary line every 25 %, a secondary one halfway between
+const TICKS = [0, 12.5, 25, 37.5, 50, 62.5, 75, 87.5, 100]
 
 /** One macro: segmented fader, toggle, momentary button or radio button. */
 export function MacroControl(props: Props) {
@@ -143,8 +149,11 @@ function segmentStyle(fill: number, bright: boolean, pending: boolean) {
  * click), Shift for fine control, double-click to reset. Deferred macros (hue, saturation) are sent
  * on release; until applied, the segments between the applied value and the target are outlined.
  */
-function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, onSelect, index, className }: Props) {
+function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, onSelect, index, className, disabled, name, onRename }: Props) {
   const [dragValue, setDragValue] = useState<number | null>(null)
+  const [draft, setDraft] = useState<string | null>(null) // the name being edited
+  const draftDone = useRef(false)
+  const headRef = useRef<HTMLDivElement>(null)
   const drag = useRef<{
     startY: number
     startValue: number
@@ -167,7 +176,13 @@ function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, o
   }
 
   const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
-    if (e.button !== 0) return
+    if (e.button !== 0 || disabled) return
+    // a renamable name only selects: a drag would capture the pointer and turn the
+    // double-click into a value reset
+    if (onRename && headRef.current?.contains(e.target as Node)) {
+      onSelect?.()
+      return
+    }
     onSelect?.()
     e.currentTarget.setPointerCapture(e.pointerId)
     const rect = e.currentTarget.getBoundingClientRect()
@@ -211,6 +226,13 @@ function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, o
     return segmentStyle(fill, s === top || Boolean(selected), notApplied && s >= lo && s < hi)
   })
 
+  const finishRename = (commit: boolean) => {
+    if (draftDone.current || draft === null) return
+    draftDone.current = true
+    if (commit && draft.trim() !== (name ?? '')) onRename?.(draft.trim())
+    setDraft(null)
+  }
+
   return (
     <div
       role="slider"
@@ -218,38 +240,76 @@ function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, o
       aria-valuemin={0}
       aria-valuemax={1}
       aria-valuenow={current}
-      className={`relative flex min-h-28 cursor-ns-resize touch-none flex-col bg-panel select-none ${selected ? 'glow-sel' : ''} ${
+      aria-disabled={disabled || undefined}
+      className={`relative flex min-h-28 touch-none flex-col bg-panel select-none ${disabled ? '' : 'cursor-ns-resize'} ${selected && !disabled ? 'glow-sel' : ''} ${
         notApplied ? 'outline outline-1 outline-offset-[-4px] outline-dashed outline-ink' : ''
       } ${className ?? 'h-44'}`}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
-      onDoubleClick={() => setMacro(def.name, def.default)}
-      title={`Drag up/down · Shift = fine · double-click = reset${def.deferred ? ' · applied on release' : ''}`}
+      onDoubleClick={() => !disabled && setMacro(def.name, def.default)}
+      title={
+        disabled
+          ? 'No fixture uses this dimmer (Fixtures → Dimmer) · double-click the name to rename'
+          : `Drag up/down · Shift = fine · double-click = reset${onRename ? ' · double-click the name = rename' : ''}${def.deferred ? ' · applied on release' : ''}`
+      }
     >
       <div
+        ref={headRef}
         className={`lbl flex h-[30px] flex-none items-center gap-2 overflow-hidden px-2.5 text-[11px] whitespace-nowrap ${
-          selected ? 'bg-ink text-ground' : 'border-b border-seam'
-        }`}
+          selected && !disabled && draft === null ? 'bg-ink text-ground' : 'border-b border-seam'
+        } ${onRename ? 'cursor-text' : ''}`}
+        onDoubleClick={(e) => {
+          if (!onRename) return
+          e.stopPropagation() // not the value reset
+          draftDone.current = false
+          setDraft(name ?? '')
+        }}
       >
         {index !== undefined && <span className="font-mono opacity-60">{String(index).padStart(2, '0')}</span>}
-        <span className="truncate">{def.label}</span>
+        {draft !== null ? (
+          <input
+            type="text"
+            autoFocus
+            className="h-[22px] min-w-0 flex-1 px-1 text-[11px] normal-case"
+            value={draft}
+            placeholder={def.name}
+            onFocus={(e) => e.currentTarget.select()}
+            onChange={(e) => setDraft(e.target.value)}
+            onPointerDown={(e) => e.stopPropagation()} // no fader drag from the field
+            onDoubleClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') finishRename(true)
+              else if (e.key === 'Escape') finishRename(false)
+            }}
+            onBlur={() => finishRename(true)}
+          />
+        ) : (
+          <span className={`truncate ${disabled ? 'text-dim' : ''}`}>{def.label}</span>
+        )}
       </div>
       <div className="flex min-h-0 flex-1 gap-1.5 py-2 pr-2.5 pl-2">
-        <div className={`flex flex-none flex-col-reverse ${colorTrack ? 'w-[5px]' : 'w-2.5'}`}>
-          {colorTrack
-            ? colorTrack.steps.map((c, i) => (
-                <div key={i} className="flex-1" style={{ background: c, boxShadow: 'inset 0 1px 0 rgba(15,16,17,.35)' }} />
-              ))
-            : Array.from({ length: 9 }, (_, i) => (
-                <div key={i} className={`flex-1 self-end border-b ${i % 4 === 0 ? 'w-2.5 border-dim' : 'w-1.5 border-edge'}`} />
-              ))}
-        </div>
-        <div className="flex flex-1 flex-col-reverse">
-          {segments.map((st, i) => (
-            <div key={i} className="flex-1" style={st} />
-          ))}
+        {colorTrack ? (
+          <div className="flex w-[5px] flex-none flex-col-reverse">
+            {colorTrack.steps.map((c, i) => (
+              <div key={i} className="flex-1" style={{ background: c, boxShadow: 'inset 0 1px 0 rgba(15,16,17,.35)' }} />
+            ))}
+          </div>
+        ) : (
+          <div className="relative w-2.5 flex-none">
+            {TICKS.map((p) => (
+              <div
+                key={p}
+                className={`absolute right-0 h-px ${p % 25 === 0 ? 'w-2.5' : 'w-1.5'}`}
+                // 0 % on the bottom edge, 100 % on the top edge of the segment column
+                style={{ bottom: `calc(${p}% - ${p / 100}px)`, background: `rgb(var(--ink-rgb) / ${p % 25 === 0 ? (disabled ? 0.25 : 0.75) : 0.3})` }}
+              />
+            ))}
+          </div>
+        )}
+        <div className={`flex flex-1 flex-col-reverse ${disabled ? 'hatch opacity-60' : ''}`}>
+          {!disabled && segments.map((st, i) => <div key={i} className="flex-1" style={st} />)}
         </div>
       </div>
       <div className="flex h-[26px] flex-none items-center justify-between border-t border-seam px-2.5">
@@ -258,7 +318,11 @@ function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, o
         ) : (
           <span />
         )}
-        <span className="text-glow font-mono text-[16px]">{formatValue(def, current)}</span>
+        {disabled ? (
+          <span className="lbl text-[10px] text-dim">no fixtures</span>
+        ) : (
+          <span className="text-glow font-mono text-[16px]">{formatValue(def, current)}</span>
+        )}
       </div>
     </div>
   )

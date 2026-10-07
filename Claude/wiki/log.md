@@ -625,3 +625,9 @@ The page scroll area now has 6 px side margins instead of padding, so its scroll
 ## [2026-10-07] update | PitchControl Rig and Fixtures side by side
 
 In the single-column layout the Fixtures page shows the Rig and Fixtures panels side by side (each only as tall as its content); in the column layout they stay stacked.
+
+---
+
+## [2026-10-07] update | PitchControl full-width Inputs, Outputs and Fog
+
+Inputs (audio | MIDI), Fog (one machine per half) and Outputs (settings | live output) use two equal columns in the column layout and one full-width column in the single-column layout, like Settings already did; the old fixed maximum widths are gone.

@@ -1,7 +1,7 @@
-import { useEffect, useRef, type PointerEvent } from 'react'
+import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import { api, type Settings as SettingsData } from '../api'
-import { Section } from '../components/forms'
-import { INKS, type InkName, type UiSettings } from '../theme'
+import { Button, Section } from '../components/forms'
+import { DESIGN_SIZE, INKS, clampScale, fitScale, type InkName, type UiSettings } from '../theme'
 import { useGridNav, type NavItem } from '../useGridNav'
 
 const INK_NAMES: [InkName, string][] = [
@@ -82,6 +82,14 @@ export function Settings({ ui, onChange, desktop }: { ui: UiSettings; onChange: 
   useEffect(() => () => window.clearTimeout(saveTimer.current), [])
 
   const pct = (v: number) => `${Math.round(v * 100)}%`
+
+  // window size in real px (not affected by the UI scale), for "Fit window"
+  const [win, setWin] = useState({ width: window.innerWidth, height: window.innerHeight })
+  useEffect(() => {
+    const onResize = () => setWin({ width: window.innerWidth, height: window.innerHeight })
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
   const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v))
   const inkItems: NavItem[] = INK_NAMES.map(([name, label]) => ({ id: `ink-${name}`, label: `Ink ${label}`, value: ui.ink === name ? 'ON' : '', press: (down) => down && change({ ink: name }) }))
   const glowItem: NavItem = { id: 'glow', label: 'Glow', value: pct(ui.glow), adjust: (d, fine) => change({ glow: clamp(ui.glow + d * (fine ? 0.01 : 0.05), 0, 1) }) }
@@ -91,11 +99,13 @@ export function Settings({ ui, onChange, desktop }: { ui: UiSettings; onChange: 
     value: pct(ui.brightness),
     adjust: (d, fine) => change({ brightness: clamp(ui.brightness + d * (fine ? 0.01 : 0.05), 0.4, 1) }),
   }
+  const setScale = (s: number) => change({ scale: clampScale(s) })
+  const scaleItem: NavItem = { id: 'scale', label: 'UI scale', value: pct(ui.scale), adjust: (d, fine) => setScale(ui.scale + d * (fine ? 0.01 : 0.05)) }
   const hintsItem: NavItem = { id: 'hints', label: 'Key hints', value: ui.key_hints ? 'ON' : 'OFF', press: (down) => down && change({ key_hints: !ui.key_hints }) }
-  const { selectedId, select } = useGridNav('Settings', [inkItems, [glowItem], [brightItem], [hintsItem]])
+  const { selectedId, select } = useGridNav('Settings', [inkItems, [glowItem], [brightItem], [scaleItem], [hintsItem]])
 
   return (
-    <div className="grid gap-1.5 xl:grid-cols-2">
+    <div className="grid gap-1.5 wide:grid-cols-2">
       <Section index="01" title="Appearance" right="saved · restored next session" bodyClassName="p-3.5 gap-[18px]">
         <div className="flex flex-col gap-2">
           <span className="lbl text-[11px] text-dim">Ink colour</span>
@@ -141,6 +151,29 @@ export function Settings({ ui, onChange, desktop }: { ui: UiSettings; onChange: 
             <span className="lbl text-[10px] text-dim">{note}</span>
           </div>
         ))}
+
+        <div className="flex flex-col gap-2">
+          <div className="flex items-baseline justify-between">
+            <span className={`lbl text-[12px] ${selectedId === 'scale' ? 'bg-ink px-1.5 text-ground' : ''}`}>UI scale</span>
+            <span className="text-glow font-mono text-[16px]">{pct(ui.scale)}</span>
+          </div>
+          <div className="flex gap-1.5" onClick={() => select('scale')}>
+            <Button onClick={() => setScale(ui.scale - 0.05)} disabled={ui.scale <= 0.6}>
+              −
+            </Button>
+            <Button onClick={() => setScale(ui.scale + 0.05)} disabled={ui.scale >= 1.5}>
+              +
+            </Button>
+            <Button onClick={() => setScale(fitScale())}>Fit window</Button>
+            <Button onClick={() => setScale(1)} disabled={ui.scale === 1}>
+              100 %
+            </Button>
+          </div>
+          <span className="lbl text-[10px] text-dim">
+            Window {win.width} × {win.height} px · the layout is made for {DESIGN_SIZE.width} × {DESIGN_SIZE.height} at 100 % · fits at{' '}
+            {pct(fitScale())} · 60–150 %
+          </span>
+        </div>
 
         <div className="flex items-center justify-between border-t border-seam pt-3.5">
           <span className="flex flex-col gap-1">

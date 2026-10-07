@@ -51,7 +51,7 @@ export function Output({ engine }: { engine: EngineConnection }) {
   const io = engine.state?.io.outputs
 
   return (
-    <div className="grid gap-1.5 xl:grid-cols-[minmax(0,40rem)_minmax(0,1fr)]">
+    <div className="grid gap-1.5 wide:grid-cols-[minmax(0,40rem)_minmax(0,1fr)]">
       <div className="flex min-w-0 flex-col gap-1.5">
       <div className="flex justify-between">
         <Button onClick={refresh}>Rescan USB devices</Button>

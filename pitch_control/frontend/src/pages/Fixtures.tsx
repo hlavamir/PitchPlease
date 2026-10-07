@@ -5,6 +5,7 @@ import { Preview } from '../components/Preview'
 import { RigPanel, type RigList } from '../components/RigPanel'
 import { Button, NumberInput, Row, Section, Toggle } from '../components/forms'
 import type { EngineConnection } from '../useEngine'
+import { useElementWidth } from '../useElementWidth'
 
 const NEW_FIXTURE: FixtureInstance = {
   name: 'New fixture',
@@ -40,6 +41,7 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
   const [selection, setSelection] = useState<number[]>([0])
   const [dirty, setDirty] = useState(false)
   const [problems, setProblems] = useState<string[]>([])
+  const [editorRef, editorWidth] = useElementWidth<HTMLDivElement>()
 
   const reload = useCallback(() => {
     api.get<Rig>('/api/rig').then(setRig)
@@ -148,7 +150,7 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
   const selectedNames = fxs.map((f) => f.name)
 
   return (
-    <div className="grid gap-1.5 xl:h-full xl:grid-cols-[17rem_minmax(0,1fr)_22rem] xl:grid-rows-[minmax(0,1fr)]">
+    <div className="grid gap-1.5 wide:h-full wide:grid-cols-[17rem_minmax(0,1fr)_22rem] wide:grid-rows-[minmax(0,1fr)]">
       {/* left: the rig as a whole (file) above the lights in it */}
       <div className="flex min-h-0 min-w-0 flex-col gap-1.5">
         <RigPanel
@@ -205,168 +207,175 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
         title={multi ? `${fxs.length} fixtures` : fx ? fx.name : 'Fixture'}
         right={multi && 'multi-edit · a value you enter applies to all'}
       >
-        {fx && (
-          <div className="grid gap-x-6 @3xl:grid-cols-2">
-            <div>
-              <Row label="Name">
-                <input
-                  type="text"
-                  className="w-full disabled:opacity-50"
-                  disabled={multi}
-                  value={multi ? '' : fx.name}
-                  placeholder={multi ? 'names stay unique' : undefined}
-                  onChange={(e) => edit((f) => (f.name = e.target.value), false)}
-                  onBlur={() => rig && applyLive(rig)}
-                />
-              </Row>
-              <Row label="Type">
-                <select value={opt((f) => f.type)} onChange={(e) => edit((f) => (f.type = e.target.value))}>
-                  {mixedOption(opt((f) => f.type))}
-                  {sharedType !== MIXED && !types[sharedType] && <option value={sharedType}>{sharedType} (missing)</option>}
-                  {Object.keys(types).map((t) => (
-                    <option key={t}>{t}</option>
-                  ))}
-                </select>
-              </Row>
-              <Row label="Enabled">
-                <Toggle checked={enabled === true} mixed={enabled === MIXED} onChange={(v) => edit((f) => (f.enabled = v))} />
-              </Row>
-              <Row label="Group">
-                <select value={opt((f) => f.group)} onChange={(e) => edit((f) => (f.group = e.target.value as 'A' | 'B'))}>
-                  {mixedOption(opt((f) => f.group))}
-                  <option>A</option>
-                  <option>B</option>
-                </select>
-              </Row>
-              <Row label="Universe / address">
-                <NumberInput {...num((f) => f.universe)} integer min={0} onChange={(v) => edit((f) => (f.universe = v))} className="w-16" />
-                <NumberInput {...num((f) => f.address)} integer min={1} max={512} onChange={(v) => edit((f) => (f.address = v))} className="w-20" />
-              </Row>
-              <Row label="Pixels" hint="Empty = from the fixture type">
-                <NumberInput {...num((f) => f.pixels ?? types[f.type]?.pixels)} integer min={1} onChange={(v) => edit((f) => (f.pixels = v))} />
-              </Row>
-              <Row label="Position (u, v)">
-                <NumberInput {...num((f) => f.position[0])} onChange={(v) => edit((f) => (f.position = [v, f.position[1]]))} />
-                <NumberInput {...num((f) => f.position[1])} onChange={(v) => edit((f) => (f.position = [f.position[0], v]))} />
-              </Row>
-              <Row label="Rotation (°)" hint="Clockwise: 90 = pointing down; 270 = vertical, first pixel at the bottom">
-                <NumberInput {...num((f) => f.rotation)} step={15} fineStep={1} onChange={(v) => edit((f) => (f.rotation = v))} />
-              </Row>
-              <Row label="Length">
-                <NumberInput {...num((f) => f.length)} onChange={(v) => edit((f) => (f.length = v))} />
-              </Row>
-              <Row label="Dimmer macro">
-                <select value={opt((f) => f.dimmer_macro ?? '')} onChange={(e) => edit((f) => (f.dimmer_macro = e.target.value || null))}>
-                  {mixedOption(opt((f) => f.dimmer_macro ?? ''))}
-                  <option value="">none</option>
-                  {dimmerNames.map((d) => (
-                    <option key={d.name} value={d.name}>
-                      {d.name}
-                      {d.display_name ? ` — ${d.display_name}` : ''}
-                    </option>
-                  ))}
-                </select>
-              </Row>
-            </div>
-            <div>
-              <Row label="React to strobo" hint="Empty = from the fixture type">
-                <select
-                  value={opt((f) => (f.react_to_strobo == null ? '' : String(f.react_to_strobo)))}
-                  onChange={(e) => edit((f) => (f.react_to_strobo = e.target.value === '' ? null : e.target.value === 'true'))}
-                >
-                  {mixedOption(opt((f) => (f.react_to_strobo == null ? '' : String(f.react_to_strobo))))}
-                  <option value="">type default</option>
-                  <option value="true">yes</option>
-                  <option value="false">no</option>
-                </select>
-              </Row>
-              <Row label="Brightness gamma">
-                <NumberInput {...num((f) => f.brightness_gamma)} onChange={(v) => edit((f) => (f.brightness_gamma = v))} />
-              </Row>
-              <Row label="RGB gamma">
-                <NumberInput {...num((f) => f.rgb_gamma)} onChange={(v) => edit((f) => (f.rgb_gamma = v))} />
-              </Row>
-              <Row label="Hue source">
-                <select value={hueSource} onChange={(e) => edit((f) => (f.hue_source = e.target.value as FixtureInstance['hue_source']))}>
-                  {mixedOption(hueSource)}
-                  <option value="group">own group</option>
-                  <option value="A">group A</option>
-                  <option value="B">group B</option>
-                  <option value="const">constant</option>
-                </select>
-                {hueSource === 'const' && <NumberInput {...num((f) => f.hue)} onChange={(v) => edit((f) => (f.hue = v))} />}
-              </Row>
-              <Row label="Saturation source">
-                <select
-                  value={satSource}
-                  onChange={(e) => edit((f) => (f.saturation_source = e.target.value as FixtureInstance['saturation_source']))}
-                >
-                  {mixedOption(satSource)}
-                  <option value="group">own group</option>
-                  <option value="A">group A</option>
-                  <option value="B">group B</option>
-                  <option value="const">constant</option>
-                </select>
-                {satSource === 'const' && (
-                  <NumberInput {...num((f) => f.saturation)} onChange={(v) => edit((f) => (f.saturation = v))} />
-                )}
-              </Row>
-              <Row label="Brightness source">
-                <select
-                  value={briSource}
-                  onChange={(e) => edit((f) => (f.brightness_source = e.target.value as FixtureInstance['brightness_source']))}
-                >
-                  {mixedOption(briSource)}
-                  <option value="pipeline">strobo / idle pipeline</option>
-                  <option value="const">constant</option>
-                </select>
-                {briSource === 'const' && (
-                  <NumberInput {...num((f) => f.brightness)} onChange={(v) => edit((f) => (f.brightness = v))} />
-                )}
-              </Row>
-              <Row label="Idle remap min / max" hint="lerp(min, max, mask ^ 2^curve); min > max inverts">
-                <NumberInput {...num((f) => f.idle_mask_range.min)} onChange={(v) => edit((f) => (f.idle_mask_range.min = v))} className="w-20" />
-                <NumberInput {...num((f) => f.idle_mask_range.max)} onChange={(v) => edit((f) => (f.idle_mask_range.max = v))} className="w-20" />
-              </Row>
-              <Row label="Idle remap curve">
-                <NumberInput {...num((f) => f.idle_mask_range.curve)} onChange={(v) => edit((f) => (f.idle_mask_range.curve = v))} className="w-20" />
-              </Row>
-              <Row label="Remap only when" hint="If set, the remap applies only while this macro is on">
-                <select
-                  value={opt((f) => f.idle_mask_range.macro ?? '')}
-                  onChange={(e) => edit((f) => (f.idle_mask_range.macro = e.target.value || null))}
-                >
-                  {mixedOption(opt((f) => f.idle_mask_range.macro ?? ''))}
-                  <option value="">always</option>
-                  {Object.values(defs)
-                    .filter((d) => d.kind === 'toggle')
-                    .map((d) => (
-                      <option key={d.name}>{d.name}</option>
+        <div ref={editorRef} className="min-w-0">
+          {fx && (
+            <div className={`grid gap-x-6 ${editorWidth >= 744 ? 'grid-cols-2' : ''}`}>
+              <div>
+                <Row label="Name">
+                  <input
+                    type="text"
+                    className="w-full disabled:opacity-50"
+                    disabled={multi}
+                    value={multi ? '' : fx.name}
+                    placeholder={multi ? 'names stay unique' : undefined}
+                    onChange={(e) => edit((f) => (f.name = e.target.value), false)}
+                    onBlur={() => rig && applyLive(rig)}
+                  />
+                </Row>
+                <Row label="Type">
+                  <select value={opt((f) => f.type)} onChange={(e) => edit((f) => (f.type = e.target.value))}>
+                    {mixedOption(opt((f) => f.type))}
+                    {sharedType !== MIXED && !types[sharedType] && <option value={sharedType}>{sharedType} (missing)</option>}
+                    {Object.keys(types).map((t) => (
+                      <option key={t}>{t}</option>
                     ))}
-                </select>
-              </Row>
+                  </select>
+                </Row>
+                <Row label="Enabled">
+                  <Toggle checked={enabled === true} mixed={enabled === MIXED} onChange={(v) => edit((f) => (f.enabled = v))} />
+                </Row>
+                <Row label="Group">
+                  <select value={opt((f) => f.group)} onChange={(e) => edit((f) => (f.group = e.target.value as 'A' | 'B'))}>
+                    {mixedOption(opt((f) => f.group))}
+                    <option>A</option>
+                    <option>B</option>
+                  </select>
+                </Row>
+                <Row label="Universe / address">
+                  <NumberInput {...num((f) => f.universe)} integer min={0} onChange={(v) => edit((f) => (f.universe = v))} className="w-16" />
+                  <NumberInput {...num((f) => f.address)} integer min={1} max={512} onChange={(v) => edit((f) => (f.address = v))} className="w-20" />
+                </Row>
+                <Row label="Pixels" hint="Empty = from the fixture type">
+                  <NumberInput {...num((f) => f.pixels ?? types[f.type]?.pixels)} integer min={1} onChange={(v) => edit((f) => (f.pixels = v))} />
+                </Row>
+                <Row label="Position (u, v)">
+                  <NumberInput {...num((f) => f.position[0])} onChange={(v) => edit((f) => (f.position = [v, f.position[1]]))} />
+                  <NumberInput {...num((f) => f.position[1])} onChange={(v) => edit((f) => (f.position = [f.position[0], v]))} />
+                </Row>
+                <Row label="Rotation (°)" hint="Clockwise: 90 = pointing down; 270 = vertical, first pixel at the bottom">
+                  <NumberInput {...num((f) => f.rotation)} step={15} fineStep={1} onChange={(v) => edit((f) => (f.rotation = v))} />
+                </Row>
+                <Row label="Length">
+                  <NumberInput {...num((f) => f.length)} onChange={(v) => edit((f) => (f.length = v))} />
+                </Row>
+                <Row label="Dimmer macro">
+                  <select value={opt((f) => f.dimmer_macro ?? '')} onChange={(e) => edit((f) => (f.dimmer_macro = e.target.value || null))}>
+                    {mixedOption(opt((f) => f.dimmer_macro ?? ''))}
+                    <option value="">none</option>
+                    {dimmerNames.map((d) => (
+                      <option key={d.name} value={d.name}>
+                        {d.name}
+                        {d.display_name ? ` — ${d.display_name}` : ''}
+                      </option>
+                    ))}
+                  </select>
+                </Row>
+              </div>
+              <div>
+                <Row label="React to strobo" hint="Empty = from the fixture type">
+                  <select
+                    value={opt((f) => (f.react_to_strobo == null ? '' : String(f.react_to_strobo)))}
+                    onChange={(e) => edit((f) => (f.react_to_strobo = e.target.value === '' ? null : e.target.value === 'true'))}
+                  >
+                    {mixedOption(opt((f) => (f.react_to_strobo == null ? '' : String(f.react_to_strobo))))}
+                    <option value="">type default</option>
+                    <option value="true">yes</option>
+                    <option value="false">no</option>
+                  </select>
+                </Row>
+                <Row label="Brightness gamma">
+                  <NumberInput {...num((f) => f.brightness_gamma)} onChange={(v) => edit((f) => (f.brightness_gamma = v))} />
+                </Row>
+                <Row label="RGB gamma">
+                  <NumberInput {...num((f) => f.rgb_gamma)} onChange={(v) => edit((f) => (f.rgb_gamma = v))} />
+                </Row>
+                <Row label="Hue source">
+                  <select value={hueSource} onChange={(e) => edit((f) => (f.hue_source = e.target.value as FixtureInstance['hue_source']))}>
+                    {mixedOption(hueSource)}
+                    <option value="group">own group</option>
+                    <option value="A">group A</option>
+                    <option value="B">group B</option>
+                    <option value="const">constant</option>
+                  </select>
+                  {hueSource === 'const' && <NumberInput {...num((f) => f.hue)} onChange={(v) => edit((f) => (f.hue = v))} />}
+                </Row>
+                <Row label="Saturation source">
+                  <select
+                    value={satSource}
+                    onChange={(e) => edit((f) => (f.saturation_source = e.target.value as FixtureInstance['saturation_source']))}
+                  >
+                    {mixedOption(satSource)}
+                    <option value="group">own group</option>
+                    <option value="A">group A</option>
+                    <option value="B">group B</option>
+                    <option value="const">constant</option>
+                  </select>
+                  {satSource === 'const' && (
+                    <NumberInput {...num((f) => f.saturation)} onChange={(v) => edit((f) => (f.saturation = v))} />
+                  )}
+                </Row>
+                <Row label="Brightness source">
+                  <select
+                    value={briSource}
+                    onChange={(e) => edit((f) => (f.brightness_source = e.target.value as FixtureInstance['brightness_source']))}
+                  >
+                    {mixedOption(briSource)}
+                    <option value="pipeline">strobo / idle pipeline</option>
+                    <option value="const">constant</option>
+                  </select>
+                  {briSource === 'const' && (
+                    <NumberInput {...num((f) => f.brightness)} onChange={(v) => edit((f) => (f.brightness = v))} />
+                  )}
+                </Row>
+                <Row label="Idle remap min / max" hint="lerp(min, max, mask ^ 2^curve); min > max inverts">
+                  <NumberInput {...num((f) => f.idle_mask_range.min)} onChange={(v) => edit((f) => (f.idle_mask_range.min = v))} className="w-20" />
+                  <NumberInput {...num((f) => f.idle_mask_range.max)} onChange={(v) => edit((f) => (f.idle_mask_range.max = v))} className="w-20" />
+                </Row>
+                <Row label="Idle remap curve">
+                  <NumberInput {...num((f) => f.idle_mask_range.curve)} onChange={(v) => edit((f) => (f.idle_mask_range.curve = v))} className="w-20" />
+                </Row>
+                <Row label="Remap only when" hint="If set, the remap applies only while this macro is on">
+                  <select
+                    value={opt((f) => f.idle_mask_range.macro ?? '')}
+                    onChange={(e) => edit((f) => (f.idle_mask_range.macro = e.target.value || null))}
+                  >
+                    {mixedOption(opt((f) => f.idle_mask_range.macro ?? ''))}
+                    <option value="">always</option>
+                    {Object.values(defs)
+                      .filter((d) => d.kind === 'toggle')
+                      .map((d) => (
+                        <option key={d.name}>{d.name}</option>
+                      ))}
+                  </select>
+                </Row>
+              </div>
             </div>
-          </div>
-        )}
-        {ftype && (
-          <details className="mt-4">
-            <summary className="cursor-pointer text-[11px] text-dim">Fixture type “{ftype.name}”</summary>
-            <pre className="mt-2 max-h-64 overflow-auto bg-panel-2 p-2 text-[11px]">{JSON.stringify(ftype, null, 2)}</pre>
-          </details>
-        )}
+          )}
+          {ftype && (
+            <details className="mt-4">
+              <summary className="cursor-pointer text-[11px] text-dim">Fixture type “{ftype.name}”</summary>
+              <pre className="mt-2 max-h-64 overflow-auto bg-panel-2 p-2 text-[11px]">{JSON.stringify(ftype, null, 2)}</pre>
+            </details>
+          )}
+        </div>
       </Section>
 
       <Section index="04" title="Placement" bodyClassName="p-3 min-h-0 overflow-auto">
-        <Preview preview={engine.preview} state={engine.state} highlight={selectedNames} />
-        <p className="mt-2 text-[11px] text-dim">
-          Changes apply live (Enter or leaving a field); the rig’s Save writes the rig file, Revert reloads it. The thick ring
-          marks the first pixel.
-        </p>
-        {fx && (
-          <div className="mt-3">
-            <OutputMonitor state={engine.state} only={selectedNames} />
+        {/* in the single-column layout the preview and the output monitor share one row */}
+        <div className="grid grid-cols-2 gap-3 wide:block">
+          <div className="min-w-0">
+            <Preview preview={engine.preview} state={engine.state} highlight={selectedNames} />
+            <p className="mt-2 text-[11px] text-dim">
+              Changes apply live (Enter or leaving a field); the rig’s Save writes the rig file, Revert reloads it. The outlined
+              pixel is the first one.
+            </p>
           </div>
-        )}
+          {fx && (
+            <div className="min-w-0 wide:mt-3">
+              <OutputMonitor state={engine.state} only={selectedNames} />
+            </div>
+          )}
+        </div>
       </Section>
     </div>
   )

@@ -352,7 +352,9 @@ def create_app(engine: Engine, static_dir: Path | None = None, desktop: dict | N
             file = static_dir / path
             if path and file.is_file():
                 return FileResponse(file)
-            return FileResponse(static_dir / "index.html")
+            # always revalidate the page: it names the current (hashed) asset bundle, and a cached
+            # copy would keep loading the old UI after an update
+            return FileResponse(static_dir / "index.html", headers={"Cache-Control": "no-cache"})
 
     return app
 

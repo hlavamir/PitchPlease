@@ -7,7 +7,7 @@ from pitchcontrol.config.models import FixtureType
 
 def test_default_config_loads_cleanly(store, caplog):
     assert {"pitchpls_v3", "pitchpls_v2", "cameo_qspot15_rgbw", "rgb_panel"} <= set(store.fixture_types)
-    assert store.rig.name == "default"
+    assert store.rig.name == store.settings.active_rig  # the rig file name, whatever the rig is called
     assert store.controller is not None and store.controller.channel == 13
     assert store.validate_rig() == []
 

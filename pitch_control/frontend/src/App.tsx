@@ -8,7 +8,7 @@ import { General } from './pages/General'
 import { Inputs } from './pages/Inputs'
 import { Output } from './pages/Output'
 import { Settings } from './pages/Settings'
-import { DEFAULT_UI, applyTheme, type UiSettings } from './theme'
+import { DEFAULT_UI, applyScale, applyTheme, clampScale, type UiSettings } from './theme'
 import { useEngine } from './useEngine'
 import { SelectionContext, isTyping, type FooterSelection } from './useGridNav'
 
@@ -68,6 +68,12 @@ export default function App() {
   }, [])
 
   useEffect(() => applyTheme(ui), [ui])
+  useEffect(() => {
+    applyScale(ui.scale)
+    const onResize = () => applyScale(ui.scale) // the column layouts depend on the scaled width
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [ui.scale])
 
   const go = useCallback((p: Page) => {
     setPage(p)
@@ -117,6 +123,9 @@ export default function App() {
 
   const s = engine.state
   const out = s?.io.outputs
+  // In full screen on a MacBook the camera notch covers the top 32 pt; below 100 % UI scale the top
+  // row grows so that it still measures 38 pt on screen.
+  const topRow = fullscreen.on && navigator.userAgent.includes('Mac') ? Math.max(38, Math.ceil(38 / clampScale(ui.scale))) : 38
   return (
     <SelectionContext.Provider value={setFooter}>
       <div className="flex h-full flex-col">
@@ -125,7 +134,7 @@ export default function App() {
         {/* same 6 px side margin as the page content; the top row is 38 px (notch 32 px + 6) so
             the line below it clears the camera island */}
         <header className="flex-none px-1.5">
-          <div className="flex h-[38px] items-center justify-between border-b border-edge">
+          <div className="flex items-center justify-between border-b border-edge" style={{ height: topRow }}>
             <div className="flex flex-none items-center gap-2.5 px-2.5">
               <Glyph />
               <h1 className="lbl text-glow text-[15px] font-semibold tracking-[0.14em]">PitchControl!</h1>

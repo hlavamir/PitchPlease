@@ -65,6 +65,10 @@ def test_rig_management(store):
     engine = Engine(store, enable_hardware=False)
     client = TestClient(create_app(engine))
     rigs = lambda: client.get("/api/rigs").json()  # noqa: E731
+    # the shipped rig's name changes with the events; call it "default" here so the expected
+    # (sorted) rig lists below stay fixed
+    if store.rig.name != "default":
+        assert client.post("/api/rig/rename", json={"name": "default"}).json()["ok"]
 
     # live edit, then "save as": the copy gets the edit, the original file keeps its saved content
     rig = client.get("/api/rig").json()

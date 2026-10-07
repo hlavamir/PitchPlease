@@ -1,7 +1,7 @@
 {
   "fps": 40.0,
   "preview_fps": 15.0,
-  "active_rig": "default",
+  "active_rig": "261003 Dekomp",
   "active_controller": "lcxl3",
   "midi_settle_s": 0.4,
   "audio": {
@@ -132,6 +132,7 @@
     "glow": 1.0,
     "brightness": 1.0,
     "key_hints": true,
-    "start_fullscreen": false
+    "start_fullscreen": false,
+    "scale": 1.25
   }
 }

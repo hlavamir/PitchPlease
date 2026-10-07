@@ -247,6 +247,7 @@ class UiSettings(Model):
     brightness: float = Field(default=1.0, ge=0.4, le=1.0)  # dims the ink: less light at the DJ booth
     key_hints: bool = True
     start_fullscreen: bool = False  # desktop app: open in full screen
+    scale: float = Field(default=1.0, ge=0.6, le=1.5)  # UI zoom; 1 = the 1512×915 design size
 
 
 class Settings(Model):

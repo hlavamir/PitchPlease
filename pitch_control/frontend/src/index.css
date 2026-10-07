@@ -5,6 +5,9 @@
 @import '@fontsource/share-tech-mono/latin-400.css';
 @import 'tailwindcss';
 
+/* page layouts with columns: set from the scaled window width (theme.ts applyScale) */
+@custom-variant wide (&:where([data-wide], [data-wide] *));
+
 /*
  * Monochrome theme: a very dark ground, one bright "ink" for everything that matters, colour only
  * where it carries information (hue/saturation scales, output colours). The ink, its brightness and

@@ -131,7 +131,7 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
   const empty = (n: number) => Array.from({ length: n }, (_, i) => <div key={`empty-${i}`} className="hatch h-10" />)
 
   return (
-    <div className="grid gap-1.5 xl:h-full xl:grid-cols-[minmax(0,1fr)_404px]">
+    <div className="grid gap-1.5 wide:h-full wide:grid-cols-[minmax(0,1fr)_404px]">
       <div className="flex min-h-0 min-w-0 flex-col gap-1.5">
         <Section index="01" title="Macros" right="knob row 3 · faders — LCXL3" className="min-h-[24rem] flex-1" bodyClassName="p-0">
           <div className="grid h-full grid-cols-8 grid-rows-2 gap-px bg-edge">{FADERS.map(fader)}</div>
@@ -212,7 +212,8 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
         </Section>
       </div>
 
-      <div className="flex min-h-0 min-w-0 flex-col gap-1.5">
+      {/* right column; in the single-column layout scene and audio share one row */}
+      <div className="grid min-w-0 grid-cols-2 gap-1.5 wide:flex wide:min-h-0 wide:flex-col">
         <Section index="04" title="Scene" right={<span className="text-ink">{state?.preset}</span>} bodyClassName="p-2.5">
           <Preview preview={preview} state={state} />
           <div className="mt-2.5 flex items-center gap-2.5 text-[11px]">

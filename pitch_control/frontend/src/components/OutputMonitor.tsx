@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { EngineState, FixtureState } from '../api'
+import { useElementWidth } from '../useElementWidth'
 
 function channelRange(fx: FixtureState): string {
   if (fx.transport === 'pitchpls_v2') return 'v2 serial'
@@ -10,20 +11,22 @@ function channelRange(fx: FixtureState): string {
 /** Live view of what every fixture outputs: pixel colours and (optionally) the raw DMX / serial bytes. */
 export function OutputMonitor({ state, only }: { state: EngineState | null; only?: string | string[] | null }) {
   const [showBytes, setShowBytes] = useState(false)
+  const [ref, width] = useElementWidth<HTMLDivElement>()
+  const row = width >= 648 // one line per fixture
   const fixtures = (state?.fixtures ?? []).filter((f) => !only || (Array.isArray(only) ? only.includes(f.name) : f.name === only))
   return (
-    <div className="flex flex-col gap-2">
+    <div ref={ref} className="flex flex-col gap-2">
       <label className="flex items-center gap-2 self-end text-[11px] text-dim">
         <input type="checkbox" checked={showBytes} onChange={(e) => setShowBytes(e.target.checked)} />
         show channel values
       </label>
       {fixtures.map((fx) => (
         <div key={fx.name} className="bg-panel-2 px-2 py-1.5">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] @2xl:flex-nowrap">
+          <div className={`flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] ${row ? 'flex-nowrap' : ''}`}>
             <span className="flex-none border border-edge px-1 font-mono text-[10px] leading-[14px] text-dim">{fx.group}</span>
-            <span className="min-w-0 flex-1 truncate @2xl:w-40 @2xl:flex-none">{fx.name}</span>
-            <span className="shrink-0 font-mono text-[11px] text-dim @2xl:w-32">{channelRange(fx)}</span>
-            <div className="flex min-w-0 basis-full gap-px @2xl:basis-auto @2xl:flex-1">
+            <span className={`min-w-0 truncate ${row ? 'w-40 flex-none' : 'flex-1'}`}>{fx.name}</span>
+            <span className={`shrink-0 font-mono text-[11px] text-dim ${row ? 'w-32' : ''}`}>{channelRange(fx)}</span>
+            <div className={`flex min-w-0 gap-px ${row ? 'flex-1' : 'basis-full'}`}>
               {fx.rgb.map(([r, g, b], i) => (
                 <span
                   key={i}

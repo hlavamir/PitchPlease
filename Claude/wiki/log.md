@@ -631,3 +631,9 @@ In the single-column layout the Fixtures page shows the Rig and Fixtures panels 
 ## [2026-10-07] update | PitchControl full-width Inputs, Outputs and Fog
 
 Inputs (audio | MIDI), Fog (one machine per half) and Outputs (settings | live output) use two equal columns in the column layout and one full-width column in the single-column layout, like Settings already did; the old fixed maximum widths are gone.
+
+---
+
+## [2026-10-07] update | PitchControl toggle switches
+
+All checkboxes are now pill-shaped on/off switches (ink track with glow and a dark knob when on, outlined track with a dim knob when off, knob centred for "multiple" in multi-edit). Miro chose the rounded pill over a square variant, as the one exception to the square-only style. Recorded in [[port-design]] (UI Design).

@@ -23,7 +23,9 @@ First version built 2026-10-05 in `pitch_control/` (backend, frontend, config, R
 
 The UI runs against the engine at 40 FPS in no-hardware mode. The engine frame takes ≈0.5 ms; the 256×256 preview (up to ≈20 ms for noise with symmetry) is rendered outside the engine thread so it cannot delay DMX.
 
-Audio capture from the Komplete Audio 6 on macOS works (stream opens, all 6 inputs readable; tested without a signal, so the band reaction to real music is not yet verified). Not yet verified on hardware: MIDI, Enttec, Art-Net and v2 serial output. `pitch_control/run.command` starts the backend (setting up the venv / building the UI when needed) and opens the UI in the browser. The vvvv scenes and `macros.ini` were imported into `config/scenes/` and `config/state/`.
+Audio capture from the Komplete Audio 6 on macOS works (stream opens, all 6 inputs readable; tested without a signal, so the band reaction to real music is not yet verified). Not yet verified on hardware: MIDI, Enttec, Art-Net and v2 serial output (outdated, see the update below). `pitch_control/run.command` starts the backend (setting up the venv / building the UI when needed) and opens the UI in the browser. The vvvv scenes and `macros.ini` were imported into `config/scenes/` and `config/state/`.
+
+**Update 2026-10-07:** verified by Miro on hardware: the LCXL3 MIDI controller (2026-10-05) and DMX output through the Enttec DMX USB Pro to one Cameo pinspot (2026-10-07; "doing exactly what it should"). Still unverified: Art-Net, v2 serial, the full rig at once, and the Windows build.
 
 ## Standalone App
 
@@ -97,6 +99,7 @@ Tested: the window covers 1512×982 at (0,0) and is restored afterwards. On Wind
 ## Frontend Pages
 
 - **General** and **Dimmers**: carried over from the vvvv UI. Their grids always use 8 columns, matching the LCXL3's 8 columns of knobs, faders and buttons.
+- **Dimmers** (2026-10-07): each fixture picks its dimmer (Fixtures → Dimmer, `dimmer_macro`). A dimmer that no fixture of the rig uses (enabled or not) is disabled on the Dimmers page (hatched, "no fixtures", skipped by the keys) and MIDI for it is ignored. Dimmer names live in the rig (`dimmer_names`, so they travel with the rig); double-click a name to rename it, Enter confirms, Esc cancels, an empty name falls back to "Dimmer NN". Renaming marks the rig unsaved. The names that were hard-coded in the engine moved into the shipped rig.
 - **Fixtures**: rig editing. Two panels on the left keep the rig file and the lights in it apart (decided 2026-10-07). The **Rig** panel loads, saves, reverts, renames, duplicates, creates and deletes rig files and edits the description. Duplicate works as "save as": the current state, unsaved edits included, becomes a new rig and the active one, while the original file keeps what was saved. Delete removes the active rig and loads the next one; the last rig can't be deleted. Loading or creating a rig with unsaved changes asks Save / Discard / Cancel. The rig file name is the rig name: case-insensitively unique, letters, digits, space, `-`, `_`, `.`. The **Fixtures** panel below holds the list with Add / Duplicate / Remove. Shift + click in the fixture list adds a fixture to the selection or removes it (multi-edit, added 2026-10-07). A field shows a value only when all selected fixtures share it, otherwise it is empty with "multiple"; a value entered there is applied to all of them. While more than one fixture is selected, Name, Duplicate and Remove are disabled, since fixture names must stay unique. Rotation is in degrees (clockwise on screen: 90 = down, 270 = vertical with the first pixel at the bottom); until 2026-10-07 it was stored in turns, and the default rig was converted.
 - **Output**:
   - Enttec Pro: enabled, device, universe.

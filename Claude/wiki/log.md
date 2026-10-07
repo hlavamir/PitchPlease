@@ -643,3 +643,18 @@ All checkboxes are now pill-shaped on/off switches (ink track with glow and a da
 ## [2026-10-07] update | PitchControl phase bar split into strobo and idle
 
 General → 04 Scene: the phase bar now shows the two halves of the vvvv phase separately. After a peak it is labelled STROBO and drains from 1 to 0 over Strobo Decay; then it is labelled IDLE and fills back to 1 over Idle Attack. The number is the bar value (the engine's `strobo` and `idle` state), no longer the combined 0–1 phase.
+
+---
+
+## [2026-10-07] build | PitchControl fader scale, dimmer names and unused dimmers
+
+- Fader scale: the old 9 tick marks sat at ninths of the height; now a primary line every 25 % and a secondary line halfway between.
+- Dimmers: names are stored in the rig and renamed by double-clicking them; a dimmer no fixture uses is disabled and ignores MIDI (Miro first asked for "blank name = unassigned", then for deriving it from the fixtures). Double-clicking a renamable name no longer starts a fader drag, which had turned the double-click into a value reset.
+
+Recorded in [[port-design]] (Frontend Pages).
+
+---
+
+## [2026-10-07] update | PitchControl Enttec output verified on hardware
+
+Miro connected the Enttec DMX USB Pro and one Cameo pinspot for the first time: the output does exactly what it should. MIDI (LCXL3) had been verified on 2026-10-05; the outdated "not verified" note in [[port-design]] (Implementation Status) is marked as such. Still unverified: Art-Net, v2 serial, the full rig, Windows.

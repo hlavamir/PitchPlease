@@ -20,8 +20,9 @@ export function Fog({ engine }: { engine: EngineConnection }) {
   const machines = settings.fog.machines
 
   return (
-    <div className="flex max-w-3xl flex-col gap-1.5">
-      <div className="flex justify-between">
+    // machines take half the page width side by side, or the full width under each other
+    <div className="grid gap-1.5 wide:grid-cols-2">
+      <div className="flex justify-between wide:col-span-2">
         <Button onClick={() => update((s) => s.fog.machines.push({ ...NEW_MACHINE }))}>Add fog machine</Button>
         <SaveBar dirty={dirty} save={save} reload={reload} message={message} />
       </div>

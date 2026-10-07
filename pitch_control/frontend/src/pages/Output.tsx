@@ -51,7 +51,8 @@ export function Output({ engine }: { engine: EngineConnection }) {
   const io = engine.state?.io.outputs
 
   return (
-    <div className="grid gap-1.5 wide:grid-cols-[minmax(0,40rem)_minmax(0,1fr)]">
+    // settings and live output take half the page width each, or the full width under each other
+    <div className="grid gap-1.5 wide:grid-cols-2">
       <div className="flex min-w-0 flex-col gap-1.5">
       <div className="flex justify-between">
         <Button onClick={refresh}>Rescan USB devices</Button>

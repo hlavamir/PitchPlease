@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-10-05
+date_modified: 2026-10-07
 ---
 
 # Log
@@ -585,3 +585,13 @@ Added the full-screen mode Miro asked for, with the two-row header he designed (
 - The top header row is 38 px, so its bottom line clears the camera island.
 - Hue/saturation colour strips are half as wide (5 px).
 - Renamed `build_macos.sh` to `build_macos.command`, so it can be double-clicked.
+
+---
+
+## [2026-10-07] build | PitchControl number fields, fixture multi-edit, rotation in degrees
+
+- Number fields: Enter applies and keeps the focus; ↑ / ↓ and right-drag step the value (Shift = fine). Steps: integers 1 / 1, floats 0.1 / 0.01.
+- Fixtures page multi-edit: Shift + click selects several fixtures; shared values are shown, differing ones show "multiple"; a value entered applies to all. Arrows and drag are off for "multiple" fields. Name, Duplicate and Remove are off in multi-edit (Miro's choice).
+- Fixture rotation is now stored in degrees (was turns); 15° / 1° steps. `rigs/default.json` converted (0.75 → 270).
+
+Recorded in [[port-design]] (Frontend Pages).

@@ -1,6 +1,6 @@
 ---
 date_created: 2026-10-05
-date_modified: 2026-10-05
+date_modified: 2026-10-07
 ---
 
 # PitchControl — Cross-Platform Port of the vvvv Patch
@@ -96,7 +96,7 @@ Tested: the window covers 1512×982 at (0,0) and is restored afterwards. On Wind
 ## Frontend Pages
 
 - **General** and **Dimmers**: carried over from the vvvv UI. Their grids always use 8 columns, matching the LCXL3's 8 columns of knobs, faders and buttons.
-- **Fixtures**: rig editing.
+- **Fixtures**: rig editing. Shift + click in the fixture list adds a fixture to the selection or removes it (multi-edit, added 2026-10-07). A field shows a value only when all selected fixtures share it, otherwise it is empty with "multiple"; a value entered there is applied to all of them. While more than one fixture is selected, Name, Duplicate and Remove are disabled, since fixture names must stay unique. Rotation is in degrees (clockwise on screen: 90 = down, 270 = vertical with the first pixel at the bottom); until 2026-10-07 it was stored in turns, and the default rig was converted.
 - **Output**:
   - Enttec Pro: enabled, device, universe.
   - ArtNet: enabled, universe → IP mapping.
@@ -104,6 +104,8 @@ Tested: the window covers 1512×982 at (0,0) and is restored afterwards. On Wind
 - **Inputs**: audio device, input channels, gain; active MIDI controller.
 - **Settings**: appearance (ink colour, glow, UI brightness, key hints) and the keyboard reference.
 - **Fog**: fog machines (the current patch has two timers: every 60 s for 4 s, and ground fog every 60 s for 2 s, plus manual trigger).
+
+Number fields (all pages) apply on Enter and keep the focus, so the next value can be typed right away; leaving the field also applies, Escape reverts. ↑ / ↓ and a vertical right-mouse drag (6 px per step) change the value by a step, with Shift by a fine step, and apply each change at once. Steps: integers 1 / 1, floats 0.1 / 0.01, rotation 15° / 1°. A field without a value (empty, or "multiple" in multi-edit) cannot be stepped, only typed into.
 
 Serial devices are chosen from a **dropdown of USB device names**. The app stores the USB serial number and VID:PID, and keeps the port path only as a fallback, since COM numbers and `/dev/cu.*` names are not stable.
 

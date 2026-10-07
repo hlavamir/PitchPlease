@@ -126,3 +126,11 @@ option {
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+/* the page scrollbar: 6 px gap to the panels (a transparent border), 8 px thumb */
+.page-scroll::-webkit-scrollbar {
+  width: 14px;
+}
+.page-scroll::-webkit-scrollbar-thumb {
+  border-left: 6px solid transparent;
+  background-clip: padding-box;
+}

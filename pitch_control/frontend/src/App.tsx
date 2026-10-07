@@ -173,7 +173,8 @@ export default function App() {
           </nav>
         </header>
 
-        <main className="min-h-0 flex-1 overflow-auto p-1.5">
+        {/* side margins instead of padding: the scrollbar ends 6 px from the window edge, like the header */}
+        <main className="page-scroll mx-1.5 min-h-0 flex-1 overflow-auto py-1.5">
           {page === 'General' && <General engine={engine} defs={defs} />}
           {page === 'Dimmers' && <Dimmers engine={engine} defs={defs} />}
           {page === 'Fixtures' && <Fixtures engine={engine} defs={defs} />}

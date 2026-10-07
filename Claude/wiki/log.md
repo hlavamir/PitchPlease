@@ -595,3 +595,9 @@ Added the full-screen mode Miro asked for, with the two-row header he designed (
 - Fixture rotation is now stored in degrees (was turns); 15° / 1° steps. `rigs/default.json` converted (0.75 → 270).
 
 Recorded in [[port-design]] (Frontend Pages).
+
+---
+
+## [2026-10-07] build | PitchControl rig management
+
+The Fixtures page has a separate Rig panel above the fixture list, so it is clear whether the rig file or the lights in it are edited. Rig actions: load, Save, Revert, Rename, Duplicate (save as, switches to the copy), New, Delete, description. Unsaved changes prompt Save / Discard / Cancel before loading or creating a rig. Backend: `POST /api/rig/rename`, `/api/rig/duplicate`, `/api/rig/new`, `DELETE /api/rig`; a rig's name is now always its file name. Recorded in [[port-design]] (Frontend Pages).

@@ -613,3 +613,9 @@ Settings → Appearance → UI scale (60–150 %, −/+, "Fit window", 100 %), s
 ## [2026-10-07] update | PitchControl single-column layout at large UI scale
 
 After Miro tried 125 % on the MacBook: the scene preview is capped at half the window width; in the single-column layout General puts Scene and Audio in one row, and Fixtures puts the preview and the output monitor in one row. Tests no longer assume the shipped rig is called "default" (Miro renamed it to "261003 Dekomp" in the app). Recorded in [[port-design]] (UI Design).
+
+---
+
+## [2026-10-07] update | PitchControl page scrollbar margin
+
+The page scroll area now has 6 px side margins instead of padding, so its scrollbar ends 6 px from the window edge like the header and footer; the scrollbar thumb keeps a 6 px gap to the panels.

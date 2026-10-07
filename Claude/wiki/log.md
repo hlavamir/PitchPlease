@@ -601,3 +601,15 @@ Recorded in [[port-design]] (Frontend Pages).
 ## [2026-10-07] build | PitchControl rig management
 
 The Fixtures page has a separate Rig panel above the fixture list, so it is clear whether the rig file or the lights in it are edited. Rig actions: load, Save, Revert, Rename, Duplicate (save as, switches to the copy), New, Delete, description. Unsaved changes prompt Save / Discard / Cancel before loading or creating a rig. Backend: `POST /api/rig/rename`, `/api/rig/duplicate`, `/api/rig/new`, `DELETE /api/rig`; a rig's name is now always its file name. Recorded in [[port-design]] (Frontend Pages).
+
+---
+
+## [2026-10-07] build | PitchControl UI scale
+
+Settings → Appearance → UI scale (60–150 %, −/+, "Fit window", 100 %), saved as `ui.scale`. Implemented with CSS `zoom`; page layouts switch on a JS-set `data-wide` flag and in-panel layouts on measured widths, because media/container queries behave differently under zoom in WebKit and Chromium. Verified at 1280 × 640 (Miro's minimum 1280 × 720 screen minus title/taskbar): Fit gives 69 % and no page scrolls. Also: `index.html` is now served with `Cache-Control: no-cache`, because a cached copy kept loading the previous UI bundle after a rebuild. Recorded in [[port-design]] (UI Design).
+
+---
+
+## [2026-10-07] update | PitchControl single-column layout at large UI scale
+
+After Miro tried 125 % on the MacBook: the scene preview is capped at half the window width; in the single-column layout General puts Scene and Audio in one row, and Fixtures puts the preview and the output monitor in one row. Tests no longer assume the shipped rig is called "default" (Miro renamed it to "261003 Dekomp" in the app). Recorded in [[port-design]] (UI Design).

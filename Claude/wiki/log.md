@@ -637,3 +637,9 @@ Inputs (audio | MIDI), Fog (one machine per half) and Outputs (settings | live o
 ## [2026-10-07] update | PitchControl toggle switches
 
 All checkboxes are now pill-shaped on/off switches (ink track with glow and a dark knob when on, outlined track with a dim knob when off, knob centred for "multiple" in multi-edit). Miro chose the rounded pill over a square variant, as the one exception to the square-only style. Recorded in [[port-design]] (UI Design).
+
+---
+
+## [2026-10-07] update | PitchControl phase bar split into strobo and idle
+
+General → 04 Scene: the phase bar now shows the two halves of the vvvv phase separately. After a peak it is labelled STROBO and drains from 1 to 0 over Strobo Decay; then it is labelled IDLE and fills back to 1 over Idle Attack. The number is the bar value (the engine's `strobo` and `idle` state), no longer the combined 0–1 phase.

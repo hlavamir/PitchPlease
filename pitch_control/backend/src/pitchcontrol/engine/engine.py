@@ -25,6 +25,7 @@ from .fixtures import Fixture, GroupBrightness
 from .fog import FogController
 from .macros import MacroBank
 from .masks import PRESET_NAMES, MaskGenerator, MaskParams, PeaksMap, mixed_mask
+from .overrides import Overrides
 from .phase import PhaseTracker
 
 log = logging.getLogger(__name__)
@@ -43,6 +44,9 @@ class Engine:
         self.lock = threading.RLock()
         self.macros = MacroBank()
         self._restore_macros()
+        self.overrides = Overrides()  # Control Desk: manual DMX channel values, saved across restarts
+        self.overrides.load(self.store.state_dir / "overrides.json")
+        self._overrides_saved = self.overrides.version
 
         self.phase = PhaseTracker()
         self.colors = GroupColors()
@@ -190,6 +194,7 @@ class Engine:
                 end = min(start + len(data), 512)
                 uni[start:end] = bytes(data[: end - start])
             self.fog.update(dt, s.fog.machines, m, universes)
+            self.overrides.apply(universes)  # last: manual overrides win
             self.universes, self.v2_strips = universes, v2_strips
 
             self._preview_inputs = (params, symmetry)
@@ -197,6 +202,7 @@ class Engine:
         if self.enable_hardware:
             self.outputs.send(universes, v2_strips)
         self._autosave_macros()
+        self._autosave_overrides()
         self.frame += 1
         self.tick_ms = (time.perf_counter() - t0) * 1000.0
 
@@ -246,6 +252,18 @@ class Engine:
         except OSError as exc:
             log.warning("macro autosave failed: %s", exc)
 
+    def _autosave_overrides(self, force: bool = False) -> None:
+        """Overrides are saved within a second of a change (they must survive a crash too)."""
+        if self.overrides.version == self._overrides_saved:
+            return
+        if not force and self.frame % max(1, int(self.store.settings.fps)) != 0:
+            return
+        self._overrides_saved = self.overrides.version
+        try:
+            self.overrides.save(self.store.state_dir / "overrides.json")
+        except OSError as exc:
+            log.warning("override autosave failed: %s", exc)
+
     # ------------------------------------------------------------------ thread
     def start(self) -> None:
         self.start_io()
@@ -258,6 +276,7 @@ class Engine:
         if self._thread is not None:
             self._thread.join(timeout=2)
         self._autosave_macros(force=True)
+        self._autosave_overrides(force=True)
         if self.audio is not None:
             self.audio.stop()
         if self.midi is not None:
@@ -342,6 +361,7 @@ class Engine:
                 "colors_hsb": {"A": [ca.h, ca.s, ca.b], "B": [cb.h, cb.s, cb.b]},
                 "fixtures": fixtures,
                 "fog": self.fog.active,
+                "overrides": self.overrides.snapshot(),
                 "io": {
                     "outputs": self.outputs.status(),
                     "audio": self.audio.status() if self.audio else None,

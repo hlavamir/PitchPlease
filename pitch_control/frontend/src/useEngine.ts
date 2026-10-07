@@ -11,6 +11,7 @@ export interface EngineConnection {
   toggleMacro: (name: string) => void
   setDeferred: (name: string, value: number) => void // hue/saturation from the keyboard: applied once keys rest
   cancelPending: (name: string) => void
+  setOverride: (universe: number, channel: number, value: number | null) => void // Control Desk; null releases
 }
 
 /** Live connection to the engine: JSON state + binary 256×256 preview, reconnecting automatically. */
@@ -57,5 +58,10 @@ export function useEngine(): EngineConnection {
   const setDeferred = useCallback((name: string, value: number) => send({ type: 'macro_deferred', name, value }), [send])
   const cancelPending = useCallback((name: string) => send({ type: 'cancel_pending', name }), [send])
 
-  return { state, preview, connected, setMacro, toggleMacro, setDeferred, cancelPending }
+  const setOverride = useCallback(
+    (universe: number, channel: number, value: number | null) => send({ type: 'override', universe, channel, value }),
+    [send],
+  )
+
+  return { state, preview, connected, setMacro, toggleMacro, setDeferred, cancelPending, setOverride }
 }

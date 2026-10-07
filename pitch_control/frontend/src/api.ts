@@ -70,6 +70,7 @@ export interface EngineState {
   colors_hsb: { A: number[]; B: number[] }
   fixtures: FixtureState[]
   fog: Record<string, boolean>
+  overrides?: Record<string, Record<string, number>> // Control Desk: universe → channel (1–512) → value
   io: {
     outputs: { enttec: IoStatus | null; artnet: IoStatus | null; pitchpls_v2: IoStatus | null }
     audio: IoStatus | null

@@ -6,6 +6,8 @@ from pitchcontrol.server.app import create_app
 
 
 def test_engine_tick_produces_universe(store):
+    for f in store.rig.fixtures:  # the shipped rig may have some switched off for an event
+        f.enabled = True
     engine = Engine(store, enable_hardware=False)
     for _ in range(5):
         engine.tick(1 / 40)
@@ -138,3 +140,30 @@ def test_dimmer_names_and_unused_dimmers_ignore_midi(store):
     assert engine.macros.control("Dimmer 02") == 0.0
     assert "unassigned" in midi.recent[0]["note"]
     assert not store.dimmer_unassigned("Dimmer 02") and store.dimmer_unassigned("Dimmer 01")
+
+
+def test_dmx_overrides(store):
+    engine = Engine(store, enable_hardware=False)
+    client = TestClient(create_app(engine))
+    engine.tick(1 / 40)
+    assert client.get("/api/dmx/0").json()["values"][99] == 255  # v3 #1 master at address 100
+
+    # an override wins over the fixture, also in a universe no fixture uses
+    with client.websocket_connect("/ws") as ws:
+        ws.send_json({"type": "override", "universe": 0, "channel": 100, "value": 7})
+        ws.send_json({"type": "override", "universe": 3, "channel": 512, "value": 300})
+        ws.receive_text()  # the server has handled the messages once it pushes state
+    engine.tick(1 / 40)
+    assert engine.universes[0][99] == 7 and engine.universes[3][511] == 255
+    assert engine.state()["overrides"] == {"0": {"100": 7}, "3": {"512": 255}}
+
+    # saved and restored by the next engine
+    engine._autosave_overrides(force=True)
+    again = Engine(store, enable_hardware=False)
+    assert again.overrides.snapshot() == {"0": {"100": 7}, "3": {"512": 255}}
+
+    # release one, then reset all
+    engine.overrides.set(3, 512, None)
+    assert client.delete("/api/overrides").json()["released"] == 1
+    engine.tick(1 / 40)
+    assert engine.universes[0][99] == 255 and len(engine.overrides) == 0

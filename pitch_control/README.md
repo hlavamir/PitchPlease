@@ -4,7 +4,7 @@ Audio-reactive light control for PitchPlease, a cross-platform (macOS / Windows)
 The design and the reverse-engineered vvvv logic are documented in the wiki: `Claude/wiki/port-design.md` and `Claude/wiki/vvvv-patch-logic.md`.
 
 - **Backend** (`backend/`, Python): the engine, which runs at 40 FPS in its own thread and owns audio, MIDI and all outputs. It keeps running if the browser is closed.
-- **Frontend** (`frontend/`, Vite + React + TypeScript + Tailwind): the pages General, Dimmers, Fixtures, Output, Inputs and Fog. It talks to the backend over HTTP and a WebSocket.
+- **Frontend** (`frontend/`, Vite + React + TypeScript + Tailwind): the pages General, Dimmers, Fixtures, Inputs, Outputs, Fog, Settings and Control Desk. It talks to the backend over HTTP and a WebSocket.
 - **Config** (`config/`): plain JSON, edited from the UI or by hand.
 
 ## Run
@@ -75,7 +75,7 @@ Everything works without a mouse — one control is always selected:
 | ↑ / ↓ | change the selected value (Shift = fine) |
 | ⏎ | press the selected button, load the selected scene (Shift + ⏎ = save) |
 | Esc | cancel a pending hue / saturation change |
-| 1 – 7 | switch page |
+| 1 – 8 | switch page |
 | F | full screen on / off (desktop app; on a MacBook it also covers the camera-notch strip) |
 
 Number fields apply on Enter and keep the focus, so you can type the next value right away (Escape reverts). ↑ / ↓ or dragging up / down with the right mouse button changes the value in steps (Shift = fine steps): integers 1, floats 0.1 / 0.01, fixture rotation 15° / 1°.
@@ -83,6 +83,8 @@ Number fields apply on Enter and keep the focus, so you can type the next value 
 On the Fixtures page, the **Rig** panel manages the rig file: load another rig from the dropdown, edit the description, Save / Revert, Rename, Duplicate (saves the current state, unsaved edits included, as a new rig and switches to it; the original file keeps what was saved), New (empty rig) and Delete (the active rig; the next one is loaded, the last rig can't be deleted). Loading or creating a rig with unsaved changes asks: Save, Discard or Cancel. Edits are live in the engine right away; only Save writes the file. The **Fixtures** panel below it edits the lights in the rig: Add, Duplicate, Remove.
 
 In the fixture list, Shift + click adds fixtures to the selection (or removes them) to edit several at once. A field shows a value only if all selected fixtures share it, otherwise "multiple"; a value you enter applies to all of them.
+
+**Control Desk** (page 8) shows every DMX output channel as a slider: pick the universe (0–3) and one of 8 subpages of 64 channels. The faint bar is what the channel sends now (the footer names the fixture using it). Dragging a channel, or switching it on, overrides it: it then sends the slider value instead of what the fixtures compute; the switch releases it. Overrides are saved (`config/state/overrides.json`, not in git) and restored on start; while any are active the header shows "N overrides". "Reset all" (with a confirmation) releases every override in every universe.
 
 Hue and saturation apply on mouse release, or once keys / the MIDI knob rest; until then the fader shows the target with a dashed outline.
 
@@ -96,6 +98,7 @@ Hue and saturation apply on mouse release, or once keys / the MIDI knob rest; un
 | `controllers/*.json` | MIDI controller mappings (CC → macro) |
 | `scenes/scene_N.json` | the 8 scenes (macro name → control value) |
 | `state/macros.json` | auto-saved macro values for crash recovery (not in git) |
+| `state/overrides.json` | Control Desk channel overrides, restored on start (not in git) |
 
 Unknown keys (typos) and broken files are reported in `logs/YYMMDD_hhmmss.log` (one file per start) and never stop the engine. Keys starting with `_` (e.g. `_note`) are annotations and are ignored.
 

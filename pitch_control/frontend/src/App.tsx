@@ -7,12 +7,13 @@ import { Fog } from './pages/Fog'
 import { General } from './pages/General'
 import { Inputs } from './pages/Inputs'
 import { Output } from './pages/Output'
+import { ControlDesk } from './pages/ControlDesk'
 import { Settings } from './pages/Settings'
 import { DEFAULT_UI, applyScale, applyTheme, clampScale, type UiSettings } from './theme'
 import { useEngine } from './useEngine'
 import { SelectionContext, isTyping, type FooterSelection } from './useGridNav'
 
-const PAGES = ['General', 'Dimmers', 'Fixtures', 'Inputs', 'Outputs', 'Fog', 'Settings'] as const
+const PAGES = ['General', 'Dimmers', 'Fixtures', 'Inputs', 'Outputs', 'Fog', 'Settings', 'Control Desk'] as const
 type Page = (typeof PAGES)[number]
 
 function initialPage(): Page {
@@ -28,7 +29,7 @@ const KEYS: [string, string][] = [
   ['SHIFT', 'fine'],
   ['⏎', 'press'],
   ['ESC', 'cancel'],
-  ['1–7', 'page'],
+  ['1–8', 'page'],
   ['F', 'full screen'],
 ]
 
@@ -85,7 +86,7 @@ export default function App() {
     if (res) setFullscreen((f) => ({ ...f, on: res.fullscreen }))
   }, [])
 
-  // 1–7 switch pages, F full screen (not while typing in a field)
+  // 1–8 switch pages, F full screen (not while typing in a field)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (isTyping(e) || e.metaKey || e.ctrlKey || e.altKey) return
@@ -123,6 +124,7 @@ export default function App() {
 
   const s = engine.state
   const out = s?.io.outputs
+  const overrideCount = Object.values(s?.overrides ?? {}).reduce((n, chans) => n + Object.keys(chans).length, 0)
   // In full screen on a MacBook the camera notch covers the top 32 pt; below 100 % UI scale the top
   // row grows so that it still measures 38 pt on screen.
   const topRow = fullscreen.on && navigator.userAgent.includes('Mac') ? Math.max(38, Math.ceil(38 / clampScale(ui.scale))) : 38
@@ -144,6 +146,12 @@ export default function App() {
               <span className={`inline-block w-[7.5rem] text-right font-mono text-[13px] tabular-nums ${engine.connected ? 'text-ink' : 'text-dim'}`}>
                 {engine.connected ? `${(s?.fps ?? 0).toFixed(1).padStart(4, '\u2007')} FPS` : 'ENGINE OFFLINE'}
               </span>
+              {overrideCount > 0 && (
+                // manual DMX overrides are saved across restarts: never let them go unnoticed
+                <button onClick={() => go('Control Desk')} className="lbl glow-on bg-ink px-2 text-[11px] leading-[18px] text-ground" title="Manual DMX overrides active (Control Desk)">
+                  {overrideCount} override{overrideCount === 1 ? '' : 's'}
+                </button>
+              )}
               <StatusDot ok={s?.io.audio ? s.io.audio.running : null} label="audio" error={s?.io.audio?.error} />
               <StatusDot ok={s?.io.midi ? Boolean(s.io.midi.port) : null} label="midi" error={s?.io.midi?.error} />
               <StatusDot ok={out?.enttec ? out.enttec.connected : null} label="enttec" error={out?.enttec?.error} />
@@ -182,6 +190,7 @@ export default function App() {
           {page === 'Inputs' && <Inputs engine={engine} />}
           {page === 'Fog' && <Fog engine={engine} />}
           {page === 'Settings' && <Settings ui={ui} onChange={setUi} desktop={desktop} />}
+          {page === 'Control Desk' && <ControlDesk engine={engine} />}
         </main>
 
         {ui.key_hints && (

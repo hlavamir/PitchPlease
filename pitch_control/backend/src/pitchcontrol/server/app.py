@@ -120,6 +120,18 @@ def create_app(engine: Engine, static_dir: Path | None = None, desktop: dict | N
     def state():
         return engine.state()
 
+    @app.get("/api/dmx/{universe}")
+    def dmx(universe: int):
+        """The 512 output values of one universe as sent (overrides included); zeros if unused."""
+        with engine.lock:
+            data = engine.universes.get(universe)
+            return {"universe": universe, "values": list(data) if data is not None else [0] * 512}
+
+    @app.delete("/api/overrides")
+    def clear_overrides():
+        """Control Desk "reset all": release every override in every universe."""
+        return {"ok": True, "released": engine.overrides.clear()}
+
     @app.get("/api/universes")
     def universes():
         return engine.universe_dump()
@@ -363,6 +375,12 @@ def create_app(engine: Engine, static_dir: Path | None = None, desktop: dict | N
                     engine.macros.set_deferred(str(msg.get("name")), float(msg.get("value", 0)), time.monotonic())
                 elif msg.get("type") == "cancel_pending":
                     engine.macros.cancel_deferred(str(msg.get("name")))
+                elif msg.get("type") == "override":  # Control Desk; value null releases the channel
+                    value = msg.get("value")
+                    try:
+                        engine.overrides.set(int(msg["universe"]), int(msg["channel"]), None if value is None else float(value))
+                    except (KeyError, TypeError, ValueError) as exc:
+                        log.warning("bad override message %s: %s", msg, exc)
         except WebSocketDisconnect:
             pass
         finally:

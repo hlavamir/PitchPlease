@@ -9,6 +9,32 @@ function channelRange(fx: FixtureState): string {
   return `U${fx.universe} · ${fx.address}–${end}`
 }
 
+const pad3 = (n: number) => String(n).padStart(3, '0')
+
+/**
+ * The channels one fixture writes: DMX channel number over its value, both 3 digits so nothing
+ * shifts while values change, and a level bar under each cell. v2 serial strips have no DMX
+ * channels: their cells are numbered by byte position.
+ */
+function ChannelTable({ fx }: { fx: FixtureState }) {
+  const serial = fx.transport === 'pitchpls_v2'
+  return (
+    <div className="mt-1.5 grid grid-cols-[repeat(auto-fill,minmax(2.25rem,1fr))] gap-px border border-edge bg-edge">
+      {fx.output.map((v, i) => (
+        <div
+          key={i}
+          className="flex flex-col items-center bg-panel pt-0.5 pb-1 font-mono leading-tight"
+          style={{ boxShadow: `inset 0 -2px 0 rgb(var(--ink-rgb) / ${(v / 255).toFixed(3)})` }}
+          title={serial ? `byte ${i + 1}: ${v}` : `U${fx.universe} channel ${fx.address + i} (fixture channel ${i + 1}): ${v}`}
+        >
+          <span className="text-[9px] text-dim">{pad3(serial ? i + 1 : fx.address + i)}</span>
+          <span className={`text-[11px] ${v ? 'text-ink' : 'text-dim'}`}>{pad3(v)}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 /** Live view of what every fixture outputs: pixel colours and (optionally) the raw DMX / serial bytes. */
 export function OutputMonitor({ state, only }: { state: EngineState | null; only?: string | string[] | null }) {
   const [showBytes, setShowBytes] = useState(false)
@@ -38,9 +64,7 @@ export function OutputMonitor({ state, only }: { state: EngineState | null; only
               ))}
             </div>
           </div>
-          {showBytes && (
-            <div className="mt-1 font-mono text-[11px] leading-snug break-all text-dim">{fx.output.join(' ')}</div>
-          )}
+          {showBytes && <ChannelTable fx={fx} />}
         </div>
       ))}
       {fixtures.length === 0 && <div className="text-[13px] text-dim">No enabled fixtures.</div>}

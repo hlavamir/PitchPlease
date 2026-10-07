@@ -130,6 +130,10 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
 
   const empty = (n: number) => Array.from({ length: n }, (_, i) => <div key={`empty-${i}`} className="hatch h-10" />)
 
+  // phase 0…0.5 = strobo decaying after a peak, 0.5…1 = idle fading in
+  const inStrobo = (state?.phase ?? 1) < 0.5
+  const phaseBar = inStrobo ? (state?.strobo ?? 0) : (state?.idle ?? 1)
+
   return (
     <div className="grid gap-1.5 wide:h-full wide:grid-cols-[minmax(0,1fr)_404px]">
       <div className="flex min-h-0 min-w-0 flex-col gap-1.5">
@@ -216,10 +220,11 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
       <div className="grid min-w-0 grid-cols-2 gap-1.5 wide:flex wide:min-h-0 wide:flex-col">
         <Section index="04" title="Scene" right={<span className="text-ink">{state?.preset}</span>} bodyClassName="p-2.5">
           <Preview preview={preview} state={state} />
+          {/* one bar for both phases: strobo drains it from 1 to 0 after a peak, idle fills it back to 1 */}
           <div className="mt-2.5 flex items-center gap-2.5 text-[11px]">
-            <span className="lbl w-11">Phase</span>
-            <SegmentBar value={state?.phase ?? 0} />
-            <span className="font-mono text-[13px]">{(state?.phase ?? 0).toFixed(2)}</span>
+            <span className={`lbl w-14 ${inStrobo ? 'text-glow' : 'text-dim'}`}>{inStrobo ? 'Strobo' : 'Idle'}</span>
+            <SegmentBar value={phaseBar} />
+            <span className="font-mono text-[13px]">{phaseBar.toFixed(2)}</span>
           </div>
           <div className="mt-2.5 grid grid-cols-2 gap-2.5">
             {(['A', 'B'] as const).map((g) => (

@@ -194,19 +194,32 @@ export function NumberInput({
   )
 }
 
-/** Checkbox; ``mixed`` shows the indeterminate state (multi-edit with different values). */
+/**
+ * On/off switch (the one rounded element of the UI). Off: outlined track, dim knob on the left.
+ * On: ink track with glow, dark knob on the right. ``mixed`` (multi-edit with different values)
+ * puts the knob in the middle; clicking it switches on. Inside a <label> (e.g. Row) a click on the
+ * label text toggles it too.
+ */
 export function Toggle({ checked, onChange, label, mixed }: { checked: boolean; onChange: (v: boolean) => void; label?: string; mixed?: boolean }) {
+  const on = checked && !mixed
   return (
     <span className="inline-flex items-center gap-2">
-      <input
-        type="checkbox"
-        checked={checked}
-        ref={(el) => {
-          if (el) el.indeterminate = Boolean(mixed)
-        }}
-        onChange={(e) => onChange(e.target.checked)}
-        className="size-4"
-      />
+      <button
+        type="button"
+        role="switch"
+        aria-checked={mixed ? 'mixed' : checked}
+        aria-label={label}
+        onClick={() => onChange(mixed ? true : !checked)}
+        className={`relative h-[18px] w-[34px] flex-none rounded-full border transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink ${
+          on ? 'glow-on border-ink bg-ink' : 'border-edge bg-panel-2 hover:border-dim'
+        }`}
+      >
+        <span
+          className={`absolute top-1/2 size-3 -translate-y-1/2 rounded-full transition-[left] duration-100 ${
+            on ? 'left-[18px] bg-ground' : mixed ? 'left-[10px] bg-dim' : 'left-[2px] bg-dim'
+          }`}
+        />
+      </button>
       {label && <span className="lbl text-[11px]">{label}</span>}
     </span>
   )

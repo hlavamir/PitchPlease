@@ -109,9 +109,6 @@ select:focus {
   outline-offset: -1px;
   box-shadow: 0 0 calc(10px * var(--glow)) rgb(var(--ink-rgb) / calc(0.25 * var(--glow)));
 }
-input[type='checkbox'] {
-  accent-color: var(--color-ink);
-}
 option {
   background: var(--color-ground);
 }

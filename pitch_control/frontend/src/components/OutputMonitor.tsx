@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { EngineState, FixtureState } from '../api'
 import { useElementWidth } from '../useElementWidth'
+import { Toggle } from './forms'
 
 function channelRange(fx: FixtureState): string {
   if (fx.transport === 'pitchpls_v2') return 'v2 serial'
@@ -16,8 +17,8 @@ export function OutputMonitor({ state, only }: { state: EngineState | null; only
   const fixtures = (state?.fixtures ?? []).filter((f) => !only || (Array.isArray(only) ? only.includes(f.name) : f.name === only))
   return (
     <div ref={ref} className="flex flex-col gap-2">
-      <label className="flex items-center gap-2 self-end text-[11px] text-dim">
-        <input type="checkbox" checked={showBytes} onChange={(e) => setShowBytes(e.target.checked)} />
+      <label className="flex cursor-pointer items-center gap-2 self-end text-[11px] text-dim">
+        <Toggle checked={showBytes} onChange={setShowBytes} />
         show channel values
       </label>
       {fixtures.map((fx) => (

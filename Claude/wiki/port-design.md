@@ -107,6 +107,7 @@ Tested: the window covers 1512×982 at (0,0) and is restored afterwards. On Wind
   - PitchPlease v2: enabled, device, baudrate.
 - **Inputs**: audio device, input channels, gain; active MIDI controller.
 - **Settings**: appearance (ink colour, glow, UI brightness, key hints) and the keyboard reference.
+- **Control Desk** (page 8, added 2026-10-07): every DMX output channel as a slider, universe 0–3 (numbered as in the config), 8 subpages of 64 channels (4 × 16). Dragging a channel or switching it on overrides it (it starts from the live value, no jump); the switch releases it. Overrides are applied after fixtures and fog, saved to `state/overrides.json` within a second and restored on start (Miro's choice); the header shows "N overrides" while any are active, and "Reset all" (confirmed) releases all of them. Each channel names the fixture using it. Not mapped to the LCXL3 (Miro: not now).
 - **Fog**: fog machines (the current patch has two timers: every 60 s for 4 s, and ground fog every 60 s for 2 s, plus manual trigger).
 
 Number fields (all pages) apply on Enter and keep the focus, so the next value can be typed right away; leaving the field also applies, Escape reverts. ↑ / ↓ and a vertical right-mouse drag (6 px per step) change the value by a step, with Shift by a fine step, and apply each change at once. Steps: integers 1 / 1, floats 0.1 / 0.01, rotation 15° / 1°. A field without a value (empty, or "multiple" in multi-edit) cannot be stepped, only typed into.

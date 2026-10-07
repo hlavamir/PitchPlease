@@ -658,3 +658,15 @@ Recorded in [[port-design]] (Frontend Pages).
 ## [2026-10-07] update | PitchControl Enttec output verified on hardware
 
 Miro connected the Enttec DMX USB Pro and one Cameo pinspot for the first time: the output does exactly what it should. MIDI (LCXL3) had been verified on 2026-10-05; the outdated "not verified" note in [[port-design]] (Implementation Status) is marked as such. Still unverified: Art-Net, v2 serial, the full rig, Windows.
+
+---
+
+## [2026-10-07] build | PitchControl Control Desk (page 8)
+
+New page with every DMX output channel as a slider for manual overrides: universe 0–3, 8 subpages × 64 channels, override per channel (dragging switches it on), saved across restarts with a header indicator and a confirmed "Reset all". Backend: `engine/overrides.py`, applied after fixtures and fog; `GET /api/dmx/{universe}`, `DELETE /api/overrides`, WebSocket `override` messages. Recorded in [[port-design]] (Frontend Pages).
+
+---
+
+## [2026-10-07] update | PitchControl channel value table
+
+"Show channel values" (Fixtures → Placement, Outputs → Live output) now shows a table per fixture with only the channels it writes: DMX channel number over the value, both as 3 digits so nothing shifts, and a level bar per cell. v2 serial strips are numbered by byte position.

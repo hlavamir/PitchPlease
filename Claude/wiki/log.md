@@ -619,3 +619,9 @@ After Miro tried 125 % on the MacBook: the scene preview is capped at half the w
 ## [2026-10-07] update | PitchControl page scrollbar margin
 
 The page scroll area now has 6 px side margins instead of padding, so its scrollbar ends 6 px from the window edge like the header and footer; the scrollbar thumb keeps a 6 px gap to the panels.
+
+---
+
+## [2026-10-07] update | PitchControl Rig and Fixtures side by side
+
+In the single-column layout the Fixtures page shows the Rig and Fixtures panels side by side (each only as tall as its content); in the column layout they stay stacked.

@@ -151,8 +151,8 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
 
   return (
     <div className="grid gap-1.5 wide:h-full wide:grid-cols-[17rem_minmax(0,1fr)_22rem] wide:grid-rows-[minmax(0,1fr)]">
-      {/* left: the rig as a whole (file) above the lights in it */}
-      <div className="flex min-h-0 min-w-0 flex-col gap-1.5">
+      {/* left: the rig as a whole (file) above the lights in it; side by side in the single-column layout */}
+      <div className="grid min-w-0 grid-cols-2 items-start gap-1.5 wide:flex wide:min-h-0 wide:flex-col wide:items-stretch">
         <RigPanel
           index="01"
           rigs={rigs}

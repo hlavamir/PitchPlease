@@ -76,6 +76,7 @@ Everything works without a mouse — one control is always selected:
 | ⏎ | press the selected button, load the selected scene (Shift + ⏎ = save) |
 | Esc | cancel a pending hue / saturation change |
 | 1 – 8 | switch page |
+| Q / E | previous / next subpage (Control Desk) |
 | F | full screen on / off (desktop app; on a MacBook it also covers the camera-notch strip) |
 
 Number fields apply on Enter and keep the focus, so you can type the next value right away (Escape reverts). ↑ / ↓ or dragging up / down with the right mouse button changes the value in steps (Shift = fine steps): integers 1, floats 0.1 / 0.01, fixture rotation 15° / 1°.

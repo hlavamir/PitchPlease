@@ -195,7 +195,7 @@ export default function App() {
 
         {ui.key_hints && (
           <footer className="mx-1.5 flex h-7 flex-none items-center gap-5 border-t border-edge px-2.5 text-[11px]">
-            {KEYS.filter(([cap]) => cap !== 'F' || fullscreen.supported).map(([cap, what]) => (
+            {[...KEYS.filter(([cap]) => cap !== 'F' || fullscreen.supported), ...(page === 'Control Desk' ? [['Q E', 'subpage']] : [])].map(([cap, what]) => (
               <span key={cap} className="lbl inline-flex items-center gap-1.5">
                 <span className="border border-ink px-1 font-mono text-[11px] leading-[14px]">{cap}</span>
                 <span className="text-dim">{what}</span>

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState, type PointerEvent } from 'react'
 import { api } from '../api'
 import { Button, Section, Toggle } from '../components/forms'
 import type { EngineConnection } from '../useEngine'
-import { useGridNav, type NavItem } from '../useGridNav'
+import { isTyping, useGridNav, type NavItem } from '../useGridNav'
 
 const UNIVERSES = [0, 1, 2, 3]
 const PER_PAGE = 64 // 4 rows × 16
@@ -128,6 +128,19 @@ export function ControlDesk({ engine }: { engine: EngineConnection }) {
   const setUniverse = (u: number) => setUniverseState((memory.universe = u))
   const setSubpage = (p: number) => setSubpageState((memory.subpage = p))
 
+  // Q / E: previous / next subpage (the keyboard selection keeps its slot)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (isTyping(e) || e.metaKey || e.ctrlKey || e.altKey) return
+      const key = e.key.toLowerCase()
+      if (key !== 'q' && key !== 'e') return
+      e.preventDefault()
+      setSubpageState((p) => (memory.subpage = Math.min(SUBPAGES - 1, Math.max(0, p + (key === 'e' ? 1 : -1)))))
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   // live output values of the shown universe
   useEffect(() => {
     let alive = true
@@ -244,7 +257,7 @@ export function ControlDesk({ engine }: { engine: EngineConnection }) {
       <Section
         index="01"
         title={`Universe ${universe} · channels ${first}–${first + PER_PAGE - 1}`}
-        right="drag a channel to override it · the switch releases it"
+        right="drag a channel to override it · the switch releases it · Q / E subpage"
         className="min-h-0 flex-1"
         bodyClassName="p-0"
       >

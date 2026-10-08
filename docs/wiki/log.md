@@ -751,3 +751,9 @@ Q / E step to the previous / next Control Desk subpage, stopping at the first an
 ## [2026-10-08] update | Wiki folders `Claude/` and `wiki/` merged into `docs/`
 
 The repo had two copies of the wiki: `Claude/` was copied from `wiki/` on 2026-08-22 (commit `ba29ef8`), and both were edited afterwards. `wiki/` alone had the v3.2 PCB revision, circuit topology, C5/R1–R4 findings and the `v3_esp32_dmx/{case,firmware,pcb}` reorganisation (2026-08-22 to 2026-09-12); `Claude/` alone had the discoball, v3 assembly, vvvv patch logic and PitchControl (2026-09-06 onwards). Merged three-way against the 2026-08-22 copy: `hardware`, `index`, `overview` and `vvvv-patch` merged cleanly; in [[v3]] the case table takes the new folder paths plus the spine-rod details and the v3.2 row; this log interleaves both sides' entries by date (86 entries, none lost). Everything now lives in `docs/` (schema in `docs/CLAUDE.md`); `Claude/` and `wiki/` were deleted, both remain in git history.
+
+---
+
+## [2026-10-08] update | READMEs restructured, PitchControl screenshots, MIT license
+
+The root README now has two parts: control software (PitchControl, the vvvv patch) first, then the hardware design (light pole versions), followed by the folder structure, the wiki, a Ko-fi support section and the license. The repo is now MIT-licensed (`LICENSE`, same text as Miro's PlaylistTransferer). The PitchControl README has a Pages section with a screenshot and description of each of the 8 pages (`pitch_control/screenshots/`). They were taken with headless Chrome at 1512 × 915 from a no-hardware instance fed with a synthetic 124 BPM loop. While checking them, the Inputs page label "blue line = strobo trigger weight" turned out stale since the monochrome redesign: it now says "dotted line".

@@ -781,3 +781,9 @@ Decided with Miro: everything PitchControl sends is perceptual (128/255 looks ha
 ## [2026-10-08] update | v3 firmware precision: float inside, 8 bits at the LED
 
 Miro pointed out that the v3 firmware already applies dimmers and gamma in 32-bit float. Correct: the earlier note about computing the curve "at 16 bits" was wrong for v3. The precision is lost only when the result is written to the WS2811's 8-bit channel value; the dark-end floor (inputs below about 15/255 → 0) comes from that. Dithering would use the float's fractional part directly. Corrected in [[v3]] (Future Development → Temporal dithering).
+
+---
+
+## [2026-10-08] build | v3 firmware: flash log and refresh measurement build
+
+Miro can't power the ESP32 over USB while the LED supply is on, and the units are closed (only USB and the power connector are reachable). So the v3 firmware now writes a mini log to the internal flash (LittleFS on the unused 1.4 MB data partition), read back later over USB alone with the new `read-flash-log.command`. `firmware-flasher.command` offers a refresh measurement variant (FastLED `show()` rate with and without FastLED's 400 Hz RMT cap, logged and shown as a green bar). First step towards the temporal dithering experiment. Recorded in [[v3]] (Firmware).

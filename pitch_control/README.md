@@ -1,7 +1,7 @@
 # PitchControl
 
 Audio-reactive light control for PitchPlease, a cross-platform (macOS / Windows) port of the vvvv gamma patch in `../vl/`.
-The design and the reverse-engineered vvvv logic are documented in the wiki: `Claude/wiki/port-design.md` and `Claude/wiki/vvvv-patch-logic.md`.
+The design and the reverse-engineered vvvv logic are documented in the wiki: `docs/wiki/port-design.md` and `docs/wiki/vvvv-patch-logic.md`.
 
 - **Backend** (`backend/`, Python): the engine, which runs at 40 FPS in its own thread and owns audio, MIDI and all outputs. It keeps running if the browser is closed.
 - **Frontend** (`frontend/`, Vite + React + TypeScript + Tailwind): the pages General, Dimmers, Fixtures, Inputs, Outputs, Fog, Settings and Control Desk. It talks to the backend over HTTP and a WebSocket.

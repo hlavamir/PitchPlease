@@ -5,7 +5,7 @@ date_modified: 2026-07-10
 
 # PitchPlease Wiki — Schema
 
-> Note: this file (`wiki/CLAUDE.md`) is the schema root. All wiki activity lives under `wiki/`.
+> Note: this file (`docs/CLAUDE.md`) is the schema root. All wiki activity lives under `docs/`.
 
 This is the schema file for the PitchPlease project wiki. It defines conventions, structure, and workflows for maintaining this wiki. The LLM reads this file at the start of every session to understand how the wiki works.
 
@@ -17,7 +17,7 @@ The wiki is a persistent, LLM-maintained knowledge base for the PitchPlease proj
 
 ```
 PitchPlease/
-├── wiki/                    ← everything wiki-related lives here
+├── docs/                    ← everything wiki-related lives here
 │   ├── CLAUDE.md            ← this file (schema/config)
 │   ├── images/              ← screenshots and photos referenced by wiki pages
 │   ├── raw/                 ← explicitly ingested source material (immutable)
@@ -30,11 +30,11 @@ PitchPlease/
 └── [existing repo code — not touched by wiki operations]
 ```
 
-**`wiki/images/`** holds screenshots, photos, and diagrams referenced by wiki pages. Reference images from wiki pages using relative paths: `../images/filename.png`.
+**`docs/images/`** holds screenshots, photos, and diagrams referenced by wiki pages. Reference images from wiki pages using relative paths: `../images/filename.png`.
 
-**`wiki/raw/`** holds only files and content that have been explicitly ingested (by instruction). This includes documents, exported chat transcripts, articles, data files, or any other source material. The LLM reads from here but never modifies these files.
+**`docs/raw/`** holds only files and content that have been explicitly ingested (by instruction). This includes documents, exported chat transcripts, articles, data files, or any other source material. The LLM reads from here but never modifies these files.
 
-**`wiki/wiki/`** holds all LLM-generated pages. The LLM creates and edits files here freely.
+**`docs/wiki/`** holds all LLM-generated pages. The LLM creates and edits files here freely.
 
 ## Page Format
 
@@ -61,7 +61,7 @@ date_modified: YYYY-MM-DD
 
 Use `[[page-name]]` syntax for internal wiki links (Obsidian-compatible). File names are lowercase hyphenated, no spaces.
 
-Files placed in `wiki/raw/` must also carry a frontmatter block with `date_created` and `date_modified`.
+Files placed in `docs/raw/` must also carry a frontmatter block with `date_created` and `date_modified`.
 
 ## Operations
 
@@ -101,7 +101,7 @@ Periodically check wiki health:
 
 ## Metadata Rule
 
-Every file in `wiki/wiki/` and `wiki/raw/` must have `date_created` and `date_modified` in its YAML frontmatter. When any file is modified, `date_modified` must be updated to today's date. `date_created` is set once at creation and never changed.
+Every file in `docs/wiki/` and `docs/raw/` must have `date_created` and `date_modified` in its YAML frontmatter. When any file is modified, `date_modified` must be updated to today's date. `date_created` is set once at creation and never changed.
 
 ## Conflict Resolution Rule
 

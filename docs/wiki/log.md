@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-10-07
+date_modified: 2026-10-08
 ---
 
 # Log
@@ -280,6 +280,63 @@ Created [[wifi-bridge]] covering the future-dev WiFi bridge concept: phone → v
 
 ---
 
+## [2026-08-22] update | v3.2 PCB revision — all three known issues addressed
+
+Started the v3.2 PCB revision (`v3_esp32_dmx/hardware/260822_v3-2_esp32_dmx.fzz`) to fix the three known v3 PCB issues logged in [[v3]].
+
+- **ESP32 + MAX485 solder holes** (both used 0.6×0.6mm square pins, drilled at ~0.71mm — too tight): fixed by editing the custom parts' PCB-view SVGs directly (pin hole radius enlarged to give a ~1.1mm hole on unchanged pad pitch/position). Fritzing has no "reimport SVG onto a placed part" workflow — editing via the Part Editor while the part is placed in a sketch creates a disconnected duplicate part instead of updating in place. Worked around by closing Fritzing and patching the actual resource SVG files in its library folder (`~/Documents/Fritzing/parts/svg/user/`) directly, plus the matching source SVGs in `v3_esp32_dmx/hardware/fritzing parts/`. Reopening Fritzing picked up the new geometry on the already-placed instances with no rewiring or trace loss. Backups of all original files kept with `_backup` suffix.
+- **MAX485 GPIO33→RE/DE trace**: removed.
+- **STPDWN step-down**: footprint left on the board but unpopulated; external DC-DC converter used instead (no PCB change).
+
+Verified against the routed PCB export (`v3_esp32_dmx/hardware/export/260822_v3-2_esp32_dmx_pcb.svg`) — all ESP32 and MAX485 pads confirmed at the new hole size, no leftover undersized pads anywhere in the board. Updated [[v3]] with a new "v3.2 PCB Revision" section; the old "Known PCB Issues" section is kept as a historical record with fix status noted inline.
+
+---
+
+## [2026-08-22] update | v3.2 circuit fully traced; RE/DE floating confirmed correct
+
+Reconstructed the full v3.2 netlist to understand the circuit and check for issues. First attempt (reverse-engineering connectivity from the flattened PCB-view SVG export's copper geometry) produced a false "nothing on this board is routed" conclusion — wrong, caused by trace segments not always sharing exact endpoint coordinates and by top/bottom-copper-layer copies of one physical part rendering under different transform chains, which also caused an earlier false read of which MAX485 chip had floating DE/RE pins (visually mislabeled which chip was which due to the same transform issue). Corrected by parsing the actual Fritzing sketch file's own connectivity data (`.fz` XML inside the `.fzz`) instead of guessing from rendered geometry — filtering to real copper-layer connects (excluding stale breadboard-view remnants also present in the same data) and manually bridging each routed wire segment's own two ends (not linked to each other in the data model). Full method and pitfalls recorded in [[v3]] Open Questions for future reference.
+
+Verified circuit: clean 3-rail power distribution, 1:1 GPIO→buffer→resistor→LED-header path for all 4 strips (with a labeling mismatch between firmware's "Strip N" and the board's "LEDN" header numbers, not a functional bug), and a DMX hardware repeat path (ESP32.GPIO16 shared between the DMX-In chip's RO and DMX-Out chip's DI) with GPIO32 controlling the DMX-In chip's RE/DE for likely RDM-style bidirectional use.
+
+The DMX-Out MAX485's RE/DE floating (after the GPIO33 trace removal) initially looked like an unresolved problem by RS-485 convention. Miro confirmed both built v3 units use the identical fix (physically cutting the module's RE/DE legs, i.e. floating them) and it works in the field — so v3.2's floating RE/DE is the validated correct end state, not a stopgap needing a follow-up tie-off. Updated [[v3]] "Known PCB Issues" and added a new "v3.2 Circuit Topology" section.
+
+---
+
+## [2026-08-22] update | C1/C2 confirmed unpopulated (STPDWN-only caps)
+
+Miro confirmed C1 (12V/GND) and C2 (5V/GND) are left unpopulated in practice on the real board — they were only ever the input/output decoupling caps for the onboard STPDWN step-down, which is itself unpopulated (see earlier entry this session). Footprints and traces for both remain on the PCB, unused, same as STPDWN. Updated [[v3]] in two places: the v3.2 PCB Revision STPDWN bullet, and the Circuit Topology power-rail description.
+
+---
+
+## [2026-08-23] ingest | v3.2 PCB updated — STPDWN/C1/C2 removed, two labels cleaned up
+
+Ingested the new sketch `v3_esp32_dmx/hardware/260823_v3-2_esp32_dmx.fzz` (Gerbers + PCB SVG also re-exported same day). Rebuilt the full netlist using the same `.fz`-XML method established yesterday and diffed it against the 2026-08-22 version.
+
+Actual changes:
+- **STPDWN, C1, and C2 removed from the sketch entirely** — not just left unpopulated as of yesterday, now genuinely deleted (component count 23→20, confirmed via the instance list, not just visual inspection).
+- **"12+" renamed to "+12V-"** — same physical part (same Fritzing modelIndex, same position, same rails), purely a clearer label. It's a secondary 12V connection point on the same rail as the main "+ 12V -" terminal, likely for daisy-chaining power to a second fixture.
+- **"+ 5V -" renamed to "+5V-"** — cosmetic only, same part.
+
+Nothing else changed: DMX path, LED driver chain, GPIO assignments, and all remaining power-rail membership are identical to the verified 2026-08-22 topology. Updated [[v3]] — new sketch/Gerber/export file paths throughout, STPDWN section rewritten to reflect removal rather than non-population, Circuit Topology power paragraph updated to drop STPDWN/C1/C2.
+
+---
+
+## [2026-08-23] update | power terminal purposes clarified
+
+Miro clarified the three physical power screw terminals, which the netlist alone couldn't distinguish (same net memberships don't reveal physical intent): the large "+ 12V -" terminal (right edge, wider `screw_terminal_2_200mil` pitch) is the main power input from the external 12V PSU. The two smaller bottom-edge terminals, "+12V-" and "+5V-" (`screw_terminal_2_100mil`), connect to the external power module that replaced the onboard STPDWN step-down — 12V out to that module, regulated 5V back in from it. Corrected an earlier wrong guess in [[v3]] that "+12V-" was a daisy-chain point to a second fixture.
+
+---
+
+## [2026-08-24] update | fzpz packages fixed; v3_esp32_dmx reorganized, wiki paths updated
+
+Two unrelated fixes today.
+
+**Stale `.fzpz` packages.** Checking whether `v3_esp32_dmx/pcb/fritzing custom parts/` was fully up to date turned up a gap: the loose PCB SVGs had the corrected hole sizes, but the importable `.fzpz` packages (what someone would actually import into their own Fritzing library to reuse the part) still had the original undersized holes — they were never regenerated after the 2026-08-22 fix. Patched both by unzipping, editing the embedded PCB-view SVG the same way as before, and rezipping; verified zip integrity and hole radii afterward. Miro also confirmed the `_backup` files (kept alongside the originally-edited files) are no longer needed now that the fix is proven working, and removed them — the pre-fix originals stay recoverable via git history if ever needed.
+
+**Directory reorganization.** `v3_esp32_dmx/hardware/` (the old flat folder holding PCB, case, and Gerber files together) has been split into `v3_esp32_dmx/{case,firmware,pcb}/`, with explicit version tags added throughout (`v3-0`, `v3-2-0`, `v3-2-1` for PCB revisions; `v3-0`/`v3-1` for case iterations). The wiki hadn't caught up — [[v3]], [[hardware]], and [[overview]] all still pointed at the old `hardware/` paths. Updated all three: file paths throughout, the Firmware/Case/PCB tables, and the v3.2 Revision section (which now also notes the reorg happened, in case old paths surface again in git history or old notes).
+
+---
+
 ## [2026-09-06] new-page | Discoball art installation + motor datasheet ingest
 
 New side project, discussed and specced in chat before this ingest: a discoball resting in a rotating 3D-printed bowl bearing, driven via an internal ring gear (~8cm, slewing-ring style) by an off-axis stepper motor. Target rotation ~1–3 RPM ambient, up to ~60 RPM "strobe" mode, low-speed precision prioritized over top speed.
@@ -292,10 +349,23 @@ Created new page [[discoball]] covering the full concept, mechanical design, mot
 
 ---
 
+## [2026-09-12] update | R1-R4 resistor value resolved: 200Ω 1%, field-confirmed
+
+R1-R4's value had been an open question since the netlist trace (board silkscreen prints the designators but not the value). Miro asked about the right series resistor for the LED data lines; discussed the standard 300-500Ω WS281x guidance and initially recommended something in that range given the AHCT125 buffer's fast, low-impedance drive. Miro then supplied the missing measurement — PCB-to-strip cable is only 10-15cm — which changes the calculus: at that length only the *first* WS2811 IC on each strip sees the raw resistor+cable RC (each IC reshapes and re-transmits to the next), so the time constant is on the order of single-digit nanoseconds regardless of exact resistor value in the 100-500Ω range. Revised the recommendation accordingly — any value in that range is fine here, no strong preference.
+
+Miro then photographed one of the resistors actually populated on a built board and asked for the color-code read. Bands: red-black-black-black, gap, brown → 200Ω, 1% (5-band metal-film, blue body consistent with the brown ±1% band). Miro confirmed all 8 resistors (R1-R4 × 2 built/field-tested devices) use this same value — so 200Ω 1% is now a field-validated fact, not a guess. Updated [[v3]]'s LED driver path description with the confirmed value and the short-cable reasoning for why the exact value doesn't matter much here.
+
+---
+
+## [2026-09-12] update | C5 (EN reset cap) value confirmed: 10µF 50V
+
+Miro asked for a guess at C5's capacitance (between ESP32.EN and GND) with no way to check without opening a built device. Reasoned from the Fritzing part type — `SmallElectrolyticCapacitorModuleID`, not ceramic — that this was likely a deliberate µF-range power-on delay rather than the standard 100nF-ceramic debounce cap from Espressif's reference auto-reset circuit; guessed 10µF as the most common value used in that role. Miro then opened one of the two built devices and confirmed: **10µF, 50V**. Capacitance guess was exactly right; voltage rating (50V) higher than guessed but functionally irrelevant. Added a new "EN reset capacitor" paragraph to [[v3]]'s Circuit Topology section — this hadn't been documented there before at all.
+
+---
+
 ## [2026-09-25] update | Discoball — slewing bearing terminology + reference video
 
 Recorded that the correct technical term for the rotating holder/bearing with integrated drive gear under the discoball is a **slew bearing / slewing bearing** (internal-teeth variant), useful as a search term for printable designs. Saved a reference link: [Slew Bearing Design & Manufacture — Mahdi Designs](https://www.youtube.com/watch?v=CtQzOOL7SQg) (only the title and channel were looked up; the video itself was not reviewed). Added a "Terminology: slewing bearing" subsection and a See Also link to [[discoball]]. New Open Question recorded: Miro wrote "internal thread", interpreted as internal gear teeth — unconfirmed.
-
 
 ---
 
@@ -310,7 +380,6 @@ Miro clarified that "internal thread" in the previous entry meant **internal gea
 Miro is building two more v3 devices (units 3 and 4) and cut/prepared their internal cables on 2026-09-25, one identical set per device: PCB↔external power module 45 mm (2× red, 2× white); power connector→PCB 90 mm (1× red, 1× white); DMX connectors→PCB 70 mm (2 cables × GND/A/B); LED leads 110 mm female end (strip side) and 60 mm male end (PCB side), 4 cables each × positive/data/GND, joined by an in-line connector per strip so PCB and strips can be separated during assembly. Lengths are first-pass; Miro will report corrections after test-fitting.
 
 Created [[v3-assembly]] with the cable table, a note that the destinations (which PCB terminals/headers each cable serves) are inferred and unconfirmed, and Open Questions: wire colors for the LED/DMX cables and connector types weren't recorded, and the DMX header silkscreen letters (GND/A/B) appear swapped relative to the MAX485's A/B pins in the v3.2 netlist — which naming the new cables follow is unconfirmed. Added the page to [[index]] and linked it from [[v3]] (Physical Devices and See Also).
-
 
 ---
 
@@ -676,3 +745,9 @@ New page with every DMX output channel as a slider for manual overrides: univers
 ## [2026-10-07] update | PitchControl Control Desk Q / E subpages
 
 Q / E step to the previous / next Control Desk subpage, stopping at the first and last; the keyboard selection keeps its slot. Shown in the footer legend on that page, the Settings keyboard reference and the README.
+
+---
+
+## [2026-10-08] update | Wiki folders `Claude/` and `wiki/` merged into `docs/`
+
+The repo had two copies of the wiki: `Claude/` was copied from `wiki/` on 2026-08-22 (commit `ba29ef8`), and both were edited afterwards. `wiki/` alone had the v3.2 PCB revision, circuit topology, C5/R1–R4 findings and the `v3_esp32_dmx/{case,firmware,pcb}` reorganisation (2026-08-22 to 2026-09-12); `Claude/` alone had the discoball, v3 assembly, vvvv patch logic and PitchControl (2026-09-06 onwards). Merged three-way against the 2026-08-22 copy: `hardware`, `index`, `overview` and `vvvv-patch` merged cleanly; in [[v3]] the case table takes the new folder paths plus the spine-rod details and the v3.2 row; this log interleaves both sides' entries by date (86 entries, none lost). Everything now lives in `docs/` (schema in `docs/CLAUDE.md`); `Claude/` and `wiki/` were deleted, both remain in git history.

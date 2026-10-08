@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-08-24
+date_modified: 2026-10-08
 ---
 
 # Hardware

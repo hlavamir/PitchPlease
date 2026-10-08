@@ -14,18 +14,18 @@ Audio in → PitchControl → Enttec DMX USB Pro → DMX512 → V3 light poles, 
 There are two versions of the control software:
 
 - **[PitchControl](pitch_control/README.md)** (`pitch_control/`, current): a cross-platform app (macOS, Windows) with a Python engine and a web UI in its own window. It ports the vvvv patch and adds JSON fixture types and rigs, a full-keyboard UI, MIDI page switching and a Control Desk for manual DMX overrides. Audio, the LCXL3 and Enttec output have been verified on hardware. Art-Net, V2 serial and the Windows build have not.
-- **vvvv gamma patch** (`vl/`, original): the patch PitchControl was ported from. Its logic is reverse-engineered in the wiki ([vvvv patch](Claude/wiki/vvvv-patch.md), [patch logic](Claude/wiki/vvvv-patch-logic.md)).
+- **vvvv gamma patch** (`vl/`, original): the patch PitchControl was ported from. Its logic is reverse-engineered in the wiki ([vvvv patch](docs/wiki/vvvv-patch.md), [patch logic](docs/wiki/vvvv-patch-logic.md)).
 
 ## Hardware versions
 
 | Version | MCU | Strips | Protocol | Status |
 |---|---|---|---|---|
-| [V1](Claude/wiki/v1.md) | Arduino | 2× mono RGB (PWM) | Serial 57600 | Archived |
-| [V2a](Claude/wiki/v2.md) | Arduino | 2× WS2811 | Serial 57600 | Archived |
-| [V2b](Claude/wiki/v2.md) | Arduino R4 | 4× WS2811 | Serial 921600 | Archived, still usable |
-| [V3](Claude/wiki/v3.md) | ESP32 | 4× 140 cm WS2811 per device | DMX512 | **Active** |
+| [V1](docs/wiki/v1.md) | Arduino | 2× mono RGB (PWM) | Serial 57600 | Archived |
+| [V2a](docs/wiki/v2.md) | Arduino | 2× WS2811 | Serial 57600 | Archived |
+| [V2b](docs/wiki/v2.md) | Arduino R4 | 4× WS2811 | Serial 921600 | Archived, still usable |
+| [V3](docs/wiki/v3.md) | ESP32 | 4× 140 cm WS2811 per device | DMX512 | **Active** |
 
-Two V3 units are in use (DMX start addresses 100 and 200) and two more are being built ([assembly notes](Claude/wiki/v3-assembly.md)). The PitchControl rig already places them at 300 and 400. See also the [cross-version hardware comparison](Claude/wiki/hardware.md) and the [third-party fixtures](Claude/wiki/fixtures.md).
+Two V3 units are in use (DMX start addresses 100 and 200) and two more are being built ([assembly notes](docs/wiki/v3-assembly.md)). The PitchControl rig already places them at 300 and 400. See also the [cross-version hardware comparison](docs/wiki/hardware.md) and the [third-party fixtures](docs/wiki/fixtures.md).
 
 ## Folder structure
 
@@ -64,12 +64,11 @@ testing/                    Archived prototypes and experiments
   standalone_esp32/             Deprecated ESP32 prototype (onboard FFT + web UI)
   cases/                        3D print tests for a never-built 19" rack version
 
-Claude/                     Project wiki (Obsidian vault, LLM-maintained)
+docs/                       Project wiki (Obsidian vault, LLM-maintained)
   CLAUDE.md                     Wiki schema and conventions
   wiki/                         Wiki pages
   raw/, images/                 Ingested sources and images
 
-wiki/                       Earlier copy of the wiki (the current one is Claude/)
 ```
 
 ## Quick start (PitchControl)
@@ -78,13 +77,13 @@ macOS: double-click `pitch_control/run.command`. Windows: double-click `pitch_co
 
 ## Wiki
 
-The wiki in `Claude/` is maintained with the help of an LLM, following the [Karpathy llm-wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). Open the folder in [Obsidian](https://obsidian.md/) for graph navigation, or browse the pages directly:
+The wiki in `docs/` is maintained with the help of an LLM, following the [Karpathy llm-wiki pattern](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f). Open the folder in [Obsidian](https://obsidian.md/) for graph navigation, or browse the pages directly:
 
-- [Index](Claude/wiki/index.md): all pages · [Log](Claude/wiki/log.md): chronological activity log
-- [Overview](Claude/wiki/overview.md): project summary and version history
-- [Hardware](Claude/wiki/hardware.md): cross-version comparison, PCBs, case, USB-DMX interfaces
-- [V1](Claude/wiki/v1.md) · [V2](Claude/wiki/v2.md) · [V3](Claude/wiki/v3.md) · [V3 assembly](Claude/wiki/v3-assembly.md): per-version details
-- [PitchControl design](Claude/wiki/port-design.md): architecture, decisions and status of the port
-- [vvvv patch](Claude/wiki/vvvv-patch.md) · [vvvv patch logic](Claude/wiki/vvvv-patch-logic.md): the original control software
-- [Fixtures](Claude/wiki/fixtures.md): third-party DMX fixtures used at events
-- [WiFi bridge](Claude/wiki/wifi-bridge.md): future idea, phone remote control
+- [Index](docs/wiki/index.md): all pages · [Log](docs/wiki/log.md): chronological activity log
+- [Overview](docs/wiki/overview.md): project summary and version history
+- [Hardware](docs/wiki/hardware.md): cross-version comparison, PCBs, case, USB-DMX interfaces
+- [V1](docs/wiki/v1.md) · [V2](docs/wiki/v2.md) · [V3](docs/wiki/v3.md) · [V3 assembly](docs/wiki/v3-assembly.md): per-version details
+- [PitchControl design](docs/wiki/port-design.md): architecture, decisions and status of the port
+- [vvvv patch](docs/wiki/vvvv-patch.md) · [vvvv patch logic](docs/wiki/vvvv-patch-logic.md): the original control software
+- [Fixtures](docs/wiki/fixtures.md): third-party DMX fixtures used at events
+- [WiFi bridge](docs/wiki/wifi-bridge.md): future idea, phone remote control

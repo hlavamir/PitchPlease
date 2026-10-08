@@ -1,6 +1,6 @@
 ---
 date_created: 2026-07-09
-date_modified: 2026-08-24
+date_modified: 2026-10-08
 ---
 
 # PitchPlease — Project Overview
@@ -49,7 +49,8 @@ See [[vvvv-patch]] for details.
 | `vl/` | vvvv gamma patch + shaders + scenes |
 | `testing/standalone_esp32/` | Deprecated v3 prototype (kept for reference) |
 | `testing/cases/` | Obsolete 3D print tests for a never-built 19" rack version (screw holes, connectors, etc.) |
-| `wiki/` | This wiki |
+| `pitch_control/` | PitchControl, the cross-platform port of the vvvv patch (see [[port-design]]) |
+| `docs/` | This wiki |
 
 ## See Also
 

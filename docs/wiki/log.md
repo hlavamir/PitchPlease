@@ -805,3 +805,9 @@ Miro: "reacts to strobo" belongs to the rig only. Fixture types no longer have i
 ## [2026-10-08] build | PitchControl 1.1.0: versioning, About panel, release workflow
 
 Versioning agreed (semantic, from 1.1.0; Claude keeps the numbers and suggests tags, Miro confirms). Single version source in `pitchcontrol/__init__.py`; version label with `git describe` distance in Settings → About, log and API; `pitch_control/CHANGELOG.md`; the GitHub workflow now also runs on `pitchcontrol-v*` tags and creates a draft release with both builds and the changelog section. READMEs: Download sections, release steps, corrected macOS Gatekeeper steps (Open Anyway since macOS 15). Tags created locally: `pitchcontrol-v1.0.0` (first port, 8b7e5d6) and `pitchcontrol-v1.1.0`. Recorded in [[port-design]] (Versions and Releases).
+
+---
+
+## [2026-10-08] build | PitchControl: UI scale shortcuts, context footer
+
+⌘ / Ctrl + (or =) / − / 0 change the UI scale (5 % steps, saved). The footer now follows the control under the mouse, or the keyboard selection after navigation keys, and shows that control's keys plus a short tooltip; controls declare `data-hint` / `data-tip`, grid items `hint` / `tip` (`frontend/src/hints.ts`, which also holds the macro descriptions, taken from the wiki and the engine code). Native `title` tooltips on faders were dropped in favour of the footer. Listed under Unreleased in `pitch_control/CHANGELOG.md`.

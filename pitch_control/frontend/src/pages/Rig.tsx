@@ -18,6 +18,7 @@ const NEW_FIXTURE: FixtureInstance = {
   position: [0.5, 0.5],
   rotation: 0,
   length: 0,
+  react_to_strobo: false,
   real_strobo: false,
   channel_values: {},
   hue_source: 'group',
@@ -361,6 +362,13 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
                     ))}
                   </select>
                 </Row>
+                <Row label="Reacts to strobo" hint="Whether the fixture flashes on strobo peaks">
+                  <Toggle
+                    checked={same((f) => f.react_to_strobo) === true}
+                    mixed={same((f) => f.react_to_strobo) === MIXED}
+                    onChange={(v) => edit((f) => (f.react_to_strobo = v))}
+                  />
+                </Row>
                 {fxs.every((f) => typeOf(f)?.channels.some((c) => c.shutter)) && (
                   <Row label="Real strobo" hint="Use the fixture's own shutter channel on strobo peaks">
                     <Toggle
@@ -456,20 +464,9 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
                   />
                 ),
               })}
-              {overrideRow<boolean>({
-                label: 'Reacts to strobo',
-                hint: 'Whether the fixture flashes on strobo peaks',
-                get: (f) => f.react_to_strobo,
-                set: (f, v) => (f.react_to_strobo = v),
-                def: (f) => typeOf(f)?.react_to_strobo ?? false,
-                show: (v) => (v ? 'yes' : 'no'),
-                input: (value, disabled, editEach) => (
-                  <Toggle checked={value === true} mixed={value === null} disabled={disabled} onChange={(v) => editEach(() => v)} />
-                ),
-              })}
               {overrideRow<HSB>({
-                label: 'Strobo colour',
-                hint: 'Colour of the strobo flash: hue, saturation, brightness (0–1)',
+                label: 'Strobo colour (HSB)',
+                hint: 'Colour of the strobo flash: hue, saturation, brightness, each 0–1',
                 get: (f) => f.strobo_color,
                 set: (f, v) => (f.strobo_color = v),
                 def: (f) => typeOf(f)?.strobo_color ?? WHITE,

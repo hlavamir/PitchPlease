@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, channelCount, slotKind, type ChannelSlot, type FixtureType, type HSB, type MacroDef, type PixelFormat } from '../api'
 import { hsvCss } from '../components/MacroControl'
-import { Button, NumberInput, Row, Section, Toggle } from '../components/forms'
+import { Button, NumberInput, Row, Section } from '../components/forms'
 import { OPEN_TYPE_KEY } from './Rig'
 
 type Kind = ReturnType<typeof slotKind>
@@ -294,10 +294,7 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
             >
               <NumberInput value={t.gamma} min={0.1} max={5} className="w-20 shrink" onChange={(v) => edit((x) => (x.gamma = v))} />
             </Row>
-            <Row label="Reacts to strobo" hint="Whether fixtures of this type flash on strobo peaks (a rig fixture can override it)">
-              <Toggle checked={t.react_to_strobo} onChange={(v) => edit((x) => (x.react_to_strobo = v))} />
-            </Row>
-            <Row label="Strobo colour" hint="Colour of the strobo flash: hue, saturation, brightness (0–1)">
+            <Row label="Strobo colour (HSB)" hint="Colour of the strobo flash: hue, saturation, brightness, each 0–1 (a rig fixture can override it)">
               {hsb(t.strobo_color)}
             </Row>
             <Row label="Used in">

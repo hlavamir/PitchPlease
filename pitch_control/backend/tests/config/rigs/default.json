@@ -1,0 +1,462 @@
+{
+  "name": "default",
+  "description": "Test fixture: the rig as of 2026-10-08 (old type names, plain override values), kept fixed so tests do not depend on the shipped config.",
+  "fixtures": [
+    {
+      "name": "PitchPls! v3 #1",
+      "type": "pitchpls_v3",
+      "enabled": true,
+      "group": "A",
+      "universe": 0,
+      "address": 100,
+      "position": [
+        0.2,
+        0.5
+      ],
+      "rotation": 270.0,
+      "length": 0.6,
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 01",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    },
+    {
+      "name": "PitchPls! v3 #2",
+      "type": "pitchpls_v3",
+      "enabled": true,
+      "group": "A",
+      "universe": 0,
+      "address": 200,
+      "position": [
+        0.4,
+        0.5
+      ],
+      "rotation": 270.0,
+      "length": 0.6,
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 01",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    },
+    {
+      "name": "PitchPls! v3 #3",
+      "type": "pitchpls_v3",
+      "enabled": true,
+      "group": "A",
+      "universe": 0,
+      "address": 300,
+      "position": [
+        0.6,
+        0.5
+      ],
+      "rotation": 270.0,
+      "length": 0.6,
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 01",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    },
+    {
+      "name": "PitchPls! v3 #4",
+      "type": "pitchpls_v3",
+      "enabled": true,
+      "group": "A",
+      "universe": 0,
+      "address": 400,
+      "position": [
+        0.8,
+        0.5
+      ],
+      "rotation": 270.0,
+      "length": 0.6,
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 01",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    },
+    {
+      "name": "PitchPls! v2 strip 1",
+      "type": "pitchpls_v2",
+      "enabled": false,
+      "group": "A",
+      "universe": 0,
+      "address": 1,
+      "position": [
+        0.1,
+        0.8
+      ],
+      "rotation": 270.0,
+      "length": 0.333,
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 02",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    },
+    {
+      "name": "PitchPls! v2 strip 2",
+      "type": "pitchpls_v2",
+      "enabled": false,
+      "group": "A",
+      "universe": 0,
+      "address": 1,
+      "position": [
+        0.3,
+        0.8
+      ],
+      "rotation": 270.0,
+      "length": 0.333,
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 02",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    },
+    {
+      "name": "PitchPls! v2 strip 3",
+      "type": "pitchpls_v2",
+      "enabled": false,
+      "group": "A",
+      "universe": 0,
+      "address": 1,
+      "position": [
+        0.7,
+        0.8
+      ],
+      "rotation": 270.0,
+      "length": 0.333,
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 02",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    },
+    {
+      "name": "PitchPls! v2 strip 4",
+      "type": "pitchpls_v2",
+      "enabled": false,
+      "group": "A",
+      "universe": 0,
+      "address": 1,
+      "position": [
+        0.9,
+        0.8
+      ],
+      "rotation": 270.0,
+      "length": 0.333,
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 02",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    },
+    {
+      "name": "Pinspot 1",
+      "type": "cameo_qspot15_rgbw",
+      "enabled": true,
+      "group": "B",
+      "universe": 0,
+      "address": 6,
+      "position": [
+        0.5,
+        0.8
+      ],
+      "rotation": 0.0,
+      "length": 0.0,
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 03",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.666,
+        "max": 0.0,
+        "curve": -3.0,
+        "macro": "Invert Discoball"
+      }
+    },
+    {
+      "name": "Pinspot 2",
+      "type": "cameo_qspot15_rgbw",
+      "enabled": true,
+      "group": "B",
+      "universe": 0,
+      "address": 10,
+      "position": [
+        0.5,
+        0.2
+      ],
+      "rotation": 0.0,
+      "length": 0.0,
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 03",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.666,
+        "max": 0.0,
+        "curve": -3.0,
+        "macro": "Invert Discoball"
+      }
+    },
+    {
+      "name": "Back panel",
+      "type": "rgb_panel",
+      "enabled": true,
+      "group": "B",
+      "universe": 0,
+      "address": 30,
+      "position": [
+        0.5,
+        0.1
+      ],
+      "rotation": 0.0,
+      "length": 0.0,
+      "strobo_color": {
+        "h": 0.67,
+        "s": 0.2,
+        "b": 1.0
+      },
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 05",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    },
+    {
+      "name": "Panel DJ 1",
+      "type": "rgb_panel",
+      "enabled": true,
+      "group": "B",
+      "universe": 0,
+      "address": 14,
+      "position": [
+        0.2,
+        0.9
+      ],
+      "rotation": 0.0,
+      "length": 0.0,
+      "gamma": 2.0,
+      "react_to_strobo": true,
+      "strobo_color": {
+        "h": 0.75,
+        "s": 0.0,
+        "b": 1.0
+      },
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 04",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    },
+    {
+      "name": "Panel DJ 2",
+      "type": "rgb_panel",
+      "enabled": true,
+      "group": "B",
+      "universe": 0,
+      "address": 18,
+      "position": [
+        0.5,
+        0.9
+      ],
+      "rotation": 0.0,
+      "length": 0.0,
+      "gamma": 2.0,
+      "react_to_strobo": true,
+      "strobo_color": {
+        "h": 0.75,
+        "s": 0.0,
+        "b": 1.0
+      },
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 04",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    },
+    {
+      "name": "Panel DJ 3",
+      "type": "rgb_panel",
+      "enabled": true,
+      "group": "B",
+      "universe": 0,
+      "address": 22,
+      "position": [
+        0.8,
+        0.9
+      ],
+      "rotation": 0.0,
+      "length": 0.0,
+      "gamma": 2.0,
+      "react_to_strobo": true,
+      "strobo_color": {
+        "h": 0.75,
+        "s": 0.0,
+        "b": 1.0
+      },
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 04",
+      "hue_source": "group",
+      "hue": 0.0,
+      "saturation_source": "group",
+      "saturation": 1.0,
+      "brightness_source": "pipeline",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    },
+    {
+      "name": "Chillout zone",
+      "type": "rgb_panel",
+      "enabled": true,
+      "group": "A",
+      "universe": 0,
+      "address": 40,
+      "position": [
+        0.5,
+        0.5
+      ],
+      "rotation": 0.0,
+      "length": 0.0,
+      "real_strobo": false,
+      "channel_values": {},
+      "dimmer_macro": "Dimmer 06",
+      "hue_source": "A",
+      "hue": 0.0,
+      "saturation_source": "A",
+      "saturation": 1.0,
+      "brightness_source": "const",
+      "brightness": 1.0,
+      "idle_mask_range": {
+        "min": 0.0,
+        "max": 1.0,
+        "curve": 0.0
+      }
+    }
+  ],
+  "dimmer_names": {
+    "Dimmer 01": "PitchPls! v3",
+    "Dimmer 02": "PitchPls! v2",
+    "Dimmer 03": "Pinspots",
+    "Dimmer 04": "Panels DJ",
+    "Dimmer 05": "Panel Entrance",
+    "Dimmer 06": "Chillout Zone"
+  }
+}

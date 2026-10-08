@@ -1,0 +1,17 @@
+{
+  "description": "Cameo Q-Spot 15 RGBW pinspot in 4-channel mode (R, G, B, W).",
+  "transport": "dmx",
+  "pixels": 1,
+  "channels": [
+    {
+      "pixels": "RGBW"
+    }
+  ],
+  "gamma": 1.0,
+  "strobo_color": {
+    "h": 0.666,
+    "s": 0.15,
+    "b": 1.0
+  },
+  "_note": "4-channel mode confirmed 2026-10-05. Hardware strobe would need the 9-channel mode (see wiki port-design, Future: Hardware Strobe)."
+}

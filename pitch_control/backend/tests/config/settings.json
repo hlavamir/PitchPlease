@@ -1,7 +1,7 @@
 {
   "fps": 40.0,
   "preview_fps": 15.0,
-  "active_rig": "Default",
+  "active_rig": "default",
   "active_controller": "lcxl3",
   "midi_settle_s": 0.4,
   "audio": {
@@ -27,14 +27,8 @@
   },
   "outputs": {
     "enttec": {
-      "enabled": true,
-      "device": {
-        "serial_number": "ENP4G7UV",
-        "vid": 1027,
-        "pid": 24577,
-        "description": "FT245R USB FIFO",
-        "port": "/dev/cu.usbserial-ENP4G7UV"
-      },
+      "enabled": false,
+      "device": {},
       "universe": 0
     },
     "artnet": {

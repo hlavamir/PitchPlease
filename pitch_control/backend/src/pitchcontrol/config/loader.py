@@ -139,8 +139,17 @@ class ConfigStore:
         rig = load_model(self.rigs_dir / f"{name}.json", Rig, name=name)
         self.rig = rig or Rig(name=name)
         self.rig.name = name  # the file name is the rig name
+        self.fill_legacy_react_to_strobo(self.rig)
         self.validate_rig()
         log.info("loaded rig '%s' with %d fixtures", self.rig.name, len(self.rig.fixtures))
+
+    def fill_legacy_react_to_strobo(self, rig: Rig) -> None:
+        """Rigs from before 2026-10-08 left react_to_strobo to the fixture type: take it from there
+        (old type files still carry it), so the show looks the same; the next save writes it."""
+        for fx in rig.fixtures:
+            if "react_to_strobo" not in fx.model_fields_set:
+                ftype = self.fixture_types.get(fx.type)
+                fx.react_to_strobo = bool(ftype and ftype.legacy_react_to_strobo)
 
     def validate_rig(self) -> list[str]:
         """Log problems in the rig: unknown types and overlapping DMX ranges."""

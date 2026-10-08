@@ -53,7 +53,7 @@ class Fixture:
 
     @property
     def react_to_strobo(self) -> bool:
-        return self.inst.override("react_to_strobo", self.ftype.react_to_strobo)
+        return self.inst.react_to_strobo
 
     @property
     def gamma(self) -> float:

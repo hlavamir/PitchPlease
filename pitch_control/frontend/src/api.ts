@@ -160,9 +160,9 @@ export interface FixtureInstance {
   pixel_positions?: [number, number][] | null
   // overrides of fixture-type values; switched off, the type's value applies but the value is kept
   gamma?: Override<number> | null
-  react_to_strobo?: Override<boolean> | null
   strobo_color?: Override<HSB> | null
   channel_values: Record<string, Override<number>> // constant channels by name
+  react_to_strobo: boolean // flash on strobo peaks (a rig setting)
   real_strobo: boolean // use the type's shutter channel on peaks
   dimmer_macro?: string | null
   hue_source: 'group' | 'A' | 'B' | 'const'
@@ -205,7 +205,6 @@ export interface FixtureType {
   pixels: number
   channels: ChannelSlot[]
   gamma: number // device curve per channel; 1 = values sent unchanged
-  react_to_strobo: boolean
   strobo_color: HSB
   [key: string]: unknown
 }

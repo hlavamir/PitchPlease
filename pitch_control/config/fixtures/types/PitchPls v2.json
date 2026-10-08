@@ -1,0 +1,17 @@
+{
+  "description": "PitchPlease v2.2 (Arduino R4, 4 x WS2811 strips over USB serial at 921600 baud). 19 values per strip, mirrored to 38 LEDs by the firmware. Sent on the v2 serial output, not DMX.",
+  "transport": "pitchpls_v2",
+  "pixels": 19,
+  "channels": [
+    {
+      "pixels": "RGB"
+    }
+  ],
+  "gamma": 1.0,
+  "strobo_color": {
+    "h": 0.0,
+    "s": 0.0,
+    "b": 1.0
+  },
+  "_note": "Sent as perceptual values; the v2.2 firmware decodes them with gamma 2.2 (firmware since 2026-10-08; older firmware shows them without a curve). vvvv set gamma 2.2 on these but sent them with 'Apply Gamma = False'."
+}

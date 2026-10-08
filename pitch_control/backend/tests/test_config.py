@@ -74,10 +74,8 @@ def test_overrides_keep_their_value_when_switched_off():
     from pitchcontrol.config.models import FixtureInstance
 
     # old plain values become enabled overrides
-    f = FixtureInstance.model_validate({"gamma": 2.0, "react_to_strobo": True, "strobo_color": {"h": 0.5, "s": 1, "b": 1},
-                                        "channel_values": {"mode": 2}})
+    f = FixtureInstance.model_validate({"gamma": 2.0, "strobo_color": {"h": 0.5, "s": 1, "b": 1}, "channel_values": {"mode": 2}})
     assert f.gamma.enabled and f.override("gamma", 1.0) == 2.0
-    assert f.override("react_to_strobo", False) is True
     assert f.override("strobo_color", None).h == 0.5
     assert f.channel_value("mode", 0) == 2
     # switched off: the type's value applies, the override value stays
@@ -95,3 +93,44 @@ def test_pixel_override_is_dropped(caplog):
         f = FixtureInstance.model_validate({"name": "x", "pixels": 12})
     assert "pixels" not in f.model_dump()
     assert "pixel count is no longer supported" in caplog.text
+
+
+def test_react_to_strobo_is_a_rig_setting(config_dir):
+    import json
+
+    from pitchcontrol.config.models import FixtureInstance, FixtureType
+
+    # old type files: the value is kept aside, not written back
+    t = FixtureType.model_validate({"react_to_strobo": True})
+    assert t.legacy_react_to_strobo is True and "react_to_strobo" not in t.model_dump() and "legacy_react_to_strobo" not in t.model_dump()
+    # old overrides: enabled -> the value, switched off -> unset (filled in from the type on load)
+    assert FixtureInstance.model_validate({"react_to_strobo": {"enabled": True, "value": True}}).react_to_strobo is True
+    assert "react_to_strobo" not in FixtureInstance.model_validate({"react_to_strobo": {"enabled": False, "value": True}}).model_fields_set
+    assert FixtureInstance.model_validate({"react_to_strobo": True}).react_to_strobo is True
+
+    # an old rig takes the old type value for fixtures that don't set it
+    types = config_dir / "fixtures" / "types"
+    (types / "flasher.json").write_text(json.dumps({"pixels": 1, "react_to_strobo": True}))
+    rig = {"fixtures": [{"name": "a", "type": "flasher"}, {"name": "b", "type": "flasher", "react_to_strobo": False}]}
+    (config_dir / "rigs" / "old.json").write_text(json.dumps(rig))
+    store = ConfigStore(config_dir)
+    store.load_all()
+    store.load_rig("old")
+    assert [f.react_to_strobo for f in store.rig.fixtures] == [True, False]
+
+
+def test_shipped_config_loads(tmp_path):
+    """The config in the repo (what a downloaded app starts with) loads cleanly: every rig fixture
+    has its type and no DMX ranges overlap."""
+    import shutil
+
+    from conftest import SHIPPED_CONFIG
+
+    dst = tmp_path / "shipped"
+    shutil.copytree(SHIPPED_CONFIG, dst, ignore=shutil.ignore_patterns("state"))
+    store = ConfigStore(dst)
+    store.load_all()
+    for rig in store.list_names(store.rigs_dir):
+        store.load_rig(rig)
+        assert store.rig.fixtures, f"rig {rig} is empty"
+        assert store.validate_rig() == [], f"rig {rig}: {store.validate_rig()}"

@@ -5,7 +5,11 @@ import pytest
 
 from pitchcontrol.config.loader import ConfigStore
 
-CONFIG = Path(__file__).resolve().parents[2] / "config"
+# A fixed copy of the config (as of 2026-10-08) instead of the shipped pitch_control/config, which
+# Miro edits in the app (renamed types and rigs broke name-based tests before). The shipped config
+# is checked on its own in test_shipped_config_loads.
+CONFIG = Path(__file__).resolve().parent / "config"
+SHIPPED_CONFIG = Path(__file__).resolve().parents[2] / "config"
 
 
 @pytest.fixture

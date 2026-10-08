@@ -102,13 +102,20 @@ class FixtureType(Model):
     # decode themselves (PitchPlease v2 / v3 firmware apply 2.2). Must be > 0 (an invalid value falls
     # back to 1 with a warning).
     gamma: float = 1.0
-    react_to_strobo: bool = False
     strobo_color: HSB = Field(default_factory=lambda: HSB(h=0, s=0, b=1))
+    # Whether a fixture flashes on strobo peaks is a rig setting (FixtureInstance.react_to_strobo).
+    # Type files written before 2026-10-08 still say it; that value only fills in rig fixtures that
+    # don't set it themselves (ConfigStore.load_rig), and is not written back.
+    legacy_react_to_strobo: bool | None = Field(default=None, exclude=True)
 
     @model_validator(mode="before")
     @classmethod
-    def _legacy_gamma(cls, data):
-        return _merge_legacy_gamma(data, f"fixture type {data.get('name', '') if isinstance(data, dict) else ''}".strip())
+    def _legacy(cls, data):
+        data = _merge_legacy_gamma(data, f"fixture type {data.get('name', '') if isinstance(data, dict) else ''}".strip())
+        if isinstance(data, dict) and "react_to_strobo" in data:
+            data = dict(data)
+            data["legacy_react_to_strobo"] = data.pop("react_to_strobo")
+        return data
 
     @field_validator("gamma", mode="before")
     @classmethod
@@ -139,7 +146,7 @@ class Override(Model, Generic[T]):
     value: T
 
 
-OVERRIDABLE = ("gamma", "react_to_strobo", "strobo_color")
+OVERRIDABLE = ("gamma", "strobo_color")
 
 
 def _wrap_plain_overrides(data, where: str):
@@ -195,9 +202,9 @@ class FixtureInstance(Model):
 
     # overrides of fixture-type values (None = never overridden; switched off = type's value)
     gamma: Override[float] | None = None  # > 0
-    react_to_strobo: Override[bool] | None = None
     strobo_color: Override[HSB] | None = None
     channel_values: dict[str, Override[int]] = Field(default_factory=dict)  # constant channels by name
+    react_to_strobo: bool = False  # flash on strobo peaks (a rig setting)
     real_strobo: bool = False  # use the type's shutter channel on peaks (only for types with one)
 
     dimmer_macro: str | None = None
@@ -206,7 +213,18 @@ class FixtureInstance(Model):
     @classmethod
     def _legacy(cls, data):
         where = f"fixture {data.get('name', '') if isinstance(data, dict) else ''}".strip()
-        return _wrap_plain_overrides(_merge_legacy_gamma(data, where), where)
+        data = _wrap_plain_overrides(_merge_legacy_gamma(data, where), where)
+        # react_to_strobo used to be a type value with a per-fixture override: an enabled override
+        # becomes the fixture's value; a switched-off or missing one is left unset, so load_rig
+        # fills it in from the old type value
+        v = data.get("react_to_strobo") if isinstance(data, dict) else None
+        if isinstance(v, dict):
+            data = dict(data)
+            if v.get("enabled", True):
+                data["react_to_strobo"] = v.get("value")
+            else:
+                data.pop("react_to_strobo")
+        return data
 
     @field_validator("gamma", mode="after")
     @classmethod

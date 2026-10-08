@@ -34,7 +34,7 @@ The page for playing the show:
 
 The fixture types: everything shared by all fixtures of one model, one JSON file each in `config/fixtures/types/`.
 - **Fixture types:** the list, with New, Duplicate, Rename and Delete. Renaming updates every rig that uses the type; a type that a rig uses can't be deleted.
-- **Type editor:** description, output (DMX or the PitchPlease v2 serial protocol), pixel count, gamma, whether it reacts to strobo, and its strobo colour. Below that is the channel layout in DMX order. Each channel is a constant (e.g. master = 255), a macro (e.g. a strip dimmer following "Dimmer 01"), a shutter (open / strobe values) or the pixel block (R, RGB or RGBW). ↑ ↓ ✕ reorder and remove channels.
+- **Type editor:** description, output (DMX or the PitchPlease v2 serial protocol), pixel count, gamma and the strobo colour (HSB). Below that is the channel layout in DMX order. Each channel is a constant (e.g. master = 255), a macro (e.g. a strip dimmer following "Dimmer 01"), a shutter (open / strobe values) or the pixel block (R, RGB or RGBW). ↑ ↓ ✕ reorder and remove channels.
 - **Channel map:** the resulting DMX channels with their numbers, the total, and how many fixtures of the type fit one universe.
 
 Edits apply to the lights right away and mark the type unsaved; Save writes the file, Revert reloads it.
@@ -46,8 +46,8 @@ Edits apply to the lights right away and mark the type unsaved; Save writes the 
 The rig: the fixtures of one event and everything that differs per fixture.
 - **Rig:** load, save, revert, rename, duplicate, create or delete rig files, and edit the description. Unsaved changes are flagged, and loading another rig asks first.
 - **Fixtures:** the list of fixtures with Add / Duplicate / Remove. Shift + click selects several to edit them together.
-- **Fixture editor:** name, type (with a summary and an "edit type" link), group, DMX universe and address, placement (position, rotation, length), dimmer, colour sources and idle remap. Number fields step with ↑ / ↓ or a right-mouse drag.
-- **Fixture type values:** gamma, reacts to strobo, strobo colour and the named constant channels can be overridden per fixture. The checkbox switches an override on. Switched off, the field is greyed out but keeps its value, so switching it on again restores it; "default" shows the type's value, and ↺ goes back to it.
+- **Fixture editor:** name, type (with a summary and an "edit type" link), group, DMX universe and address, placement (position, rotation, length), dimmer, whether it reacts to strobo, colour sources and idle remap. Number fields step with ↑ / ↓ or a right-mouse drag.
+- **Fixture type values:** gamma, the strobo colour and the named constant channels can be overridden per fixture. The checkbox switches an override on. Switched off, the field is greyed out but keeps its value, so switching it on again restores it; "default" shows the type's value, and ↺ goes back to it.
 - **Placement:** the selected fixtures highlighted in the scene preview, their live output colours and, with "show channel values", a table of the DMX channels they write.
 
 ### 5 · Inputs

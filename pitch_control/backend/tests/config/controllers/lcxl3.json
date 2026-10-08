@@ -1,0 +1,142 @@
+{
+  "name": "Novation Launch Control XL 3",
+  "port_match": "LCXL3",
+  "channel": 13,
+  "_note": "MIDI channel 13 (1-based; vvvv shows the 0-based index 12). As in vvvv, knob row 3 (CC 29-36) and the faders (CC 5-12) drive the 16 faders of the active page, in the same order as on screen; the first knob of row 1 (CC 13) switches pages (turn up = next, down = previous). Button rows (CC 37-52) and the shift layer are not mapped yet.",
+  "mappings": [],
+  "pages": {
+    "general": [
+      {
+        "cc": 29,
+        "macro": "Strobo Decay"
+      },
+      {
+        "cc": 30,
+        "macro": "Idle Attack"
+      },
+      {
+        "cc": 31,
+        "macro": "Shader Speed"
+      },
+      {
+        "cc": 32,
+        "macro": "Shader Param"
+      },
+      {
+        "cc": 33,
+        "macro": "Hue A"
+      },
+      {
+        "cc": 34,
+        "macro": "Saturation A"
+      },
+      {
+        "cc": 35,
+        "macro": "Hue B"
+      },
+      {
+        "cc": 36,
+        "macro": "Saturation B"
+      },
+      {
+        "cc": 5,
+        "macro": "Audio Reactivity"
+      },
+      {
+        "cc": 6,
+        "macro": "Strobo"
+      },
+      {
+        "cc": 7,
+        "macro": "Strobo Brightness"
+      },
+      {
+        "cc": 8,
+        "macro": "Idle Brightness"
+      },
+      {
+        "cc": 9,
+        "macro": "Strobo Bright. A"
+      },
+      {
+        "cc": 10,
+        "macro": "Idle Bright. A"
+      },
+      {
+        "cc": 11,
+        "macro": "Strobo Bright. B"
+      },
+      {
+        "cc": 12,
+        "macro": "Idle Bright. B"
+      }
+    ],
+    "dimmers": [
+      {
+        "cc": 29,
+        "macro": "Dimmer 01"
+      },
+      {
+        "cc": 30,
+        "macro": "Dimmer 02"
+      },
+      {
+        "cc": 31,
+        "macro": "Dimmer 03"
+      },
+      {
+        "cc": 32,
+        "macro": "Dimmer 04"
+      },
+      {
+        "cc": 33,
+        "macro": "Dimmer 05"
+      },
+      {
+        "cc": 34,
+        "macro": "Dimmer 06"
+      },
+      {
+        "cc": 35,
+        "macro": "Dimmer 07"
+      },
+      {
+        "cc": 36,
+        "macro": "Dimmer 08"
+      },
+      {
+        "cc": 5,
+        "macro": "Dimmer 09"
+      },
+      {
+        "cc": 6,
+        "macro": "Dimmer 10"
+      },
+      {
+        "cc": 7,
+        "macro": "Dimmer 11"
+      },
+      {
+        "cc": 8,
+        "macro": "Dimmer 12"
+      },
+      {
+        "cc": 9,
+        "macro": "Dimmer 13"
+      },
+      {
+        "cc": 10,
+        "macro": "Dimmer 14"
+      },
+      {
+        "cc": 11,
+        "macro": "Dimmer 15"
+      },
+      {
+        "cc": 12,
+        "macro": "Dimmer 16"
+      }
+    ]
+  },
+  "page_knob": 13
+}

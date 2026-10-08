@@ -1,11 +1,75 @@
 # PitchControl
 
 Audio-reactive light control for PitchPlease, a cross-platform (macOS / Windows) port of the vvvv gamma patch in `../vl/`.
-The design and the reverse-engineered vvvv logic are documented in the wiki: `docs/wiki/port-design.md` and `docs/wiki/vvvv-patch-logic.md`.
+The design and the reverse-engineered vvvv logic are documented in the wiki: [PitchControl design](../docs/wiki/port-design.md) and [vvvv patch logic](../docs/wiki/vvvv-patch-logic.md).
 
 - **Backend** (`backend/`, Python): the engine, which runs at 40 FPS in its own thread and owns audio, MIDI and all outputs. It keeps running if the browser is closed.
 - **Frontend** (`frontend/`, Vite + React + TypeScript + Tailwind): the pages General, Dimmers, Fixtures, Inputs, Outputs, Fog, Settings and Control Desk. It talks to the backend over HTTP and a WebSocket.
 - **Config** (`config/`): plain JSON, edited from the UI or by hand.
+
+## Pages
+
+Keys 1–8 switch between the pages. Everything can be operated from the keyboard (see [Using the UI](#using-the-ui)). The screenshots were taken at the 1512 × 915 design size with amber ink, without hardware connected (so audio, MIDI and the Enttec show as off), with a synthetic techno loop feeding the audio analysis.
+
+### 1 · General
+
+![General page](screenshots/general.png)
+
+The page for playing the show:
+- **Macros:** 16 faders for strobo decay, idle attack, shader speed and parameter, the two group colours (hue / saturation), audio reactivity and the strobo / idle brightness of each group. They map to the Launch Control XL's knob row 3 and faders.
+- **Functions and shader presets:** manual strobo, fog, invert discoball, vertical symmetry, auto colour, swap colours, and the four mask presets Gradient, Back & Forth, Rotating Line and Noise.
+- **Scenes:** the 8 scenes. ⏎ loads one, Shift + ⏎ (or save mode) stores the current macros into it.
+- **Scene:** a live preview of the mask with every fixture pixel in the colour it is sending. Below it, the phase bar: strobo drains it after each peak, idle fills it back. Then the final colours of groups A and B.
+- **Audio:** the 32 frequency bands with the peaks map that triggers the strobo.
+
+### 2 · Dimmers
+
+![Dimmers page](screenshots/dimmers.png)
+
+16 dimmer faders, one per group of lights; the Launch Control XL's page knob switches its faders between General and Dimmers. Each fixture picks its dimmer on the Fixtures page. A dimmer that no fixture uses is disabled (hatched, "no fixtures") and ignores MIDI. Double-click a name to rename it; Enter confirms, Esc cancels. The names are saved with the rig.
+
+### 3 · Fixtures
+
+![Fixtures page](screenshots/fixtures.png)
+
+Editing the rig, the lights of one event:
+- **Rig:** load, save, revert, rename, duplicate, create or delete rig files, and edit the description. Unsaved changes are flagged, and loading another rig asks first.
+- **Fixtures:** the list of lights with Add / Duplicate / Remove. Shift + click selects several to edit them together.
+- **Fixture editor:** type, group, DMX universe and address, placement (position, rotation, length), dimmer, gamma, colour sources and idle remap. Number fields step with ↑ / ↓ or a right-mouse drag.
+- **Placement:** the selected fixtures highlighted in the scene preview, their live output colours and, with "show channel values", a table of the DMX channels they write.
+
+### 4 · Inputs
+
+![Inputs page](screenshots/inputs.png)
+
+- **Audio input:** device, input channels and gain, with the 32-band meter. The dotted line shows how strongly each band counts towards the strobo trigger.
+- **MIDI controller:** controller mapping and port, and a monitor of the last received messages, showing which macro each one moved or why it was ignored.
+
+### 5 · Outputs
+
+![Outputs page](screenshots/outputs.png)
+
+The Enttec DMX USB Pro (device and universe), Art-Net targets (universe → IP), and the PitchPlease V2 serial output (device, baud rate, mirror mode). Live output on the right shows what every fixture sends: pixel colours and, with "show channel values", the channel table.
+
+### 6 · Fog
+
+![Fog page](screenshots/fog.png)
+
+One panel per fog machine: DMX universe and channel, on / off values, a timer ("every … for … seconds"), and whether the Fog button on the General page (or the controller) fires it by hand. The header shows when it is fogging.
+
+### 7 · Settings
+
+![Settings page](screenshots/settings.png)
+
+- **Appearance:** ink colour (grey, amber, phosphor), glow, UI brightness for a dark booth, UI scale (with "Fit window" for small screens) and the key-hint footer. All of it is saved and restored next session.
+- **Keyboard:** the complete keyboard reference.
+- **App** (desktop app only): open the UI in a browser, open the data folder, start in full screen.
+
+### 8 · Control Desk
+
+![Control Desk page](screenshots/control-desk.png)
+
+Every DMX output channel as a slider: pick a universe (0–3) and a subpage of 64 channels (Q / E step through them). The faint bar is what the channel sends now, and the footer names the fixture using it. Dragging a channel, or switching it on, overrides it with the slider value; the switch releases it. Overrides survive restarts. While any are active, the header shows "N overrides", and "Reset all" releases them all after a confirmation.
 
 ## Run
 
@@ -43,7 +107,7 @@ Tests: `cd backend && .venv/bin/python -m pytest`.
 - **Windows:** `packaging\build_windows.bat` produces `dist\PitchControl\PitchControl.exe` and a zip.
 - **Both, on GitHub:** Actions → "PitchControl app" → Run workflow (`.github/workflows/pitchcontrol-app.yml`), then download the zips from the run.
 
-The app shows the UI in its own window. "Open in browser" and "Data folder" are in the header. Closing the window stops the engine.
+The app shows the UI in its own window. "Open in browser" and "Open data folder" are in Settings → App. Closing the window stops the engine.
 
 **Data folder:** the app works directly on the repo's `pitch_control/config/`, so rigs, fixture types, settings and scenes edited in the app can be committed. Logs go to `pitch_control/logs/` and the macro autosave to `config/state/`; both are gitignored. The build records where the repo is on the build machine. The folder is chosen in this order:
 

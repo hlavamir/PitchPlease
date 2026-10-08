@@ -79,7 +79,7 @@ export function Inputs({ engine }: { engine: EngineConnection }) {
         <div className="mt-3">
           <div className="mb-1 flex justify-between text-[11px] text-dim">
             <span>{bands ? `${bands.edges[0]} Hz` : ''}</span>
-            <span>32 bands · blue line = strobo trigger weight</span>
+            <span>32 bands · dotted line = strobo trigger weight</span>
             <span>{bands ? `${bands.edges[bands.edges.length - 1]} Hz` : ''}</span>
           </div>
           <BandMeter bands={engine.state?.bands ?? []} peaks={engine.state?.band_peaks} weights={bands?.trigger_weights} height={100} />

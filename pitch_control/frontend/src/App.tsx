@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { api, type MacroDef, type Settings as SettingsData } from './api'
 import { StatusDot } from './components/forms'
+import { HINT_KEYS, MOD, hintAt, type HintKind } from './hints'
 import { Dimmers } from './pages/Dimmers'
 import { Fixtures } from './pages/Fixtures'
 import { Fog } from './pages/Fog'
@@ -32,6 +33,7 @@ const KEYS: [string, string][] = [
   ['ESC', 'cancel'],
   ['1–9', 'page'],
   ['F', 'full screen'],
+  [`${MOD} + −`, 'UI scale'],
 ]
 
 /** The 3×3 pixel mark next to the wordmark. */
@@ -54,6 +56,11 @@ export default function App() {
   const [fullscreen, setFullscreen] = useState<{ supported: boolean; on: boolean }>({ supported: false, on: false })
   const [ui, setUi] = useState<UiSettings>(DEFAULT_UI)
   const [footer, setFooter] = useState<FooterSelection | null>(null)
+  // footer context: the control under the mouse, or the keyboard selection, whichever was used last
+  const [hover, setHover] = useState<{ kind: HintKind; tip?: string } | null>(null)
+  const [inputMode, setInputMode] = useState<'mouse' | 'keys'>('mouse')
+  const uiRef = useRef(ui)
+  uiRef.current = ui
 
   useEffect(() => {
     api.get<MacroDef[]>('/api/macros/defs').then((list) => setDefs(Object.fromEntries(list.map((d) => [d.name, d]))))
@@ -87,6 +94,53 @@ export default function App() {
   const toggleFullscreen = useCallback(async () => {
     const res = await api.post<{ fullscreen: boolean }>('/api/fullscreen').catch(() => null)
     if (res) setFullscreen((f) => ({ ...f, on: res.fullscreen }))
+  }, [])
+
+  // ⌘ (macOS) / Ctrl (Windows) with + or = (same key without Shift), − and 0: UI scale, like a
+  // browser's zoom; saved like the Settings slider. Works while typing too (it needs the modifier).
+  const saveTimer = useRef<number | undefined>(undefined)
+  useEffect(() => {
+    const mac = navigator.userAgent.includes('Mac')
+    const onKey = (e: KeyboardEvent) => {
+      if (!(mac ? e.metaKey : e.ctrlKey) || e.altKey) return
+      let scale: number
+      const cur = uiRef.current.scale
+      if (e.key === '+' || e.key === '=' || e.code === 'NumpadAdd') scale = Math.round(cur * 20 + 1) / 20
+      else if (e.key === '-' || e.key === '_' || e.code === 'NumpadSubtract') scale = Math.round(cur * 20 - 1) / 20
+      else if (e.key === '0' || e.code === 'Numpad0') scale = 1
+      else return
+      e.preventDefault()
+      const next = { ...uiRef.current, scale: clampScale(scale) }
+      setUi(next)
+      window.clearTimeout(saveTimer.current)
+      saveTimer.current = window.setTimeout(async () => {
+        const current = await api.get<SettingsData>('/api/settings')
+        await api.put('/api/settings', { ...current, ui: next })
+      }, 400)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
+  // footer: follow the mouse until the navigation keys are used, then the keyboard selection
+  useEffect(() => {
+    const onOver = (e: PointerEvent) => setHover(hintAt(e.target))
+    const onMove = () => setInputMode('mouse')
+    const onLeave = () => setHover(null)
+    const onKey = (e: KeyboardEvent) => {
+      if (isTyping(e) || e.metaKey || e.ctrlKey || e.altKey) return
+      if (['w', 'a', 's', 'd', 'q', 'e'].includes(e.key.toLowerCase()) || ['ArrowUp', 'ArrowDown', 'Enter', 'Escape'].includes(e.key)) setInputMode('keys')
+    }
+    document.addEventListener('pointerover', onOver)
+    document.addEventListener('pointermove', onMove)
+    document.documentElement.addEventListener('pointerleave', onLeave)
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('pointerover', onOver)
+      document.removeEventListener('pointermove', onMove)
+      document.documentElement.removeEventListener('pointerleave', onLeave)
+      window.removeEventListener('keydown', onKey)
+    }
   }, [])
 
   // 1–9 switch pages, F full screen (not while typing in a field)
@@ -127,6 +181,11 @@ export default function App() {
 
   const s = engine.state
   const out = s?.io.outputs
+  // footer keys: for the hovered / keyboard-selected control, or the general ones
+  const context = inputMode === 'keys' ? (footer?.hint ? { kind: footer.hint, tip: footer.tip } : null) : hover
+  const footerKeys = context
+    ? HINT_KEYS[context.kind]
+    : [...KEYS.filter(([cap]) => cap !== 'F' || fullscreen.supported), ...(page === 'Control Desk' ? ([['Q E', 'subpage']] as [string, string][]) : [])]
   const overrideCount = Object.values(s?.overrides ?? {}).reduce((n, chans) => n + Object.keys(chans).length, 0)
   // In full screen on a MacBook the camera notch covers the top 32 pt; below 100 % UI scale the top
   // row grows so that it still measures 38 pt on screen.
@@ -167,6 +226,7 @@ export default function App() {
               <button
                 key={p}
                 onClick={() => go(p)}
+                data-hint="tab"
                 className={`lbl flex flex-none items-center gap-2 border-r border-edge px-4 text-[12px] whitespace-nowrap ${
                   page === p ? 'glow-on bg-ink text-ground' : 'text-ink hover:bg-panel-2'
                 }`}
@@ -199,14 +259,15 @@ export default function App() {
 
         {ui.key_hints && (
           <footer className="mx-1.5 flex h-7 flex-none items-center gap-5 border-t border-edge px-2.5 text-[11px]">
-            {[...KEYS.filter(([cap]) => cap !== 'F' || fullscreen.supported), ...(page === 'Control Desk' ? [['Q E', 'subpage']] : [])].map(([cap, what]) => (
-              <span key={cap} className="lbl inline-flex items-center gap-1.5">
+            {footerKeys.map(([cap, what]) => (
+              <span key={cap} className="lbl inline-flex flex-none items-center gap-1.5">
                 <span className="border border-ink px-1 font-mono text-[11px] leading-[14px]">{cap}</span>
                 <span className="text-dim">{what}</span>
               </span>
             ))}
+            {context?.tip && <span className="min-w-0 truncate text-[12px] text-dim" title={context.tip}>{context.tip}</span>}
             {footer && (
-              <span className="lbl ml-auto">
+              <span className="lbl ml-auto flex-none whitespace-nowrap">
                 Sel{' '}
                 <span className="font-mono text-[13px]">
                   · {footer.label}

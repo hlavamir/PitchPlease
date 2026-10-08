@@ -146,7 +146,8 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
         <span className="lbl text-[10px] whitespace-nowrap text-dim">default {dflt === MIXED ? 'multiple' : o.show(dflt)}</span>
         {differs && (
           <button
-            title="Back to the fixture type's value"
+            data-hint="undo"
+            data-tip="Remove this fixture's override: the fixture type's value applies again"
             className="text-glow flex-none px-0.5 text-[15px] leading-none hover:opacity-80"
             onClick={() => edit((f) => o.set(f, null))}
           >
@@ -260,6 +261,7 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
               <li key={i}>
                 <button
                   onClick={(e) => clickFixture(i, e.shiftKey)}
+                  data-hint="list-multi"
                   className={`flex w-full items-center gap-2 px-2 py-1.5 text-left text-[13px] ${
                     sel.includes(i) ? 'glow-on bg-ink text-ground' : 'hover:bg-panel-2'
                   } ${f.enabled ? '' : 'text-dim'}`}

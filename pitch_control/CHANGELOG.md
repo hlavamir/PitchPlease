@@ -6,6 +6,13 @@ features, **patch** = fixes only. Releases are tagged `pitchcontrol-vX.Y.Z`.
 
 ## Unreleased
 
+### Added
+- **UI scale shortcuts:** ⌘ (macOS) / Ctrl (Windows) with + or =, −, and 0 for 100 %, saved like the
+  Settings slider.
+- **Context footer:** the key-hint footer lists the keys and mouse actions of the control under the
+  mouse or selected with the keyboard, with a short explanation (what each macro does, which
+  fixture a Control Desk channel belongs to, …).
+
 ## 1.1.0 — 2026-10-08
 
 First public release. A cross-platform (macOS, Windows) port of the vvvv patch with a new UI.

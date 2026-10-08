@@ -155,7 +155,7 @@ The UI is monochrome (Settings → Appearance: grey, amber or phosphor ink, glow
 
 The layout is made for a 1512 × 915 px window (14" MacBook at its default display setting). On smaller screens, down to 1280 × 720, use Settings → Appearance → UI scale → **Fit window**: it picks the largest scale at which every page fits without scrolling (about 70 % on 1280 × 720). Pixel sizes are CSS pixels, which macOS and Windows scale with the display setting. Colour only appears where it carries information: the hue/saturation scales and the output colours.
 
-Everything works without a mouse — one control is always selected:
+Everything works without a mouse — one control is always selected. The footer lists the keys and mouse actions for the control under the mouse or selected with the keys, with a short explanation:
 
 | Key | Action |
 |---|---|
@@ -167,6 +167,7 @@ Everything works without a mouse — one control is always selected:
 | 1 – 9 | switch page |
 | Q / E | previous / next subpage (Control Desk) |
 | F | full screen on / off (desktop app; on a MacBook it also covers the camera-notch strip) |
+| ⌘ / Ctrl + + − 0 | UI scale up / down (`=` works as `+`, no Shift needed), 0 = 100 % (⌘ on macOS, Ctrl on Windows) |
 
 Number fields apply on Enter and keep the focus, so you can type the next value right away (Escape reverts). ↑ / ↓ or dragging up / down with the right mouse button changes the value in steps (Shift = fine steps): integers 1, floats 0.1 / 0.01, fixture rotation 15° / 1°.
 

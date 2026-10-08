@@ -98,6 +98,8 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
     id: `scene-${s.index}`,
     label: `Scene ${s.index + 1}`,
     value: s.name ?? 'empty',
+    hint: 'scene',
+    tip: s.exists ? `Scene ${s.index + 1}: ${s.name ?? ''}` : `Scene ${s.index + 1} is empty: Shift + ⏎ saves the current macros into it`,
     press: (down, shift) => down && sceneAction(s.index, shift || saveMode),
   }))
 
@@ -197,6 +199,8 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
               return (
                 <button
                   key={s.index}
+                  data-hint="scene"
+                  data-tip={s.exists ? `Scene ${s.index + 1}: ${s.name ?? ''}` : `Scene ${s.index + 1} is empty: Shift + ⏎ saves the current macros into it`}
                   onClick={() => {
                     select(id)
                     sceneAction(s.index, saveMode)

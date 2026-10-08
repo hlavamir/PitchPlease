@@ -1,6 +1,7 @@
 import { useCallback, useRef } from 'react'
 import type { MacroDef } from './api'
 import { formatValue } from './components/MacroControl'
+import { MACRO_TIPS, macroHint } from './hints'
 import type { EngineConnection } from './useEngine'
 import type { NavItem } from './useGridNav'
 
@@ -24,7 +25,7 @@ export function useMacroNav(engine: EngineConnection, defs: Record<string, Macro
   const item = (name: string, label?: string): NavItem | null => {
     const def = defs[name]
     if (!def) return null
-    const base: NavItem = { id: name, label: label ?? def.label }
+    const base: NavItem = { id: name, label: label ?? def.label, hint: macroHint(def), tip: MACRO_TIPS[def.name] }
     if (def.kind === 'fader') {
       return {
         ...base,

@@ -1,5 +1,6 @@
 import { useRef, useState, type PointerEvent } from 'react'
 import type { MacroDef } from '../api'
+import { MACRO_TIPS, macroHint } from '../hints'
 
 /** HSV (0..1, hue wraps) → CSS rgb(). */
 export function hsvCss(h: number, s: number, v: number): string {
@@ -102,6 +103,8 @@ export function MacroControl(props: Props) {
     return (
       <button
         className={cls}
+        data-hint="hold"
+        data-tip={MACRO_TIPS[def.name]}
         onPointerDown={() => {
           onSelect?.()
           setMacro(def.name, 1)
@@ -119,7 +122,7 @@ export function MacroControl(props: Props) {
     else toggleMacro(def.name)
   }
   return (
-    <button className={cls} onClick={press}>
+    <button className={cls} onClick={press} data-hint={macroHint(def)} data-tip={MACRO_TIPS[def.name]}>
       {content}
     </button>
   )
@@ -249,10 +252,11 @@ function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, o
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
       onDoubleClick={() => !disabled && setMacro(def.name, def.default)}
-      title={
+      data-hint={disabled ? 'dimmer-off' : macroHint(def)}
+      data-tip={
         disabled
-          ? 'No fixture uses this dimmer (Rig → Dimmer) · double-click the name to rename'
-          : `Drag up/down · Shift = fine · double-click = reset${onRename ? ' · double-click the name = rename' : ''}${def.deferred ? ' · applied on release' : ''}`
+          ? 'No fixture uses this dimmer, so it is disabled and ignores MIDI'
+          : (MACRO_TIPS[def.name] ?? (def.page === 'dimmers' ? 'Brightness of the fixtures that follow this dimmer (Rig → Dimmer)' : undefined))
       }
     >
       <div

@@ -140,6 +140,7 @@ export function NumberInput({
       ref={inputRef}
       type="text"
       inputMode="decimal"
+      data-hint="number"
       className={`${className} font-mono ${value != null && !disabled ? 'cursor-ns-resize focus:cursor-text' : ''}`}
       value={text}
       placeholder={placeholder}
@@ -222,6 +223,7 @@ export function Toggle({
       <button
         type="button"
         role="switch"
+        data-hint="switch"
         aria-checked={mixed ? 'mixed' : checked}
         aria-label={label}
         disabled={disabled}
@@ -251,6 +253,7 @@ export function Check({ checked, mixed, onChange, title }: { checked: boolean; m
     <button
       type="button"
       role="checkbox"
+      data-hint="override"
       aria-checked={mixed ? 'mixed' : checked}
       title={title}
       onClick={() => onChange(mixed ? true : !checked)}

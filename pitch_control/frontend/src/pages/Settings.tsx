@@ -21,6 +21,7 @@ const KEYMAP: [string, string][] = [
   ['1 – 9', 'Switch page'],
   ['Q  E', 'Previous / next subpage (Control Desk)'],
   ['F', 'Full screen on / off (desktop app)'],
+  ['⌘ / CTRL  + −', 'UI scale up / down (= works as +); 0 = 100 %'],
 ]
 
 /** Horizontal segmented slider: click or drag anywhere, ←/→ style keyboard handled by the page grid. */
@@ -36,6 +37,7 @@ function HSlider({ value, min, max, onChange, selected, onSelect }: { value: num
   return (
     <div
       ref={ref}
+      data-hint="slider"
       className={`flex h-[22px] cursor-ew-resize touch-none ${selected ? 'glow-sel' : ''}`}
       onPointerDown={(e) => {
         onSelect()
@@ -92,17 +94,19 @@ export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; o
     return () => window.removeEventListener('resize', onResize)
   }, [])
   const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v))
-  const inkItems: NavItem[] = INK_NAMES.map(([name, label]) => ({ id: `ink-${name}`, label: `Ink ${label}`, value: ui.ink === name ? 'ON' : '', press: (down) => down && change({ ink: name }) }))
-  const glowItem: NavItem = { id: 'glow', label: 'Glow', value: pct(ui.glow), adjust: (d, fine) => change({ glow: clamp(ui.glow + d * (fine ? 0.01 : 0.05), 0, 1) }) }
+  const inkItems: NavItem[] = INK_NAMES.map(([name, label]) => ({ id: `ink-${name}`, label: `Ink ${label}`, value: ui.ink === name ? 'ON' : '', hint: 'press' as const, tip: 'Colour of all text, lines and lit elements', press: (down) => down && change({ ink: name }) }))
+  const glowItem: NavItem = { id: 'glow', label: 'Glow', value: pct(ui.glow), hint: 'slider', tip: 'Bloom under selected and active elements', adjust: (d, fine) => change({ glow: clamp(ui.glow + d * (fine ? 0.01 : 0.05), 0, 1) }) }
   const brightItem: NavItem = {
     id: 'brightness',
     label: 'UI brightness',
     value: pct(ui.brightness),
+    hint: 'slider',
+    tip: 'Dims the ink: less light on the DJ at the booth',
     adjust: (d, fine) => change({ brightness: clamp(ui.brightness + d * (fine ? 0.01 : 0.05), 0.4, 1) }),
   }
   const setScale = (s: number) => change({ scale: clampScale(s) })
-  const scaleItem: NavItem = { id: 'scale', label: 'UI scale', value: pct(ui.scale), adjust: (d, fine) => setScale(ui.scale + d * (fine ? 0.01 : 0.05)) }
-  const hintsItem: NavItem = { id: 'hints', label: 'Key hints', value: ui.key_hints ? 'ON' : 'OFF', press: (down) => down && change({ key_hints: !ui.key_hints }) }
+  const scaleItem: NavItem = { id: 'scale', label: 'UI scale', value: pct(ui.scale), hint: 'slider', tip: 'Size of the whole UI; ⌘ / Ctrl + − work everywhere', adjust: (d, fine) => setScale(ui.scale + d * (fine ? 0.01 : 0.05)) }
+  const hintsItem: NavItem = { id: 'hints', label: 'Key hints', value: ui.key_hints ? 'ON' : 'OFF', hint: 'toggle', tip: 'This footer', press: (down) => down && change({ key_hints: !ui.key_hints }) }
   const { selectedId, select } = useGridNav('Settings', [inkItems, [glowItem], [brightItem], [scaleItem], [hintsItem]])
 
   return (
@@ -116,6 +120,8 @@ export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; o
               return (
                 <button
                   key={name}
+                  data-hint="press"
+                  data-tip="Colour of all text, lines and lit elements"
                   onClick={() => {
                     select(`ink-${name}`)
                     change({ ink: name })

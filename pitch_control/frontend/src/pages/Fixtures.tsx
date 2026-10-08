@@ -178,7 +178,8 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
                   setMessage(null)
                 }}
                 className={`flex w-full items-center gap-2 px-2 py-1.5 text-left text-[13px] ${x.name === selected ? 'glow-on bg-ink text-ground' : 'hover:bg-panel-2'}`}
-                title={status.usage[x.name]?.length ? `used in: ${status.usage[x.name].join(', ')}` : 'not used in any rig'}
+                data-hint="list"
+                data-tip={status.usage[x.name]?.length ? `Used in: ${status.usage[x.name].join(', ')}` : 'Not used in any rig'}
               >
                 <span className="flex-1 truncate">{x.name}</span>
                 {status.unsaved.includes(x.name) && <span className={`size-[6px] flex-none ${x.name === selected ? 'bg-ground' : 'dot-on'}`} title="unsaved" />}

@@ -78,7 +78,11 @@ function ChannelStrip({
 
   const fill = value / 255
   return (
-    <div className={`flex min-h-0 min-w-0 flex-col bg-panel ${selected ? 'glow-sel' : ''}`} title={strip.fixture ? `${strip.fixture}` : 'not used by a fixture'}>
+    <div
+      className={`flex min-h-0 min-w-0 flex-col bg-panel ${selected ? 'glow-sel' : ''}`}
+      data-hint="channel"
+      data-tip={`Channel ${strip.channel}: ${strip.fixture ?? 'not used by a fixture'}`}
+    >
       <div className={`flex h-[26px] flex-none items-center justify-between gap-1 px-1.5 ${selected ? 'bg-ink text-ground' : 'border-b border-seam'}`}>
         <span className="font-mono text-[12px]">{String(strip.channel).padStart(3, '0')}</span>
         <Toggle
@@ -185,6 +189,8 @@ export function ControlDesk({ engine }: { engine: EngineConnection }) {
     id: `ch-${st.channel}`,
     label: `Ch ${st.channel}${st.fixture ? ` (${st.fixture})` : ''}`,
     value: `${st.override ?? st.live}${st.override !== undefined ? ' OVR' : ''}`,
+    hint: 'channel',
+    tip: `Channel ${st.channel}: ${st.fixture ?? 'not used by a fixture'}`,
     adjust: (dir, fine) => setValue(st.channel, Math.min(255, Math.max(0, (st.override ?? st.live) + dir * (fine ? 1 : 5)))),
     press: (down) => down && (st.override !== undefined ? release(st.channel) : setValue(st.channel, st.live)),
   })

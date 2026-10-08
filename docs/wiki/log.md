@@ -793,3 +793,9 @@ Miro can't power the ESP32 over USB while the LED supply is on, and the units ar
 ## [2026-10-08] build | PitchControl: Fixtures (type editor) and Rig pages, Unreal-style overrides
 
 The Fixtures page is split: *Fixtures* (page 3) edits fixture types, *Rig* (page 4) the per-fixture values of the active rig. Miro agreed the per-type / per-fixture / overridable classification and asked for Unreal-style overrides (checkbox, disabled field that keeps its value, undo arrow). Backend: `Override {enabled, value}` for gamma, reacts to strobo, strobo colour and constant channel values; per-fixture pixel count removed; fixture type API (live edit + save, reload, create / duplicate, rename updating all rigs, delete refused while used); case-only renames safe on case-insensitive file systems. UI: disabled fields are dim with a dashed border, text areas got the input style. README pages and screenshots updated. Recorded in [[port-design]] (Frontend Pages).
+
+---
+
+## [2026-10-08] update | Reacts to strobo is a rig setting; tests get their own config
+
+Miro: "reacts to strobo" belongs to the rig only. Fixture types no longer have it; each rig fixture has a plain yes/no. Old type files keep their value only to fill in fixtures that don't set it (so old rigs look the same), old per-fixture overrides convert (enabled → the value). The shipped "Default" rig was migrated with the effective values (pinspots and Panel DJ 1–3 yes, the rest no). The strobo colour is labelled "Strobo colour (HSB)". Miro had renamed the shipped types and the rig in the app, which broke the name-based tests a second time; tests now use a fixed snapshot in `backend/tests/config/`, plus one test that the shipped config loads cleanly. Recorded in [[port-design]] (Frontend Pages).

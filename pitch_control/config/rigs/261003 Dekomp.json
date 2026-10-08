@@ -3,7 +3,7 @@
   "description": "Reconstructed from the vvvv patch (CreateLightFixtures), 2026-10-05. LED bars removed (not part of the setup).",
   "fixtures": [
     {
-      "name": "PitchPls v3 #1",
+      "name": "PitchPls! v3 #1",
       "type": "pitchpls_v3",
       "enabled": true,
       "group": "A",
@@ -31,7 +31,7 @@
       }
     },
     {
-      "name": "PitchPls v3 #2",
+      "name": "PitchPls! v3 #2",
       "type": "pitchpls_v3",
       "enabled": true,
       "group": "A",
@@ -59,7 +59,7 @@
       }
     },
     {
-      "name": "PitchPls v3 #3",
+      "name": "PitchPls! v3 #3",
       "type": "pitchpls_v3",
       "enabled": true,
       "group": "A",
@@ -87,7 +87,7 @@
       }
     },
     {
-      "name": "PitchPls v3 #4",
+      "name": "PitchPls! v3 #4",
       "type": "pitchpls_v3",
       "enabled": true,
       "group": "A",
@@ -115,7 +115,7 @@
       }
     },
     {
-      "name": "PitchPls v2 strip 1",
+      "name": "PitchPls! v2 strip 1",
       "type": "pitchpls_v2",
       "enabled": false,
       "group": "A",
@@ -143,7 +143,7 @@
       }
     },
     {
-      "name": "PitchPls v2 strip 2",
+      "name": "PitchPls! v2 strip 2",
       "type": "pitchpls_v2",
       "enabled": false,
       "group": "A",
@@ -171,7 +171,7 @@
       }
     },
     {
-      "name": "PitchPls v2 strip 3",
+      "name": "PitchPls! v2 strip 3",
       "type": "pitchpls_v2",
       "enabled": false,
       "group": "A",
@@ -199,7 +199,7 @@
       }
     },
     {
-      "name": "PitchPls v2 strip 4",
+      "name": "PitchPls! v2 strip 4",
       "type": "pitchpls_v2",
       "enabled": false,
       "group": "A",
@@ -330,7 +330,7 @@
       ],
       "rotation": 0.0,
       "length": 0.0,
-      "brightness_gamma": 2.0,
+      "gamma": 2.0,
       "react_to_strobo": true,
       "strobo_color": {
         "h": 0.75,
@@ -365,7 +365,7 @@
       ],
       "rotation": 0.0,
       "length": 0.0,
-      "brightness_gamma": 2.0,
+      "gamma": 2.0,
       "react_to_strobo": true,
       "strobo_color": {
         "h": 0.75,
@@ -400,7 +400,7 @@
       ],
       "rotation": 0.0,
       "length": 0.0,
-      "brightness_gamma": 2.0,
+      "gamma": 2.0,
       "react_to_strobo": true,
       "strobo_color": {
         "h": 0.75,

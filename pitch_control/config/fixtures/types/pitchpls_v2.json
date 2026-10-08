@@ -3,6 +3,6 @@
   "transport": "pitchpls_v2",
   "pixels": 19,
   "channels": [{ "pixels": "RGB" }],
-  "brightness_gamma": 1.0,
-  "_note": "The vvvv patch sets gamma 2.2 on these fixtures but sends them with 'Apply Gamma = False', so no gamma was applied in practice."
+  "gamma": 1.0,
+  "_note": "Sent as perceptual values; the v2.2 firmware decodes them with gamma 2.2 (firmware since 2026-10-08; older firmware shows them without a curve). vvvv set gamma 2.2 on these but sent them with 'Apply Gamma = False'."
 }

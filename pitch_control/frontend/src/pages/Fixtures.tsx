@@ -100,6 +100,34 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
     const v = same(get)
     return v === MIXED ? MIXED_OPTION : v
   }
+  /**
+   * A gamma field is never empty: it shows the value in effect. Inherited from the fixture type
+   * (dim, "from type") until set on the fixture; "↺ type" goes back to inheriting.
+   */
+  const gammaField = (key: 'gamma') => {
+    const effective = same((f) => f[key] ?? types[f.type]?.[key] ?? 1)
+    const inherited = fxs.every((f) => f[key] == null)
+    return (
+      <>
+        <NumberInput
+          value={effective === MIXED ? null : effective}
+          placeholder={effective === MIXED ? 'multiple' : undefined}
+          min={0.1}
+          max={5}
+          className={`w-24 shrink ${inherited ? 'text-dim' : ''}`}
+          onChange={(v) => edit((f) => (f[key] = v))}
+        />
+        {inherited ? (
+          <span className="lbl text-[10px] text-dim">from type</span>
+        ) : (
+          <button className="lbl text-[10px] text-dim hover:text-ink" title="Use the fixture type's value" onClick={() => edit((f) => (f[key] = null))}>
+            ↺ type
+          </button>
+        )}
+      </>
+    )
+  }
+
   const mixedOption = (value: string) =>
     value === MIXED_OPTION && (
       <option value={MIXED_OPTION} disabled>
@@ -283,11 +311,11 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
                     <option value="false">no</option>
                   </select>
                 </Row>
-                <Row label="Brightness gamma">
-                  <NumberInput {...num((f) => f.brightness_gamma)} onChange={(v) => edit((f) => (f.brightness_gamma = v))} />
-                </Row>
-                <Row label="RGB gamma">
-                  <NumberInput {...num((f) => f.rgb_gamma)} onChange={(v) => edit((f) => (f.rgb_gamma = v))} />
+                <Row
+                  label="Gamma"
+                  hint="Device curve, per channel: what is sent = value ^ gamma. 1 sends perceptual values unchanged (PitchPlease v2 / v3 decode them in their firmware); about 2.2 for devices without their own curve"
+                >
+                  {gammaField('gamma')}
                 </Row>
                 <Row label="Hue source">
                   <select value={hueSource} onChange={(e) => edit((f) => (f.hue_source = e.target.value as FixtureInstance['hue_source']))}>

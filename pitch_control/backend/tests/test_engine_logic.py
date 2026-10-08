@@ -136,16 +136,27 @@ def test_invert_discoball_range_only_with_macro(store):
     assert fx.rgb.max() == pytest.approx(0.0)
 
 
-def test_gamma_keys(store):
+def test_gamma_on_output_per_channel(store):
     colors, macros = GroupColors(), MacroBank()
     colors.update(False, macros, [])
     g = GroupBrightness(1.0, 1.0)
-    fx = _fixture(store, brightness_gamma=2.0)
-    fx.update(np.array([0.5]), 1.0, colors, g, macros)
-    assert fx.rgb.max() == pytest.approx(0.25)
-    fx = _fixture(store, rgb_gamma=2.0, saturation_source="const", saturation=0.5)
+    # the colour stays perceptual (preview); the device curve is applied to the output bytes
+    fx = _fixture(store, gamma=2.0, saturation_source="const", saturation=0.5)
     fx.update(np.array([1.0]), 1.0, colors, g, macros)
-    assert fx.rgb.min() == pytest.approx(0.25)  # per channel: 0.5 ** 2
+    assert fx.rgb.min() == pytest.approx(0.5)
+    assert min(fx.pixel_bytes("RGB")) == round(0.25 * 255)  # per channel: 0.5 ** 2
+    fx = _fixture(store, gamma=1.0, saturation_source="const", saturation=0.5)
+    fx.update(np.array([1.0]), 1.0, colors, g, macros)
+    assert min(fx.pixel_bytes("RGB")) == round(0.5 * 255)  # 1 = unchanged
+
+
+def test_rgbw_white_taken_after_gamma(store):
+    colors, macros = GroupColors(), MacroBank()
+    colors.update(False, macros, [])
+    fx = _fixture(store, gamma=2.0, saturation_source="const", saturation=0.0)  # white
+    fx.update(np.array([0.5]), 1.0, colors, GroupBrightness(1.0, 1.0), macros)
+    r, g_, b, w = fx.pixel_bytes("RGBW")
+    assert (r, g_, b) == (0, 0, 0) and w == round(0.25 * 255)
 
 
 def test_pixel_spread_vertical():

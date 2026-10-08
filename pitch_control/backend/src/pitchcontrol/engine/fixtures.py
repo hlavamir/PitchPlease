@@ -57,14 +57,9 @@ class Fixture:
         return self.ftype.react_to_strobo if r is None else r
 
     @property
-    def brightness_gamma(self) -> float:
-        g = self.inst.brightness_gamma
-        return self.ftype.brightness_gamma if g is None else g
-
-    @property
-    def rgb_gamma(self) -> float:
-        g = self.inst.rgb_gamma
-        return self.ftype.rgb_gamma if g is None else g
+    def gamma(self) -> float:
+        g = self.inst.gamma
+        return self.ftype.gamma if g is None else g
 
     @property
     def strobo_color(self) -> HSB:
@@ -128,15 +123,16 @@ class Fixture:
 
         if inst.dimmer_macro:
             value = value * macros.value(inst.dimmer_macro)
-        value = np.clip(value, 0.0, 1.0) ** self.brightness_gamma
-        rgb = hsv_to_rgb(h, s, value)
-        if self.rgb_gamma != 1.0:
-            rgb = rgb ** self.rgb_gamma
-        self.rgb = rgb
+        # perceptual colours (what the preview shows); the device curve is applied on output
+        self.rgb = hsv_to_rgb(h, s, np.clip(value, 0.0, 1.0))
 
     # -- output
     def pixel_bytes(self, fmt: str) -> list[int]:
+        # the same for every transport (DMX, Art-Net, serial): perceptual -> device values per
+        # channel, before the white of RGBW is taken out (light adds up in PWM duty, not perceptually)
         rgb = np.clip(self.rgb, 0.0, 1.0)
+        if self.gamma != 1.0:
+            rgb = rgb**self.gamma
         if fmt == "RGB":
             data = rgb
         elif fmt == "RGBW":

@@ -159,8 +159,7 @@ export interface FixtureInstance {
   length: number
   pixel_positions?: [number, number][] | null
   pixels?: number | null
-  brightness_gamma?: number | null
-  rgb_gamma?: number | null
+  gamma?: number | null // null = from the fixture type
   react_to_strobo?: boolean | null
   strobo_color?: HSB | null
   real_strobo: boolean
@@ -189,6 +188,7 @@ export interface FixtureType {
   transport: 'dmx' | 'pitchpls_v2'
   pixels: number
   channels: Record<string, unknown>[]
+  gamma?: number // device curve per channel; 1 = values sent unchanged
   [key: string]: unknown
 }
 

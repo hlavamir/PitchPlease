@@ -47,8 +47,23 @@ static int idleSaturation = 192;
 static int idleBrightness = 255;
 static int idlePeriod = 600; // seconds
 
+// Incoming serial values are perceptual (equal steps look like equal brightness steps, as sent by
+// PitchControl). The LEDs dim by PWM duty, so every channel is decoded with this curve, the same
+// gamma 2.2 the v3 firmware applies to its DMX data. Serial values stop at 254 (255 ends a frame),
+// so 254 is full brightness.
+#define GAMMA 2.2
+static byte gammaTable[256];
+
+void buildGammaTable(){
+  for(int i = 0; i < 256; i++){
+    float v = min(i, 254) / 254.0;
+    gammaTable[i] = (byte)(pow(v, GAMMA) * 255.0 + 0.5);
+  }
+}
+
 void setup() {
   Serial.begin(921600);
+  buildGammaTable();
 
   // setup LED strips
   FastLED.addLeds<WS2811, DATA_PIN_0>(leds[0], NUM_LEDS);
@@ -118,7 +133,8 @@ void setLED(int id, int r, int g, int b){
   stripCrr = floor(float(id) / NUM_LEDS_RECEIVE);
   LEDCrr = id % NUM_LEDS_RECEIVE;   
 
-  leds[stripCrr][LEDCrr] = CRGB(b, r, g);
+  // perceptual -> PWM duty (see buildGammaTable)
+  leds[stripCrr][LEDCrr] = CRGB(gammaTable[b], gammaTable[r], gammaTable[g]);
   leds[stripCrr][NUM_LEDS - LEDCrr - 1] = leds[stripCrr][LEDCrr];      
 }
 

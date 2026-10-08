@@ -251,18 +251,21 @@ void setLED(int strip, int id, byte r, byte g, byte b){
   leds_work[strip][id] = CRGB(b, r, g);
 }
 
+// DMX values are perceptual (equal steps look like equal brightness steps, as sent by PitchControl);
+// the LEDs dim by PWM duty, so each channel is decoded with GAMMA after the dimmers are applied.
 void setLED(int strip, int id, float r, float g, float b, float dimmer, bool applyGamma){
   r *= dimmer;
   g *= dimmer;
   b *= dimmer;
 
   if(applyGamma){
-    r = pow(r, GAMMA);
-    g = pow(g, GAMMA);
-    b = pow(b, GAMMA);
+    r = powf(r, GAMMA);
+    g = powf(g, GAMMA);
+    b = powf(b, GAMMA);
   }
 
-  setLED(strip, id, r * 255, g * 255, b * 255);
+  // round, not truncate: truncating darkened every value and cut off more of the dark end
+  setLED(strip, id, (byte)(r * 255.0f + 0.5f), (byte)(g * 255.0f + 0.5f), (byte)(b * 255.0f + 0.5f));
 }
 
 void outputLED(){

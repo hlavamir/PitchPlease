@@ -7,9 +7,30 @@ Missing keys are filled with the defaults defined here.
 
 from __future__ import annotations
 
+import logging
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+log = logging.getLogger(__name__)
+
+
+def _merge_legacy_gamma(data, where: str):
+    """Old configs had brightness_gamma (on the HSV value) and rgb_gamma (per channel); both are now
+    one per-channel ``gamma``. Their product is the closest single curve."""
+    if not isinstance(data, dict) or not ({"brightness_gamma", "rgb_gamma"} & data.keys()):
+        return data
+    data = dict(data)
+    old = {k: data.pop(k) for k in ("brightness_gamma", "rgb_gamma") if k in data}
+    if "gamma" not in data:
+        values = [float(v) for v in old.values() if v is not None]
+        if values:
+            g = 1.0
+            for v in values:
+                g *= v
+            data["gamma"] = g
+        log.info("%s: %s replaced by gamma = %s (one per-channel gamma now)", where, ", ".join(old), data.get("gamma"))
+    return data
 
 
 class Model(BaseModel):
@@ -76,10 +97,26 @@ class FixtureType(Model):
     transport: Literal["dmx", "pitchpls_v2"] = "dmx"
     pixels: int = Field(default=1, ge=1)
     channels: list[ChannelSlot] = Field(default_factory=lambda: [ChannelSlot(pixels="RGB")])
-    brightness_gamma: float = 1.0
-    rgb_gamma: float = 1.0
+    # Decodes the perceptual values the engine works with into what the device expects, per output
+    # channel: device value = value ** gamma. 1 = send perceptual values unchanged, for devices that
+    # decode themselves (PitchPlease v2 / v3 firmware apply 2.2). Must be > 0 (an invalid value falls
+    # back to 1 with a warning).
+    gamma: float = 1.0
     react_to_strobo: bool = False
     strobo_color: HSB = Field(default_factory=lambda: HSB(h=0, s=0, b=1))
+
+    @model_validator(mode="before")
+    @classmethod
+    def _legacy_gamma(cls, data):
+        return _merge_legacy_gamma(data, f"fixture type {data.get('name', '') if isinstance(data, dict) else ''}".strip())
+
+    @field_validator("gamma", mode="before")
+    @classmethod
+    def _gamma_positive(cls, v):
+        if v is None or float(v) <= 0:
+            log.warning("fixture type: gamma must be > 0 (got %r), using 1", v)
+            return 1.0
+        return v
 
     def channel_count(self, pixels: int | None = None) -> int:
         px = pixels if pixels is not None else self.pixels
@@ -123,14 +160,26 @@ class FixtureInstance(Model):
 
     # overrides of fixture-type defaults (None = take from type)
     pixels: int | None = None
-    brightness_gamma: float | None = None
-    rgb_gamma: float | None = None
+    gamma: float | None = None  # > 0; an invalid value falls back to the type's
     react_to_strobo: bool | None = None
     strobo_color: HSB | None = None
     real_strobo: bool = False
     channel_values: dict[str, int] = Field(default_factory=dict)
 
     dimmer_macro: str | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _legacy_gamma(cls, data):
+        return _merge_legacy_gamma(data, f"fixture {data.get('name', '') if isinstance(data, dict) else ''}".strip())
+
+    @field_validator("gamma", mode="before")
+    @classmethod
+    def _gamma_positive(cls, v):
+        if v is not None and float(v) <= 0:
+            log.warning("fixture: gamma must be > 0 (got %r), using the fixture type's", v)
+            return None
+        return v
 
     # colour sources (see port-design, Colour and Brightness Model)
     hue_source: Literal["group", "A", "B", "const"] = "group"

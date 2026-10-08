@@ -158,12 +158,12 @@ export interface FixtureInstance {
   rotation: number
   length: number
   pixel_positions?: [number, number][] | null
-  pixels?: number | null
-  gamma?: number | null // null = from the fixture type
-  react_to_strobo?: boolean | null
-  strobo_color?: HSB | null
-  real_strobo: boolean
-  channel_values: Record<string, number>
+  // overrides of fixture-type values; switched off, the type's value applies but the value is kept
+  gamma?: Override<number> | null
+  react_to_strobo?: Override<boolean> | null
+  strobo_color?: Override<HSB> | null
+  channel_values: Record<string, Override<number>> // constant channels by name
+  real_strobo: boolean // use the type's shutter channel on peaks
   dimmer_macro?: string | null
   hue_source: 'group' | 'A' | 'B' | 'const'
   hue: number
@@ -182,15 +182,40 @@ export interface Rig {
   dimmer_names?: Record<string, string> // "Dimmer 03" → "D Pinspots"
 }
 
+export interface Override<T> {
+  enabled: boolean
+  value: T
+}
+
+export type PixelFormat = 'R' | 'RGB' | 'RGBW'
+
+/** One slot of a fixture profile: exactly one of value / pixels / macro / shutter. */
+export interface ChannelSlot {
+  name?: string | null
+  value?: number | null // constant 0–255
+  pixels?: PixelFormat | null // the pixel block
+  macro?: string | null // a macro's value scaled to 0–255
+  shutter?: { open: number; strobo: number } | null
+}
+
 export interface FixtureType {
   name: string
   description: string
   transport: 'dmx' | 'pitchpls_v2'
   pixels: number
-  channels: Record<string, unknown>[]
-  gamma?: number // device curve per channel; 1 = values sent unchanged
+  channels: ChannelSlot[]
+  gamma: number // device curve per channel; 1 = values sent unchanged
+  react_to_strobo: boolean
+  strobo_color: HSB
   [key: string]: unknown
 }
+
+export const slotKind = (s: ChannelSlot): 'value' | 'pixels' | 'macro' | 'shutter' =>
+  s.value != null ? 'value' : s.pixels ? 'pixels' : s.macro ? 'macro' : 'shutter'
+
+/** Number of DMX channels of a type (the pixel block counts pixels × format length). */
+export const channelCount = (t: FixtureType) =>
+  t.channels.reduce((n, s) => n + (s.pixels ? t.pixels * s.pixels.length : 1), 0)
 
 async function request<T>(method: string, url: string, body?: unknown): Promise<T> {
   const res = await fetch(url, {

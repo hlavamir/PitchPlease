@@ -251,7 +251,7 @@ function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, o
       onDoubleClick={() => !disabled && setMacro(def.name, def.default)}
       title={
         disabled
-          ? 'No fixture uses this dimmer (Fixtures → Dimmer) · double-click the name to rename'
+          ? 'No fixture uses this dimmer (Rig → Dimmer) · double-click the name to rename'
           : `Drag up/down · Shift = fine · double-click = reset${onRename ? ' · double-click the name = rename' : ''}${def.deferred ? ' · applied on release' : ''}`
       }
     >

@@ -89,6 +89,7 @@ body {
 /* form controls: square, dark, ink text */
 input[type='number'],
 input[type='text'],
+textarea,
 select {
   background: var(--color-ground);
   border: 1px solid var(--color-edge);
@@ -99,11 +100,21 @@ select {
   font-family: var(--font-mono);
   font-size: 13px;
 }
-select {
+select,
+textarea {
   font-family: var(--font-sans);
+}
+/* disabled (e.g. an override that is switched off): readable, but clearly not editable */
+input:disabled,
+textarea:disabled,
+select:disabled {
+  color: var(--color-dim);
+  border-style: dashed;
+  cursor: not-allowed;
 }
 input[type='text']:focus,
 input[type='number']:focus,
+textarea:focus,
 select:focus {
   outline: 1px solid var(--color-ink);
   outline-offset: -1px;

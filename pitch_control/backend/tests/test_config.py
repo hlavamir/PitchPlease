@@ -57,14 +57,41 @@ def test_gamma_must_be_positive():
     assert FixtureType(gamma=-1).gamma == 1.0
     assert FixtureType(gamma=2.2).gamma == 2.2
     assert FixtureInstance(gamma=0).gamma is None  # falls back to the type
-    assert FixtureInstance(gamma=1.8).gamma == 1.8
+    assert FixtureInstance(gamma=1.8).gamma.value == 1.8
 
 
 def test_legacy_gamma_keys_are_merged():
     from pitchcontrol.config.models import FixtureInstance, FixtureType
 
-    assert FixtureInstance.model_validate({"brightness_gamma": 2.0}).gamma == 2.0
-    assert FixtureInstance.model_validate({"brightness_gamma": 2.0, "rgb_gamma": 1.1}).gamma == pytest.approx(2.2)
-    assert FixtureInstance.model_validate({"gamma": 1.5, "brightness_gamma": 2.0}).gamma == 1.5  # new key wins
+    assert FixtureInstance.model_validate({"brightness_gamma": 2.0}).gamma.value == 2.0
+    assert FixtureInstance.model_validate({"brightness_gamma": 2.0, "rgb_gamma": 1.1}).gamma.value == pytest.approx(2.2)
+    assert FixtureInstance.model_validate({"gamma": 1.5, "brightness_gamma": 2.0}).gamma.value == 1.5  # new key wins
     t = FixtureType.model_validate({"brightness_gamma": 1.0})
     assert t.gamma == 1.0 and "brightness_gamma" not in t.model_dump()
+
+
+def test_overrides_keep_their_value_when_switched_off():
+    from pitchcontrol.config.models import FixtureInstance
+
+    # old plain values become enabled overrides
+    f = FixtureInstance.model_validate({"gamma": 2.0, "react_to_strobo": True, "strobo_color": {"h": 0.5, "s": 1, "b": 1},
+                                        "channel_values": {"mode": 2}})
+    assert f.gamma.enabled and f.override("gamma", 1.0) == 2.0
+    assert f.override("react_to_strobo", False) is True
+    assert f.override("strobo_color", None).h == 0.5
+    assert f.channel_value("mode", 0) == 2
+    # switched off: the type's value applies, the override value stays
+    f = FixtureInstance.model_validate({"gamma": {"enabled": False, "value": 2.0}, "channel_values": {"mode": {"enabled": False, "value": 3}}})
+    assert f.override("gamma", 1.0) == 1.0 and f.gamma.value == 2.0
+    assert f.channel_value("mode", 0) == 0 and f.channel_values["mode"].value == 3
+    assert f.channel_value(None, 7) == 7
+    assert f.model_dump()["gamma"] == {"enabled": False, "value": 2.0}
+
+
+def test_pixel_override_is_dropped(caplog):
+    from pitchcontrol.config.models import FixtureInstance
+
+    with caplog.at_level(logging.WARNING):
+        f = FixtureInstance.model_validate({"name": "x", "pixels": 12})
+    assert "pixels" not in f.model_dump()
+    assert "pixel count is no longer supported" in caplog.text

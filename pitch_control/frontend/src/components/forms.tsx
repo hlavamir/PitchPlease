@@ -34,15 +34,18 @@ export function Section({
   )
 }
 
-export function Row({ label, children, hint }: { label: string; children: ReactNode; hint?: string }) {
+/** One labelled form row. ``plain`` renders a div instead of a <label>, so clicking the label text
+ * doesn't activate the first control (override rows, whose first control is the checkbox). */
+export function Row({ label, children, hint, plain }: { label: string; children: ReactNode; hint?: string; plain?: boolean }) {
+  const Tag = plain ? 'div' : 'label'
   return (
-    <label className="grid grid-cols-[8.5rem_minmax(0,1fr)] items-center gap-2 py-0.5 text-[13px]">
+    <Tag className="grid grid-cols-[8.5rem_minmax(0,1fr)] items-center gap-2 py-0.5 text-[13px]">
       <span className="lbl truncate text-[11px] text-dim" title={hint ?? label}>
         {label}
       </span>
       {/* inputs shrink instead of overflowing into the next column */}
       <span className="flex min-w-0 items-center gap-2 [&>*]:min-w-0 [&>select]:max-w-full">{children}</span>
-    </label>
+    </Tag>
   )
 }
 
@@ -200,7 +203,19 @@ export function NumberInput({
  * puts the knob in the middle; clicking it switches on. Inside a <label> (e.g. Row) a click on the
  * label text toggles it too.
  */
-export function Toggle({ checked, onChange, label, mixed }: { checked: boolean; onChange: (v: boolean) => void; label?: string; mixed?: boolean }) {
+export function Toggle({
+  checked,
+  onChange,
+  label,
+  mixed,
+  disabled,
+}: {
+  checked: boolean
+  onChange: (v: boolean) => void
+  label?: string
+  mixed?: boolean
+  disabled?: boolean
+}) {
   const on = checked && !mixed
   return (
     <span className="inline-flex items-center gap-2">
@@ -209,8 +224,9 @@ export function Toggle({ checked, onChange, label, mixed }: { checked: boolean; 
         role="switch"
         aria-checked={mixed ? 'mixed' : checked}
         aria-label={label}
+        disabled={disabled}
         onClick={() => onChange(mixed ? true : !checked)}
-        className={`relative h-[18px] w-[34px] flex-none rounded-full border transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink ${
+        className={`relative h-[18px] w-[34px] flex-none rounded-full border transition-colors focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:opacity-40 ${
           on ? 'glow-on border-ink bg-ink' : 'border-edge bg-panel-2 hover:border-dim'
         }`}
       >
@@ -222,6 +238,28 @@ export function Toggle({ checked, onChange, label, mixed }: { checked: boolean; 
       </button>
       {label && <span className="lbl text-[11px]">{label}</span>}
     </span>
+  )
+}
+
+/**
+ * Small square checkbox in ink, for marking a value as overridden (Unreal-style override toggle).
+ * ``mixed`` (multi-edit) shows a dash; clicking it switches all on.
+ */
+export function Check({ checked, mixed, onChange, title }: { checked: boolean; mixed?: boolean; onChange: (v: boolean) => void; title?: string }) {
+  const on = checked && !mixed
+  return (
+    <button
+      type="button"
+      role="checkbox"
+      aria-checked={mixed ? 'mixed' : checked}
+      title={title}
+      onClick={() => onChange(mixed ? true : !checked)}
+      className={`inline-flex size-[15px] flex-none items-center justify-center border font-mono text-[11px] leading-none ${
+        on ? 'glow-on border-ink bg-ink text-ground' : 'border-edge text-ink hover:border-dim'
+      }`}
+    >
+      {mixed ? '–' : on ? '✓' : ''}
+    </button>
   )
 }
 

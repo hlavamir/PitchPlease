@@ -18,7 +18,7 @@ const KEYMAP: [string, string][] = [
   ['⏎', 'Press the selected button · load the selected scene'],
   ['SHIFT ⏎', 'Save the selected scene'],
   ['ESC', 'Cancel a pending hue / saturation change'],
-  ['1 – 8', 'Switch page'],
+  ['1 – 9', 'Switch page'],
   ['Q  E', 'Previous / next subpage (Control Desk)'],
   ['F', 'Full screen on / off (desktop app)'],
 ]

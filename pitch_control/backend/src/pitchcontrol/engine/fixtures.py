@@ -49,21 +49,19 @@ class Fixture:
     # -- effective settings (instance overrides type)
     @property
     def pixels(self) -> int:
-        return self.inst.pixels or self.ftype.pixels
+        return self.ftype.pixels
 
     @property
     def react_to_strobo(self) -> bool:
-        r = self.inst.react_to_strobo
-        return self.ftype.react_to_strobo if r is None else r
+        return self.inst.override("react_to_strobo", self.ftype.react_to_strobo)
 
     @property
     def gamma(self) -> float:
-        g = self.inst.gamma
-        return self.ftype.gamma if g is None else g
+        return self.inst.override("gamma", self.ftype.gamma)
 
     @property
     def strobo_color(self) -> HSB:
-        return self.inst.strobo_color or self.ftype.strobo_color
+        return self.inst.override("strobo_color", self.ftype.strobo_color)
 
     # -- per frame
     def update(
@@ -148,7 +146,7 @@ class Fixture:
             if ch.pixels:
                 out += self.pixel_bytes(ch.pixels)
             elif ch.value is not None:
-                value = self.inst.channel_values.get(ch.name, ch.value) if ch.name else ch.value
+                value = self.inst.channel_value(ch.name, ch.value)
                 out.append(int(value) & 0xFF)
             elif ch.macro:
                 out.append(int(round(min(max(macros.value(ch.macro), 0.0), 1.0) * 255)))

@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { api, type FixtureInstance, type FixtureType, type MacroDef, type Rig } from '../api'
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
+import { api, channelCount, type FixtureInstance, type FixtureType, type HSB, type MacroDef, type Override, type Rig } from '../api'
 import { OutputMonitor } from '../components/OutputMonitor'
 import { Preview } from '../components/Preview'
 import { RigPanel, type RigList } from '../components/RigPanel'
-import { Button, NumberInput, Row, Section, Toggle } from '../components/forms'
+import { hsvCss } from '../components/MacroControl'
+import { Button, Check, NumberInput, Row, Section, Toggle } from '../components/forms'
 import type { EngineConnection } from '../useEngine'
 import { useElementWidth } from '../useElementWidth'
 
@@ -33,7 +34,17 @@ const MIXED = Symbol('mixed')
 type Mixed<T> = T | typeof MIXED
 const MIXED_OPTION = '__mixed__'
 
-export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Record<string, MacroDef> }) {
+/** Tells the Fixtures page which type to open (the "edit type" link). */
+export const OPEN_TYPE_KEY = 'pitchcontrol.openFixtureType'
+
+const WHITE: HSB = { h: 0, s: 0, b: 1 }
+
+/**
+ * The rig of one event: the rig file, the fixtures in it and everything that differs per fixture.
+ * Fixture types (pixels, channel layout, defaults) are edited on the Fixtures page; a fixture can
+ * override some type values (checkbox; the undo arrow goes back to the type's value).
+ */
+export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<string, MacroDef> }) {
   const [rig, setRig] = useState<Rig | null>(null)
   const [rigs, setRigs] = useState<RigList>({ active: '', available: [] })
   const [types, setTypes] = useState<Record<string, FixtureType>>({})
@@ -101,32 +112,68 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
     return v === MIXED ? MIXED_OPTION : v
   }
   /**
-   * A gamma field is never empty: it shows the value in effect. Inherited from the fixture type
-   * (dim, "from type") until set on the fixture; "↺ type" goes back to inheriting.
+   * One overridable fixture-type value (Unreal-style): the checkbox marks it overridden; switched
+   * off, the field is disabled but keeps the override value, so switching on restores it. "default"
+   * shows the type's value; the undo arrow (shown while an override differs from it) goes back to it.
    */
-  const gammaField = (key: 'gamma') => {
-    const effective = same((f) => f[key] ?? types[f.type]?.[key] ?? 1)
-    const inherited = fxs.every((f) => f[key] == null)
+  const overrideRow = <T,>(o: {
+    label: string
+    hint: string
+    get: (f: FixtureInstance) => Override<T> | null | undefined
+    set: (f: FixtureInstance, v: Override<T> | null) => void
+    def: (f: FixtureInstance) => T
+    show: (v: T) => ReactNode
+    input: (value: T | null, disabled: boolean, editEach: (fn: (current: T) => T) => void) => ReactNode
+  }) => {
+    const on = same((f) => !!o.get(f)?.enabled)
+    const value = same((f) => o.get(f)?.value ?? o.def(f))
+    const dflt = same(o.def)
+    const differs = fxs.some((f) => {
+      const x = o.get(f)
+      return !!x?.enabled && JSON.stringify(x.value) !== JSON.stringify(o.def(f))
+    })
+    const editEach = (fn: (current: T) => T) => edit((f) => o.set(f, { enabled: true, value: fn(o.get(f)?.value ?? o.def(f)) }))
     return (
-      <>
-        <NumberInput
-          value={effective === MIXED ? null : effective}
-          placeholder={effective === MIXED ? 'multiple' : undefined}
-          min={0.1}
-          max={5}
-          className={`w-24 shrink ${inherited ? 'text-dim' : ''}`}
-          onChange={(v) => edit((f) => (f[key] = v))}
+      <Row key={o.label} label={o.label} hint={o.hint} plain>
+        <Check
+          checked={on === true}
+          mixed={on === MIXED}
+          title="Override the fixture type's value for this fixture"
+          onChange={(v) => edit((f) => o.set(f, { enabled: v, value: o.get(f)?.value ?? o.def(f) }))}
         />
-        {inherited ? (
-          <span className="lbl text-[10px] text-dim">from type</span>
-        ) : (
-          <button className="lbl text-[10px] text-dim hover:text-ink" title="Use the fixture type's value" onClick={() => edit((f) => (f[key] = null))}>
-            ↺ type
+        {o.input(value === MIXED ? null : value, on !== true, editEach)}
+        <span className="lbl text-[10px] whitespace-nowrap text-dim">default {dflt === MIXED ? 'multiple' : o.show(dflt)}</span>
+        {differs && (
+          <button
+            title="Back to the fixture type's value"
+            className="text-glow flex-none px-0.5 text-[15px] leading-none hover:opacity-80"
+            onClick={() => edit((f) => o.set(f, null))}
+          >
+            ↺
           </button>
         )}
-      </>
+      </Row>
     )
   }
+
+  /** H, S, B fields (0–1) with a swatch, for the strobo colour. */
+  const hsbInputs = (value: HSB | null, disabled: boolean, editEach: (fn: (c: HSB) => HSB) => void) => (
+    <>
+      {(['h', 's', 'b'] as const).map((k) => (
+        <NumberInput
+          key={k}
+          value={value ? value[k] : null}
+          placeholder={value ? undefined : 'multiple'}
+          disabled={disabled}
+          min={0}
+          max={1}
+          className="w-14 shrink"
+          onChange={(v) => editEach((c) => ({ ...c, [k]: v }))}
+        />
+      ))}
+      {value && <span className="size-3.5 flex-none" style={{ background: hsvCss(value.h, value.s, value.b) }} />}
+    </>
+  )
 
   const mixedOption = (value: string) =>
     value === MIXED_OPTION && (
@@ -168,6 +215,14 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
   }
 
   const fx = fxs[0] // the fixture in single mode, the first selected one in multi-edit
+  const typeOf = (f: FixtureInstance): FixtureType | undefined => types[f.type]
+  const openType = (name: string) => {
+    try {
+      sessionStorage.setItem(OPEN_TYPE_KEY, name)
+    } catch {
+      /* the Fixtures page then opens its first type */
+    }
+  }
   const dimmerNames = Object.values(defs).filter((d) => d.page === 'dimmers')
   const sharedType = same((f) => f.type)
   const ftype = sharedType === MIXED ? undefined : types[sharedType]
@@ -259,6 +314,17 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
                     ))}
                   </select>
                 </Row>
+                {ftype && (
+                  <Row label="" plain>
+                    <span className="lbl text-[10px] text-dim">
+                      {ftype.pixels} px {ftype.channels.find((c) => c.pixels)?.pixels ?? 'RGB'} ·{' '}
+                      {ftype.transport === 'pitchpls_v2' ? 'v2 serial' : `${channelCount(ftype)} DMX ch`}
+                    </span>
+                    <a href="#Fixtures" className="lbl text-[10px] text-ink hover:underline" onClick={() => openType(ftype.name)}>
+                      edit type ›
+                    </a>
+                  </Row>
+                )}
                 <Row label="Enabled">
                   <Toggle checked={enabled === true} mixed={enabled === MIXED} onChange={(v) => edit((f) => (f.enabled = v))} />
                 </Row>
@@ -272,9 +338,6 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
                 <Row label="Universe / address">
                   <NumberInput {...num((f) => f.universe)} integer min={0} onChange={(v) => edit((f) => (f.universe = v))} className="w-16" />
                   <NumberInput {...num((f) => f.address)} integer min={1} max={512} onChange={(v) => edit((f) => (f.address = v))} className="w-20" />
-                </Row>
-                <Row label="Pixels" hint="Empty = from the fixture type">
-                  <NumberInput {...num((f) => f.pixels ?? types[f.type]?.pixels)} integer min={1} onChange={(v) => edit((f) => (f.pixels = v))} />
                 </Row>
                 <Row label="Position (u, v)">
                   <NumberInput {...num((f) => f.position[0])} onChange={(v) => edit((f) => (f.position = [v, f.position[1]]))} />
@@ -298,25 +361,17 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
                     ))}
                   </select>
                 </Row>
+                {fxs.every((f) => typeOf(f)?.channels.some((c) => c.shutter)) && (
+                  <Row label="Real strobo" hint="Use the fixture's own shutter channel on strobo peaks">
+                    <Toggle
+                      checked={same((f) => f.real_strobo) === true}
+                      mixed={same((f) => f.real_strobo) === MIXED}
+                      onChange={(v) => edit((f) => (f.real_strobo = v))}
+                    />
+                  </Row>
+                )}
               </div>
               <div>
-                <Row label="React to strobo" hint="Empty = from the fixture type">
-                  <select
-                    value={opt((f) => (f.react_to_strobo == null ? '' : String(f.react_to_strobo)))}
-                    onChange={(e) => edit((f) => (f.react_to_strobo = e.target.value === '' ? null : e.target.value === 'true'))}
-                  >
-                    {mixedOption(opt((f) => (f.react_to_strobo == null ? '' : String(f.react_to_strobo))))}
-                    <option value="">type default</option>
-                    <option value="true">yes</option>
-                    <option value="false">no</option>
-                  </select>
-                </Row>
-                <Row
-                  label="Gamma"
-                  hint="Device curve, per channel: what is sent = value ^ gamma. 1 sends perceptual values unchanged (PitchPlease v2 / v3 decode them in their firmware); about 2.2 for devices without their own curve"
-                >
-                  {gammaField('gamma')}
-                </Row>
                 <Row label="Hue source">
                   <select value={hueSource} onChange={(e) => edit((f) => (f.hue_source = e.target.value as FixtureInstance['hue_source']))}>
                     {mixedOption(hueSource)}
@@ -379,11 +434,79 @@ export function Fixtures({ engine, defs }: { engine: EngineConnection; defs: Rec
               </div>
             </div>
           )}
-          {ftype && (
-            <details className="mt-4">
-              <summary className="cursor-pointer text-[11px] text-dim">Fixture type “{ftype.name}”</summary>
-              <pre className="mt-2 max-h-64 overflow-auto bg-panel-2 p-2 text-[11px]">{JSON.stringify(ftype, null, 2)}</pre>
-            </details>
+          {fx && (
+            <div className="mt-4 border-t border-seam pt-3">
+              <p className="lbl mb-1.5 text-[10px] text-dim">Fixture type values · tick to override for this fixture · ↺ back to the type</p>
+              {overrideRow<number>({
+                label: 'Gamma',
+                hint: 'Device curve, per channel: what is sent = value ^ gamma. 1 sends perceptual values unchanged (PitchPlease v2 / v3 decode them in their firmware); about 2.2 for devices without their own curve',
+                get: (f) => f.gamma,
+                set: (f, v) => (f.gamma = v),
+                def: (f) => typeOf(f)?.gamma ?? 1,
+                show: (v) => v,
+                input: (value, disabled, editEach) => (
+                  <NumberInput
+                    value={value}
+                    placeholder={value == null ? 'multiple' : undefined}
+                    disabled={disabled}
+                    min={0.1}
+                    max={5}
+                    className="w-20 shrink"
+                    onChange={(v) => editEach(() => v)}
+                  />
+                ),
+              })}
+              {overrideRow<boolean>({
+                label: 'Reacts to strobo',
+                hint: 'Whether the fixture flashes on strobo peaks',
+                get: (f) => f.react_to_strobo,
+                set: (f, v) => (f.react_to_strobo = v),
+                def: (f) => typeOf(f)?.react_to_strobo ?? false,
+                show: (v) => (v ? 'yes' : 'no'),
+                input: (value, disabled, editEach) => (
+                  <Toggle checked={value === true} mixed={value === null} disabled={disabled} onChange={(v) => editEach(() => v)} />
+                ),
+              })}
+              {overrideRow<HSB>({
+                label: 'Strobo colour',
+                hint: 'Colour of the strobo flash: hue, saturation, brightness (0–1)',
+                get: (f) => f.strobo_color,
+                set: (f, v) => (f.strobo_color = v),
+                def: (f) => typeOf(f)?.strobo_color ?? WHITE,
+                show: (v) => <span className="inline-block size-2.5 align-middle" style={{ background: hsvCss(v.h, v.s, v.b) }} />,
+                input: hsbInputs,
+              })}
+              {ftype &&
+                ftype.channels
+                  .filter((c) => c.value != null && c.name)
+                  .map((c) =>
+                    overrideRow<number>({
+                      label: `Channel “${c.name}”`,
+                      hint: 'A constant channel of the fixture type (0–255)',
+                      get: (f) => f.channel_values?.[c.name!],
+                      set: (f, v) => {
+                        f.channel_values = { ...(f.channel_values ?? {}) }
+                        if (v) f.channel_values[c.name!] = v
+                        else delete f.channel_values[c.name!]
+                      },
+                      def: () => c.value!,
+                      show: (v) => v,
+                      input: (value, disabled, editEach) => (
+                        <NumberInput
+                          value={value}
+                          placeholder={value == null ? 'multiple' : undefined}
+                          disabled={disabled}
+                          integer
+                          min={0}
+                          max={255}
+                          className="w-20 shrink"
+                          onChange={(v) => editEach(() => v)}
+                        />
+                      ),
+                    }),
+                  )}
+              {sharedType === MIXED && <p className="lbl mt-1 text-[10px] text-dim">Channel values: select fixtures of one type.</p>}
+            </div>
           )}
         </div>
       </Section>

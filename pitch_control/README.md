@@ -9,7 +9,7 @@ The design and the reverse-engineered vvvv logic are documented in the wiki: [Pi
 
 ## Pages
 
-Keys 1–8 switch between the pages. Everything can be operated from the keyboard (see [Using the UI](#using-the-ui)). The screenshots were taken at the 1512 × 915 design size with amber ink, without hardware connected (so audio, MIDI and the Enttec show as off), with a synthetic techno loop feeding the audio analysis.
+Keys 1–9 switch between the pages. Everything can be operated from the keyboard (see [Using the UI](#using-the-ui)). The screenshots were taken at the 1512 × 915 design size with amber ink, without hardware connected (so audio, MIDI and the Enttec show as off), with a synthetic techno loop feeding the audio analysis.
 
 ### 1 · General
 
@@ -26,38 +26,50 @@ The page for playing the show:
 
 ![Dimmers page](screenshots/dimmers.png)
 
-16 dimmer faders, one per group of lights; the Launch Control XL's page knob switches its faders between General and Dimmers. Each fixture picks its dimmer on the Fixtures page. A dimmer that no fixture uses is disabled (hatched, "no fixtures") and ignores MIDI. Double-click a name to rename it; Enter confirms, Esc cancels. The names are saved with the rig.
+16 dimmer faders, one per group of lights; the Launch Control XL's page knob switches its faders between General and Dimmers. Each fixture picks its dimmer on the Rig page. A dimmer that no fixture uses is disabled (hatched, "no fixtures") and ignores MIDI. Double-click a name to rename it; Enter confirms, Esc cancels. The names are saved with the rig.
 
 ### 3 · Fixtures
 
 ![Fixtures page](screenshots/fixtures.png)
 
-Editing the rig, the lights of one event:
+The fixture types: everything shared by all fixtures of one model, one JSON file each in `config/fixtures/types/`.
+- **Fixture types:** the list, with New, Duplicate, Rename and Delete. Renaming updates every rig that uses the type; a type that a rig uses can't be deleted.
+- **Type editor:** description, output (DMX or the PitchPlease v2 serial protocol), pixel count, gamma, whether it reacts to strobo, and its strobo colour. Below that is the channel layout in DMX order. Each channel is a constant (e.g. master = 255), a macro (e.g. a strip dimmer following "Dimmer 01"), a shutter (open / strobe values) or the pixel block (R, RGB or RGBW). ↑ ↓ ✕ reorder and remove channels.
+- **Channel map:** the resulting DMX channels with their numbers, the total, and how many fixtures of the type fit one universe.
+
+Edits apply to the lights right away and mark the type unsaved; Save writes the file, Revert reloads it.
+
+### 4 · Rig
+
+![Rig page](screenshots/rig.png)
+
+The rig: the fixtures of one event and everything that differs per fixture.
 - **Rig:** load, save, revert, rename, duplicate, create or delete rig files, and edit the description. Unsaved changes are flagged, and loading another rig asks first.
-- **Fixtures:** the list of lights with Add / Duplicate / Remove. Shift + click selects several to edit them together.
-- **Fixture editor:** type, group, DMX universe and address, placement (position, rotation, length), dimmer, gamma, colour sources and idle remap. Number fields step with ↑ / ↓ or a right-mouse drag.
+- **Fixtures:** the list of fixtures with Add / Duplicate / Remove. Shift + click selects several to edit them together.
+- **Fixture editor:** name, type (with a summary and an "edit type" link), group, DMX universe and address, placement (position, rotation, length), dimmer, colour sources and idle remap. Number fields step with ↑ / ↓ or a right-mouse drag.
+- **Fixture type values:** gamma, reacts to strobo, strobo colour and the named constant channels can be overridden per fixture. The checkbox switches an override on. Switched off, the field is greyed out but keeps its value, so switching it on again restores it; "default" shows the type's value, and ↺ goes back to it.
 - **Placement:** the selected fixtures highlighted in the scene preview, their live output colours and, with "show channel values", a table of the DMX channels they write.
 
-### 4 · Inputs
+### 5 · Inputs
 
 ![Inputs page](screenshots/inputs.png)
 
 - **Audio input:** device, input channels and gain, with the 32-band meter. The dotted line shows how strongly each band counts towards the strobo trigger.
 - **MIDI controller:** controller mapping and port, and a monitor of the last received messages, showing which macro each one moved or why it was ignored.
 
-### 5 · Outputs
+### 6 · Outputs
 
 ![Outputs page](screenshots/outputs.png)
 
 The Enttec DMX USB Pro (device and universe), Art-Net targets (universe → IP), and the PitchPlease V2 serial output (device, baud rate, mirror mode). Live output on the right shows what every fixture sends: pixel colours and, with "show channel values", the channel table.
 
-### 6 · Fog
+### 7 · Fog
 
 ![Fog page](screenshots/fog.png)
 
 One panel per fog machine: DMX universe and channel, on / off values, a timer ("every … for … seconds"), and whether the Fog button on the General page (or the controller) fires it by hand. The header shows when it is fogging.
 
-### 7 · Settings
+### 8 · Settings
 
 ![Settings page](screenshots/settings.png)
 
@@ -65,7 +77,7 @@ One panel per fog machine: DMX universe and channel, on / off values, a timer ("
 - **Keyboard:** the complete keyboard reference.
 - **App** (desktop app only): open the UI in a browser, open the data folder, start in full screen.
 
-### 8 · Control Desk
+### 9 · Control Desk
 
 ![Control Desk page](screenshots/control-desk.png)
 
@@ -139,13 +151,13 @@ Everything works without a mouse — one control is always selected:
 | ↑ / ↓ | change the selected value (Shift = fine) |
 | ⏎ | press the selected button, load the selected scene (Shift + ⏎ = save) |
 | Esc | cancel a pending hue / saturation change |
-| 1 – 8 | switch page |
+| 1 – 9 | switch page |
 | Q / E | previous / next subpage (Control Desk) |
 | F | full screen on / off (desktop app; on a MacBook it also covers the camera-notch strip) |
 
 Number fields apply on Enter and keep the focus, so you can type the next value right away (Escape reverts). ↑ / ↓ or dragging up / down with the right mouse button changes the value in steps (Shift = fine steps): integers 1, floats 0.1 / 0.01, fixture rotation 15° / 1°.
 
-On the Fixtures page, the **Rig** panel manages the rig file: load another rig from the dropdown, edit the description, Save / Revert, Rename, Duplicate (saves the current state, unsaved edits included, as a new rig and switches to it; the original file keeps what was saved), New (empty rig) and Delete (the active rig; the next one is loaded, the last rig can't be deleted). Loading or creating a rig with unsaved changes asks: Save, Discard or Cancel. Edits are live in the engine right away; only Save writes the file. The **Fixtures** panel below it edits the lights in the rig: Add, Duplicate, Remove.
+On the Rig page, the **Rig** panel manages the rig file: load another rig from the dropdown, edit the description, Save / Revert, Rename, Duplicate (saves the current state, unsaved edits included, as a new rig and switches to it; the original file keeps what was saved), New (empty rig) and Delete (the active rig; the next one is loaded, the last rig can't be deleted). Loading or creating a rig with unsaved changes asks: Save, Discard or Cancel. Edits are live in the engine right away; only Save writes the file. The **Fixtures** panel below it edits the lights in the rig: Add, Duplicate, Remove.
 
 In the fixture list, Shift + click adds fixtures to the selection (or removes them) to edit several at once. A field shows a value only if all selected fixtures share it, otherwise "multiple"; a value you enter applies to all of them.
 
@@ -158,8 +170,8 @@ Hue and saturation apply on mouse release, or once keys / the MIDI knob rest; un
 | Path | Content |
 |---|---|
 | `settings.json` | outputs (Enttec, Art-Net, v2 serial), audio input, fog machines, Auto Color palette, engine options |
-| `fixtures/types/*.json` | one file per fixture model; all files are loaded on startup, missing keys get defaults |
-| `rigs/<name>.json` | fixture instances for one event: type, group A/B, universe/address, UV placement (rotation in degrees), dimmer, colour sources; the dimmer names (`dimmer_names`) |
+| `fixtures/types/*.json` | one file per fixture model (edited on the Fixtures page); all files are loaded on startup, missing keys get defaults |
+| `rigs/<name>.json` | fixture instances for one event (edited on the Rig page): type, group A/B, universe/address, UV placement (rotation in degrees), dimmer, colour sources, overrides of type values as `{"enabled": …, "value": …}`; the dimmer names (`dimmer_names`) |
 | `controllers/*.json` | MIDI controller mappings (CC → macro) |
 | `scenes/scene_N.json` | the 8 scenes (macro name → control value) |
 | `state/macros.json` | auto-saved macro values for crash recovery (not in git) |

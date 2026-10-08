@@ -70,7 +70,7 @@ export function Dimmers({ engine, defs }: { engine: EngineConnection; defs: Reco
           {error ? (
             <span className="text-ink">✕ {error}</span>
           ) : (
-            'Fixtures choose their dimmer on the Fixtures page · a dimmer no fixture uses is disabled and ignores MIDI · double-click a name to rename it (saved with the rig)'
+            'Fixtures choose their dimmer on the Rig page · a dimmer no fixture uses is disabled and ignores MIDI · double-click a name to rename it (saved with the rig)'
           )}
         </p>
       </Section>

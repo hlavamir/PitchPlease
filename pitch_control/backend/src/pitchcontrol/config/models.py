@@ -8,7 +8,7 @@ Missing keys are filled with the defaults defined here.
 from __future__ import annotations
 
 import logging
-from typing import Literal
+from typing import Generic, Literal, TypeVar
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -128,6 +128,41 @@ class FixtureType(Model):
 
 # --------------------------------------------------------------------------- rigs
 
+T = TypeVar("T")
+
+
+class Override(Model, Generic[T]):
+    """A fixture's override of a fixture-type value. Switched off, the type's value is used but the
+    override value is kept, so switching it on again restores it (the UI's override checkbox)."""
+
+    enabled: bool = True
+    value: T
+
+
+OVERRIDABLE = ("gamma", "react_to_strobo", "strobo_color")
+
+
+def _wrap_plain_overrides(data, where: str):
+    """Old rigs stored overrides as plain values ("gamma": 2.0, "channel_values": {"mode": 2});
+    they become enabled overrides. The per-fixture pixel count is no longer overridable."""
+    if not isinstance(data, dict):
+        return data
+    data = dict(data)
+    for key in OVERRIDABLE:
+        v = data.get(key)
+        if v is not None and not (isinstance(v, dict) and "value" in v):
+            data[key] = {"enabled": True, "value": v}
+    cv = data.get("channel_values")
+    if isinstance(cv, dict):
+        data["channel_values"] = {
+            k: v if isinstance(v, dict) and "value" in v else {"enabled": True, "value": v} for k, v in cv.items()
+        }
+    if data.get("pixels") is not None:
+        log.warning("%s: a per-fixture pixel count is no longer supported (ignored); use a fixture type with that many pixels", where)
+    data.pop("pixels", None)
+    return data
+
+
 
 class IdleMaskRange(Model):
     """Remap of the sampled mask value: ``lerp(min, max, mask ** (2 ** curve))``.
@@ -158,28 +193,45 @@ class FixtureInstance(Model):
     length: float = 0.0  # pixels are spread along this length, centred on position
     pixel_positions: list[tuple[float, float]] | None = None  # explicit positions override the spread
 
-    # overrides of fixture-type defaults (None = take from type)
-    pixels: int | None = None
-    gamma: float | None = None  # > 0; an invalid value falls back to the type's
-    react_to_strobo: bool | None = None
-    strobo_color: HSB | None = None
-    real_strobo: bool = False
-    channel_values: dict[str, int] = Field(default_factory=dict)
+    # overrides of fixture-type values (None = never overridden; switched off = type's value)
+    gamma: Override[float] | None = None  # > 0
+    react_to_strobo: Override[bool] | None = None
+    strobo_color: Override[HSB] | None = None
+    channel_values: dict[str, Override[int]] = Field(default_factory=dict)  # constant channels by name
+    real_strobo: bool = False  # use the type's shutter channel on peaks (only for types with one)
 
     dimmer_macro: str | None = None
 
     @model_validator(mode="before")
     @classmethod
-    def _legacy_gamma(cls, data):
-        return _merge_legacy_gamma(data, f"fixture {data.get('name', '') if isinstance(data, dict) else ''}".strip())
+    def _legacy(cls, data):
+        where = f"fixture {data.get('name', '') if isinstance(data, dict) else ''}".strip()
+        return _wrap_plain_overrides(_merge_legacy_gamma(data, where), where)
 
-    @field_validator("gamma", mode="before")
+    @field_validator("gamma", mode="after")
     @classmethod
     def _gamma_positive(cls, v):
-        if v is not None and float(v) <= 0:
-            log.warning("fixture: gamma must be > 0 (got %r), using the fixture type's", v)
+        if v is not None and v.value <= 0:
+            log.warning("fixture: gamma override must be > 0 (got %r), dropped", v.value)
             return None
         return v
+
+    @field_validator("channel_values", mode="after")
+    @classmethod
+    def _channel_values_in_range(cls, v):
+        for name, o in v.items():
+            if not 0 <= o.value <= 255:
+                raise ValueError(f"channel value '{name}' must be 0–255, got {o.value}")
+        return v
+
+    def override(self, key: str, default):
+        """The fixture's value for an overridable type property."""
+        o = getattr(self, key)
+        return o.value if o is not None and o.enabled else default
+
+    def channel_value(self, name: str | None, default: int) -> int:
+        o = self.channel_values.get(name) if name else None
+        return o.value if o is not None and o.enabled else default
 
     # colour sources (see port-design, Colour and Brightness Model)
     hue_source: Literal["group", "A", "B", "const"] = "group"

@@ -43,6 +43,11 @@ class Activate(BaseModel):
     name: str
 
 
+class NewType(BaseModel):
+    name: str
+    copy_of: str | None = None  # duplicate this type
+
+
 class DimmerName(BaseModel):
     macro: str
     name: str
@@ -178,13 +183,88 @@ def create_app(engine: Engine, static_dir: Path | None = None, desktop: dict | N
     def fixture_types():
         return {name: t.model_dump(mode="json", exclude_none=True) for name, t in store.fixture_types.items()}
 
+    type_state: dict[str, set[str]] = {"unsaved": set()}  # types with live changes not yet in their file
+
+    def known_type(name: str) -> None:
+        if name not in store.fixture_types:
+            raise HTTPException(404, f"fixture type '{name}' not found")
+
+    @app.get("/api/fixture-types/status")
+    def fixture_types_status():
+        return {"unsaved": sorted(type_state["unsaved"]), "usage": store.type_usage()}
+
     @app.put("/api/fixture-types/{name}")
-    def put_fixture_type(name: str, data: dict):
+    def put_fixture_type(name: str, data: dict, persist: bool = True):
+        """Apply a fixture type to the engine; ``persist=false`` applies it live without writing the file."""
+        known_type(name)
         ftype = FixtureType.model_validate(data | {"name": name})
-        report_unknown_keys(ftype, f"fixture type '{name}' (from UI)")
-        store.save_fixture_type(ftype)
-        store.fixture_types[name] = ftype
+        if persist:
+            report_unknown_keys(ftype, f"fixture type '{name}' (from UI)")
+            store.save_fixture_type(ftype)
+            type_state["unsaved"].discard(name)
+        else:
+            type_state["unsaved"].add(name)
+        with engine.lock:
+            store.fixture_types[name] = ftype
         engine.rebuild_fixtures()
+        return {"ok": True, "problems": store.validate_rig()}
+
+    @app.post("/api/fixture-types/{name}/reload")
+    def reload_fixture_type(name: str):
+        """Discard live (unsaved) changes of a type: reload its file."""
+        known_type(name)
+        ftype = store.load_fixture_type(name)
+        if ftype is None:
+            raise HTTPException(409, f"the file of fixture type '{name}' can't be read")
+        with engine.lock:
+            store.fixture_types[name] = ftype
+        type_state["unsaved"].discard(name)
+        engine.rebuild_fixtures()
+        return ftype.model_dump(mode="json", exclude_none=True)
+
+    @app.post("/api/fixture-types")
+    def create_fixture_type(body: NewType):
+        """A new type file: a copy of another type (as it is live), or 1 RGB pixel on DMX."""
+        name = body.name.strip()
+        problem = store.type_name_problem(name)
+        if problem:
+            raise HTTPException(409, problem)
+        if body.copy_of is not None:
+            known_type(body.copy_of)
+            ftype = store.fixture_types[body.copy_of].model_copy(deep=True, update={"name": name})
+        else:
+            ftype = FixtureType(name=name)
+        store.save_fixture_type(ftype)
+        with engine.lock:
+            store.fixture_types[name] = ftype
+        return {"ok": True, "name": name}
+
+    @app.post("/api/fixture-types/{name}/rename")
+    def rename_fixture_type(name: str, body: Activate):
+        """Rename a type and update every rig that uses it."""
+        known_type(name)
+        new = body.name.strip()
+        problem = store.type_name_problem(new)
+        if problem and new.lower() != name.lower():
+            raise HTTPException(409, problem)
+        with engine.lock:
+            changed = store.rename_fixture_type(name, new)
+        if name in type_state["unsaved"]:
+            type_state["unsaved"].discard(name)
+            type_state["unsaved"].add(new)
+        engine.rebuild_fixtures()
+        return {"ok": True, "name": new, "rigs_updated": changed}
+
+    @app.delete("/api/fixture-types/{name}")
+    def delete_fixture_type(name: str):
+        """Delete a type file; refused while any rig uses it."""
+        known_type(name)
+        used = store.type_usage().get(name, [])
+        if used:
+            raise HTTPException(409, f"used by the rig{'s' if len(used) > 1 else ''} {', '.join(used)}")
+        with engine.lock:
+            store.delete_fixture_type(name)
+        type_state["unsaved"].discard(name)
         return {"ok": True}
 
     rig_state = {"unsaved": False}  # live rig changes not yet written to the file

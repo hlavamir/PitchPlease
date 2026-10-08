@@ -7,13 +7,14 @@ import { Fog } from './pages/Fog'
 import { General } from './pages/General'
 import { Inputs } from './pages/Inputs'
 import { Output } from './pages/Output'
+import { Rig } from './pages/Rig'
 import { ControlDesk } from './pages/ControlDesk'
 import { Settings } from './pages/Settings'
 import { DEFAULT_UI, applyScale, applyTheme, clampScale, type UiSettings } from './theme'
 import { useEngine } from './useEngine'
 import { SelectionContext, isTyping, type FooterSelection } from './useGridNav'
 
-const PAGES = ['General', 'Dimmers', 'Fixtures', 'Inputs', 'Outputs', 'Fog', 'Settings', 'Control Desk'] as const
+const PAGES = ['General', 'Dimmers', 'Fixtures', 'Rig', 'Inputs', 'Outputs', 'Fog', 'Settings', 'Control Desk'] as const
 type Page = (typeof PAGES)[number]
 
 function initialPage(): Page {
@@ -29,7 +30,7 @@ const KEYS: [string, string][] = [
   ['SHIFT', 'fine'],
   ['⏎', 'press'],
   ['ESC', 'cancel'],
-  ['1–8', 'page'],
+  ['1–9', 'page'],
   ['F', 'full screen'],
 ]
 
@@ -86,7 +87,7 @@ export default function App() {
     if (res) setFullscreen((f) => ({ ...f, on: res.fullscreen }))
   }, [])
 
-  // 1–8 switch pages, F full screen (not while typing in a field)
+  // 1–9 switch pages, F full screen (not while typing in a field)
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (isTyping(e) || e.metaKey || e.ctrlKey || e.altKey) return
@@ -185,7 +186,8 @@ export default function App() {
         <main className="page-scroll mx-1.5 min-h-0 flex-1 overflow-auto py-1.5">
           {page === 'General' && <General engine={engine} defs={defs} />}
           {page === 'Dimmers' && <Dimmers engine={engine} defs={defs} />}
-          {page === 'Fixtures' && <Fixtures engine={engine} defs={defs} />}
+          {page === 'Fixtures' && <Fixtures defs={defs} />}
+          {page === 'Rig' && <Rig engine={engine} defs={defs} />}
           {page === 'Outputs' && <Output engine={engine} />}
           {page === 'Inputs' && <Inputs engine={engine} />}
           {page === 'Fog' && <Fog engine={engine} />}

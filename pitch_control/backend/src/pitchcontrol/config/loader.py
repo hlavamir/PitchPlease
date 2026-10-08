@@ -128,6 +128,7 @@ class ConfigStore:
             ftype = load_model(path, FixtureType, name=path.stem)
             if ftype is None:
                 continue
+            ftype.name = path.stem  # the file name is the type name
             if ftype.name in self.fixture_types:
                 log.error("%s: duplicate fixture type name '%s', skipped", path, ftype.name)
                 continue
@@ -152,7 +153,7 @@ class ConfigStore:
                 continue
             if not fx.enabled or ftype.transport != "dmx":
                 continue
-            count = ftype.channel_count(fx.pixels)
+            count = ftype.channel_count()
             end = fx.address + count - 1
             if end > 512:
                 problems.append(f"fixture '{fx.name}': channels {fx.address}-{end} exceed 512")
@@ -232,5 +233,77 @@ class ConfigStore:
         self.rig_path(name).unlink()
         log.info("deleted rig '%s'", name)
 
+    # -- fixture type files
+    def type_path(self, name: str) -> Path:
+        return self.types_dir / f"{name}.json"
+
     def save_fixture_type(self, ftype: FixtureType) -> None:
-        save_model(self.types_dir / f"{ftype.name}.json", ftype)
+        # the file name is the type name, so it isn't repeated inside the file
+        path = self.type_path(ftype.name)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        data = ftype.model_dump(mode="json", exclude_none=True, exclude={"name"})
+        tmp = path.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+        tmp.replace(path)
+
+    def load_fixture_type(self, name: str) -> FixtureType | None:
+        ftype = load_model(self.type_path(name), FixtureType, name=name)
+        if ftype is not None:
+            ftype.name = name
+        return ftype
+
+    def type_name_problem(self, name: str) -> str | None:
+        """Why ``name`` can't be used for a new fixture type, or None."""
+        if not RIG_NAME.fullmatch(name):
+            return "use letters, digits, space, - _ . (max 64, starting with a letter or digit)"
+        taken = next((n for n in self.fixture_types if n.lower() == name.lower()), None)
+        if taken is not None:
+            return f"the fixture type '{taken}' already exists"
+        return None
+
+    def type_usage(self) -> dict[str, list[str]]:
+        """Fixture type -> the rigs using it: every rig file, the active rig as it is live."""
+        usage: dict[str, set[str]] = {}
+        for name in self.list_names(self.rigs_dir):
+            rig = self.rig if name == self.rig.name else load_model(self.rig_path(name), Rig, name=name)
+            for fx in rig.fixtures if rig else []:
+                usage.setdefault(fx.type, set()).add(name)
+        if self.rig.name not in self.list_names(self.rigs_dir):  # active rig without a file yet
+            for fx in self.rig.fixtures:
+                usage.setdefault(fx.type, set()).add(self.rig.name)
+        return {t: sorted(r) for t, r in usage.items()}
+
+    def rename_fixture_type(self, old: str, new: str) -> list[str]:
+        """Rename a type's file and update every rig that uses it (files and the live rig, whose
+        unsaved changes stay unsaved). Returns the rigs that were changed."""
+        saved = self.load_fixture_type(old) or self.fixture_types[old].model_copy(deep=True)
+        saved.name = new
+        # delete before writing: on case-insensitive file systems (macOS, Windows) a rename that only
+        # changes letter case would otherwise delete the file it just wrote
+        self.type_path(old).unlink(missing_ok=True)
+        self.save_fixture_type(saved)
+        live = self.fixture_types.pop(old)
+        live.name = new
+        self.fixture_types[new] = live
+        changed: list[str] = []
+        for name in self.list_names(self.rigs_dir):
+            rig = load_model(self.rig_path(name), Rig, name=name)
+            if rig is not None and any(fx.type == old for fx in rig.fixtures):
+                for fx in rig.fixtures:
+                    if fx.type == old:
+                        fx.type = new
+                rig.name = name
+                save_model(self.rig_path(name), rig)
+                changed.append(name)
+        for fx in self.rig.fixtures:
+            if fx.type == old:
+                fx.type = new
+                if self.rig.name not in changed:
+                    changed.append(self.rig.name)
+        log.info("renamed fixture type '%s' to '%s' (rigs updated: %s)", old, new, ", ".join(changed) or "none")
+        return changed
+
+    def delete_fixture_type(self, name: str) -> None:
+        self.type_path(name).unlink(missing_ok=True)
+        self.fixture_types.pop(name, None)
+        log.info("deleted fixture type '%s'", name)

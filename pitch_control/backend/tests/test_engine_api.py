@@ -167,3 +167,38 @@ def test_dmx_overrides(store):
     assert client.delete("/api/overrides").json()["released"] == 1
     engine.tick(1 / 40)
     assert engine.universes[0][99] == 255 and len(engine.overrides) == 0
+
+
+def test_fixture_type_management(store):
+    engine = Engine(store, enable_hardware=False)
+    client = TestClient(create_app(engine))
+    rig_type = store.rig.fixtures[0].type
+    status = lambda: client.get("/api/fixture-types/status").json()  # noqa: E731
+
+    # live edit -> unsaved, revert restores the file
+    t = client.get("/api/fixture-types").json()[rig_type]
+    client.put(f"/api/fixture-types/{rig_type}?persist=false", json=t | {"gamma": 1.7})
+    assert store.fixture_types[rig_type].gamma == 1.7 and rig_type in status()["unsaved"]
+    assert client.post(f"/api/fixture-types/{rig_type}/reload").json()["gamma"] == t.get("gamma", 1.0)
+    assert status()["unsaved"] == []
+
+    # new / duplicate; names are unique ignoring case and file-safe
+    assert client.post("/api/fixture-types", json={"name": "spot"}).json()["ok"]
+    assert (store.types_dir / "spot.json").exists() and "name" not in (store.types_dir / "spot.json").read_text()
+    assert client.post("/api/fixture-types", json={"name": "SPOT"}).status_code == 409
+    assert client.post("/api/fixture-types", json={"name": "a/b"}).status_code == 409
+    assert client.post("/api/fixture-types", json={"name": "copy", "copy_of": rig_type}).json()["ok"]
+    assert store.fixture_types["copy"].channels == store.fixture_types[rig_type].channels
+
+    # rename updates every rig that uses the type (files and the live rig)
+    res = client.post(f"/api/fixture-types/{rig_type}/rename", json={"name": "renamed"}).json()
+    assert store.rig.name in res["rigs_updated"] and store.rig.fixtures[0].type == "renamed"
+    assert '"renamed"' in store.rig_path(store.rig.name).read_text()
+    assert not store.type_path(rig_type).exists()
+    # a rename that only changes letter case keeps the file
+    client.post("/api/fixture-types/spot/rename", json={"name": "Spot"})
+    assert "Spot" in store.fixture_types and store.type_path("Spot").exists()
+
+    # delete: refused while used, fine otherwise
+    assert client.delete("/api/fixture-types/renamed").status_code == 409
+    assert client.delete("/api/fixture-types/Spot").json()["ok"] and "Spot" not in store.fixture_types

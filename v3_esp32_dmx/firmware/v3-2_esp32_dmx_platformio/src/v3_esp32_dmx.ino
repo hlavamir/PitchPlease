@@ -2,12 +2,21 @@
 #include <esp_bt.h>
 
 #include <dmx.h>
+#include <esp_system.h>
+#include "flashlog.h"
 
 #define FASTLED_ALLOW_INTERRUPTS 1     // allow the RMT refill ISR to run so it can't starve mid-strip
 #define FASTLED_ESP32_RMT 1
 #define FASTLED_RMT_BUILTIN_DRIVER 1   // buffer the whole frame in the RMT driver, removes mid-frame ISR underruns
 #include <FastLED.h>
 
+
+// Measurement build: at boot, time FastLED.show() for 3 s with FastLED's 400 Hz cap and 3 s
+// without it, write the results to the flash log, and show the uncapped rate as a green bar for
+// 5 s (one lit pixel per 50 Hz). Off in the normal firmware.
+#ifndef MEASURE_REFRESH
+#define MEASURE_REFRESH 0
+#endif
 
 // LEDs
 #define LED_CORE 1
@@ -91,6 +100,28 @@ UBaseType_t uxHighWaterMark;
 
 uint32_t frameCounter = 0;
 
+// monitoring for the flash log (heartbeat every HEARTBEAT_MS, DMX loss / return)
+const uint32_t HEARTBEAT_MS = 10UL * 60UL * 1000UL;
+const uint32_t DMX_LOST_MS = 2000;
+volatile uint32_t dmxFramesTotal = 0;   // every completed DMX frame (DMX task)
+uint32_t showMicrosSum = 0, showMicrosMax = 0, showCount = 0;   // FastLED.show() (LED task)
+uint32_t syncMicrosSum = 0, syncMicrosMax = 0;                  // DMX -> pixels incl. gamma (LED task)
+
+const char *resetReasonText(){
+  switch(esp_reset_reason()){
+    case ESP_RST_POWERON:  return "power on";
+    case ESP_RST_SW:       return "software restart";
+    case ESP_RST_PANIC:    return "crash (panic)";
+    case ESP_RST_INT_WDT:  return "interrupt watchdog";
+    case ESP_RST_TASK_WDT: return "task watchdog";
+    case ESP_RST_WDT:      return "other watchdog";
+    case ESP_RST_BROWNOUT: return "brownout (supply voltage dropped)";
+    case ESP_RST_EXT:      return "external reset pin";
+    case ESP_RST_DEEPSLEEP:return "deep sleep wake";
+    default:               return "unknown";
+  }
+}
+
 void setup(){
   //setCpuFrequencyMhz(240);
   WiFi.mode(WIFI_OFF); // Disable WIFI
@@ -103,6 +134,12 @@ void setup(){
   Serial.println();
   Serial.println("--- PitchPls! v3 ---");
   Serial.println();
+
+  // mini log in flash: show the recent history, then record this boot
+  flashLogBegin();
+  flashLogPrint(30);
+  flashLog("boot: %s, firmware %s %s, DMX start %u, free heap %u", resetReasonText(), __DATE__, __TIME__,
+           (unsigned)DMX_START_CHANNEL, (unsigned)ESP.getFreeHeap());
 
   sync_DMX_LED_Buffers = xSemaphoreCreateMutex();
 
@@ -135,9 +172,91 @@ void setup(){
 }
 
 void loop(){
-  //Serial.println("loop");
-  //delay(1); 
+  flashLogSerialCommands();   // l / t / c / h over USB serial
+  delay(20);
 }
+
+// once per pass of the LED task: DMX loss / return and the periodic heartbeat
+void monitorForLog(){
+  static uint32_t lastFrames = 0, lastFrameChange = 0, lastHeartbeat = 0, heartbeatFrames = 0, heartbeatRenders = 0;
+  static bool seenDmx = false, lost = false;
+  uint32_t now = millis();
+  uint32_t frames = dmxFramesTotal;
+
+  if(frames != lastFrames){
+    if(!seenDmx){
+      seenDmx = true;
+      flashLog("dmx: first frame after %lu s", (unsigned long)(now / 1000));
+    } else if(lost){
+      lost = false;
+      flashLog("dmx back after %lu s without frames", (unsigned long)((now - lastFrameChange) / 1000));
+    }
+    lastFrames = frames;
+    lastFrameChange = now;
+  } else if(seenDmx && !lost && now - lastFrameChange > DMX_LOST_MS){
+    lost = true;
+    flashLog("dmx lost (no frame for %lu ms)", (unsigned long)DMX_LOST_MS);
+  }
+
+  if(now - lastHeartbeat >= HEARTBEAT_MS){
+    float minutes = (now - lastHeartbeat) / 60000.0f;
+    float seconds = minutes * 60.0f;
+    uint32_t renders = frameCounter - heartbeatRenders;
+    flashLog("alive %lu min: dmx %.1f fps, redraws %.1f/s, show %lu us avg / %lu max, render %lu us avg / %lu max",
+             (unsigned long)(now / 60000), (frames - heartbeatFrames) / seconds, renders / seconds,
+             (unsigned long)(showCount ? showMicrosSum / showCount : 0), (unsigned long)showMicrosMax,
+             (unsigned long)(renders ? syncMicrosSum / renders : 0), (unsigned long)syncMicrosMax);
+    lastHeartbeat = now;
+    heartbeatFrames = frames;
+    heartbeatRenders = frameCounter;
+    showMicrosSum = showMicrosMax = showCount = syncMicrosSum = syncMicrosMax = 0;
+  }
+}
+
+#if MEASURE_REFRESH
+// FastLED.show() back to back for `ms`; returns the number of shows, the slowest one in maxUs
+uint32_t runShows(uint32_t ms, uint32_t &maxUs){
+  uint32_t count = 0;
+  maxUs = 0;
+  uint32_t start = millis();
+  while(millis() - start < ms){
+    uint32_t t0 = micros();
+    FastLED.show();
+    uint32_t dt = micros() - t0;
+    if(dt > maxUs) maxUs = dt;
+    count++;
+  }
+  return count;
+}
+
+void measureRefresh(){
+  // dark frame: the WS2811 timing doesn't depend on the colours
+  for(int i = 0; i < NUM_LEDS_TOTAL; i++) setLED(i, 0, 0, 0);
+  outputLED();
+
+  const uint32_t MS = 3000;
+  uint32_t framesBefore = dmxFramesTotal;
+  uint32_t maxCapped, maxFree;
+  uint32_t capped = runShows(MS, maxCapped);   // FastLED's own cap for the ESP32 RMT driver (400 Hz)
+  FastLED.setMaxRefreshRate(0, false);         // no cap
+  uint32_t uncapped = runShows(MS, maxFree);
+  FastLED.setMaxRefreshRate(400, false);       // back to the driver default
+  float hzCapped = capped * 1000.0f / MS, hzFree = uncapped * 1000.0f / MS;
+  flashLog("measure: show() with FastLED cap %.0f Hz (slowest %lu us), uncapped %.0f Hz (slowest %lu us); %u strips x %u LEDs; DMX %s during the test",
+           hzCapped, (unsigned long)maxCapped, hzFree, (unsigned long)maxFree, (unsigned)NUM_STRIPS, (unsigned)NUM_LEDS,
+           dmxFramesTotal != framesBefore ? "running" : "not connected");
+
+  // the uncapped rate as a green bar on every strip: one lit pixel per 50 Hz, for 5 s
+  int lit = min((int)NUM_LEDS, (int)(hzFree / 50.0f + 0.5f));
+  for(int strip = 0; strip < NUM_STRIPS; strip++){
+    for(int i = 0; i < NUM_LEDS; i++){
+      setLED(strip, i, (byte)0, (byte)(i < lit ? 80 : 0), (byte)0);
+    }
+  }
+  outputLED();
+  delay(5000);
+}
+#endif
 
 void loopLED_Task(void *pvParameters){
   // Before any DMX is seen we play the idle breathing animation as a liveness
@@ -148,7 +267,12 @@ void loopLED_Task(void *pvParameters){
   const TickType_t idleRefresh = pdMS_TO_TICKS(1000);
   const TickType_t animFrame   = pdMS_TO_TICKS(1000 / IDLE_ANIM_FPS);
 
+#if MEASURE_REFRESH
+  measureRefresh();
+#endif
+
   while(true){
+    monitorForLog();
     if(dmxActive){
       // DMX is driving: wake on each completed frame, fall back occasionally
       ulTaskNotifyTake(pdTRUE, idleRefresh);
@@ -170,7 +294,11 @@ void frameUpdateLED(){
   //Serial.print(" LED loop frame");
   //Serial.println();
   
+  uint32_t t0 = micros();
   SyncLEDWithDMX();  
+  uint32_t dt = micros() - t0;
+  syncMicrosSum += dt;
+  if(dt > syncMicrosMax) syncMicrosMax = dt;
   delayMicroseconds(50);   
 
   outputLED();
@@ -293,7 +421,12 @@ void outputLED(){
   xSemaphoreGive(sync_DMX_LED_Buffers);
 
   // output LEDs
+  uint32_t t0 = micros();
   FastLED.show();
+  uint32_t dt = micros() - t0;
+  showMicrosSum += dt;
+  showCount++;
+  if(dt > showMicrosMax) showMicrosMax = dt;
 }
 
 void SyncLEDWithDMX(){
@@ -327,6 +460,7 @@ void SyncLEDWithDMX(){
 void OnDMXFrameComplete(){
   bool firstFrame = !dmxActive;
   dmxActive = true;   // a DMX frame arrived; leave the idle animation for good
+  dmxFramesTotal++;
 
   // notify the LED task on the first frame (to hand over from the animation),
   // and thereafter only when an in-block channel actually changed

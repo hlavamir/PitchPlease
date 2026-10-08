@@ -1,7 +1,7 @@
 #!/bin/bash
 # PitchPls! v3 firmware flasher - double-click to run.
-# Asks for the device's first DMX channel and a USB port, then builds and uploads the firmware.
-# The address is passed to the build as -DDMX_START_CHANNEL_VALUE, so no source file is modified.
+# Asks for the device's first DMX channel, the firmware variant and a USB port, then builds and
+# uploads the firmware. Choices are passed to the build as -D flags, so no source file is modified.
 
 cd "$(dirname "$0")" || exit 1
 
@@ -59,7 +59,23 @@ while true; do
   echo "  Not a valid address - enter one of: $ALLOWED_ADDRESSES"
 done
 
-# 2) Port
+# 2) Firmware variant
+echo
+echo "Firmware:"
+echo "  [1] normal"
+echo "  [2] refresh measurement (measures the LED refresh rate at every boot, logs it to flash,"
+echo "      shows it as a green bar for 5 s; read the result later with read-flash-log.command)"
+while true; do
+  read -r -p "Firmware (1-2, Enter = 1): " VARIANT || exit 1
+  VARIANT="${VARIANT:-1}"
+  case "$VARIANT" in
+    1) EXTRA_FLAGS=""; VARIANT_NAME="normal"; break ;;
+    2) EXTRA_FLAGS=" -DMEASURE_REFRESH=1"; VARIANT_NAME="refresh measurement"; break ;;
+    *) echo "  Not a valid choice." ;;
+  esac
+done
+
+# 3) Port
 while true; do
   PORTS=()
   DESCS=()
@@ -90,16 +106,16 @@ while true; do
 done
 PORT="${PORTS[$((CHOICE - 1))]}"
 
-# 3) Build + flash
+# 4) Build + flash
 echo
-echo "Flashing DMX start address $ADDRESS to $PORT ..."
+echo "Flashing the $VARIANT_NAME firmware with DMX start address $ADDRESS to $PORT ..."
 echo
-PLATFORMIO_BUILD_FLAGS="-DDMX_START_CHANNEL_VALUE=$ADDRESS" "$PIO" run --target upload --upload-port "$PORT"
+PLATFORMIO_BUILD_FLAGS="-DDMX_START_CHANNEL_VALUE=$ADDRESS$EXTRA_FLAGS" "$PIO" run --target upload --upload-port "$PORT"
 STATUS=$?
 
 echo
 if [ $STATUS -eq 0 ]; then
-  echo "Done: DMX start address $ADDRESS flashed to $PORT."
+  echo "Done: $VARIANT_NAME firmware, DMX start address $ADDRESS, flashed to $PORT."
 else
   echo "Flashing FAILED (exit code $STATUS) - see the output above."
   echo "Common causes: a serial monitor still has the port open, or the ESP32 needs its BOOT button held when the upload starts."

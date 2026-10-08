@@ -799,3 +799,9 @@ The Fixtures page is split: *Fixtures* (page 3) edits fixture types, *Rig* (page
 ## [2026-10-08] update | Reacts to strobo is a rig setting; tests get their own config
 
 Miro: "reacts to strobo" belongs to the rig only. Fixture types no longer have it; each rig fixture has a plain yes/no. Old type files keep their value only to fill in fixtures that don't set it (so old rigs look the same), old per-fixture overrides convert (enabled → the value). The shipped "Default" rig was migrated with the effective values (pinspots and Panel DJ 1–3 yes, the rest no). The strobo colour is labelled "Strobo colour (HSB)". Miro had renamed the shipped types and the rig in the app, which broke the name-based tests a second time; tests now use a fixed snapshot in `backend/tests/config/`, plus one test that the shipped config loads cleanly. Recorded in [[port-design]] (Frontend Pages).
+
+---
+
+## [2026-10-08] build | PitchControl 1.1.0: versioning, About panel, release workflow
+
+Versioning agreed (semantic, from 1.1.0; Claude keeps the numbers and suggests tags, Miro confirms). Single version source in `pitchcontrol/__init__.py`; version label with `git describe` distance in Settings → About, log and API; `pitch_control/CHANGELOG.md`; the GitHub workflow now also runs on `pitchcontrol-v*` tags and creates a draft release with both builds and the changelog section. READMEs: Download sections, release steps, corrected macOS Gatekeeper steps (Open Anyway since macOS 15). Tags created locally: `pitchcontrol-v1.0.0` (first port, 8b7e5d6) and `pitchcontrol-v1.1.0`. Recorded in [[port-design]] (Versions and Releases).

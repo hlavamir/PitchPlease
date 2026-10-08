@@ -27,6 +27,10 @@ Audio capture from the Komplete Audio 6 on macOS works (stream opens, all 6 inpu
 
 **Update 2026-10-07:** verified by Miro on hardware: the LCXL3 MIDI controller (2026-10-05) and DMX output through the Enttec DMX USB Pro to one Cameo pinspot (2026-10-07; "doing exactly what it should"). Still unverified: Art-Net, v2 serial, the full rig at once, and the Windows build.
 
+## Versions and Releases
+
+Decided 2026-10-08: PitchControl uses semantic versioning, starting at **1.1.0** (1.0.0 = the first port of 2026-10-05, 1.1 = the redesigned UI; from now on the numbers simply follow the rules). Major = old config files (rigs, fixture types, settings) no longer load; minor = new features, old configs still load; patch = fixes only. The config files are the contract with users, which is why every format change so far came with a migration. Tags are `pitchcontrol-vX.Y.Z` (the repo also holds hardware). The number lives only in `pitchcontrol/__init__.py` (`pyproject.toml` reads it dynamically, the app bundle via the PyInstaller spec); the UI shows it in Settings → About, the log at start, `/api/app-info`. Builds between releases show their distance from the last tag (`git describe`, recorded in `build_info.json` for app builds), e.g. "1.1.0+3 (abc1234)" or "1.2.0-dev (…)". `pitch_control/CHANGELOG.md` has an Unreleased section and one per version. Pushing a tag runs the GitHub workflow: it checks tag = `__version__`, builds macOS (Apple Silicon) and Windows, and creates a *draft* release with the changelog section; Miro publishes it by hand. Miro left the numbering to Claude, who suggests new tags as changes accumulate; Miro confirms or objects.
+
 ## Standalone App
 
 Decided 2026-10-05: PitchControl is also packaged as a standalone app for macOS and Windows with PyInstaller (`pitch_control/packaging/`, output in `pitch_control/dist/`).

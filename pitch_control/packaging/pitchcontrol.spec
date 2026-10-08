@@ -7,7 +7,20 @@ from PyInstaller.utils.hooks import collect_submodules
 
 HERE = Path(SPECPATH)
 ROOT = HERE.parent  # pitch_control/
-VERSION = "0.1.0"
+# the release number lives in pitchcontrol/__init__.py
+import re
+import subprocess
+
+VERSION = re.search(r'__version__ = "([^"]+)"', (ROOT / "backend" / "src" / "pitchcontrol" / "__init__.py").read_text()).group(1)
+
+
+def git_describe() -> str | None:
+    try:
+        res = subprocess.run(["git", "describe", "--tags", "--match", "pitchcontrol-v*", "--long", "--dirty"], cwd=ROOT, capture_output=True, text=True, timeout=10)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return res.stdout.strip() if res.returncode == 0 else None
+
 
 # where this repo lives on the build machine: the app uses its config/ folder when it exists
 import json
@@ -15,7 +28,9 @@ from datetime import datetime
 
 BUILD_INFO = Path(workpath) / "build_info.json"
 BUILD_INFO.parent.mkdir(parents=True, exist_ok=True)
-BUILD_INFO.write_text(json.dumps({"pitch_control_dir": str(ROOT), "built": datetime.now().isoformat(timespec="seconds")}))
+BUILD_INFO.write_text(
+    json.dumps({"pitch_control_dir": str(ROOT), "built": datetime.now().isoformat(timespec="seconds"), "version": VERSION, "describe": git_describe()})
+)
 
 # bundled default config (without runtime state), build info and the built web UI
 datas = [(str(ROOT / "frontend" / "dist"), "frontend_dist"), (str(BUILD_INFO), ".")]

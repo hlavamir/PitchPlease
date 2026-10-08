@@ -1,6 +1,6 @@
 [project]
 name = "pitchcontrol"
-version = "0.1.0"
+dynamic = ["version"]  # from src/pitchcontrol/__init__.py
 description = "PitchControl — audio-reactive light control engine for PitchPlease (port of the vvvv patch)"
 requires-python = ">=3.11"
 dependencies = [
@@ -26,6 +26,9 @@ pitchcontrol-app = "pitchcontrol.desktop:main"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "src/pitchcontrol/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pitchcontrol"]

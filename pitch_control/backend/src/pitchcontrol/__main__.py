@@ -12,6 +12,7 @@ from .config.loader import ConfigStore
 from .engine.engine import Engine
 from .logsetup import setup_logging
 from .server.app import create_app
+from .version import version_label
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]  # .../pitch_control
 
@@ -27,7 +28,7 @@ def main() -> None:
 
     setup_logging(args.logs)
     log = logging.getLogger("pitchcontrol")
-    log.info("PitchControl starting, config: %s", args.config)
+    log.info("PitchControl %s starting, config: %s", version_label(), args.config)
 
     store = ConfigStore(args.config)
     store.load_all()

@@ -33,11 +33,13 @@ Audio in → PitchControl → Enttec DMX USB Pro → DMX512 → V3 light poles, 
 
 Status: audio, the Launch Control XL and Enttec DMX output have been verified on hardware. Art-Net, V2 serial output and the Windows build have not been tested yet.
 
-**Quick start:**
+**Download:** ready-to-run builds for macOS (Apple Silicon) and Windows are on the [Releases page](https://github.com/hlavamir/PitchPlease/releases/latest); no Python or Node needed. The current version is in [CHANGELOG.md](pitch_control/CHANGELOG.md).
+
+**From source:**
 - **macOS:** double-click `pitch_control/run.command`.
 - **Windows:** double-click `pitch_control/run.bat`.
 
-On first start they set up Python and build the UI, then open the app in the browser. To build the standalone app instead, run `pitch_control/packaging/build_macos.command` or `build_windows.bat`. Screenshots of every page and all details are in the [PitchControl README](pitch_control/README.md).
+On first start they set up Python and build the UI, then open the app in the browser. To build the standalone app yourself, run `pitch_control/packaging/build_macos.command` or `build_windows.bat`. Screenshots of every page and all details are in the [PitchControl README](pitch_control/README.md).
 
 ## The original vvvv patch
 

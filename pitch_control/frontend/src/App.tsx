@@ -50,6 +50,7 @@ export default function App() {
   const [page, setPage] = useState<Page>(initialPage)
   const [defs, setDefs] = useState<Record<string, MacroDef>>({})
   const [desktop, setDesktop] = useState(false)
+  const [version, setVersion] = useState('')
   const [fullscreen, setFullscreen] = useState<{ supported: boolean; on: boolean }>({ supported: false, on: false })
   const [ui, setUi] = useState<UiSettings>(DEFAULT_UI)
   const [footer, setFooter] = useState<FooterSelection | null>(null)
@@ -57,9 +58,10 @@ export default function App() {
   useEffect(() => {
     api.get<MacroDef[]>('/api/macros/defs').then((list) => setDefs(Object.fromEntries(list.map((d) => [d.name, d]))))
     api
-      .get<{ desktop: boolean; fullscreen_supported: boolean; fullscreen: boolean }>('/api/app-info')
+      .get<{ desktop: boolean; fullscreen_supported: boolean; fullscreen: boolean; version: string }>('/api/app-info')
       .then((info) => {
         setDesktop(info.desktop)
+        setVersion(info.version)
         setFullscreen({ supported: info.fullscreen_supported, on: info.fullscreen })
       })
       .catch(() => undefined)
@@ -191,7 +193,7 @@ export default function App() {
           {page === 'Outputs' && <Output engine={engine} />}
           {page === 'Inputs' && <Inputs engine={engine} />}
           {page === 'Fog' && <Fog engine={engine} />}
-          {page === 'Settings' && <Settings ui={ui} onChange={setUi} desktop={desktop} />}
+          {page === 'Settings' && <Settings ui={ui} onChange={setUi} desktop={desktop} version={version} />}
           {page === 'Control Desk' && <ControlDesk engine={engine} />}
         </main>
 

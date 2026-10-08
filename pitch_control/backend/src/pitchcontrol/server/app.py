@@ -28,6 +28,7 @@ from ..engine.macros import MACRO_DEFS
 from ..io.audio_in import list_input_devices
 from ..io.devices import list_serial_devices
 from ..io.midi_in import list_midi_inputs
+from ..version import version_label
 
 log = logging.getLogger(__name__)
 
@@ -74,6 +75,7 @@ def create_app(engine: Engine, static_dir: Path | None = None, desktop: dict | N
             "data_dir": (desktop or {}).get("data_dir"),
             "fullscreen_supported": fs is not None,
             "fullscreen": bool(fs and fs.active),
+            "version": version_label(),
         }
 
     @app.post("/api/fullscreen")

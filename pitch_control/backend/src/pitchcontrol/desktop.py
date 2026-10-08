@@ -38,6 +38,7 @@ from .config.loader import ConfigStore
 from .engine.engine import Engine
 from .logsetup import setup_logging
 from .server.app import create_app
+from .version import version_label
 
 APP_NAME = "PitchControl"
 DEFAULT_PORT = 8420
@@ -150,7 +151,7 @@ def main() -> None:
     # defaults go only into the Documents fallback or a brand-new folder, never into an existing config
     if reason == "fallback" or not (config_dir / "settings.json").exists():
         copied = install_default_config(bundled_config(res), config_dir)
-    log.info("%s starting, data folder %s (%s, %d default files installed)", APP_NAME, data, reason, len(copied))
+    log.info("%s %s starting, data folder %s (%s, %d default files installed)", APP_NAME, version_label(), data, reason, len(copied))
 
     store = ConfigStore(config_dir)
     store.load_all()

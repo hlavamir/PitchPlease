@@ -1,0 +1,36 @@
+# Changelog
+
+All notable changes to PitchControl. Versions follow [semantic versioning](https://semver.org/):
+**major** = old config files (rigs, fixture types, settings) no longer load, **minor** = new
+features, **patch** = fixes only. Releases are tagged `pitchcontrol-vX.Y.Z`.
+
+## Unreleased
+
+## 1.1.0 — 2026-10-08
+
+First public release. A cross-platform (macOS, Windows) port of the vvvv patch with a new UI.
+
+### Added
+- **Engine:** 40 FPS, 32-band audio analysis with an octave-weighted strobo trigger. It ports the vvvv
+  patch's phase, strobo / idle and colour logic, the four mask presets (Gradient, Back & Forth,
+  Rotating Line, Noise) with symmetry and crossfades, scenes and fog timers.
+- **Outputs:** Enttec DMX USB Pro, Art-Net, PitchPlease v2 serial. Gamma is applied per channel, the
+  same for every output; the PitchPlease v2 / v3 firmware decodes perceptual values itself.
+- **Monochrome UI** in its own window (macOS / Windows) or the browser:
+  - grey, amber or phosphor ink, glow, UI brightness, UI scale with "Fit window";
+  - fully keyboard-driven;
+  - custom full screen that covers the MacBook camera notch.
+- **Pages:**
+  - General, Dimmers (names, unused dimmers disabled);
+  - **Fixtures** (fixture type editor with channel layout and channel map);
+  - **Rig** (rig files and per-fixture values, multi-edit, overrides of type values);
+  - Inputs (audio, MIDI monitor), Outputs, Fog, Settings;
+  - **Control Desk** (manual override of any DMX channel, saved across restarts).
+- **Novation Launch Control XL Mk3** mapping with General / Dimmers page switching.
+- **Config** as plain JSON files (fixture types, rigs, controllers, scenes, settings), edited in the
+  app or by hand; unknown keys are logged, never fatal.
+- **Version** shown in Settings → About and in the log.
+
+## 1.0.0 — 2026-10-05
+
+First working port of the vvvv patch (not released): the engine, outputs and a first web UI.

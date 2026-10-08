@@ -68,7 +68,7 @@ function HSlider({ value, min, max, onChange, selected, onSelect }: { value: num
  * Settings: appearance (ink colour, glow, brightness, key hints) and the keyboard reference.
  * Changes apply immediately and are saved to settings.json, so they are restored next session.
  */
-export function Settings({ ui, onChange, desktop }: { ui: UiSettings; onChange: (ui: UiSettings) => void; desktop?: boolean }) {
+export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; onChange: (ui: UiSettings) => void; desktop?: boolean; version?: string }) {
   const saveTimer = useRef<number | undefined>(undefined)
 
   const change = (patch: Partial<UiSettings>) => {
@@ -227,6 +227,22 @@ export function Settings({ ui, onChange, desktop }: { ui: UiSettings; onChange: 
           <span className="lbl mt-3 text-[10px] text-dim">The browser view can also be used on a second screen or a phone (start with --host 0.0.0.0)</span>
         </Section>
       )}
+      <Section index={desktop ? '04' : '03'} title="About" right="version">
+        <div className="flex items-baseline justify-between gap-3">
+          <span className="lbl text-[12px]">PitchControl</span>
+          <span className="text-glow font-mono text-[16px]" title="+N = commits after that release; (abc1234) = the commit; modified = local changes">
+            {version || '…'}
+          </span>
+        </div>
+        <span className="lbl mt-3 flex gap-4 text-[10px] text-dim">
+          <a className="hover:text-ink" href="https://github.com/hlavamir/PitchPlease" target="_blank" rel="noreferrer">
+            Project on GitHub ›
+          </a>
+          <a className="hover:text-ink" href="https://github.com/hlavamir/PitchPlease/releases" target="_blank" rel="noreferrer">
+            Releases ›
+          </a>
+        </span>
+      </Section>
       </div>
     </div>
   )

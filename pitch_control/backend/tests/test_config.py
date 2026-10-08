@@ -134,3 +134,13 @@ def test_shipped_config_loads(tmp_path):
         store.load_rig(rig)
         assert store.rig.fixtures, f"rig {rig} is empty"
         assert store.validate_rig() == [], f"rig {rig}: {store.validate_rig()}"
+
+
+def test_version_label():
+    from pitchcontrol.version import label_from_describe
+
+    assert label_from_describe(None, "1.1.0") == "1.1.0"  # no git / no tag
+    assert label_from_describe("pitchcontrol-v1.1.0-0-gabc1234", "1.1.0") == "1.1.0"  # the release itself
+    assert label_from_describe("pitchcontrol-v1.1.0-3-gabc1234", "1.1.0") == "1.1.0+3 (abc1234)"
+    assert label_from_describe("pitchcontrol-v1.1.0-0-gabc1234-dirty", "1.1.0") == "1.1.0 (abc1234, modified)"
+    assert label_from_describe("pitchcontrol-v1.1.0-5-gabc1234", "1.2.0") == "1.2.0-dev (abc1234)"  # raised, not tagged

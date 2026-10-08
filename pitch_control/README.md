@@ -83,6 +83,10 @@ One panel per fog machine: DMX universe and channel, on / off values, a timer ("
 
 Every DMX output channel as a slider: pick a universe (0–3) and a subpage of 64 channels (Q / E step through them). The faint bar is what the channel sends now, and the footer names the fixture using it. Dragging a channel, or switching it on, overrides it with the slider value; the switch releases it. Overrides survive restarts. While any are active, the header shows "N overrides", and "Reset all" releases them all after a confirmation.
 
+## Download
+
+Ready-to-run builds for macOS (Apple Silicon) and Windows are on the [Releases page](https://github.com/hlavamir/PitchPlease/releases/latest). Download the zip for your system and unpack it; no Python or Node needed. A downloaded app keeps its configuration in `Documents/PitchControl/` (created on first start with the default rig and fixture types). What changed between versions is in [CHANGELOG.md](CHANGELOG.md); the running version is shown in Settings → About.
+
 ## Run
 
 **macOS:** double-click `run.command`. On first run it sets up the Python environment and builds the UI (it rebuilds when sources change), then starts the backend and opens the UI in the browser. Close the Terminal window to stop. Extra arguments are passed through, e.g. `./run.command --no-hardware`.
@@ -129,12 +133,21 @@ The app shows the UI in its own window. "Open in browser" and "Open data folder"
 4. `~/Documents/PitchControl/` as a fallback. Missing default files are copied in there, and existing files are never overwritten.
 
 The builds are unsigned. On first launch:
-- macOS: right-click the app → Open → Open.
+- macOS: open the app once; when macOS refuses, go to System Settings → Privacy & Security and click "Open Anyway" (right-click → Open no longer bypasses this since macOS 15).
 - Windows: SmartScreen → More info → Run anyway.
 
 macOS asks once for microphone access.
 
 App options (for example from a terminal) are the same as for the backend, plus `--data <folder>` and `--no-window` (use the browser instead of a window). `--host 0.0.0.0` makes the UI reachable from a phone on the LAN.
+
+### Releasing a version
+
+Versions follow semantic versioning (see [CHANGELOG.md](CHANGELOG.md)). The number lives only in `backend/src/pitchcontrol/__init__.py`.
+1. Set `__version__`, and move the changelog's "Unreleased" notes under a `## X.Y.Z — date` heading.
+2. Commit, then tag and push: `git tag -a pitchcontrol-vX.Y.Z -m "PitchControl X.Y.Z"` and `git push origin pitchcontrol-vX.Y.Z`.
+3. The "PitchControl app" workflow checks that the tag matches `__version__`, builds macOS and Windows, and creates a **draft** release with that version's changelog section. Check it on GitHub, then publish it.
+
+Builds between releases show how far past the last tag they are, e.g. `1.1.0+3 (abc1234)`.
 
 ## Using the UI
 

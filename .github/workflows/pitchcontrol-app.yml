@@ -1,9 +1,18 @@
 # Builds the standalone PitchControl app for Windows and macOS.
-# Manual only: GitHub → Actions → "PitchControl app" → Run workflow. Download the zips from the run's artifacts.
+#
+# - Manual test build: GitHub → Actions → "PitchControl app" → Run workflow; download the zips from
+#   the run's artifacts.
+# - Release: push a tag pitchcontrol-vX.Y.Z (X.Y.Z must equal __version__ in
+#   pitch_control/backend/src/pitchcontrol/__init__.py). The builds are attached to a DRAFT GitHub
+#   Release with that version's section of pitch_control/CHANGELOG.md as notes; it becomes public
+#   only when it is published by hand.
 name: PitchControl app
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - "pitchcontrol-v*"
 
 jobs:
   build:
@@ -13,24 +22,82 @@ jobs:
         include:
           - os: windows-latest
             script: pitch_control\packaging\build_windows.bat
-            artifact: pitch_control/dist/PitchControl-windows-x64.zip
+            zip: PitchControl-windows-x64.zip
+            platform: windows-x64
           - os: macos-14 # Apple Silicon
             script: pitch_control/packaging/build_macos.command
-            artifact: pitch_control/dist/PitchControl-macos-arm64.zip
+            zip: PitchControl-macos-arm64.zip
+            platform: macos-arm64
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # tags and history, so test builds can show "1.1.0+3 (abc1234)"
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+      - name: Version
+        id: version
+        shell: bash
+        run: |
+          VERSION=$(python -c "import re,pathlib; print(re.search(r'__version__ = \"([^\"]+)\"', pathlib.Path('pitch_control/backend/src/pitchcontrol/__init__.py').read_text()).group(1))")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if [[ "$GITHUB_REF" == refs/tags/pitchcontrol-v* ]]; then
+            TAG_VERSION="${GITHUB_REF#refs/tags/pitchcontrol-v}"
+            if [ "$TAG_VERSION" != "$VERSION" ]; then
+              echo "::error::Tag says $TAG_VERSION but __version__ is $VERSION"
+              exit 1
+            fi
+          fi
       - name: Build
         shell: bash
         run: |
           if [ "$RUNNER_OS" = "Windows" ]; then cmd //c "${{ matrix.script }}"; else bash "${{ matrix.script }}"; fi
+      - name: Name the zip after the version
+        shell: bash
+        run: mv "pitch_control/dist/${{ matrix.zip }}" "pitch_control/dist/PitchControl-${{ steps.version.outputs.version }}-${{ matrix.platform }}.zip"
       - uses: actions/upload-artifact@v4
         with:
-          name: PitchControl-${{ runner.os }}
-          path: ${{ matrix.artifact }}
+          name: PitchControl-${{ matrix.platform }}
+          path: pitch_control/dist/PitchControl-${{ steps.version.outputs.version }}-${{ matrix.platform }}.zip
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/pitchcontrol-v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - name: Draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          VERSION="${TAG#pitchcontrol-v}"
+          # this version's section of the changelog (from "## X.Y.Z …" to the next "## "), without the heading
+          awk -v v="$VERSION" '
+            /^## / { inside = (index($0, "## " v " ") == 1 || $0 == "## " v); next }
+            inside { print }
+          ' pitch_control/CHANGELOG.md > notes.md
+          if ! grep -q '[^[:space:]]' notes.md; then
+            echo "::error::No section for $VERSION in pitch_control/CHANGELOG.md"
+            exit 1
+          fi
+          cat >> notes.md <<'EOF'
+
+          ---
+          **Install:** download the zip for your system and unpack it. The app is not signed:
+          - **macOS (Apple Silicon):** open PitchControl once; when macOS refuses, go to System Settings → Privacy & Security → "Open Anyway".
+          - **Windows:** SmartScreen → More info → Run anyway.
+
+          On first start the app creates its configuration folder in Documents/PitchControl.
+          EOF
+          gh release create "$TAG" artifacts/*.zip --draft --title "PitchControl $VERSION" --notes-file notes.md

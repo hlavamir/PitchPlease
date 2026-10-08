@@ -787,3 +787,9 @@ Miro pointed out that the v3 firmware already applies dimmers and gamma in 32-bi
 ## [2026-10-08] build | v3 firmware: flash log and refresh measurement build
 
 Miro can't power the ESP32 over USB while the LED supply is on, and the units are closed (only USB and the power connector are reachable). So the v3 firmware now writes a mini log to the internal flash (LittleFS on the unused 1.4 MB data partition), read back later over USB alone with the new `read-flash-log.command`. `firmware-flasher.command` offers a refresh measurement variant (FastLED `show()` rate with and without FastLED's 400 Hz RMT cap, logged and shown as a green bar). First step towards the temporal dithering experiment. Recorded in [[v3]] (Firmware).
+
+---
+
+## [2026-10-08] build | PitchControl: Fixtures (type editor) and Rig pages, Unreal-style overrides
+
+The Fixtures page is split: *Fixtures* (page 3) edits fixture types, *Rig* (page 4) the per-fixture values of the active rig. Miro agreed the per-type / per-fixture / overridable classification and asked for Unreal-style overrides (checkbox, disabled field that keeps its value, undo arrow). Backend: `Override {enabled, value}` for gamma, reacts to strobo, strobo colour and constant channel values; per-fixture pixel count removed; fixture type API (live edit + save, reload, create / duplicate, rename updating all rigs, delete refused while used); case-only renames safe on case-insensitive file systems. UI: disabled fields are dim with a dashed border, text areas got the input style. README pages and screenshots updated. Recorded in [[port-design]] (Frontend Pages).

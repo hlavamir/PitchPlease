@@ -1,6 +1,6 @@
 ---
 date_created: 2026-10-05
-date_modified: 2026-10-07
+date_modified: 2026-10-08
 ---
 
 # PitchControl — Cross-Platform Port of the vvvv Patch
@@ -73,7 +73,9 @@ Per fixture: membership in group A or B as today, plus optional overrides. Hue a
 
 **Hue and saturation apply "on release":** dragging the Hue A/B or Saturation A/B fader in the UI applies the value when the mouse is released. A MIDI knob applies it once the knob has rested for `midi_settle_s` (default 0.4 s), because the LCXL3 knobs have no touch/release event. Until then the fader shows the target with a dashed outline and the lights keep the old colour, so a show never sweeps through the whole gradient.
 
-**Gamma is split into two keys:** *Brightness Gamma* (on HSV value, the current behaviour) and *RGB Gamma* (per R/G/B channel, new).
+*Outdated (2026-10-08, replaced by the next paragraph):* **Gamma is split into two keys:** *Brightness Gamma* (on HSV value, the current behaviour) and *RGB Gamma* (per R/G/B channel, new). Both default to 1 (no effect) and must be > 0; an invalid value in a JSON file falls back to 1 (type) or to the type's value (fixture) with a log warning. The fixture editor always shows the value in effect: inherited values are dim with "from type", values set on the fixture show "↺ type" to go back to inheriting (2026-10-08).
+
+**Gamma pipeline (decided with Miro 2026-10-08).** Terms: *perceptual* values are what the engine works with (faders, masks, colours, the preview): equal steps look like equal brightness steps, so 128/255 looks about half as bright. *PWM duty* is what an LED finally gets; 50 % duty looks about 73 % bright (0.5^(1/2.2)). The wire carries perceptual values, because 8 bits spread evenly over perceived brightness lose the least, and the device decodes them, like an sRGB signal decoded by a display. One `gamma` per fixture type (fixtures can override it) replaces the two keys: it is applied per output channel when the bytes are made, the same for DMX, Art-Net and serial, and before the white of RGBW is taken out (light adds up in PWM duty). 1 means "send perceptual values unchanged": PitchPlease v2 and v3 decode with 2.2 in their firmware. Third-party fixtures get a value set by eye (about 2.2 for LEDs without their own curve). The fixture colours shown in the UI stay perceptual; the channel tables and the Control Desk show the bytes sent. Old configs with `brightness_gamma` / `rgb_gamma` load with their product as `gamma` (logged). Moving the curve into the firmware does not by itself give finer steps near black: WS2811 LEDs take 8 bits, so inputs below about 15/255 still become 0 after a 2.2 curve; only temporal dithering in the firmware would help (see [[v3]], Future Development).
 
 **Glitches** is renamed to reflect that it controls the amount of audio reactivity (exact name TBD, e.g. "Audio Reactivity").
 

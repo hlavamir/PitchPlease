@@ -1,6 +1,6 @@
 ---
 date_created: 2026-10-05
-date_modified: 2026-10-05
+date_modified: 2026-10-08
 ---
 
 # vvvv Patch Logic (Reverse-Engineered)
@@ -89,6 +89,7 @@ Per pixel, with `p = phase`:
 - The idle colour is the group colour at `idleBrightness × remappedMask`.
 - The output is the **idle colour if idle brightness > 0, otherwise the strobo colour** (exclusive, not additive).
 - Master Dimmer multiplies the HSV value. **Gamma is applied to the HSV value only** (`V^gamma`), not per RGB channel.
+- **Gamma default and where it is applied** (traced 2026-10-08 through the patch links): `LightFixture.Create` has **Gamma = 2.2 by default**, so a fixture created without a Gamma value gets 2.2. Whether it takes effect depends on the output node's *Apply Gamma* input: all DMX outputs (`PitchPlsToDMXv3`, `GenericFixtureToDMX`, `BeamBallToDMX`) pass **True**; the v2.2 serial output `W2811_ArduinoR4Out` passes **False**. Effective gamma per fixture: v3 1, pinspots 1, back panel 1, front panels 2 (IOBox), LED bars 2.2 (default), Beam Ball 1, v2 strips 2.2 (IOBox) **but not applied**, ChilloutZone 2.2 (default, created in `Application`) and applied. The fixture table below lists only explicit values; the ChilloutZone's 2.2 was missed in the first analysis, so PitchControl's port initially used 1 for it.
 
 Group A/B Max Strobo / Max Idle come from `Strobo Brightness × Strobo Bright. A/B` and `Idle Brightness × Idle Bright. A/B` (M1/M3 × M16–M19).
 

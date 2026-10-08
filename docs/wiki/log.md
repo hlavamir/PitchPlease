@@ -757,3 +757,27 @@ The repo had two copies of the wiki: `Claude/` was copied from `wiki/` on 2026-0
 ## [2026-10-08] update | READMEs restructured, PitchControl screenshots, MIT license
 
 The root README now has two parts: control software (PitchControl, the vvvv patch) first, then the hardware design (light pole versions), followed by the folder structure, the wiki, a Ko-fi support section and the license. The repo is now MIT-licensed (`LICENSE`, same text as Miro's PlaylistTransferer). The PitchControl README has a Pages section with a screenshot and description of each of the 8 pages (`pitch_control/screenshots/`). They were taken with headless Chrome at 1512 × 915 from a no-hardware instance fed with a synthetic 124 BPM loop. While checking them, the Inputs page label "blue line = strobo trigger weight" turned out stale since the monochrome redesign: it now says "dotted line".
+
+---
+
+## [2026-10-08] query | Fixture gamma in vvvv vs PitchControl
+
+Miro asked whether empty gamma fields mean 1 and noted gamma 2.2 on some fixtures in vvvv. Empty means "from the fixture type", and all four types use 1. Traced the patch links: `LightFixture.Create` defaults Gamma to 2.2, DMX outputs apply gamma, the v2.2 serial output does not. So the v2 strips' 2.2 never took effect (PitchControl's 1 matches), but the ChilloutZone got 2.2 by default and PitchControl uses 1, a porting miss. Recorded in [[vvvv-patch-logic]] (fixture brightness). A first pass of the trace misread the front panels as gamma 1 (a linked IOBox overrides a pin's default); corrected before recording.
+
+---
+
+## [2026-10-08] update | PitchControl gamma fields always filled, gamma > 0
+
+Gamma fields in the fixture editor now show the effective value (inherited from the fixture type: dim, "from type"; set on the fixture: "↺ type" resets). Values must be > 0 (UI range 0.1–5); invalid values in JSON fall back with a warning instead of failing the rig. Defaults stay 1. Found while checking: the v3 firmware applies its own per-channel gamma 2.2 to all DMX pixel data, the v2 firmware none, so the devices disagree; a unified proposal is pending Miro's decision ([[port-design]]).
+
+---
+
+## [2026-10-08] build | One gamma pipeline: perceptual on the wire, decoded by the devices
+
+Decided with Miro: everything PitchControl sends is perceptual (128/255 looks half as bright); devices decode to PWM duty. PitchControl: `brightness_gamma` and `rgb_gamma` merged into one per-channel `gamma` (type default 1, fixture override), applied when output bytes are made for every transport, before RGBW white extraction; preview colours stay perceptual; old keys load as their product. The rig's Panel DJ 1–3 keep 2.0 (now per channel). v2 firmware: new gamma 2.2 decode table (not compile-checked, not flashed). v3 firmware: rounding instead of truncating after its gamma (compiles, not flashed). Terminology fixed: "perceptual" vs "PWM duty" instead of the ambiguous "linear". Logged as proposals in [[v3]]: Miro's 16-bit brightness channel mode (57 channels) and temporal dithering. Recorded in [[port-design]] (Colour and Brightness Model), [[v3]], [[v2]].
+
+---
+
+## [2026-10-08] update | v3 firmware precision: float inside, 8 bits at the LED
+
+Miro pointed out that the v3 firmware already applies dimmers and gamma in 32-bit float. Correct: the earlier note about computing the curve "at 16 bits" was wrong for v3. The precision is lost only when the result is written to the WS2811's 8-bit channel value; the dark-end floor (inputs below about 15/255 → 0) comes from that. Dithering would use the float's fractional part directly. Corrected in [[v3]] (Future Development → Temporal dithering).

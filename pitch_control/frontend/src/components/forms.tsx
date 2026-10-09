@@ -52,11 +52,26 @@ export function Row({ label, children, hint, plain }: { label: string; children:
 /** The universes of the app (DMX universe numbers, one per USB interface); every universe field offers these. */
 export const UNIVERSES = [0, 1, 2, 3]
 
+/** Art-Net port-addresses offered on the wire: universes 0–15 of net 0, sub-net 0. */
+export const ARTNET_UNIVERSES = Array.from({ length: 16 }, (_, i) => i)
+
 /**
  * Universe dropdown. A value outside UNIVERSES (an older file) is kept and shown as "not offered"
  * until another one is chosen; ``null`` (multi-edit with different values) shows "multiple".
  */
-export function UniverseSelect({ value, onChange, className = 'w-20', tip }: { value: number | null; onChange: (v: number) => void; className?: string; tip?: string }) {
+export function UniverseSelect({
+  value,
+  onChange,
+  className = 'w-20',
+  tip,
+  options = UNIVERSES,
+}: {
+  value: number | null
+  onChange: (v: number) => void
+  className?: string
+  tip?: string
+  options?: number[]
+}) {
   return (
     <select className={className} value={value === null ? 'multiple' : String(value)} data-tip={tip} onChange={(e) => onChange(Number(e.target.value))}>
       {value === null && (
@@ -64,8 +79,8 @@ export function UniverseSelect({ value, onChange, className = 'w-20', tip }: { v
           multiple
         </option>
       )}
-      {value !== null && !UNIVERSES.includes(value) && <option value={value}>{value} (not offered)</option>}
-      {UNIVERSES.map((u) => (
+      {value !== null && !options.includes(value) && <option value={value}>{value} (not offered)</option>}
+      {options.map((u) => (
         <option key={u} value={u}>
           {u}
         </option>

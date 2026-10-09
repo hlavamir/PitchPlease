@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api, type DeviceRef, type SerialDevice } from '../api'
 import { OutputMonitor } from '../components/OutputMonitor'
-import { Button, NumberInput, Row, SaveBar, Section, StatusDot, Toggle, UniverseSelect, useSettings } from '../components/forms'
+import { ARTNET_UNIVERSES, Button, NumberInput, Row, SaveBar, Section, StatusDot, Toggle, UniverseSelect, useSettings } from '../components/forms'
 import type { EngineConnection } from '../useEngine'
 
 function deviceKey(d: DeviceRef | SerialDevice): string {
@@ -155,13 +155,10 @@ export function Output({ engine }: { engine: EngineConnection }) {
                 onChange={(e) => update((s) => (s.outputs.artnet.targets[i].ip = e.target.value))}
               />
               <span className="text-dim">Art-Net universe</span>
-              <NumberInput
+              <UniverseSelect
                 value={t.artnet_universe ?? t.universe}
-                integer
-                min={0}
-                max={32767}
-                className="w-20"
-                tip="Port-address on the wire (what the node listens to), 0–32767 = Net / Sub-Net / Universe; by default the same number as the universe"
+                options={ARTNET_UNIVERSES}
+                tip="Art-Net universe on the wire (what the node listens to), 0–15; by default the same number as the universe"
                 onChange={(v) => update((s) => (s.outputs.artnet.targets[i].artnet_universe = v))}
               />
               <Button onClick={() => update((s) => s.outputs.artnet.targets.splice(i, 1))} tip="Remove this Art-Net target (written with Save)">

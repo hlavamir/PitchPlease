@@ -7,6 +7,9 @@ features, **patch** = fixes only. Releases are tagged `pitchcontrol-vX.Y.Z`.
 ## Unreleased
 
 ### Changed
+- **Fog page:** the long label "Every … for … seconds" was cut off. The timer is one row now
+  (switch, every _ s for _ s); universe and channel, and on / off value, have their captions next to
+  the fields; the name field fills the row.
 - **Universe dropdowns:** every DMX universe field (Rig, Outputs, Fog) is a dropdown of the universes
   0–3, like the Control Desk's. A value outside that range in an older file is kept and shown as
   "not offered". The Art-Net wire address stays a number field (0–32767).

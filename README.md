@@ -29,9 +29,10 @@ Audio in → PitchControl → Enttec DMX USB Pro → DMX512 → V3 light poles, 
 - JSON fixture types and rigs, edited in the app and committed with the repo;
 - a monochrome UI that works entirely from the keyboard, built for a dark DJ booth;
 - MIDI control with page switching on the Launch Control XL;
+- up to four Enttec DMX USB interfaces at once, plus Art-Net and the V2 serial output;
 - a Control Desk for manual overrides of any DMX channel.
 
-Status: audio, the Launch Control XL and Enttec DMX output have been verified on hardware. Art-Net, V2 serial output and the Windows build have not been tested yet.
+Status: audio, the Launch Control XL and Enttec DMX output have been verified on hardware, and the Windows build builds and starts on a Windows laptop. Art-Net, V2 serial output and several Enttec interfaces at once have not been tested on hardware yet.
 
 **Download:** ready-to-run builds for macOS (Apple Silicon) and Windows are on the [Releases page](https://github.com/hlavamir/PitchPlease/releases/latest); no Python or Node needed. The current version is in [CHANGELOG.md](pitch_control/CHANGELOG.md).
 

@@ -240,6 +240,11 @@ class Engine:
             if state is not None:
                 self.macros.load(state.values, source=str(path))
                 log.info("restored macro values from %s", path)
+                return
+        # first start (the state folder is not in the repo): begin with scene 1, not with every
+        # fader at 0, which would be a dark room until somebody moves the brightness faders
+        if self.load_scene(0):
+            log.info("no saved macro values: started with scene 1")
 
     def _autosave_macros(self, force: bool = False) -> None:
         now = time.monotonic()

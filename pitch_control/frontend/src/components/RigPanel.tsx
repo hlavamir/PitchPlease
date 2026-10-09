@@ -96,7 +96,7 @@ export function RigPanel({
       title="Rig"
       right={
         dirty ? (
-          <span className="inline-flex items-center gap-1.5 text-ink" title="Edits are live in the engine but not written to the rig file">
+          <span className="inline-flex items-center gap-1.5 text-ink" data-hint="info" data-tip="Edits are live in the engine but not written to the rig file yet: Save writes them">
             <span className="dot-on inline-block size-[7px]" />
             unsaved
           </span>
@@ -105,8 +105,15 @@ export function RigPanel({
         )
       }
       bodyClassName="p-2.5 gap-2"
+      tip="A rig is one file of lights (config/rigs). Only one rig is active; the others are kept for other venues or setups"
     >
-      <select className="w-full" value={active} onChange={(e) => load(e.target.value)} disabled={prompt !== null} title="Load a rig">
+      <select
+        className="w-full"
+        value={active}
+        onChange={(e) => load(e.target.value)}
+        disabled={prompt !== null}
+        data-tip="Active rig: choosing another loads it (asks first when this one has unsaved changes)"
+      >
         {rigs.available.map((r) => (
           <option key={r}>{r}</option>
         ))}
@@ -115,6 +122,7 @@ export function RigPanel({
         rows={2}
         className="w-full resize-none text-[11px] leading-snug"
         placeholder="description"
+        data-tip="Free text about this rig (venue, setup); saved in the rig file"
         value={description}
         onChange={(e) => onDescription(e.target.value)}
         onBlur={onDescriptionCommit}
@@ -123,23 +131,29 @@ export function RigPanel({
       {prompt === null && (
         <>
           <div className="flex gap-1.5">
-            <Button onClick={save} primary disabled={!dirty}>
+            <Button onClick={save} primary disabled={!dirty} tip="Write the rig, with all edits, to its file in config/rigs">
               Save
             </Button>
-            <Button onClick={revert} disabled={!dirty}>
+            <Button onClick={revert} disabled={!dirty} tip="Throw away the unsaved edits and reload the rig from its file">
               Revert
             </Button>
             {/* destructive: kept apart at the right end */}
             <span className="ml-auto">
-              <Button onClick={() => setPrompt({ kind: 'delete' })} disabled={rigs.available.length < 2}>
+              <Button onClick={() => setPrompt({ kind: 'delete' })} disabled={rigs.available.length < 2} tip="Delete this rig's file (asks first); the last rig cannot be deleted">
                 Delete
               </Button>
             </span>
           </div>
           <div className="flex flex-wrap gap-1.5">
-            <Button onClick={() => askName('rename')}>Rename</Button>
-            <Button onClick={() => askName('duplicate')}>Duplicate</Button>
-            <Button onClick={() => guard('creating a new rig', () => askName('new'))}>New</Button>
+            <Button onClick={() => askName('rename')} tip="Rename the rig file (letters, digits, space, - _ .; unique ignoring case)">
+              Rename
+            </Button>
+            <Button onClick={() => askName('duplicate')} tip="Save as: the current state, unsaved edits included, becomes a new rig and the active one">
+              Duplicate
+            </Button>
+            <Button onClick={() => guard('creating a new rig', () => askName('new'))} tip="Create a new empty rig and make it active">
+              New
+            </Button>
           </div>
         </>
       )}
@@ -154,6 +168,7 @@ export function RigPanel({
             onFocus={(e) => e.currentTarget.select()}
             value={name}
             placeholder="rig name"
+            data-tip="Name of the rig file: letters, digits, space, - _ . ; ⏎ confirms, Esc cancels"
             onChange={(e) => {
               setName(e.target.value)
               setError(null)

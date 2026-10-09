@@ -6,15 +6,16 @@ interface Props {
   weights?: number[] // strobo trigger weight per band, drawn as a dotted mark
   rows?: number
   height?: number | string
+  tip?: string
 }
 
 /**
  * Segmented meter of the audio bands: cells without gaps that fade in with the level; the top cell
  * of a peaking band is bright and glows.
  */
-export function BandMeter({ bands, peaks, weights, rows = 12, height = 80 }: Props) {
+export function BandMeter({ bands, peaks, weights, rows = 12, height = 80, tip }: Props) {
   return (
-    <div className="grid w-full gap-px" style={{ height, gridTemplateColumns: `repeat(${bands.length || 1}, minmax(0, 1fr))` }}>
+    <div className="grid w-full gap-px" data-hint="info" data-tip={tip} style={{ height, gridTemplateColumns: `repeat(${bands.length || 1}, minmax(0, 1fr))` }}>
       {bands.map((v, i) => {
         const level = Math.max(0, Math.min(1, v)) * rows
         const top = Math.ceil(level) - 1
@@ -48,10 +49,10 @@ export function BandMeter({ bands, peaks, weights, rows = 12, height = 80 }: Pro
 }
 
 /** One-row segmented bar (phase, settings sliders): cells fade in with the value. */
-export function SegmentBar({ value, cells = 32, height = 8, gap = 2 }: { value: number; cells?: number; height?: number; gap?: number }) {
+export function SegmentBar({ value, cells = 32, height = 8, gap = 2, tip }: { value: number; cells?: number; height?: number; gap?: number; tip?: string }) {
   const level = Math.max(0, Math.min(1, value)) * cells
   return (
-    <div className="grid flex-1" style={{ gridTemplateColumns: `repeat(${cells}, minmax(0, 1fr))`, gap, height }}>
+    <div className="grid flex-1" data-hint="info" data-tip={tip} style={{ gridTemplateColumns: `repeat(${cells}, minmax(0, 1fr))`, gap, height }}>
       {Array.from({ length: cells }, (_, i) => {
         const fill = Math.max(0, Math.min(1, level - i))
         return <div key={i} style={{ background: `rgb(var(--ink-rgb) / ${(0.06 + 0.94 * fill).toFixed(3)})` }} />

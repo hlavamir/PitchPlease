@@ -87,6 +87,7 @@ function ChannelStrip({
         <span className="font-mono text-[12px]">{String(strip.channel).padStart(3, '0')}</span>
         <Toggle
           checked={on}
+          tip={`Override channel ${strip.channel}: on sends the slider value instead of the fixtures'; off follows the fixtures again`}
           onChange={(v) => {
             onSelect()
             if (v) setValue(strip.live)
@@ -96,6 +97,7 @@ function ChannelStrip({
       </div>
       <div
         className="relative min-h-0 flex-1 cursor-ns-resize touch-none select-none"
+        data-tip={`Channel ${strip.channel}: drag to override it (starts at the live value; Shift = fine). Fixture: ${strip.fixture ?? 'none'}`}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
@@ -202,7 +204,7 @@ export function ControlDesk({ engine }: { engine: EngineConnection }) {
   return (
     <div className="flex h-full flex-col gap-1.5">
       <div className="flex flex-none flex-wrap items-center gap-1.5">
-        <label className="lbl flex items-center gap-2 text-[11px] text-dim">
+        <label className="lbl flex items-center gap-2 text-[11px] text-dim" data-tip="DMX universe shown, numbered as on the Rig and Outputs pages; each has 512 channels">
           Universe
           <select value={universe} onChange={(e) => setUniverse(Number(e.target.value))}>
             {UNIVERSES.map((u) => (
@@ -222,7 +224,7 @@ export function ControlDesk({ engine }: { engine: EngineConnection }) {
                 className={`lbl relative flex h-8 items-center gap-1.5 border-r border-edge px-3 font-mono text-[11px] last:border-r-0 ${
                   p === subpage ? 'glow-on bg-ink text-ground' : 'text-ink hover:bg-panel-2'
                 }`}
-                title={n ? `${n} override(s) on this subpage` : undefined}
+                data-tip={`Channels ${p * PER_PAGE + 1}–${(p + 1) * PER_PAGE} of 512; Q / E step through the subpages${n ? `. ${n} override(s) here` : ''}`}
               >
                 {p * PER_PAGE + 1}–{(p + 1) * PER_PAGE}
                 {n > 0 && <span className={`size-[5px] ${p === subpage ? 'bg-ground' : 'dot-on'}`} />}
@@ -238,6 +240,7 @@ export function ControlDesk({ engine }: { engine: EngineConnection }) {
               </span>
               <Button
                 primary
+                tip="Release every override in every universe: all channels follow the fixtures again"
                 onClick={async () => {
                   await api.delete('/api/overrides')
                   setConfirmReset(false)
@@ -245,14 +248,16 @@ export function ControlDesk({ engine }: { engine: EngineConnection }) {
               >
                 Release all
               </Button>
-              <Button onClick={() => setConfirmReset(false)}>Cancel</Button>
+              <Button onClick={() => setConfirmReset(false)} tip="Keep the overrides">
+                Cancel
+              </Button>
             </>
           ) : (
             <>
               <span className="lbl text-[11px] text-dim">
                 {total} override{total === 1 ? '' : 's'} · saved across restarts
               </span>
-              <Button onClick={() => setConfirmReset(true)} disabled={total === 0}>
+              <Button onClick={() => setConfirmReset(true)} disabled={total === 0} tip="Release all overrides, in every universe (asks first)">
                 Reset all
               </Button>
             </>
@@ -266,6 +271,7 @@ export function ControlDesk({ engine }: { engine: EngineConnection }) {
         right="drag a channel to override it · the switch releases it · Q / E subpage"
         className="min-h-0 flex-1"
         bodyClassName="p-0"
+        tip="Every DMX channel of the universe, live. Override a channel by hand, e.g. to test a light; overrides win over the fixtures and are saved"
       >
         <div className="grid min-h-[36rem] flex-1 grid-cols-8 gap-px bg-edge wide:min-h-0 wide:grid-cols-16 wide:grid-rows-4">
           {strips.map((st) => (

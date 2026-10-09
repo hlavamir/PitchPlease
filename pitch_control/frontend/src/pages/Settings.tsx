@@ -25,7 +25,7 @@ const KEYMAP: [string, string][] = [
 ]
 
 /** Horizontal segmented slider: click or drag anywhere, ←/→ style keyboard handled by the page grid. */
-function HSlider({ value, min, max, onChange, selected, onSelect }: { value: number; min: number; max: number; onChange: (v: number) => void; selected: boolean; onSelect: () => void }) {
+function HSlider({ value, min, max, onChange, selected, onSelect, tip }: { value: number; min: number; max: number; onChange: (v: number) => void; selected: boolean; onSelect: () => void; tip?: string }) {
   const ref = useRef<HTMLDivElement>(null)
   const t = (value - min) / (max - min)
   const set = (e: PointerEvent<HTMLDivElement>) => {
@@ -38,6 +38,7 @@ function HSlider({ value, min, max, onChange, selected, onSelect }: { value: num
     <div
       ref={ref}
       data-hint="slider"
+      data-tip={tip}
       className={`flex h-[22px] cursor-ew-resize touch-none ${selected ? 'glow-sel' : ''}`}
       onPointerDown={(e) => {
         onSelect()
@@ -94,7 +95,7 @@ export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; o
     return () => window.removeEventListener('resize', onResize)
   }, [])
   const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v))
-  const inkItems: NavItem[] = INK_NAMES.map(([name, label]) => ({ id: `ink-${name}`, label: `Ink ${label}`, value: ui.ink === name ? 'ON' : '', hint: 'press' as const, tip: 'Colour of all text, lines and lit elements', press: (down) => down && change({ ink: name }) }))
+  const inkItems: NavItem[] = INK_NAMES.map(([name, label]) => ({ id: `ink-${name}`, label: `Ink ${label}`, value: ui.ink === name ? 'ON' : '', hint: 'press' as const, tip: `${label} ink: colour of all text, lines and lit elements`, press: (down) => down && change({ ink: name }) }))
   const glowItem: NavItem = { id: 'glow', label: 'Glow', value: pct(ui.glow), hint: 'slider', tip: 'Bloom under selected and active elements', adjust: (d, fine) => change({ glow: clamp(ui.glow + d * (fine ? 0.01 : 0.05), 0, 1) }) }
   const brightItem: NavItem = {
     id: 'brightness',
@@ -105,13 +106,19 @@ export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; o
     adjust: (d, fine) => change({ brightness: clamp(ui.brightness + d * (fine ? 0.01 : 0.05), 0.4, 1) }),
   }
   const setScale = (s: number) => change({ scale: clampScale(s) })
-  const scaleItem: NavItem = { id: 'scale', label: 'UI scale', value: pct(ui.scale), hint: 'slider', tip: 'Size of the whole UI; ⌘ / Ctrl + − work everywhere', adjust: (d, fine) => setScale(ui.scale + d * (fine ? 0.01 : 0.05)) }
-  const hintsItem: NavItem = { id: 'hints', label: 'Key hints', value: ui.key_hints ? 'ON' : 'OFF', hint: 'toggle', tip: 'This footer', press: (down) => down && change({ key_hints: !ui.key_hints }) }
+  const scaleItem: NavItem = { id: 'scale', label: 'UI scale', value: pct(ui.scale), hint: 'slider', tip: 'Size of the whole UI, 60–150 %; ⌘ / Ctrl with + − works on every page, 0 resets to 100 %', adjust: (d, fine) => setScale(ui.scale + d * (fine ? 0.01 : 0.05)) }
+  const hintsItem: NavItem = { id: 'hints', label: 'Key hints', value: ui.key_hints ? 'ON' : 'OFF', hint: 'toggle', tip: 'Show or hide this footer with the keys and tips for the control under the mouse', press: (down) => down && change({ key_hints: !ui.key_hints }) }
   const { selectedId, select } = useGridNav('Settings', [inkItems, [glowItem], [brightItem], [scaleItem], [hintsItem]])
 
   return (
     <div className="grid gap-1.5 wide:grid-cols-2">
-      <Section index="01" title="Appearance" right="saved · restored next session" bodyClassName="p-3.5 gap-[18px]">
+      <Section
+        index="01"
+        title="Appearance"
+        right="saved · restored next session"
+        bodyClassName="p-3.5 gap-[18px]"
+        tip="How the UI looks: ink colour, glow, brightness and size. Changes apply at once and are remembered"
+      >
         <div className="flex flex-col gap-2">
           <span className="lbl text-[11px] text-dim">Ink colour</span>
           <div className="grid grid-cols-3 gap-px border border-edge bg-edge">
@@ -121,7 +128,7 @@ export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; o
                 <button
                   key={name}
                   data-hint="press"
-                  data-tip="Colour of all text, lines and lit elements"
+                  data-tip={`${label} ink: colour of all text, lines and lit elements`}
                   onClick={() => {
                     select(`ink-${name}`)
                     change({ ink: name })
@@ -154,7 +161,7 @@ export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; o
               <span className={`lbl text-[12px] ${selectedId === item.id ? 'bg-ink px-1.5 text-ground' : ''}`}>{item.label}</span>
               <span className="text-glow font-mono text-[16px]">{pct(value)}</span>
             </div>
-            <HSlider value={value} min={min} max={max} onChange={(v) => change({ [key]: v })} selected={selectedId === item.id} onSelect={() => select(item.id)} />
+            <HSlider value={value} min={min} max={max} onChange={(v) => change({ [key]: v })} selected={selectedId === item.id} onSelect={() => select(item.id)} tip={item.tip} />
             <span className="lbl text-[10px] text-dim">{note}</span>
           </div>
         ))}
@@ -165,14 +172,16 @@ export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; o
             <span className="text-glow font-mono text-[16px]">{pct(ui.scale)}</span>
           </div>
           <div className="flex gap-1.5" onClick={() => select('scale')}>
-            <Button onClick={() => setScale(ui.scale - 0.05)} disabled={ui.scale <= 0.6}>
+            <Button onClick={() => setScale(ui.scale - 0.05)} disabled={ui.scale <= 0.6} tip="Smaller UI by 5 % (minimum 60 %); ⌘ / Ctrl + − does the same">
               −
             </Button>
-            <Button onClick={() => setScale(ui.scale + 0.05)} disabled={ui.scale >= 1.5}>
+            <Button onClick={() => setScale(ui.scale + 0.05)} disabled={ui.scale >= 1.5} tip="Larger UI by 5 % (maximum 150 %); ⌘ / Ctrl + + or = does the same">
               +
             </Button>
-            <Button onClick={() => setScale(fitScale())}>Fit window</Button>
-            <Button onClick={() => setScale(1)} disabled={ui.scale === 1}>
+            <Button onClick={() => setScale(fitScale())} tip="Scale so the whole layout fits this window without scrolling">
+              Fit window
+            </Button>
+            <Button onClick={() => setScale(1)} disabled={ui.scale === 1} tip="Back to 100 %, the size the layout is designed for; ⌘ / Ctrl 0 does the same">
               100 %
             </Button>
           </div>
@@ -188,6 +197,8 @@ export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; o
             <span className="lbl text-[10px] text-dim">Show the keyboard legend at the bottom</span>
           </span>
           <button
+            data-hint="toggle"
+            data-tip="Show or hide this footer with the keys and tips for the control under the mouse"
             onClick={() => {
               select('hints')
               change({ key_hints: !ui.key_hints })
@@ -200,7 +211,7 @@ export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; o
       </Section>
 
       <div className="flex min-w-0 flex-col gap-1.5">
-      <Section index="02" title="Keyboard" right="no mouse needed" bodyClassName="px-3.5 pb-3.5 pt-1.5">
+      <Section index="02" title="Keyboard" right="no mouse needed" bodyClassName="px-3.5 pb-3.5 pt-1.5" tip="All keys of the UI. The pages with a grid (General, Dimmers, Control Desk, Settings) can be played with the keys alone">
         {KEYMAP.map(([cap, what]) => (
           <div key={cap} className="flex h-[34px] items-center gap-3.5 border-b border-[#1d1f21]">
             <span className="min-w-16 border border-ink px-1.5 py-0.5 text-center font-mono text-[12px]">{cap}</span>
@@ -209,12 +220,12 @@ export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; o
         ))}
       </Section>
       {desktop && (
-        <Section index="03" title="App" right="desktop app">
+        <Section index="03" title="App" right="desktop app" tip="Desktop app only: the app is a window around the same UI that a browser can show">
           <div className="flex gap-1.5">
-            <button className="lbl glow-hover h-8 border border-edge px-3 text-[11px]" onClick={() => api.post('/api/open-browser')}>
+            <button className="lbl glow-hover h-8 border border-edge px-3 text-[11px]" data-tip="Open this UI in the default browser, e.g. for a second screen" onClick={() => api.post('/api/open-browser')}>
               Open in browser
             </button>
-            <button className="lbl glow-hover h-8 border border-edge px-3 text-[11px]" onClick={() => api.post('/api/open-data-folder')}>
+            <button className="lbl glow-hover h-8 border border-edge px-3 text-[11px]" data-tip="Show the folder with rigs, fixture types, scenes and settings.json in Finder / Explorer" onClick={() => api.post('/api/open-data-folder')}>
               Open data folder
             </button>
           </div>
@@ -224,6 +235,8 @@ export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; o
               <span className="lbl text-[10px] text-dim">F toggles full screen any time · covers the notch strip, hides menu bar and Dock</span>
             </span>
             <button
+              data-hint="toggle"
+              data-tip="Open the app in full screen next time; F toggles full screen at any time"
               onClick={() => change({ start_fullscreen: !ui.start_fullscreen })}
               className={`lbl h-[34px] px-4 text-[12px] ${ui.start_fullscreen ? 'glow-on bg-ink text-ground' : 'glow-hover border border-edge'}`}
             >
@@ -233,18 +246,18 @@ export function Settings({ ui, onChange, desktop, version }: { ui: UiSettings; o
           <span className="lbl mt-3 text-[10px] text-dim">The browser view can also be used on a second screen or a phone (start with --host 0.0.0.0)</span>
         </Section>
       )}
-      <Section index={desktop ? '04' : '03'} title="About" right="version">
+      <Section index={desktop ? '04' : '03'} title="About" right="version" tip="Which PitchControl this is, and where its source and releases are">
         <div className="flex items-baseline justify-between gap-3">
           <span className="lbl text-[12px]">PitchControl</span>
-          <span className="text-glow font-mono text-[16px]" title="+N = commits after that release; (abc1234) = the commit; modified = local changes">
+          <span className="text-glow font-mono text-[16px]" data-hint="info" data-tip="Version; +N = commits after that release, (abc1234) = the commit, modified = unsaved changes in the source">
             {version || '…'}
           </span>
         </div>
         <span className="lbl mt-3 flex gap-4 text-[10px] text-dim">
-          <a className="hover:text-ink" href="https://github.com/hlavamir/PitchPlease" target="_blank" rel="noreferrer">
+          <a className="hover:text-ink" href="https://github.com/hlavamir/PitchPlease" target="_blank" rel="noreferrer" data-hint="button" data-tip="Open the project page on GitHub in the browser">
             Project on GitHub ›
           </a>
-          <a className="hover:text-ink" href="https://github.com/hlavamir/PitchPlease/releases" target="_blank" rel="noreferrer">
+          <a className="hover:text-ink" href="https://github.com/hlavamir/PitchPlease/releases" target="_blank" rel="noreferrer" data-hint="button" data-tip="Open the list of releases (downloads for macOS and Windows) on GitHub">
             Releases ›
           </a>
         </span>

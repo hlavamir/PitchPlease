@@ -12,6 +12,7 @@ export function Section({
   right,
   className = '',
   bodyClassName = 'p-3',
+  tip,
 }: {
   title: string
   index?: string
@@ -19,9 +20,10 @@ export function Section({
   right?: ReactNode
   className?: string // e.g. "flex-1" to let the panel (and its content) stretch
   bodyClassName?: string
+  tip?: string // footer tip for everything in the panel that has none of its own
 }) {
   return (
-    <section className={`@container flex min-w-0 flex-col border border-edge bg-panel ${className}`}>
+    <section data-tip={tip} className={`@container flex min-w-0 flex-col border border-edge bg-panel ${className}`}>
       <div className="flex h-[26px] flex-none items-center justify-between gap-2 border-b border-edge px-2.5 text-[11px]">
         <h2 className="lbl truncate font-medium">
           {index && <span className="font-mono opacity-55">{index} / </span>}
@@ -34,15 +36,13 @@ export function Section({
   )
 }
 
-/** One labelled form row. ``plain`` renders a div instead of a <label>, so clicking the label text
+/** One labelled form row; ``hint`` is the footer tip for the label and the controls. ``plain`` renders a div instead of a <label>, so clicking the label text
  * doesn't activate the first control (override rows, whose first control is the checkbox). */
 export function Row({ label, children, hint, plain }: { label: string; children: ReactNode; hint?: string; plain?: boolean }) {
   const Tag = plain ? 'div' : 'label'
   return (
-    <Tag className="grid grid-cols-[8.5rem_minmax(0,1fr)] items-center gap-2 py-0.5 text-[13px]">
-      <span className="lbl truncate text-[11px] text-dim" title={hint ?? label}>
-        {label}
-      </span>
+    <Tag data-tip={hint} className="grid grid-cols-[8.5rem_minmax(0,1fr)] items-center gap-2 py-0.5 text-[13px]">
+      <span className="lbl truncate text-[11px] text-dim">{label}</span>
       {/* inputs shrink instead of overflowing into the next column */}
       <span className="flex min-w-0 items-center gap-2 [&>*]:min-w-0 [&>select]:max-w-full">{children}</span>
     </Tag>
@@ -82,6 +82,7 @@ export function NumberInput({
   className = 'w-24 shrink',
   placeholder,
   disabled,
+  tip,
 }: {
   value: number | null | undefined
   onChange: (v: number) => void
@@ -93,6 +94,7 @@ export function NumberInput({
   className?: string
   placeholder?: string
   disabled?: boolean
+  tip?: string // footer tip for this field; without one the row's / panel's tip applies
 }) {
   const coarse = step ?? (integer ? 1 : 0.1)
   const fine = fineStep ?? (integer ? 1 : 0.01)
@@ -141,6 +143,7 @@ export function NumberInput({
       type="text"
       inputMode="decimal"
       data-hint="number"
+      data-tip={tip}
       className={`${className} font-mono ${value != null && !disabled ? 'cursor-ns-resize focus:cursor-text' : ''}`}
       value={text}
       placeholder={placeholder}
@@ -210,12 +213,14 @@ export function Toggle({
   label,
   mixed,
   disabled,
+  tip,
 }: {
   checked: boolean
   onChange: (v: boolean) => void
   label?: string
   mixed?: boolean
   disabled?: boolean
+  tip?: string // footer tip for this switch; without one the row's / panel's tip applies
 }) {
   const on = checked && !mixed
   return (
@@ -224,6 +229,7 @@ export function Toggle({
         type="button"
         role="switch"
         data-hint="switch"
+        data-tip={tip}
         aria-checked={mixed ? 'mixed' : checked}
         aria-label={label}
         disabled={disabled}
@@ -247,7 +253,7 @@ export function Toggle({
  * Small square checkbox in ink, for marking a value as overridden (Unreal-style override toggle).
  * ``mixed`` (multi-edit) shows a dash; clicking it switches all on.
  */
-export function Check({ checked, mixed, onChange, title }: { checked: boolean; mixed?: boolean; onChange: (v: boolean) => void; title?: string }) {
+export function Check({ checked, mixed, onChange, tip }: { checked: boolean; mixed?: boolean; onChange: (v: boolean) => void; tip?: string }) {
   const on = checked && !mixed
   return (
     <button
@@ -255,7 +261,7 @@ export function Check({ checked, mixed, onChange, title }: { checked: boolean; m
       role="checkbox"
       data-hint="override"
       aria-checked={mixed ? 'mixed' : checked}
-      title={title}
+      data-tip={tip}
       onClick={() => onChange(mixed ? true : !checked)}
       className={`inline-flex size-[15px] flex-none items-center justify-center border font-mono text-[11px] leading-none ${
         on ? 'glow-on border-ink bg-ink text-ground' : 'border-edge text-ink hover:border-dim'
@@ -271,15 +277,18 @@ export function Button({
   onClick,
   primary,
   disabled,
+  tip,
 }: {
   children: ReactNode
   onClick: () => void
   primary?: boolean
   disabled?: boolean
+  tip?: string // footer tip: what the button does
 }) {
   return (
     <button
       disabled={disabled}
+      data-tip={tip}
       onClick={onClick}
       className={`lbl h-8 px-3 text-[11px] font-medium disabled:opacity-35 ${
         primary ? 'glow-on bg-ink text-ground' : 'glow-hover border border-edge bg-panel text-ink'
@@ -290,10 +299,14 @@ export function Button({
   )
 }
 
-export function StatusDot({ ok, label, error }: { ok: boolean | null | undefined; label: string; error?: string | null }) {
-  // filled = OK, hollow = off, crossed = error
+export function StatusDot({ ok, label, error, tip }: { ok: boolean | null | undefined; label: string; error?: string | null; tip?: string }) {
+  // filled = OK, hollow = off, crossed = error; an error replaces the tip in the footer
   return (
-    <span className={`lbl inline-flex flex-none items-center gap-1.5 text-[11px] whitespace-nowrap ${ok ? 'text-ink' : 'text-dim'}`} title={error ?? undefined}>
+    <span
+      data-hint="info"
+      data-tip={error ? `${label}: ${error}` : tip}
+      className={`lbl inline-flex flex-none items-center gap-1.5 text-[11px] whitespace-nowrap ${ok ? 'text-ink' : 'text-dim'}`}
+    >
       <span
         className={`relative inline-block size-[7px] ${ok ? 'dot-on' : 'border border-dim'} ${
           ok === false ? "after:absolute after:inset-[-2px] after:content-['×'] after:text-[9px] after:leading-[9px]" : ''
@@ -347,10 +360,10 @@ export function SaveBar({ dirty, save, reload, message }: { dirty: boolean; save
   return (
     <div className="flex items-center gap-3">
       {message && <span className="lbl text-[11px] text-dim">{message}</span>}
-      <Button onClick={reload} disabled={!dirty}>
+      <Button onClick={reload} disabled={!dirty} tip="Discard the unsaved changes on this page and load what is saved">
         Revert
       </Button>
-      <Button onClick={save} primary disabled={!dirty}>
+      <Button onClick={save} primary disabled={!dirty} tip="Write the changes to settings.json; outputs and inputs restart with the new values">
         Save
       </Button>
     </div>

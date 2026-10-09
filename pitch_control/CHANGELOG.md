@@ -6,12 +6,19 @@ features, **patch** = fixes only. Releases are tagged `pitchcontrol-vX.Y.Z`.
 
 ## Unreleased
 
+### Changed
+- **Full macro names on the General page:** the abbreviated labels ("Strobo br.", "Sat. A", …) are gone;
+  a name too long for its column wraps onto two lines.
+
 ### Added
 - **Up to 4 Enttec DMX USB Pro interfaces:** Outputs → Add interface / Remove; each interface has its
   own device and universe, and its own status dot in the header. Settings with a single interface
   load as before.
 - **UI scale shortcuts:** ⌘ (macOS) / Ctrl (Windows) with + or =, −, and 0 for 100 %, saved like the
   Settings slider.
+- **Context footer everywhere:** every control on every page now has a tip in the footer (rows,
+  buttons, selects, text fields, status indicators, lists, meters, panels, the tabs), and Tab focus
+  drives it like the mouse.
 - **Context footer:** the key-hint footer lists the keys and mouse actions of the control under the
   mouse or selected with the keyboard, with a short explanation (what each macro does, which
   fixture a Control Desk channel belongs to, …).

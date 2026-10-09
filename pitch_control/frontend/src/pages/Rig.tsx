@@ -139,7 +139,7 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
         <Check
           checked={on === true}
           mixed={on === MIXED}
-          title="Override the fixture type's value for this fixture"
+          tip="Tick to give this fixture its own value instead of the fixture type's; untick: the type value applies and yours is kept"
           onChange={(v) => edit((f) => o.set(f, { enabled: v, value: o.get(f)?.value ?? o.def(f) }))}
         />
         {o.input(value === MIXED ? null : value, on !== true, editEach)}
@@ -255,13 +255,21 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
             reload()
           }}
         />
-        <Section index="02" title="Fixtures" right={rig && `${rig.fixtures.length} in rig`} className="min-h-0 flex-1" bodyClassName="p-2.5 min-h-0">
+        <Section
+          index="02"
+          title="Fixtures"
+          right={rig && `${rig.fixtures.length} in rig`}
+          className="min-h-0 flex-1"
+          bodyClassName="p-2.5 min-h-0"
+          tip="The lights of the rig: group, name and universe:address. Click one to edit it; Shift + click selects several"
+        >
           <ul className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-auto select-none">
             {rig?.fixtures.map((f, i) => (
               <li key={i}>
                 <button
                   onClick={(e) => clickFixture(i, e.shiftKey)}
                   data-hint="list-multi"
+                  data-tip={`${f.name}: fixture type ${f.type}, group ${f.group}${f.enabled ? '' : '; disabled, sends nothing'}`}
                   className={`flex w-full items-center gap-2 px-2 py-1.5 text-left text-[13px] ${
                     sel.includes(i) ? 'glow-on bg-ink text-ground' : 'hover:bg-panel-2'
                   } ${f.enabled ? '' : 'text-dim'}`}
@@ -277,11 +285,13 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
           </ul>
           <p className="lbl mt-2 text-[10px] text-dim">Shift + click: add to / remove from the selection</p>
           <div className="mt-2 flex flex-wrap gap-1.5">
-            <Button onClick={() => addFixture()}>Add</Button>
-            <Button onClick={() => fx && addFixture(fx)} disabled={!fx || multi}>
+            <Button onClick={() => addFixture()} tip="Add a new fixture to the rig (first fixture type, default placement)">
+              Add
+            </Button>
+            <Button onClick={() => fx && addFixture(fx)} disabled={!fx || multi} tip="Copy the selected fixture, with all its values; change its address afterwards">
               Duplicate
             </Button>
-            <Button onClick={removeFixture} disabled={!fx || multi}>
+            <Button onClick={removeFixture} disabled={!fx || multi} tip="Remove the selected fixture from the rig (written to the file with the rig's Save)">
               Remove
             </Button>
           </div>
@@ -292,12 +302,13 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
         index="03"
         title={multi ? `${fxs.length} fixtures` : fx ? fx.name : 'Fixture'}
         right={multi && 'multi-edit · a value you enter applies to all'}
+        tip="Values of the selected fixture(s). Changes apply to the lights at once; the rig's Save writes them to the file"
       >
         <div ref={editorRef} className="min-w-0">
           {fx && (
             <div className={`grid gap-x-6 ${editorWidth >= 744 ? 'grid-cols-2' : ''}`}>
               <div>
-                <Row label="Name">
+                <Row label="Name" hint="Unique name of this fixture in the rig; used in lists, the preview and on the Control Desk">
                   <input
                     type="text"
                     className="w-full disabled:opacity-50"
@@ -308,7 +319,7 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
                     onBlur={() => rig && applyLive(rig)}
                   />
                 </Row>
-                <Row label="Type">
+                <Row label="Type" hint="Fixture type (pixels, channel layout, defaults), defined on the Fixtures page">
                   <select value={opt((f) => f.type)} onChange={(e) => edit((f) => (f.type = e.target.value))}>
                     {mixedOption(opt((f) => f.type))}
                     {sharedType !== MIXED && !types[sharedType] && <option value={sharedType}>{sharedType} (missing)</option>}
@@ -323,36 +334,36 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
                       {ftype.pixels} px {ftype.channels.find((c) => c.pixels)?.pixels ?? 'RGB'} ·{' '}
                       {ftype.transport === 'pitchpls_v2' ? 'v2 serial' : `${channelCount(ftype)} DMX ch`}
                     </span>
-                    <a href="#Fixtures" className="lbl text-[10px] text-ink hover:underline" onClick={() => openType(ftype.name)}>
+                    <a href="#Fixtures" data-hint="button" data-tip="Open this fixture type on the Fixtures page" className="lbl text-[10px] text-ink hover:underline" onClick={() => openType(ftype.name)}>
                       edit type ›
                     </a>
                   </Row>
                 )}
-                <Row label="Enabled">
+                <Row label="Enabled" hint="A disabled fixture stays in the rig but is skipped: it sends nothing">
                   <Toggle checked={enabled === true} mixed={enabled === MIXED} onChange={(v) => edit((f) => (f.enabled = v))} />
                 </Row>
-                <Row label="Group">
+                <Row label="Group" hint="Colour group: A and B follow the Hue / Saturation A and B macros on the General page">
                   <select value={opt((f) => f.group)} onChange={(e) => edit((f) => (f.group = e.target.value as 'A' | 'B'))}>
                     {mixedOption(opt((f) => f.group))}
                     <option>A</option>
                     <option>B</option>
                   </select>
                 </Row>
-                <Row label="Universe / address">
+                <Row label="Universe / address" hint="Where the fixture listens: DMX universe (as numbered on the Outputs page) and 1-based start channel">
                   <NumberInput {...num((f) => f.universe)} integer min={0} onChange={(v) => edit((f) => (f.universe = v))} className="w-16" />
                   <NumberInput {...num((f) => f.address)} integer min={1} max={512} onChange={(v) => edit((f) => (f.address = v))} className="w-20" />
                 </Row>
-                <Row label="Position (u, v)">
+                <Row label="Position (u, v)" hint="Centre of the fixture in the scene square: u = 0 left … 1 right, v = 0 top … 1 bottom">
                   <NumberInput {...num((f) => f.position[0])} onChange={(v) => edit((f) => (f.position = [v, f.position[1]]))} />
                   <NumberInput {...num((f) => f.position[1])} onChange={(v) => edit((f) => (f.position = [f.position[0], v]))} />
                 </Row>
-                <Row label="Rotation (°)" hint="Clockwise: 90 = pointing down; 270 = vertical, first pixel at the bottom">
+                <Row label="Rotation (°)" hint="Degrees, clockwise on screen: 90 = pointing down, 270 = vertical with the first pixel at the bottom">
                   <NumberInput {...num((f) => f.rotation)} step={15} fineStep={1} onChange={(v) => edit((f) => (f.rotation = v))} />
                 </Row>
-                <Row label="Length">
+                <Row label="Length" hint="Scene length the pixels are spread over, centred on the position (0 = all pixels in one point)">
                   <NumberInput {...num((f) => f.length)} onChange={(v) => edit((f) => (f.length = v))} />
                 </Row>
-                <Row label="Dimmer" hint="The dimmer this fixture follows (Dimmers page); a dimmer no fixture uses is disabled there">
+                <Row label="Dimmer" hint="The dimmer macro this fixture follows (faders on the Dimmers page); none = always full">
                   <select value={opt((f) => f.dimmer_macro ?? '')} onChange={(e) => edit((f) => (f.dimmer_macro = e.target.value || null))}>
                     {mixedOption(opt((f) => f.dimmer_macro ?? ''))}
                     <option value="">none</option>
@@ -364,7 +375,7 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
                     ))}
                   </select>
                 </Row>
-                <Row label="Reacts to strobo" hint="Whether the fixture flashes on strobo peaks">
+                <Row label="Reacts to strobo" hint="The fixture flashes on strobo peaks (audio or manual); off = it only shows the idle pattern">
                   <Toggle
                     checked={same((f) => f.react_to_strobo) === true}
                     mixed={same((f) => f.react_to_strobo) === MIXED}
@@ -372,7 +383,7 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
                   />
                 </Row>
                 {fxs.every((f) => typeOf(f)?.channels.some((c) => c.shutter)) && (
-                  <Row label="Real strobo" hint="Use the fixture's own shutter channel on strobo peaks">
+                  <Row label="Real strobo" hint="Also drive the fixture's own shutter channel on strobo peaks, for a hardware flash">
                     <Toggle
                       checked={same((f) => f.real_strobo) === true}
                       mixed={same((f) => f.real_strobo) === MIXED}
@@ -382,7 +393,7 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
                 )}
               </div>
               <div>
-                <Row label="Hue source">
+                <Row label="Hue source" hint="Where the hue comes from: a group's macro colour, or a constant">
                   <select value={hueSource} onChange={(e) => edit((f) => (f.hue_source = e.target.value as FixtureInstance['hue_source']))}>
                     {mixedOption(hueSource)}
                     <option value="group">own group</option>
@@ -392,7 +403,7 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
                   </select>
                   {hueSource === 'const' && <NumberInput {...num((f) => f.hue)} onChange={(v) => edit((f) => (f.hue = v))} />}
                 </Row>
-                <Row label="Saturation source">
+                <Row label="Saturation source" hint="Where the saturation comes from: a group's macro colour, or a constant">
                   <select
                     value={satSource}
                     onChange={(e) => edit((f) => (f.saturation_source = e.target.value as FixtureInstance['saturation_source']))}
@@ -407,7 +418,7 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
                     <NumberInput {...num((f) => f.saturation)} onChange={(v) => edit((f) => (f.saturation = v))} />
                   )}
                 </Row>
-                <Row label="Brightness source">
+                <Row label="Brightness source" hint="Strobo / idle pipeline (normal) or a constant brightness">
                   <select
                     value={briSource}
                     onChange={(e) => edit((f) => (f.brightness_source = e.target.value as FixtureInstance['brightness_source']))}
@@ -420,14 +431,14 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
                     <NumberInput {...num((f) => f.brightness)} onChange={(v) => edit((f) => (f.brightness = v))} />
                   )}
                 </Row>
-                <Row label="Idle remap min / max" hint="lerp(min, max, mask ^ 2^curve); min > max inverts">
+                <Row label="Idle remap min / max" hint="Idle brightness = lerp(min, max, mask ^ 2^curve); min above max inverts the mask">
                   <NumberInput {...num((f) => f.idle_mask_range.min)} onChange={(v) => edit((f) => (f.idle_mask_range.min = v))} className="w-20" />
                   <NumberInput {...num((f) => f.idle_mask_range.max)} onChange={(v) => edit((f) => (f.idle_mask_range.max = v))} className="w-20" />
                 </Row>
-                <Row label="Idle remap curve">
+                <Row label="Idle remap curve" hint="Exponent of the remap: mask ^ 2^curve; 0 = linear, above 0 darkens the mid-tones">
                   <NumberInput {...num((f) => f.idle_mask_range.curve)} onChange={(v) => edit((f) => (f.idle_mask_range.curve = v))} className="w-20" />
                 </Row>
-                <Row label="Remap only when" hint="If set, the remap applies only while this macro is on">
+                <Row label="Remap only when" hint="The remap applies only while this macro is on (e.g. Invert Discoball); always = never conditional">
                   <select
                     value={opt((f) => f.idle_mask_range.macro ?? '')}
                     onChange={(e) => edit((f) => (f.idle_mask_range.macro = e.target.value || null))}
@@ -449,7 +460,7 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
               <p className="lbl mb-1.5 text-[10px] text-dim">Fixture type values · tick to override for this fixture · ↺ back to the type</p>
               {overrideRow<number>({
                 label: 'Gamma',
-                hint: 'Device curve, per channel: what is sent = value ^ gamma. 1 sends perceptual values unchanged (PitchPlease v2 / v3 decode them in their firmware); about 2.2 for devices without their own curve',
+                hint: 'Device curve: sent = value ^ gamma. 1 = unchanged (v2 / v3 decode it themselves); ~2.2 for fixtures without a curve',
                 get: (f) => f.gamma,
                 set: (f, v) => (f.gamma = v),
                 def: (f) => typeOf(f)?.gamma ?? 1,
@@ -468,7 +479,7 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
               })}
               {overrideRow<HSB>({
                 label: 'Strobo colour (HSB)',
-                hint: 'Colour of the strobo flash: hue, saturation, brightness, each 0–1',
+                hint: 'Colour of this fixture\'s strobo flash: hue, saturation, brightness, each 0–1',
                 get: (f) => f.strobo_color,
                 set: (f, v) => (f.strobo_color = v),
                 def: (f) => typeOf(f)?.strobo_color ?? WHITE,
@@ -481,7 +492,7 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
                   .map((c) =>
                     overrideRow<number>({
                       label: `Channel “${c.name}”`,
-                      hint: 'A constant channel of the fixture type (0–255)',
+                      hint: `Constant DMX value of the “${c.name}” channel (0–255), e.g. a mode or a fixed dimmer`,
                       get: (f) => f.channel_values?.[c.name!],
                       set: (f, v) => {
                         f.channel_values = { ...(f.channel_values ?? {}) }
@@ -510,7 +521,12 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
         </div>
       </Section>
 
-      <Section index="04" title="Placement" bodyClassName="p-3 min-h-0 overflow-auto">
+      <Section
+        index="04"
+        title="Placement"
+        bodyClassName="p-3 min-h-0 overflow-auto"
+        tip="Where the fixtures sit in the scene square, and what each sends right now. Selected fixtures are outlined"
+      >
         {/* in the single-column layout the preview and the output monitor share one row */}
         <div className="grid grid-cols-2 gap-3 wide:block">
           <div className="min-w-0">

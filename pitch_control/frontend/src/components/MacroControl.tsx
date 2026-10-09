@@ -1,6 +1,6 @@
 import { useRef, useState, type PointerEvent } from 'react'
 import type { MacroDef } from '../api'
-import { MACRO_TIPS, macroHint } from '../hints'
+import { macroHint, macroTip } from '../hints'
 
 /** HSV (0..1, hue wraps) → CSS rgb(). */
 export function hsvCss(h: number, s: number, v: number): string {
@@ -104,7 +104,7 @@ export function MacroControl(props: Props) {
       <button
         className={cls}
         data-hint="hold"
-        data-tip={MACRO_TIPS[def.name]}
+        data-tip={macroTip(def)}
         onPointerDown={() => {
           onSelect?.()
           setMacro(def.name, 1)
@@ -122,7 +122,7 @@ export function MacroControl(props: Props) {
     else toggleMacro(def.name)
   }
   return (
-    <button className={cls} onClick={press} data-hint={macroHint(def)} data-tip={MACRO_TIPS[def.name]}>
+    <button className={cls} onClick={press} data-hint={macroHint(def)} data-tip={macroTip(def)}>
       {content}
     </button>
   )
@@ -256,7 +256,7 @@ function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, o
       data-tip={
         disabled
           ? 'No fixture uses this dimmer, so it is disabled and ignores MIDI'
-          : (MACRO_TIPS[def.name] ?? (def.page === 'dimmers' ? 'Brightness of the fixtures that follow this dimmer (Rig → Dimmer)' : undefined))
+          : macroTip(def)
       }
     >
       <div
@@ -290,7 +290,7 @@ function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, o
             onBlur={() => finishRename(true)}
           />
         ) : (
-          <span className={`truncate ${disabled ? 'text-dim' : ''}`}>{def.label}</span>
+          <span className={`line-clamp-2 min-w-0 leading-[12px] break-words whitespace-normal ${disabled ? 'text-dim' : ''}`}>{def.label}</span>
         )}
       </div>
       <div className="flex min-h-0 flex-1 gap-1.5 py-2 pr-2.5 pl-2">

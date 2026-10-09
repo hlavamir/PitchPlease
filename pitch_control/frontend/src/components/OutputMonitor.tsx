@@ -25,7 +25,8 @@ function ChannelTable({ fx }: { fx: FixtureState }) {
           key={i}
           className="flex flex-col items-center bg-panel pt-0.5 pb-1 font-mono leading-tight"
           style={{ boxShadow: `inset 0 -2px 0 rgb(var(--ink-rgb) / ${(v / 255).toFixed(3)})` }}
-          title={serial ? `byte ${i + 1}: ${v}` : `U${fx.universe} channel ${fx.address + i} (fixture channel ${i + 1}): ${v}`}
+          data-hint="info"
+          data-tip={serial ? `Serial byte ${i + 1}: ${v}` : `Universe ${fx.universe}, DMX channel ${fx.address + i} (fixture channel ${i + 1}): value ${v}`}
         >
           <span className="text-[9px] text-dim">{pad3(serial ? i + 1 : fx.address + i)}</span>
           <span className={`text-[11px] ${v ? 'text-ink' : 'text-dim'}`}>{pad3(v)}</span>
@@ -42,13 +43,13 @@ export function OutputMonitor({ state, only }: { state: EngineState | null; only
   const row = width >= 648 // one line per fixture
   const fixtures = (state?.fixtures ?? []).filter((f) => !only || (Array.isArray(only) ? only.includes(f.name) : f.name === only))
   return (
-    <div ref={ref} className="flex flex-col gap-2">
-      <label className="flex cursor-pointer items-center gap-2 self-end text-[11px] text-dim">
+    <div ref={ref} className="flex flex-col gap-2" data-tip="What every fixture sends right now, after the gamma: pixel colours; switch on 'show channel values' for the DMX numbers">
+      <label className="flex cursor-pointer items-center gap-2 self-end text-[11px] text-dim" data-tip="Also show the raw channel values (DMX channel number over its value) of every fixture">
         <Toggle checked={showBytes} onChange={setShowBytes} />
         show channel values
       </label>
       {fixtures.map((fx) => (
-        <div key={fx.name} className="bg-panel-2 px-2 py-1.5">
+        <div key={fx.name} className="bg-panel-2 px-2 py-1.5" data-hint="info" data-tip={`${fx.name}: ${channelRange(fx)}; group ${fx.group}`}>
           <div className={`flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] ${row ? 'flex-nowrap' : ''}`}>
             <span className="flex-none border border-edge px-1 font-mono text-[10px] leading-[14px] text-dim">{fx.group}</span>
             <span className={`min-w-0 truncate ${row ? 'w-40 flex-none' : 'flex-1'}`}>{fx.name}</span>
@@ -59,7 +60,8 @@ export function OutputMonitor({ state, only }: { state: EngineState | null; only
                   key={i}
                   className={`h-4 min-w-1 flex-1 ${i === 0 && fx.rgb.length > 1 ? 'ring-1 ring-white/70' : ''}`}
                   style={{ background: `rgb(${r},${g},${b})`, maxWidth: '1.5rem' }}
-                  title={`pixel ${i + 1}: ${r} ${g} ${b}`}
+                  data-hint="info"
+                  data-tip={`Pixel ${i + 1} of ${fx.name}: R ${r} G ${g} B ${b}${i === 0 ? ' (the first pixel, outlined)' : ''}`}
                 />
               ))}
             </div>

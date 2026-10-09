@@ -155,7 +155,7 @@ The UI is monochrome (Settings → Appearance: grey, amber or phosphor ink, glow
 
 The layout is made for a 1512 × 915 px window (14" MacBook at its default display setting). On smaller screens, down to 1280 × 720, use Settings → Appearance → UI scale → **Fit window**: it picks the largest scale at which every page fits without scrolling (about 70 % on 1280 × 720). Pixel sizes are CSS pixels, which macOS and Windows scale with the display setting. Colour only appears where it carries information: the hue/saturation scales and the output colours.
 
-Everything works without a mouse — one control is always selected. The footer lists the keys and mouse actions for the control under the mouse or selected with the keys, with a short explanation:
+Everything works without a mouse — one control is always selected. The footer lists the keys and mouse actions for the control under the mouse, with the keyboard focus (Tab) or selected with the navigation keys, with a short explanation of what it does. Every control, label, status indicator and panel has one; a control without its own tip shows the one of its row or panel:
 
 | Key | Action |
 |---|---|

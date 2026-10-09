@@ -1,8 +1,12 @@
 import type { MacroDef } from './api'
 
-// Context hints for the footer: which keys / mouse actions apply to the control under the mouse or
-// selected with the keyboard, plus a short tooltip. Controls mark themselves with
-// data-hint="<kind>" (and optionally data-tip="…"); keyboard-selectable items carry the same kind.
+// Context hints for the footer: which keys / mouse actions apply to the control under the mouse, with
+// keyboard focus or selected with the navigation keys, plus a short tooltip.
+//  - data-hint="<kind>" names the keys; without it a <select>, text field or <button> gets its
+//    default kind (see defaultKind), so plain controls need no marking;
+//  - data-tip="…" is the explanation. It is inherited: a control without its own tip shows the one of
+//    the nearest row or panel around it (Row's hint, Section's tip);
+//  - keyboard-selectable items (NavItem) carry the same kind and tip.
 
 export type HintKind =
   | 'fader'
@@ -22,6 +26,10 @@ export type HintKind =
   | 'list-multi'
   | 'slider'
   | 'tab'
+  | 'button'
+  | 'select'
+  | 'text'
+  | 'info'
 
 export type Keys = [cap: string, what: string][]
 
@@ -39,9 +47,13 @@ export const HINT_KEYS: Record<HintKind, Keys> = {
   hold: [['HOLD', 'active while held'], ['⏎', 'hold'], ...MOVE],
   press: [['CLICK', 'select'], ['⏎', 'select'], ...MOVE],
   scene: [['CLICK', 'load'], ['⏎', 'load'], ['SHIFT ⏎', 'save'], ...MOVE],
-  number: [['⏎', 'apply'], ['↑ ↓', 'step'], ['SHIFT', 'fine'], ['RIGHT-DRAG ↕', 'step'], ['ESC', 'revert']],
-  switch: [['CLICK', 'on / off'], ['SPACE', 'on / off']],
-  override: [['CLICK', 'override the type value'], ['UNTICKED', 'type value applies, yours is kept']],
+  number: [['TYPE', 'value'], ['⏎', 'apply'], ['↑ ↓', 'step'], ['SHIFT', 'fine'], ['RIGHT-DRAG ↕', 'step'], ['ESC', 'revert'], ['TAB', 'next field']],
+  switch: [['CLICK', 'on / off'], ['SPACE', 'on / off'], ['TAB', 'next field']],
+  button: [['CLICK', 'press'], ['SPACE ⏎', 'press (focused)'], ['TAB', 'next field']],
+  select: [['CLICK', 'choose'], ['↑ ↓', 'change (focused)'], ['TAB', 'next field']],
+  text: [['TYPE', 'text'], ['TAB', 'next field']],
+  info: [], // display only: no keys, the whole footer is for the tip
+  override: [['CLICK', 'override the type value'], ['SPACE', 'on / off (focused)'], ['UNTICKED', 'type value applies, yours is kept']],
   undo: [['CLICK', 'back to the type value']],
   channel: [['DRAG ↕', 'override'], ['↑ ↓', 'override'], ['SHIFT', 'fine'], ['⏎', 'override on / off'], ['Q E', 'subpage'], ...MOVE],
   list: [['CLICK', 'select']],
@@ -88,9 +100,35 @@ export const MACRO_TIPS: Record<string, string> = {
   'Preset D': 'Mask preset: drifting noise',
 }
 
-/** The hint of the element under the mouse (closest marked ancestor), or null. */
+/** The kind of an unmarked control, from what it is. */
+function defaultKind(el: Element): HintKind | undefined {
+  if (el instanceof HTMLSelectElement) return 'select'
+  if (el instanceof HTMLTextAreaElement || el instanceof HTMLInputElement) return 'text'
+  if (el instanceof HTMLButtonElement) return 'button'
+  return undefined
+}
+
+/** The tip of a macro: its description, or the generic one of a dimmer. */
+export function macroTip(def: MacroDef): string | undefined {
+  return MACRO_TIPS[def.name] ?? (def.page === 'dimmers' ? 'Brightness of the fixtures that follow this dimmer (Rig → Dimmer)' : undefined)
+}
+
+/**
+ * The hint of an element (the one under the mouse or with the focus): the nearest data-hint, else
+ * the default kind of the nearest control, else "info" when only a tip is around; the tip is the
+ * nearest data-tip of the element or its ancestors. Null when there is neither.
+ */
 export function hintAt(target: EventTarget | null): { kind: HintKind; tip?: string } | null {
-  const el = target instanceof Element ? target.closest<HTMLElement>('[data-hint]') : null
-  if (!el) return null
-  return { kind: el.dataset.hint as HintKind, tip: el.dataset.tip || undefined }
+  let kind: HintKind | undefined
+  let fallback: HintKind | undefined
+  let tip: string | undefined
+  for (let el = target instanceof Element ? target : null; el; el = el.parentElement) {
+    const d = (el as HTMLElement).dataset
+    kind ??= d?.hint as HintKind | undefined
+    fallback ??= defaultKind(el)
+    tip ??= d?.tip || undefined
+    if (kind && tip) break
+  }
+  const k = kind ?? fallback ?? (tip ? 'info' : undefined)
+  return k ? { kind: k, tip } : null
 }

@@ -811,3 +811,9 @@ Versioning agreed (semantic, from 1.1.0; Claude keeps the numbers and suggests t
 ## [2026-10-08] build | PitchControl: UI scale shortcuts, context footer
 
 ⌘ / Ctrl + (or =) / − / 0 change the UI scale (5 % steps, saved). The footer now follows the control under the mouse, or the keyboard selection after navigation keys, and shows that control's keys plus a short tooltip; controls declare `data-hint` / `data-tip`, grid items `hint` / `tip` (`frontend/src/hints.ts`, which also holds the macro descriptions, taken from the wiki and the engine code). Native `title` tooltips on faders were dropped in favour of the footer. Listed under Unreleased in `pitch_control/CHANGELOG.md`.
+
+---
+
+## [2026-10-09] build | PitchControl: up to 4 Enttec DMX USB interfaces
+
+`outputs.enttec` in `settings.json` is now a list (max 4) of {enabled, device, universe}; a single object from older settings is migrated on load. The Outputs page got Add interface / Remove (compact two-line block per interface, still fits 1512 × 915 without scrolling at 4), a warning when two interfaces use the same device (the backend starts only the first), and the header shows one dot per interface. Engine status `io.outputs.enttec` is a list. Not tested with real hardware: only the migration, routing of universes and the duplicate guard (backend tests) and the UI against a scratch config. Listed under Unreleased in `pitch_control/CHANGELOG.md`. Recorded in [[port-design]] (Frontend Pages → Output).

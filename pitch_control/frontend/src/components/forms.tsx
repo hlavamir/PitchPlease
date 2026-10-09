@@ -290,7 +290,7 @@ export function Button({
       disabled={disabled}
       data-tip={tip}
       onClick={onClick}
-      className={`lbl h-8 px-3 text-[11px] font-medium disabled:opacity-35 ${
+      className={`lbl h-8 px-3 text-[11px] font-medium whitespace-nowrap disabled:opacity-35 ${
         primary ? 'glow-on bg-ink text-ground' : 'glow-hover border border-edge bg-panel text-ink'
       }`}
     >

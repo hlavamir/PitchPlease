@@ -8,7 +8,8 @@ features, **patch** = fixes only. Releases are tagged `pitchcontrol-vX.Y.Z`.
 
 ### Changed
 - **Full macro names on the General page:** the abbreviated labels ("Strobo br.", "Sat. A", …) are gone;
-  a name too long for its column wraps onto two lines.
+  a name too long for its column gets tighter letter spacing and then a smaller font, never a second
+  line.
 
 ### Added
 - **Up to 4 Enttec DMX USB Pro interfaces:** Outputs → Add interface / Remove; each interface has its

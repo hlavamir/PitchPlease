@@ -829,3 +829,9 @@ Miro: the footer reacted to too few elements and most tips were short or missing
 ## [2026-10-09] build | PitchControl: full macro names on the General page
 
 Miro: the fader labels on the General page had a `SHORT` map of abbreviations; removed, every fader now shows the full macro name. At 1512 px five of them (Audio Reactivity, Strobo Brightness, Idle Brightness, Strobo Bright. A / B) did not fit one line next to the index number, so the label in the fader header (`MacroControl`) wraps onto two lines instead of being cut off. The names "Strobo Bright. A" etc. are the macro names themselves (scenes and MIDI mappings refer to them), so they are unchanged. The abbreviated labels of the function buttons (Man. strobo, V. symmetry, …) are still there.
+
+---
+
+## [2026-10-09] build | PitchControl: macro labels never take a second line
+
+Miro did not want the two-line labels from the full-name change (see the entry above; the wrapping is replaced). `FitLabel` (`MacroControl.tsx`) keeps a fader or button label on one line: if the name is wider than its room it gets 0.02em letter spacing, then a smaller font down to 8 px, then an ellipsis. The fader header padding was reduced by 2 px per side for room. At 1512 × 915 only "Strobo Brightness" is shrunk (9.6 px); at 1280 px at 100 % UI scale (not the usual way to run that size: use Fit window) the long names are 8–10 px and "Strobo Brightness" is cut off by an ellipsis. Buttons (`Button`) no longer wrap their text either.

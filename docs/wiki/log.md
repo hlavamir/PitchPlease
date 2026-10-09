@@ -817,3 +817,15 @@ Versioning agreed (semantic, from 1.1.0; Claude keeps the numbers and suggests t
 ## [2026-10-09] build | PitchControl: up to 4 Enttec DMX USB interfaces
 
 `outputs.enttec` in `settings.json` is now a list (max 4) of {enabled, device, universe}; a single object from older settings is migrated on load. The Outputs page got Add interface / Remove (compact two-line block per interface, still fits 1512 × 915 without scrolling at 4), a warning when two interfaces use the same device (the backend starts only the first), and the header shows one dot per interface. Engine status `io.outputs.enttec` is a list. Not tested with real hardware: only the migration, routing of universes and the duplicate guard (backend tests) and the UI against a scratch config. Listed under Unreleased in `pitch_control/CHANGELOG.md`. Recorded in [[port-design]] (Frontend Pages → Output).
+
+---
+
+## [2026-10-09] build | PitchControl: footer tips for every control
+
+Miro: the footer reacted to too few elements and most tips were short or missing. Now every control on all nine pages has a tip: every form row (`Row hint`), button, switch, number field, select, text field, list item, status indicator in the header and on the pages, meter, the preview, the output monitor, panels (`Section tip`) and the page tabs. A control without its own tip inherits the one of the nearest row or panel; plain selects, text fields and buttons get their keys automatically (`hints.ts`: kinds `button`, `select`, `text`, `info`). Tab focus drives the footer like the mouse. Display-only elements show only the tip. Checked by hovering every control of every page in a browser (none without a tip, none cut off at 1512 × 915). Native `title` tooltips were replaced. Recorded in [[port-design]] (UI Design → Context footer).
+
+---
+
+## [2026-10-09] build | PitchControl: full macro names on the General page
+
+Miro: the fader labels on the General page had a `SHORT` map of abbreviations; removed, every fader now shows the full macro name. At 1512 px five of them (Audio Reactivity, Strobo Brightness, Idle Brightness, Strobo Bright. A / B) did not fit one line next to the index number, so the label in the fader header (`MacroControl`) wraps onto two lines instead of being cut off. The names "Strobo Bright. A" etc. are the macro names themselves (scenes and MIDI mappings refer to them), so they are unchanged. The abbreviated labels of the function buttons (Man. strobo, V. symmetry, …) are still there.

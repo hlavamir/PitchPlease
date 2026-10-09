@@ -847,3 +847,9 @@ Minor release (new features, old configs still load): up to 4 Enttec interfaces,
 ## [2026-10-09] build | PitchControl: universe dropdowns (0–3)
 
 Every universe field that names one of the app's universes (fixture universe on the Rig page, Enttec interface and Art-Net target universe on Outputs, fog machine universe) is a dropdown of 0–3 (`UniverseSelect`, `UNIVERSES` in `components/forms.tsx`, shared with the Control Desk). A value outside 0–3 in an older file stays visible as "N (not offered)"; with several fixtures selected that differ the dropdown shows "multiple". Miro chose 0–3 over 0–15 / 0–31 after being told Art-Net supports 32768 port-addresses (0–32767): the Art-Net wire address stays a number field with max 32767. Backend unchanged: universes are still any integer there. Recorded in [[port-design]] (Output). Not part of 1.2.0 (tagged before).
+
+---
+
+## [2026-10-09] build | PitchControl: Fog page layout
+
+Miro: the "Every … for … seconds" label was cut off and most of each panel was empty on the right. Rows now carry their captions with the fields ("every 60 s for 4 s", "universe 0 channel 1", "on 255 off 0"), the timer switch moved into the timer row (its separate "Timer enabled" row is gone), and the name field fills the row. Rows with several controls are plain rows (clicking a caption does not toggle the switch). A two-column layout inside each panel was tried and dropped: at about 750 px per panel the captions clipped. Checked at 1512 and 1280 px: nothing clipped.

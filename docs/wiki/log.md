@@ -889,3 +889,9 @@ Miro's first run on the Windows laptop (a fresh checkout): the General page's ma
 ## [2026-10-09] build | README screenshots re-shot, READMEs updated
 
 All nine page screenshots in `pitch_control/screenshots/` taken again (headless Chrome over the DevTools protocol at 1512 × 915, a scratch copy of the config without `state/` so the macros come from scene 1, synthetic techno loop as audio): full macro names, universe dropdowns, 4-interface Outputs section, Fog rows with captions, the footer. `docs/images/ui_general.png` and `ui_dimmers.png` are screenshots of the vvvv UI and stay. README text: Rig page in the frontend list, universe dropdowns, Art-Net wire universe, Fog row order, Settings → About, footer and scene-1 start in the Pages intro, status lines (Windows build builds and starts). [[port-design]] status: update note of 2026-10-09.
+
+---
+
+## [2026-10-09] build | PitchControl 1.2.1 tagged and pushed
+
+Patch release as Miro decided (first start begins with scene 1; Windows build script fixes; Fog page rows; universe dropdowns; Art-Net universe dropdown 0–15). `__version__` 1.2.1, changelog section dated 2026-10-09, `config/settings.json` committed in the 1.2 format (`outputs.enttec` as a list, single interface), tag `pitchcontrol-v1.2.1` pushed via SSH, which starts the draft-release workflow. Note: by the semver rule in the changelog the dropdown and Fog layout changes are UI changes, not new features, so a patch number holds.

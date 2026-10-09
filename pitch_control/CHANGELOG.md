@@ -6,6 +6,8 @@ features, **patch** = fixes only. Releases are tagged `pitchcontrol-vX.Y.Z`.
 
 ## Unreleased
 
+## 1.2.1 — 2026-10-09
+
 ### Fixed
 - **First start:** with no saved macro values (a new checkout or install; the saved state is not in
   the repo) all faders started at 0, so the lights stayed dark. The macros now start with the values

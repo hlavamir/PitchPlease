@@ -853,3 +853,9 @@ Every universe field that names one of the app's universes (fixture universe on 
 ## [2026-10-09] build | PitchControl: Fog page layout
 
 Miro: the "Every … for … seconds" label was cut off and most of each panel was empty on the right. Rows now carry their captions with the fields ("every 60 s for 4 s", "universe 0 channel 1", "on 255 off 0"), the timer switch moved into the timer row (its separate "Timer enabled" row is gone), and the name field fills the row. Rows with several controls are plain rows (clicking a caption does not toggle the switch). A two-column layout inside each panel was tried and dropped: at about 750 px per panel the captions clipped. Checked at 1512 and 1280 px: nothing clipped.
+
+---
+
+## [2026-10-09] build | PitchControl: Art-Net universe dropdown (0–15)
+
+The Art-Net universe on the wire (the target's second universe field on Outputs) is a dropdown of 0–15 instead of a number field 0–32767 (`ARTNET_UNIVERSES`, `UniverseSelect options`). Higher port-addresses (other nets / sub-nets) can no longer be chosen; a higher value in an existing file stays visible as "N (not offered)". Recorded in [[port-design]] (Output).

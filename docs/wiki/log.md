@@ -835,3 +835,9 @@ Miro: the fader labels on the General page had a `SHORT` map of abbreviations; r
 ## [2026-10-09] build | PitchControl: macro labels never take a second line
 
 Miro did not want the two-line labels from the full-name change (see the entry above; the wrapping is replaced). `FitLabel` (`MacroControl.tsx`) keeps a fader or button label on one line: if the name is wider than its room it gets 0.02em letter spacing, then a smaller font down to 8 px, then an ellipsis. The fader header padding was reduced by 2 px per side for room. At 1512 × 915 only "Strobo Brightness" is shrunk (9.6 px); at 1280 px at 100 % UI scale (not the usual way to run that size: use Fit window) the long names are 8–10 px and "Strobo Brightness" is cut off by an ellipsis. Buttons (`Button`) no longer wrap their text either.
+
+---
+
+## [2026-10-09] build | PitchControl 1.2.0 tagged
+
+Minor release (new features, old configs still load): up to 4 Enttec interfaces, UI scale shortcuts, footer tips for every control, full macro names on one line. `__version__` 1.2.0, changelog section dated 2026-10-09, tag `pitchcontrol-v1.2.0` created locally. One-way change noted in the changelog: a `settings.json` saved by 1.2.0 (`outputs.enttec` is a list) does not load in 1.1.0. Pushing the tag (which starts the draft release workflow) is left to Miro.

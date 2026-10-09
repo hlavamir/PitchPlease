@@ -6,10 +6,14 @@ features, **patch** = fixes only. Releases are tagged `pitchcontrol-vX.Y.Z`.
 
 ## Unreleased
 
+## 1.2.0 — 2026-10-09
+
 ### Changed
 - **Full macro names on the General page:** the abbreviated labels ("Strobo br.", "Sat. A", …) are gone;
   a name too long for its column gets tighter letter spacing and then a smaller font, never a second
   line.
+- **Settings format:** `outputs.enttec` in `settings.json` is a list now. Settings from 1.1.0 load
+  as before, but a `settings.json` saved by 1.2.0 does not load in 1.1.0.
 
 ### Added
 - **Up to 4 Enttec DMX USB Pro interfaces:** Outputs → Add interface / Remove; each interface has its

@@ -7,6 +7,9 @@ features, **patch** = fixes only. Releases are tagged `pitchcontrol-vX.Y.Z`.
 ## Unreleased
 
 ### Added
+- **Up to 4 Enttec DMX USB Pro interfaces:** Outputs → Add interface / Remove; each interface has its
+  own device and universe, and its own status dot in the header. Settings with a single interface
+  load as before.
 - **UI scale shortcuts:** ⌘ (macOS) / Ctrl (Windows) with + or =, −, and 0 for 100 %, saved like the
   Settings slider.
 - **Context footer:** the key-hint footer lists the keys and mouse actions of the control under the

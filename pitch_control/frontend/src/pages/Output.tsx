@@ -39,6 +39,8 @@ function DevicePicker({ value, devices, onChange }: { value: DeviceRef; devices:
   )
 }
 
+const MAX_ENTTEC = 4 // as in the backend (config/models.py)
+
 export function Output({ engine }: { engine: EngineConnection }) {
   const { settings, update, save, dirty, reload, message } = useSettings()
   const [devices, setDevices] = useState<SerialDevice[]>([])
@@ -49,6 +51,15 @@ export function Output({ engine }: { engine: EngineConnection }) {
   if (!settings) return null
   const o = settings.outputs
   const io = engine.state?.io.outputs
+  // two interfaces on one device would garble both streams: the backend starts only the first
+  const used = new Map<string, number>()
+  const sameAs = o.enttec.map((e, i) => {
+    const key = deviceKey(e.device)
+    if (!e.enabled || key === 'port:') return null
+    const first = used.get(key)
+    if (first === undefined) used.set(key, i)
+    return first ?? null
+  })
 
   return (
     // settings and live output take half the page width each, or the full width under each other
@@ -59,16 +70,58 @@ export function Output({ engine }: { engine: EngineConnection }) {
         <SaveBar dirty={dirty} save={save} reload={reload} message={message} />
       </div>
 
-      <Section index="01" title="Enttec DMX USB Pro" right={<StatusDot ok={io?.enttec?.connected ?? null} label={io?.enttec ? (io.enttec.connected ? 'connected' : 'not connected') : 'off'} error={io?.enttec?.error} />}>
-        <Row label="Enabled">
-          <Toggle checked={o.enttec.enabled} onChange={(v) => update((s) => (s.outputs.enttec.enabled = v))} />
-        </Row>
-        <Row label="Device">
-          <DevicePicker value={o.enttec.device} devices={devices} onChange={(d) => update((s) => (s.outputs.enttec.device = d))} />
-        </Row>
-        <Row label="Universe">
-          <NumberInput value={o.enttec.universe} integer min={0} onChange={(v) => update((s) => (s.outputs.enttec.universe = v))} />
-        </Row>
+      <Section
+        index="01"
+        title="Enttec DMX USB Pro"
+        right={
+          <>
+            <span>
+              {o.enttec.length} / {MAX_ENTTEC} interfaces
+            </span>
+            <button
+              disabled={o.enttec.length >= MAX_ENTTEC}
+              title={o.enttec.length >= MAX_ENTTEC ? `Maximum of ${MAX_ENTTEC} interfaces` : undefined}
+              className="lbl h-[18px] border border-edge px-2 text-[10px] text-ink disabled:opacity-40"
+              onClick={() =>
+                update((s) =>
+                  s.outputs.enttec.push({ enabled: true, device: {}, universe: s.outputs.enttec.reduce((n, x) => Math.max(n, x.universe + 1), 0) }),
+                )
+              }
+            >
+              Add interface
+            </button>
+          </>
+        }
+      >
+        <div className="flex flex-col gap-2.5">
+          {o.enttec.length === 0 && <p className="text-[13px] text-dim">No USB DMX interface. Add one for each Enttec you plug in; each sends its own universe.</p>}
+          {o.enttec.map((e, i) => {
+            const st = io?.enttec?.[i]
+            return (
+              <div key={i} className="flex flex-col gap-1.5 border border-edge p-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-2.5">
+                    <Toggle checked={e.enabled} onChange={(v) => update((s) => (s.outputs.enttec[i].enabled = v))} />
+                    <span className="lbl text-[12px]">Interface {i + 1}</span>
+                  </span>
+                  <span className="flex items-center gap-3">
+                    <StatusDot ok={st ? st.connected : null} label={st ? (st.connected ? 'connected' : 'not connected') : 'off'} error={st?.error} />
+                    <Button onClick={() => update((s) => s.outputs.enttec.splice(i, 1))}>Remove</Button>
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-[13px]">
+                  <span className="text-dim">Device</span>
+                  <div className="min-w-0 flex-1">
+                    <DevicePicker value={e.device} devices={devices} onChange={(d) => update((s) => (s.outputs.enttec[i].device = d))} />
+                  </div>
+                  <span className="text-dim">Universe</span>
+                  <NumberInput value={e.universe} integer min={0} className="w-16" onChange={(v) => update((s) => (s.outputs.enttec[i].universe = v))} />
+                </div>
+                {sameAs[i] !== null && <p className="text-[12px] text-glow">Same device as interface {sameAs[i]! + 1}: this one is not started.</p>}
+              </div>
+            )
+          })}
+        </div>
       </Section>
 
       <Section index="02" title="Art-Net" right={<StatusDot ok={io?.artnet?.connected ?? null} label={io?.artnet ? 'sending' : 'off'} error={io?.artnet?.error} />}>

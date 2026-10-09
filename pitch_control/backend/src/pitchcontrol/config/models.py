@@ -8,7 +8,7 @@ Missing keys are filled with the defaults defined here.
 from __future__ import annotations
 
 import logging
-from typing import Generic, Literal, TypeVar
+from typing import Any, Generic, Literal, TypeVar
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
@@ -330,10 +330,23 @@ class PitchPlsV2Settings(Model):
     pixels_per_strip: int = 19  # the firmware mirrors these to 38 LEDs
 
 
+MAX_ENTTEC = 4  # USB DMX interfaces that can be driven at once
+
+
 class OutputSettings(Model):
-    enttec: EnttecSettings = Field(default_factory=EnttecSettings)
+    # one entry per Enttec DMX USB Pro, each sending its own universe; the position in the list is
+    # the interface number shown in the UI
+    enttec: list[EnttecSettings] = Field(default_factory=list, max_length=MAX_ENTTEC)
     artnet: ArtNetSettings = Field(default_factory=ArtNetSettings)
     pitchpls_v2: PitchPlsV2Settings = Field(default_factory=PitchPlsV2Settings)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _enttec_list(cls, data: Any) -> Any:
+        # before 1.2.0 there was a single interface: {"enabled": …, "device": …, "universe": …}
+        if isinstance(data, dict) and isinstance(data.get("enttec"), dict):
+            data = {**data, "enttec": [data["enttec"]]}
+        return data
 
 
 class FogMachine(Model):

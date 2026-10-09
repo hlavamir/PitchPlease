@@ -61,7 +61,7 @@ The rig: the fixtures of one event and everything that differs per fixture.
 
 ![Outputs page](screenshots/outputs.png)
 
-The Enttec DMX USB Pro (device and universe), Art-Net targets (universe → IP), and the PitchPlease V2 serial output (device, baud rate, mirror mode). Live output on the right shows what every fixture sends: pixel colours and, with "show channel values", the channel table.
+Up to four Enttec DMX USB Pro interfaces (Add interface / Remove; each with its own device and universe), Art-Net targets (universe → IP), and the PitchPlease V2 serial output (device, baud rate, mirror mode). Live output on the right shows what every fixture sends: pixel colours and, with "show channel values", the channel table.
 
 ### 7 · Fog
 
@@ -183,7 +183,7 @@ Hue and saturation apply on mouse release, or once keys / the MIDI knob rest; un
 
 | Path | Content |
 |---|---|
-| `settings.json` | outputs (Enttec, Art-Net, v2 serial), audio input, fog machines, Auto Color palette, engine options |
+| `settings.json` | outputs (up to 4 Enttec interfaces, Art-Net, v2 serial), audio input, fog machines, Auto Color palette, engine options |
 | `fixtures/types/*.json` | one file per fixture model (edited on the Fixtures page); all files are loaded on startup, missing keys get defaults |
 | `rigs/<name>.json` | fixture instances for one event (edited on the Rig page): type, group A/B, universe/address, UV placement (rotation in degrees), dimmer, colour sources, overrides of type values as `{"enabled": …, "value": …}`; the dimmer names (`dimmer_names`) |
 | `controllers/*.json` | MIDI controller mappings (CC → macro) |

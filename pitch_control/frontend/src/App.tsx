@@ -216,7 +216,14 @@ export default function App() {
               )}
               <StatusDot ok={s?.io.audio ? s.io.audio.running : null} label="audio" error={s?.io.audio?.error} />
               <StatusDot ok={s?.io.midi ? Boolean(s.io.midi.port) : null} label="midi" error={s?.io.midi?.error} />
-              <StatusDot ok={out?.enttec ? out.enttec.connected : null} label="enttec" error={out?.enttec?.error} />
+              {/* one dot per configured USB DMX interface */}
+              {out?.enttec?.length ? (
+                out.enttec.map((e, i) => (
+                  <StatusDot key={i} ok={e ? e.connected : null} label={out.enttec.length > 1 ? `enttec ${i + 1}` : 'enttec'} error={e?.error} />
+                ))
+              ) : (
+                <StatusDot ok={null} label="enttec" />
+              )}
               <StatusDot ok={out?.artnet ? out.artnet.connected : null} label="art-net" error={out?.artnet?.error} />
               <StatusDot ok={out?.pitchpls_v2 ? out.pitchpls_v2.connected : null} label="v2" error={out?.pitchpls_v2?.error} />
             </div>

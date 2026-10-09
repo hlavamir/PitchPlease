@@ -841,3 +841,9 @@ Miro did not want the two-line labels from the full-name change (see the entry a
 ## [2026-10-09] build | PitchControl 1.2.0 tagged
 
 Minor release (new features, old configs still load): up to 4 Enttec interfaces, UI scale shortcuts, footer tips for every control, full macro names on one line. `__version__` 1.2.0, changelog section dated 2026-10-09, tag `pitchcontrol-v1.2.0` created locally. One-way change noted in the changelog: a `settings.json` saved by 1.2.0 (`outputs.enttec` is a list) does not load in 1.1.0. Pushing the tag (which starts the draft release workflow) is left to Miro.
+
+---
+
+## [2026-10-09] build | PitchControl: universe dropdowns (0–3)
+
+Every universe field that names one of the app's universes (fixture universe on the Rig page, Enttec interface and Art-Net target universe on Outputs, fog machine universe) is a dropdown of 0–3 (`UniverseSelect`, `UNIVERSES` in `components/forms.tsx`, shared with the Control Desk). A value outside 0–3 in an older file stays visible as "N (not offered)"; with several fixtures selected that differ the dropdown shows "multiple". Miro chose 0–3 over 0–15 / 0–31 after being told Art-Net supports 32768 port-addresses (0–32767): the Art-Net wire address stays a number field with max 32767. Backend unchanged: universes are still any integer there. Recorded in [[port-design]] (Output). Not part of 1.2.0 (tagged before).

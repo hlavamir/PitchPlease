@@ -865,3 +865,15 @@ The Art-Net universe on the wire (the target's second universe field on Outputs)
 ## [2026-10-09] build | Windows build script: log file, window stays open
 
 Miro's Windows build failed and its window closed at once, so the error was lost. `packaging/build_windows.bat` now writes all step output to `pitch_control/build-windows.log` (gitignored), prints the step names, shows the last 30 lines of the log on a failure, checks for Node.js and Python up front, logs the tool versions, and waits for a key at the end. Unless `CI` is set: the GitHub workflow keeps the output on the console and must not pause. CRLF line endings kept. **Not tested on Windows** (written on a Mac); the first real run will show. Recorded in [[port-design]] (Standalone App).
+
+---
+
+## [2026-10-09] fix | Windows build: Node version check
+
+First real run of the new Windows build script on Miro's laptop (log `build-windows.log`): Node.js v18.16.0, Python 3.11.3, no uv. The web UI step failed with `SyntaxError ... 'node:util' does not provide an export named 'styleText'`: Vite 8 / Rolldown need Node `^20.19.0 || >=22.12.0` (checked in their `engines`); GitHub Actions uses Node 20. The script now checks the Node version up front and says what to install; README requirements updated (they said "Node ≥ 20", too loose). The log file and the open window did their job. Python 3.11 is enough (`requires-python >= 3.11`). Still to see: the rest of the build on Windows.
+
+---
+
+## [2026-10-09] fix | Windows build: reinstall UI packages per Node version, Python 3.11 / 3.12
+
+Second and third run on Miro's laptop. After upgrading Node (v18.16 → v24.21) the web UI step failed with "Cannot find native binding ... @rolldown/binding-win32-x64-msvc": `node_modules` came from the earlier install under Node 18, where npm skips optional dependencies whose `engines` do not match, and does not add them later (npm issue 4828). The committed `package-lock.json` does contain the Windows binding. The script now remembers the Node version in `node_modules/.installed-with-node` and does a clean `npm ci` when it differs. The same log shows Python 3.14.8: PyPI has Windows wheels of `python-rtmidi` 1.5.8 only for cp38–cp312 (no 3.13, no 3.14; checked 2026-10-09), so the install would need a C++ compiler. The script now makes the environment with `py -3.12`, else `py -3.11`, else a `python` of that version, else uv (which can fetch 3.12), and discards an existing `.venv` made with another version; otherwise it stops and says to install Python 3.12 (it can stay next to 3.14). GitHub Actions uses Python 3.12, so the workflow is not affected. Macs: python-rtmidi installs there with 3.13 (a macOS wheel exists). Not run on Windows yet. Recorded in [[port-design]] (Standalone App).

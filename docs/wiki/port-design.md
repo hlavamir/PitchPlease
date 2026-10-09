@@ -33,7 +33,7 @@ Decided 2026-10-08: PitchControl uses semantic versioning, starting at **1.1.0**
 
 ## Standalone App
 
-**Windows build script** (2026-10-09): `build_windows.bat` logs every step's output to `pitch_control\build-windows.log` and keeps the window open at the end (Miro's Windows build failed and the window closed at once). The window shows the step names and, on a failure, the last 30 log lines. With `CI` set (GitHub Actions) it neither pauses nor redirects. Written without a Windows machine at hand: not yet run on one.
+**Windows build script** (2026-10-09): `build_windows.bat` logs every step's output to `pitch_control\build-windows.log` and keeps the window open at the end (Miro's Windows build failed and the window closed at once). The window shows the step names and, on a failure, the last 30 log lines. With `CI` set (GitHub Actions) it neither pauses nor redirects. Written without a Windows machine at hand; the first runs on Miro's laptop found two environment problems, now handled by the script: UI packages installed under an old Node are reinstalled (npm skips the Rolldown platform binary under Node 18), and the Python environment must be 3.11 or 3.12 because `python-rtmidi` has no Windows wheels for 3.13 / 3.14 (the script picks one via the `py` launcher even when a newer Python is installed). Not yet seen to run through.
 
 Decided 2026-10-05: PitchControl is also packaged as a standalone app for macOS and Windows with PyInstaller (`pitch_control/packaging/`, output in `pitch_control/dist/`).
 

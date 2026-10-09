@@ -1,5 +1,5 @@
 import type { FogMachine } from '../api'
-import { Button, NumberInput, Row, SaveBar, Section, StatusDot, Toggle, useSettings } from '../components/forms'
+import { Button, NumberInput, Row, SaveBar, Section, StatusDot, Toggle, UniverseSelect, useSettings } from '../components/forms'
 import type { EngineConnection } from '../useEngine'
 
 const NEW_MACHINE: FogMachine = {
@@ -43,7 +43,7 @@ export function Fog({ engine }: { engine: EngineConnection }) {
             <Toggle checked={m.enabled} onChange={(v) => update((s) => (s.fog.machines[i].enabled = v))} />
           </Row>
           <Row label="Universe / channel" hint="Where the machine listens: DMX universe (as on the Outputs page) and channel 1–512">
-            <NumberInput value={m.universe} integer min={0} className="w-16" onChange={(v) => update((s) => (s.fog.machines[i].universe = v))} />
+            <UniverseSelect value={m.universe} onChange={(v) => update((s) => (s.fog.machines[i].universe = v))} />
             <NumberInput value={m.channel} integer min={1} max={512} className="w-20" onChange={(v) => update((s) => (s.fog.machines[i].channel = v))} />
           </Row>
           <Row label="On / off value" hint="DMX values (0–255) sent while fogging and while idle; some machines need a minimum on value">

@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent } from 'react'
 import { api } from '../api'
-import { Button, Section, Toggle } from '../components/forms'
+import { Button, Section, Toggle, UNIVERSES } from '../components/forms'
 import type { EngineConnection } from '../useEngine'
 import { isTyping, useGridNav, type NavItem } from '../useGridNav'
 
-const UNIVERSES = [0, 1, 2, 3]
 const PER_PAGE = 64 // 4 rows × 16
 const SUBPAGES = 512 / PER_PAGE
 const POLL_MS = 100 // live output values

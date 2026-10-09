@@ -4,7 +4,7 @@ import { OutputMonitor } from '../components/OutputMonitor'
 import { Preview } from '../components/Preview'
 import { RigPanel, type RigList } from '../components/RigPanel'
 import { hsvCss } from '../components/MacroControl'
-import { Button, Check, NumberInput, Row, Section, Toggle } from '../components/forms'
+import { Button, Check, NumberInput, Row, Section, Toggle, UniverseSelect } from '../components/forms'
 import type { EngineConnection } from '../useEngine'
 import { useElementWidth } from '../useElementWidth'
 
@@ -350,7 +350,7 @@ export function Rig({ engine, defs }: { engine: EngineConnection; defs: Record<s
                   </select>
                 </Row>
                 <Row label="Universe / address" hint="Where the fixture listens: DMX universe (as numbered on the Outputs page) and 1-based start channel">
-                  <NumberInput {...num((f) => f.universe)} integer min={0} onChange={(v) => edit((f) => (f.universe = v))} className="w-16" />
+                  <UniverseSelect value={num((f) => f.universe).value} onChange={(v) => edit((f) => (f.universe = v))} />
                   <NumberInput {...num((f) => f.address)} integer min={1} max={512} onChange={(v) => edit((f) => (f.address = v))} className="w-20" />
                 </Row>
                 <Row label="Position (u, v)" hint="Centre of the fixture in the scene square: u = 0 left … 1 right, v = 0 top … 1 bottom">

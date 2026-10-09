@@ -6,6 +6,11 @@ features, **patch** = fixes only. Releases are tagged `pitchcontrol-vX.Y.Z`.
 
 ## Unreleased
 
+### Changed
+- **Universe dropdowns:** every DMX universe field (Rig, Outputs, Fog) is a dropdown of the universes
+  0–3, like the Control Desk's. A value outside that range in an older file is kept and shown as
+  "not offered". The Art-Net wire address stays a number field (0–32767).
+
 ## 1.2.0 — 2026-10-09
 
 ### Changed

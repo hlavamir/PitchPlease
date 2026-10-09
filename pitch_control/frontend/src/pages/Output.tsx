@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { api, type DeviceRef, type SerialDevice } from '../api'
 import { OutputMonitor } from '../components/OutputMonitor'
-import { Button, NumberInput, Row, SaveBar, Section, StatusDot, Toggle, useSettings } from '../components/forms'
+import { Button, NumberInput, Row, SaveBar, Section, StatusDot, Toggle, UniverseSelect, useSettings } from '../components/forms'
 import type { EngineConnection } from '../useEngine'
 
 function deviceKey(d: DeviceRef | SerialDevice): string {
@@ -123,7 +123,7 @@ export function Output({ engine }: { engine: EngineConnection }) {
                     <DevicePicker value={e.device} devices={devices} onChange={(d) => update((s) => (s.outputs.enttec[i].device = d))} />
                   </div>
                   <span className="text-dim">Universe</span>
-                  <NumberInput value={e.universe} integer min={0} className="w-16" tip="The universe this interface sends: fixtures with this universe on the Rig page are on its cable" onChange={(v) => update((s) => (s.outputs.enttec[i].universe = v))} />
+                  <UniverseSelect value={e.universe} tip="The universe this interface sends: fixtures with this universe on the Rig page are on its cable" onChange={(v) => update((s) => (s.outputs.enttec[i].universe = v))} />
                 </div>
                 {sameAs[i] !== null && <p className="text-[12px] text-glow">Same device as interface {sameAs[i]! + 1}: this one is not started.</p>}
               </div>
@@ -145,7 +145,7 @@ export function Output({ engine }: { engine: EngineConnection }) {
           {o.artnet.targets.map((t, i) => (
             <div key={i} className="flex items-center gap-2 text-[13px]">
               <span className="text-dim">Universe</span>
-              <NumberInput value={t.universe} integer min={0} className="w-16" tip="Universe of this app (as on the Rig page) to send to this target" onChange={(v) => update((s) => (s.outputs.artnet.targets[i].universe = v))} />
+              <UniverseSelect value={t.universe} tip="Universe of this app (as on the Rig page) to send to this target" onChange={(v) => update((s) => (s.outputs.artnet.targets[i].universe = v))} />
               <span className="text-dim">→ IP</span>
               <input
                 type="text"
@@ -159,8 +159,9 @@ export function Output({ engine }: { engine: EngineConnection }) {
                 value={t.artnet_universe ?? t.universe}
                 integer
                 min={0}
-                className="w-16"
-                tip="Port-address on the wire (what the node listens to); empty = the same as the universe"
+                max={32767}
+                className="w-20"
+                tip="Port-address on the wire (what the node listens to), 0–32767 = Net / Sub-Net / Universe; by default the same number as the universe"
                 onChange={(v) => update((s) => (s.outputs.artnet.targets[i].artnet_universe = v))}
               />
               <Button onClick={() => update((s) => s.outputs.artnet.targets.splice(i, 1))} tip="Remove this Art-Net target (written with Save)">

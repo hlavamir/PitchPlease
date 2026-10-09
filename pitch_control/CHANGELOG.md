@@ -7,6 +7,9 @@ features, **patch** = fixes only. Releases are tagged `pitchcontrol-vX.Y.Z`.
 ## Unreleased
 
 ### Changed
+- **Windows build script:** the window stays open at the end, the output of every step goes to
+  `build-windows.log` (the window shows the step names and, on a failure, the end of the log), and
+  missing Node.js or Python is reported up front. On CI nothing changes (no pause, output on the console).
 - **Fog page:** the long label "Every … for … seconds" was cut off. The timer is one row now
   (switch, every _ s for _ s); universe and channel, and on / off value, have their captions next to
   the fields; the name field fills the row.

@@ -15,3 +15,6 @@ frontend/dist/
 # standalone app builds
 /build/
 /dist/
+
+# Windows build log
+/build-windows.log

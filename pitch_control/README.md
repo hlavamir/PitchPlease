@@ -120,7 +120,7 @@ Tests: `cd backend && .venv/bin/python -m pytest`.
 `packaging/` builds a self-contained app (no Python or Node needed on the target machine). It must be built on the target OS:
 
 - **macOS:** double-click `packaging/build_macos.command` (or run it from Terminal); it produces `dist/PitchControl.app` and `dist/PitchControl-macos-<arch>.zip` (about 46 MB, 22 MB zipped). An Apple Silicon build runs only on Apple Silicon Macs.
-- **Windows:** `packaging\build_windows.bat` produces `dist\PitchControl\PitchControl.exe` and a zip.
+- **Windows:** double-click `packaging\build_windows.bat` (needs Node.js and Python 3); it produces `dist\PitchControl\PitchControl.exe` and a zip. The window shows the steps and stays open at the end; everything the steps print goes to `pitch_control\build-windows.log` (gitignored), which is what to send when a build fails.
 - **Both, on GitHub:** Actions → "PitchControl app" → Run workflow (`.github/workflows/pitchcontrol-app.yml`), then download the zips from the run.
 
 The app shows the UI in its own window. "Open in browser" and "Open data folder" are in Settings → App. Closing the window stops the engine.

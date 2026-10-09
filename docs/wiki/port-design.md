@@ -33,6 +33,8 @@ Decided 2026-10-08: PitchControl uses semantic versioning, starting at **1.1.0**
 
 ## Standalone App
 
+**Windows build script** (2026-10-09): `build_windows.bat` logs every step's output to `pitch_control\build-windows.log` and keeps the window open at the end (Miro's Windows build failed and the window closed at once). The window shows the step names and, on a failure, the last 30 log lines. With `CI` set (GitHub Actions) it neither pauses nor redirects. Written without a Windows machine at hand: not yet run on one.
+
 Decided 2026-10-05: PitchControl is also packaged as a standalone app for macOS and Windows with PyInstaller (`pitch_control/packaging/`, output in `pitch_control/dist/`).
 
 - **Window:** the app shows the UI in its own native window (pywebview: WKWebView on macOS, WebView2 on Windows). "Open in browser" is available for a second screen or a phone. Closing the window stops the engine.

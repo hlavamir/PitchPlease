@@ -859,3 +859,9 @@ Miro: the "Every … for … seconds" label was cut off and most of each panel w
 ## [2026-10-09] build | PitchControl: Art-Net universe dropdown (0–15)
 
 The Art-Net universe on the wire (the target's second universe field on Outputs) is a dropdown of 0–15 instead of a number field 0–32767 (`ARTNET_UNIVERSES`, `UniverseSelect options`). Higher port-addresses (other nets / sub-nets) can no longer be chosen; a higher value in an existing file stays visible as "N (not offered)". Recorded in [[port-design]] (Output).
+
+---
+
+## [2026-10-09] build | Windows build script: log file, window stays open
+
+Miro's Windows build failed and its window closed at once, so the error was lost. `packaging/build_windows.bat` now writes all step output to `pitch_control/build-windows.log` (gitignored), prints the step names, shows the last 30 lines of the log on a failure, checks for Node.js and Python up front, logs the tool versions, and waits for a key at the end. Unless `CI` is set: the GitHub workflow keeps the output on the console and must not pause. CRLF line endings kept. **Not tested on Windows** (written on a Mac); the first real run will show. Recorded in [[port-design]] (Standalone App).

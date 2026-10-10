@@ -1,0 +1,27 @@
+# Apache / LiteSpeed config for Hostinger. Copied into dist/ by the build.
+
+Options -Indexes
+ErrorDocument 404 /404.html
+
+# Force HTTPS: uncomment once the SSL certificate for pitchcontrol.eu is active
+# (or use the "Force HTTPS" switch in hPanel → Security → SSL instead).
+# RewriteEngine On
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [L,R=301]
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml
+</IfModule>
+
+# /assets/* has content hashes in the file names, so it can be cached forever.
+# HTML is revalidated every time so a new upload shows up at once.
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^assets/ - [E=IS_ASSET:1]
+    Header set Cache-Control "public, max-age=31536000, immutable" env=IS_ASSET
+  </IfModule>
+</IfModule>

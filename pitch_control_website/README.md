@@ -10,6 +10,13 @@ npm run build     # → dist/, one index.html per page plus 404.html
 npm run preview   # serves dist/
 ```
 
+## Deploying (Hostinger, pitchcontrol.eu)
+
+`npm run build`, then upload the **contents** of `dist/` into `public_html/` via FTP (not the `dist`
+folder itself). `dist/.htaccess` is a hidden file, so turn on "show hidden files" in the FTP client.
+It sets the 404 page, compression and caching; the HTTPS redirect in it is commented out (use hPanel's
+"Force HTTPS" or uncomment it once the SSL certificate is active). The source is `public/.htaccess`.
+
 ## Where things come from
 
 | What | Source |

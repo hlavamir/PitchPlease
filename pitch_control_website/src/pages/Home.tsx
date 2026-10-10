@@ -253,8 +253,8 @@ function Tour() {
                 aria-controls="tour-panel"
                 tabIndex={on ? 0 : -1}
                 onClick={() => setSel(i)}
-                className={`lbl -mb-px flex flex-none items-center gap-2 border-r border-b border-edge px-4 py-3 text-[12px] whitespace-nowrap ${
-                  on ? 'glow relative z-10 bg-amber text-ground' : 'text-dim hover:text-ink'
+                className={`lbl -mb-px flex flex-none items-center gap-2 border-r border-b px-4 py-3 text-[12px] whitespace-nowrap ${
+                  on ? 'glow-soft relative z-10 border-amber bg-amber text-ground' : 'border-edge text-dim hover:text-ink'
                 }`}
               >
                 <span className={`font-mono text-[10px] ${on ? 'text-ground/60' : 'text-faint'}`}>{i + 1}</span>

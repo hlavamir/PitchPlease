@@ -43,6 +43,14 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+/* Tailwind's preflight gives buttons the default arrow */
+@layer base {
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']) {
+    cursor: pointer;
+  }
+}
+
 ::selection {
   background: rgb(var(--amber-rgb) / 0.85);
   color: var(--color-ground);
@@ -69,6 +77,12 @@ body {
 @utility glow {
   box-shadow:
     0 0 0 1px var(--color-amber),
+    0 0 16px rgb(var(--amber-rgb) / 0.38),
+    0 0 48px rgb(var(--amber-rgb) / 0.16);
+}
+/* the bloom alone, for elements that draw their own amber edge (the active tour tab) */
+@utility glow-soft {
+  box-shadow:
     0 0 16px rgb(var(--amber-rgb) / 0.38),
     0 0 48px rgb(var(--amber-rgb) / 0.16);
 }

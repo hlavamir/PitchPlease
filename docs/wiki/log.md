@@ -805,3 +805,93 @@ Miro: "reacts to strobo" belongs to the rig only. Fixture types no longer have i
 ## [2026-10-08] build | PitchControl 1.1.0: versioning, About panel, release workflow
 
 Versioning agreed (semantic, from 1.1.0; Claude keeps the numbers and suggests tags, Miro confirms). Single version source in `pitchcontrol/__init__.py`; version label with `git describe` distance in Settings → About, log and API; `pitch_control/CHANGELOG.md`; the GitHub workflow now also runs on `pitchcontrol-v*` tags and creates a draft release with both builds and the changelog section. READMEs: Download sections, release steps, corrected macOS Gatekeeper steps (Open Anyway since macOS 15). Tags created locally: `pitchcontrol-v1.0.0` (first port, 8b7e5d6) and `pitchcontrol-v1.1.0`. Recorded in [[port-design]] (Versions and Releases).
+
+---
+
+## [2026-10-08] build | PitchControl: UI scale shortcuts, context footer
+
+⌘ / Ctrl + (or =) / − / 0 change the UI scale (5 % steps, saved). The footer now follows the control under the mouse, or the keyboard selection after navigation keys, and shows that control's keys plus a short tooltip; controls declare `data-hint` / `data-tip`, grid items `hint` / `tip` (`frontend/src/hints.ts`, which also holds the macro descriptions, taken from the wiki and the engine code). Native `title` tooltips on faders were dropped in favour of the footer. Listed under Unreleased in `pitch_control/CHANGELOG.md`.
+
+---
+
+## [2026-10-09] build | PitchControl: up to 4 Enttec DMX USB interfaces
+
+`outputs.enttec` in `settings.json` is now a list (max 4) of {enabled, device, universe}; a single object from older settings is migrated on load. The Outputs page got Add interface / Remove (compact two-line block per interface, still fits 1512 × 915 without scrolling at 4), a warning when two interfaces use the same device (the backend starts only the first), and the header shows one dot per interface. Engine status `io.outputs.enttec` is a list. Not tested with real hardware: only the migration, routing of universes and the duplicate guard (backend tests) and the UI against a scratch config. Listed under Unreleased in `pitch_control/CHANGELOG.md`. Recorded in [[port-design]] (Frontend Pages → Output).
+
+---
+
+## [2026-10-09] build | PitchControl: footer tips for every control
+
+Miro: the footer reacted to too few elements and most tips were short or missing. Now every control on all nine pages has a tip: every form row (`Row hint`), button, switch, number field, select, text field, list item, status indicator in the header and on the pages, meter, the preview, the output monitor, panels (`Section tip`) and the page tabs. A control without its own tip inherits the one of the nearest row or panel; plain selects, text fields and buttons get their keys automatically (`hints.ts`: kinds `button`, `select`, `text`, `info`). Tab focus drives the footer like the mouse. Display-only elements show only the tip. Checked by hovering every control of every page in a browser (none without a tip, none cut off at 1512 × 915). Native `title` tooltips were replaced. Recorded in [[port-design]] (UI Design → Context footer).
+
+---
+
+## [2026-10-09] build | PitchControl: full macro names on the General page
+
+Miro: the fader labels on the General page had a `SHORT` map of abbreviations; removed, every fader now shows the full macro name. At 1512 px five of them (Audio Reactivity, Strobo Brightness, Idle Brightness, Strobo Bright. A / B) did not fit one line next to the index number, so the label in the fader header (`MacroControl`) wraps onto two lines instead of being cut off. The names "Strobo Bright. A" etc. are the macro names themselves (scenes and MIDI mappings refer to them), so they are unchanged. The abbreviated labels of the function buttons (Man. strobo, V. symmetry, …) are still there.
+
+---
+
+## [2026-10-09] build | PitchControl: macro labels never take a second line
+
+Miro did not want the two-line labels from the full-name change (see the entry above; the wrapping is replaced). `FitLabel` (`MacroControl.tsx`) keeps a fader or button label on one line: if the name is wider than its room it gets 0.02em letter spacing, then a smaller font down to 8 px, then an ellipsis. The fader header padding was reduced by 2 px per side for room. At 1512 × 915 only "Strobo Brightness" is shrunk (9.6 px); at 1280 px at 100 % UI scale (not the usual way to run that size: use Fit window) the long names are 8–10 px and "Strobo Brightness" is cut off by an ellipsis. Buttons (`Button`) no longer wrap their text either.
+
+---
+
+## [2026-10-09] build | PitchControl 1.2.0 tagged
+
+Minor release (new features, old configs still load): up to 4 Enttec interfaces, UI scale shortcuts, footer tips for every control, full macro names on one line. `__version__` 1.2.0, changelog section dated 2026-10-09, tag `pitchcontrol-v1.2.0` created locally. One-way change noted in the changelog: a `settings.json` saved by 1.2.0 (`outputs.enttec` is a list) does not load in 1.1.0. Pushing the tag (which starts the draft release workflow) is left to Miro.
+
+---
+
+## [2026-10-09] build | PitchControl: universe dropdowns (0–3)
+
+Every universe field that names one of the app's universes (fixture universe on the Rig page, Enttec interface and Art-Net target universe on Outputs, fog machine universe) is a dropdown of 0–3 (`UniverseSelect`, `UNIVERSES` in `components/forms.tsx`, shared with the Control Desk). A value outside 0–3 in an older file stays visible as "N (not offered)"; with several fixtures selected that differ the dropdown shows "multiple". Miro chose 0–3 over 0–15 / 0–31 after being told Art-Net supports 32768 port-addresses (0–32767): the Art-Net wire address stays a number field with max 32767. Backend unchanged: universes are still any integer there. Recorded in [[port-design]] (Output). Not part of 1.2.0 (tagged before).
+
+---
+
+## [2026-10-09] build | PitchControl: Fog page layout
+
+Miro: the "Every … for … seconds" label was cut off and most of each panel was empty on the right. Rows now carry their captions with the fields ("every 60 s for 4 s", "universe 0 channel 1", "on 255 off 0"), the timer switch moved into the timer row (its separate "Timer enabled" row is gone), and the name field fills the row. Rows with several controls are plain rows (clicking a caption does not toggle the switch). A two-column layout inside each panel was tried and dropped: at about 750 px per panel the captions clipped. Checked at 1512 and 1280 px: nothing clipped.
+
+---
+
+## [2026-10-09] build | PitchControl: Art-Net universe dropdown (0–15)
+
+The Art-Net universe on the wire (the target's second universe field on Outputs) is a dropdown of 0–15 instead of a number field 0–32767 (`ARTNET_UNIVERSES`, `UniverseSelect options`). Higher port-addresses (other nets / sub-nets) can no longer be chosen; a higher value in an existing file stays visible as "N (not offered)". Recorded in [[port-design]] (Output).
+
+---
+
+## [2026-10-09] build | Windows build script: log file, window stays open
+
+Miro's Windows build failed and its window closed at once, so the error was lost. `packaging/build_windows.bat` now writes all step output to `pitch_control/build-windows.log` (gitignored), prints the step names, shows the last 30 lines of the log on a failure, checks for Node.js and Python up front, logs the tool versions, and waits for a key at the end. Unless `CI` is set: the GitHub workflow keeps the output on the console and must not pause. CRLF line endings kept. **Not tested on Windows** (written on a Mac); the first real run will show. Recorded in [[port-design]] (Standalone App).
+
+---
+
+## [2026-10-09] fix | Windows build: Node version check
+
+First real run of the new Windows build script on Miro's laptop (log `build-windows.log`): Node.js v18.16.0, Python 3.11.3, no uv. The web UI step failed with `SyntaxError ... 'node:util' does not provide an export named 'styleText'`: Vite 8 / Rolldown need Node `^20.19.0 || >=22.12.0` (checked in their `engines`); GitHub Actions uses Node 20. The script now checks the Node version up front and says what to install; README requirements updated (they said "Node ≥ 20", too loose). The log file and the open window did their job. Python 3.11 is enough (`requires-python >= 3.11`). Still to see: the rest of the build on Windows.
+
+---
+
+## [2026-10-09] fix | Windows build: reinstall UI packages per Node version, Python 3.11 / 3.12
+
+Second and third run on Miro's laptop. After upgrading Node (v18.16 → v24.21) the web UI step failed with "Cannot find native binding ... @rolldown/binding-win32-x64-msvc": `node_modules` came from the earlier install under Node 18, where npm skips optional dependencies whose `engines` do not match, and does not add them later (npm issue 4828). The committed `package-lock.json` does contain the Windows binding. The script now remembers the Node version in `node_modules/.installed-with-node` and does a clean `npm ci` when it differs. The same log shows Python 3.14.8: PyPI has Windows wheels of `python-rtmidi` 1.5.8 only for cp38–cp312 (no 3.13, no 3.14; checked 2026-10-09), so the install would need a C++ compiler. The script now makes the environment with `py -3.12`, else `py -3.11`, else a `python` of that version, else uv (which can fetch 3.12), and discards an existing `.venv` made with another version; otherwise it stops and says to install Python 3.12 (it can stay next to 3.14). GitHub Actions uses Python 3.12, so the workflow is not affected. Macs: python-rtmidi installs there with 3.13 (a macOS wheel exists). Not run on Windows yet. Recorded in [[port-design]] (Standalone App).
+
+---
+
+## [2026-10-09] fix | First start begins with scene 1
+
+Miro's first run on the Windows laptop (a fresh checkout): the General page's macros were all 0, so the output was dark. Cause: `config/state/` is gitignored, so there is no `macros.json` and the engine used the built-in macro defaults (every fader 0 except Saturation A/B, the dimmers and preset A). `Engine._restore_macros` now loads scene 1 when there is no usable `state/macros.json`; the saved state still wins whenever it exists. Scene 1 is a normal show state (brightness 1, decays, presets, dimmer levels), and it carries dimmer levels (Dimmer 02, 07 and 08 are 0 in the imported scene 1, so the fixtures on them start dark until their faders are moved). With no scene files the defaults apply as before. Tests: `test_first_start_begins_with_scene_1`, `test_saved_macro_values_win_over_scene_1`, `test_first_start_without_scenes_uses_the_defaults`. Note: in a fresh state the dimmers come out at 1.0 from the defaults (checked via `/api/state`), not 0 as Miro saw; with scene 1 they are the scene's levels. The release zip bundles the scenes, so its first start (data in Documents/PitchControl) behaves the same.
+
+---
+
+## [2026-10-09] build | README screenshots re-shot, READMEs updated
+
+All nine page screenshots in `pitch_control/screenshots/` taken again (headless Chrome over the DevTools protocol at 1512 × 915, a scratch copy of the config without `state/` so the macros come from scene 1, synthetic techno loop as audio): full macro names, universe dropdowns, 4-interface Outputs section, Fog rows with captions, the footer. `docs/images/ui_general.png` and `ui_dimmers.png` are screenshots of the vvvv UI and stay. README text: Rig page in the frontend list, universe dropdowns, Art-Net wire universe, Fog row order, Settings → About, footer and scene-1 start in the Pages intro, status lines (Windows build builds and starts). [[port-design]] status: update note of 2026-10-09.
+
+---
+
+## [2026-10-09] build | PitchControl 1.2.1 tagged and pushed
+
+Patch release as Miro decided (first start begins with scene 1; Windows build script fixes; Fog page rows; universe dropdowns; Art-Net universe dropdown 0–15). `__version__` 1.2.1, changelog section dated 2026-10-09, `config/settings.json` committed in the 1.2 format (`outputs.enttec` as a list, single interface), tag `pitchcontrol-v1.2.1` pushed via SSH, which starts the draft-release workflow. Note: by the semver rule in the changelog the dropdown and Fog layout changes are UI changes, not new features, so a patch number holds.

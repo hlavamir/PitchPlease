@@ -168,7 +168,13 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
 
   return (
     <div className="grid gap-1.5 wide:h-full wide:grid-cols-[17rem_minmax(0,1fr)_22rem] wide:grid-rows-[minmax(0,1fr)]">
-      <Section index="01" title="Fixture types" right={`${Object.keys(types).length} types`} bodyClassName="p-2.5 min-h-0 gap-2">
+      <Section
+        index="01"
+        title="Fixture types"
+        right={`${Object.keys(types).length} types`}
+        bodyClassName="p-2.5 min-h-0 gap-2"
+        tip="Fixture types: what a kind of light is (pixels, channels, defaults). One file each in config/fixtures; rigs place them"
+      >
         <ul className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-auto select-none">
           {Object.values(types).map((x) => (
             <li key={x.name}>
@@ -178,10 +184,11 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
                   setMessage(null)
                 }}
                 className={`flex w-full items-center gap-2 px-2 py-1.5 text-left text-[13px] ${x.name === selected ? 'glow-on bg-ink text-ground' : 'hover:bg-panel-2'}`}
-                title={status.usage[x.name]?.length ? `used in: ${status.usage[x.name].join(', ')}` : 'not used in any rig'}
+                data-hint="list"
+                data-tip={status.usage[x.name]?.length ? `Used in: ${status.usage[x.name].join(', ')}` : 'Not used in any rig'}
               >
                 <span className="flex-1 truncate">{x.name}</span>
-                {status.unsaved.includes(x.name) && <span className={`size-[6px] flex-none ${x.name === selected ? 'bg-ground' : 'dot-on'}`} title="unsaved" />}
+                {status.unsaved.includes(x.name) && <span className={`size-[6px] flex-none ${x.name === selected ? 'bg-ground' : 'dot-on'}`} data-hint="info" data-tip="Unsaved edits: live in the engine, Save writes the type file" />}
                 <span className="font-mono text-[11px] opacity-70">{x.transport === 'pitchpls_v2' ? 'serial' : `${channelCount(x)} ch`}</span>
               </button>
             </li>
@@ -190,15 +197,17 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
 
         {prompt === null && (
           <div className="flex flex-wrap gap-1.5">
-            <Button onClick={() => askName('new')}>New</Button>
-            <Button onClick={() => askName('duplicate')} disabled={!t}>
+            <Button onClick={() => askName('new')} tip="Create a new type: 1 RGB pixel on DMX; shape it in the editor">
+              New
+            </Button>
+            <Button onClick={() => askName('duplicate')} disabled={!t} tip="Copy the selected type under a new name, as a starting point for a similar light">
               Duplicate
             </Button>
-            <Button onClick={() => askName('rename')} disabled={!t}>
+            <Button onClick={() => askName('rename')} disabled={!t} tip="Rename the type file; every rig that uses it is updated">
               Rename
             </Button>
-            <span title={usedIn.length ? `used in ${usedIn.join(', ')}` : undefined}>
-              <Button onClick={() => setPrompt({ kind: 'delete' })} disabled={!t || usedIn.length > 0}>
+            <span data-tip={usedIn.length ? `Cannot delete: used in ${usedIn.join(', ')}` : undefined}>
+              <Button onClick={() => setPrompt({ kind: 'delete' })} disabled={!t || usedIn.length > 0} tip="Delete the type file (asks first); refused while a rig uses it">
                 Delete
               </Button>
             </span>
@@ -215,6 +224,7 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
               onFocus={(e) => e.currentTarget.select()}
               value={name}
               placeholder="type name"
+              data-tip="Name of the type file (also its name in rigs): letters, digits, space, - _ . ; ⏎ confirms, Esc cancels"
               onChange={(e) => setName(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') submitName(prompt.action)
@@ -250,27 +260,28 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
           t && (
             <>
               {unsaved ? (
-                <span className="inline-flex items-center gap-1.5 text-ink">
+                <span className="inline-flex items-center gap-1.5 text-ink" data-hint="info" data-tip="Edits are live in the engine but not written to the type file yet">
                   <span className="dot-on inline-block size-[7px]" />
                   unsaved
                 </span>
               ) : (
                 'saved'
               )}
-              <button className="lbl h-[18px] border border-edge px-2 text-[10px] text-ink disabled:opacity-35" disabled={!unsaved} onClick={revert}>
+              <button className="lbl h-[18px] border border-edge px-2 text-[10px] text-ink disabled:opacity-35" disabled={!unsaved} onClick={revert} data-tip="Throw away the unsaved edits and reload the type from its file">
                 Revert
               </button>
-              <button className="lbl glow-on h-[18px] bg-ink px-2 text-[10px] text-ground disabled:opacity-35" disabled={!unsaved} onClick={save}>
+              <button className="lbl glow-on h-[18px] bg-ink px-2 text-[10px] text-ground disabled:opacity-35" disabled={!unsaved} onClick={save} data-tip="Write the type to its file in config/fixtures">
                 Save
               </button>
             </>
           )
         }
         bodyClassName="p-3 min-h-0 overflow-auto"
+        tip="Editor of the selected fixture type. Edits apply to the lights at once; Save writes the file"
       >
         {t && (
           <>
-            <Row label="Description">
+            <Row label="Description" hint="Free text about this light; shown as the tip of the type in the Rig page's fixture list">
               <textarea
                 rows={2}
                 className="w-full resize-none text-[12px] leading-snug"
@@ -279,25 +290,25 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
                 onBlur={() => applyLive(types[selected])}
               />
             </Row>
-            <Row label="Output" hint="DMX (Enttec / Art-Net) or the PitchPlease v2 serial protocol">
+            <Row label="Output" hint="DMX (Enttec / Art-Net, with a channel layout) or the PitchPlease v2 serial protocol (3 bytes per pixel)">
               <select value={t.transport} onChange={(e) => edit((x) => (x.transport = e.target.value as FixtureType['transport']))}>
                 <option value="dmx">DMX</option>
                 <option value="pitchpls_v2">PitchPlease v2 serial</option>
               </select>
             </Row>
-            <Row label="Pixels">
+            <Row label="Pixels" hint="Number of pixels (individually controlled segments) of one fixture, 1–512">
               <NumberInput value={t.pixels} integer min={1} max={512} onChange={(v) => edit((x) => (x.pixels = v))} />
             </Row>
             <Row
               label="Gamma"
-              hint="Device curve, per channel: what is sent = value ^ gamma. 1 sends perceptual values unchanged (PitchPlease v2 / v3 decode them in their firmware); about 2.2 for devices without their own curve"
+              hint="Device curve: sent = value ^ gamma. 1 = unchanged (v2 / v3 decode it themselves); ~2.2 for fixtures without a curve"
             >
               <NumberInput value={t.gamma} min={0.1} max={5} className="w-20 shrink" onChange={(v) => edit((x) => (x.gamma = v))} />
             </Row>
-            <Row label="Strobo colour (HSB)" hint="Colour of the strobo flash: hue, saturation, brightness, each 0–1 (a rig fixture can override it)">
+            <Row label="Strobo colour (HSB)" hint="Colour of the strobo flash: hue, saturation, brightness, each 0–1; a rig fixture can override it">
               {hsb(t.strobo_color)}
             </Row>
-            <Row label="Used in">
+            <Row label="Used in" hint="Rigs that place this type; a type in use cannot be deleted">
               <span className="text-[12px] text-dim">{usedIn.length ? usedIn.join(', ') : 'no rig'}</span>
             </Row>
 
@@ -310,10 +321,11 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
                   {t.channels.map((slot, i) => {
                     const kind = slotKind(slot)
                     return (
-                      <div key={i} className="flex flex-wrap items-center gap-1.5 bg-panel-2 px-2 py-1 text-[12px]">
+                      <div key={i} data-tip={`DMX channel ${i + 1} of the fixture: what it does, its name, and its value`} className="flex flex-wrap items-center gap-1.5 bg-panel-2 px-2 py-1 text-[12px]">
                         <span className="w-6 font-mono text-[11px] text-dim">{String(i + 1).padStart(2, '0')}</span>
                         <select
                           value={kind}
+                          data-tip="What this DMX channel does: a constant, a macro (e.g. a dimmer), the shutter, or the pixel colours"
                           onChange={(e) => edit((x) => (x.channels[i] = slotOfKind(slot, e.target.value as Kind, macroNames[0] ?? 'Dimmer 01')))}
                         >
                           {(Object.keys(KIND_LABEL) as Kind[]).map((k) => (
@@ -329,13 +341,13 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
                           value={slot.name ?? ''}
                           onChange={(e) => edit((x) => (x.channels[i].name = e.target.value || null), false)}
                           onBlur={() => applyLive(types[selected])}
-                          title="Named constant channels can be overridden per fixture on the Rig page"
+                          data-tip="Name of the channel. A named constant can be overridden per fixture on the Rig page"
                         />
                         {kind === 'value' && (
-                          <NumberInput value={slot.value} integer min={0} max={255} className="w-16" onChange={(v) => edit((x) => (x.channels[i].value = v))} />
+                          <NumberInput value={slot.value} integer min={0} max={255} className="w-16" tip="Constant value sent on this channel (0–255)" onChange={(v) => edit((x) => (x.channels[i].value = v))} />
                         )}
                         {kind === 'macro' && (
-                          <select value={slot.macro ?? ''} onChange={(e) => edit((x) => (x.channels[i].macro = e.target.value))}>
+                          <select value={slot.macro ?? ''} data-tip="Macro whose value (0–1) is sent on this channel, e.g. a dimmer fader" onChange={(e) => edit((x) => (x.channels[i].macro = e.target.value))}>
                             {!macroNames.includes(slot.macro ?? '') && <option value={slot.macro ?? ''}>{slot.macro} (missing)</option>}
                             {macroNames.map((m) => (
                               <option key={m}>{m}</option>
@@ -345,29 +357,29 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
                         {kind === 'shutter' && (
                           <>
                             <span className="lbl text-[10px] text-dim">open</span>
-                            <NumberInput value={slot.shutter?.open} integer min={0} max={255} className="w-14" onChange={(v) => edit((x) => (x.channels[i].shutter = { ...x.channels[i].shutter!, open: v }))} />
+                            <NumberInput value={slot.shutter?.open} integer min={0} max={255} className="w-14" tip="Shutter channel value for open (no strobe), 0–255" onChange={(v) => edit((x) => (x.channels[i].shutter = { ...x.channels[i].shutter!, open: v }))} />
                             <span className="lbl text-[10px] text-dim">strobe</span>
-                            <NumberInput value={slot.shutter?.strobo} integer min={0} max={255} className="w-14" onChange={(v) => edit((x) => (x.channels[i].shutter = { ...x.channels[i].shutter!, strobo: v }))} />
+                            <NumberInput value={slot.shutter?.strobo} integer min={0} max={255} className="w-14" tip="Shutter channel value for the fixture's own strobe, 0–255" onChange={(v) => edit((x) => (x.channels[i].shutter = { ...x.channels[i].shutter!, strobo: v }))} />
                           </>
                         )}
                         {kind === 'pixels' && (
-                          <select value={slot.pixels ?? 'RGB'} onChange={(e) => edit((x) => (x.channels[i].pixels = e.target.value as PixelFormat))}>
+                          <select value={slot.pixels ?? 'RGB'} data-tip="Colour format of the pixel channels: R, RGB or RGBW (white is extracted from RGB)" onChange={(e) => edit((x) => (x.channels[i].pixels = e.target.value as PixelFormat))}>
                             {FORMATS.map((f) => (
                               <option key={f}>{f}</option>
                             ))}
                           </select>
                         )}
                         <span className="ml-auto flex gap-1">
-                          <button className="px-1 text-dim hover:text-ink disabled:opacity-30" disabled={i === 0} title="Move up" onClick={() => moveSlot(i, -1)}>
+                          <button className="px-1 text-dim hover:text-ink disabled:opacity-30" disabled={i === 0} data-tip="Move this channel up: earlier in the DMX order" onClick={() => moveSlot(i, -1)}>
                             ↑
                           </button>
-                          <button className="px-1 text-dim hover:text-ink disabled:opacity-30" disabled={i === t.channels.length - 1} title="Move down" onClick={() => moveSlot(i, 1)}>
+                          <button className="px-1 text-dim hover:text-ink disabled:opacity-30" disabled={i === t.channels.length - 1} data-tip="Move this channel down: later in the DMX order" onClick={() => moveSlot(i, 1)}>
                             ↓
                           </button>
                           <button
                             className="px-1 text-dim hover:text-ink disabled:opacity-30"
                             disabled={t.channels.length === 1}
-                            title="Remove"
+                            data-tip="Remove this channel from the layout"
                             onClick={() => edit((x) => x.channels.splice(i, 1))}
                           >
                             ✕
@@ -377,7 +389,9 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
                     )
                   })}
                   <div className="mt-1">
-                    <Button onClick={() => edit((x) => x.channels.push({ name: null, value: 0 }))}>Add channel</Button>
+                    <Button onClick={() => edit((x) => x.channels.push({ name: null, value: 0 }))} tip="Append a constant channel (value 0) at the end of the layout">
+                      Add channel
+                    </Button>
                   </div>
                 </div>
               )}
@@ -386,14 +400,20 @@ export function Fixtures({ defs }: { defs: Record<string, MacroDef> }) {
         )}
       </Section>
 
-      <Section index="03" title="Channel map" right={t && t.transport === 'dmx' && `${count} channels`} bodyClassName="p-3 min-h-0 overflow-auto">
+      <Section
+        index="03"
+        title="Channel map"
+        right={t && t.transport === 'dmx' && `${count} channels`}
+        bodyClassName="p-3 min-h-0 overflow-auto"
+        tip="The DMX channels of one fixture, counted from its address, and how many fit one universe (512 channels)"
+      >
         {t && t.transport === 'dmx' && (
           <>
             <div className="flex flex-col gap-px font-mono text-[12px]">
               {channelMap(t).map((r, i) => (
                 <div key={i} className="flex gap-3 bg-panel-2 px-2 py-1">
                   <span className="w-16 flex-none text-dim">{r.from === r.to ? r.from : `${r.from}–${r.to}`}</span>
-                  <span className="min-w-0 flex-1 truncate" title={r.text}>
+                  <span className="min-w-0 flex-1 truncate" data-tip={r.text}>
                     {r.text}
                   </span>
                 </div>

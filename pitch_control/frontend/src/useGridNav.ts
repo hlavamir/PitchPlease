@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
+import type { HintKind } from './hints'
 
 /**
  * Keyboard navigation over a page's controls, like a hardware device: one item is always selected.
@@ -10,6 +11,8 @@ export interface NavItem {
   id: string
   label: string
   value?: string // shown in the footer
+  hint?: HintKind // which keys the footer lists while this item is selected
+  tip?: string // short explanation shown in the footer
   adjust?: (direction: 1 | -1, fine: boolean) => void
   press?: (down: boolean, shift: boolean) => void
   cancel?: () => void
@@ -125,8 +128,8 @@ export function useGridNav(page: string, grid: NavGrid) {
   // report the selection to the footer
   const setFooter = useContext(SelectionContext)
   useEffect(() => {
-    setFooter(selected ? { label: selected.label, value: selected.value } : null)
-  }, [selected?.label, selected?.value, setFooter])
+    setFooter(selected ? { label: selected.label, value: selected.value, hint: selected.hint, tip: selected.tip } : null)
+  }, [selected?.label, selected?.value, selected?.hint, selected?.tip, setFooter])
   useEffect(() => () => setFooter(null), [setFooter])
 
   return { selectedId: selected?.id ?? null, select }
@@ -135,6 +138,8 @@ export function useGridNav(page: string, grid: NavGrid) {
 export interface FooterSelection {
   label: string
   value?: string
+  hint?: HintKind
+  tip?: string
 }
 
 export const SelectionContext = createContext<(sel: FooterSelection | null) => void>(() => undefined)

@@ -202,3 +202,29 @@ def test_fixture_type_management(store):
     # delete: refused while used, fine otherwise
     assert client.delete("/api/fixture-types/renamed").status_code == 409
     assert client.delete("/api/fixture-types/Spot").json()["ok"] and "Spot" not in store.fixture_types
+
+
+def test_first_start_begins_with_scene_1(store):
+    # no state/macros.json yet (it is not in the repo): scene 1, not every fader at 0
+    engine = Engine(store, enable_hardware=False)
+    scene = store.load_scene(0)
+    assert scene is not None
+    assert engine.macros.control("Strobo Brightness") == scene.values["Strobo Brightness"] == 1.0
+    assert engine.macros.control("Strobo Decay") == scene.values["Strobo Decay"]
+    assert engine.macros.control("Saturation A") == 1.0  # not part of the scenes: its own default
+
+
+def test_saved_macro_values_win_over_scene_1(store):
+    first = Engine(store, enable_hardware=False)
+    first.macros.set("Strobo Brightness", 0.25)
+    first._autosave_macros(force=True)
+    again = Engine(store, enable_hardware=False)
+    assert again.macros.control("Strobo Brightness") == 0.25
+
+
+def test_first_start_without_scenes_uses_the_defaults(store):
+    for f in store.scenes_dir.glob("scene_*.json"):
+        f.unlink()
+    engine = Engine(store, enable_hardware=False)
+    assert engine.macros.control("Strobo Brightness") == 0.0
+    assert engine.macros.control("Dimmer 01") == 1.0

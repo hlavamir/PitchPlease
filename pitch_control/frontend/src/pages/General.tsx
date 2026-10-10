@@ -27,18 +27,6 @@ const FADERS = [
   'Strobo Bright. B',
   'Idle Bright. B',
 ]
-// short labels keep the 8-column grid readable on a 14" screen
-const SHORT: Record<string, string> = {
-  'Audio Reactivity': 'Audio react.',
-  'Strobo Brightness': 'Strobo br.',
-  'Idle Brightness': 'Idle br.',
-  'Strobo Bright. A': 'Strobo br. A',
-  'Idle Bright. A': 'Idle br. A',
-  'Strobo Bright. B': 'Strobo br. B',
-  'Idle Bright. B': 'Idle br. B',
-  'Saturation A': 'Sat. A',
-  'Saturation B': 'Sat. B',
-}
 const BUTTONS: [string, string, string][] = [
   ['Manual Strobo', 'HOLD', 'Man. strobo'],
   ['Fog Machine', 'HOLD', 'Fog'],
@@ -98,6 +86,8 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
     id: `scene-${s.index}`,
     label: `Scene ${s.index + 1}`,
     value: s.name ?? 'empty',
+    hint: 'scene',
+    tip: s.exists ? `Scene ${s.index + 1}: ${s.name ?? ''}` : `Scene ${s.index + 1} is empty: Shift + ⏎ saves the current macros into it`,
     press: (down, shift) => down && sceneAction(s.index, shift || saveMode),
   }))
 
@@ -114,7 +104,7 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
     defs[name] ? (
       <MacroControl
         key={name}
-        def={{ ...defs[name], label: SHORT[name] ?? defs[name].label }}
+        def={defs[name]}
         value={shown[name] ?? 0}
         applied={macros[name] ?? 0}
         setMacro={setMacro}
@@ -128,7 +118,7 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
       />
     ) : null
 
-  const empty = (n: number) => Array.from({ length: n }, (_, i) => <div key={`empty-${i}`} className="hatch h-10" />)
+  const empty = (n: number) => Array.from({ length: n }, (_, i) => <div key={`empty-${i}`} className="hatch h-10" data-hint="info" data-tip="Empty slot: no function on this button of the controller" />)
 
   // phase 0…0.5 = strobo decaying after a peak, 0.5…1 = idle fading in
   const inStrobo = (state?.phase ?? 1) < 0.5
@@ -137,11 +127,24 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
   return (
     <div className="grid gap-1.5 wide:h-full wide:grid-cols-[minmax(0,1fr)_404px]">
       <div className="flex min-h-0 min-w-0 flex-col gap-1.5">
-        <Section index="01" title="Macros" right="knob row 3 · faders — LCXL3" className="min-h-[24rem] flex-1" bodyClassName="p-0">
+        <Section
+          index="01"
+          title="Macros"
+          right="knob row 3 · faders — LCXL3"
+          className="min-h-[24rem] flex-1"
+          bodyClassName="p-0"
+          tip="The sixteen macros that shape the show; they are the knobs and faders of the Launch Control XL 3 too"
+        >
           <div className="grid h-full grid-cols-8 grid-rows-2 gap-px bg-edge">{FADERS.map(fader)}</div>
         </Section>
 
-        <Section index="02" title="Functions · shader preset" right="button rows — LCXL3" bodyClassName="p-0">
+        <Section
+          index="02"
+          title="Functions · shader preset"
+          right="button rows — LCXL3"
+          bodyClassName="p-0"
+          tip="Functions: hold or toggle buttons. Shader preset: which mask animation plays (one of A–D)"
+        >
           <div className="grid grid-cols-8 gap-px border-b border-edge bg-edge">
             {BUTTONS.map(([name, tag, label]) =>
               defs[name] ? (
@@ -182,10 +185,15 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
           index="03"
           title="Scenes"
           bodyClassName="p-0"
+          tip="Eight stored sets of macro values: load one to recall a look, or save the current macros into a slot"
           right={
             <>
               <span>{saveMode ? 'click a scene to save' : '⏎ load · shift + ⏎ save'}</span>
-              <button className={`lbl h-[18px] px-2 text-[10px] ${saveMode ? 'glow-on bg-ink text-ground' : 'border border-edge text-ink'}`} onClick={() => setSaveMode(!saveMode)}>
+              <button
+                className={`lbl h-[18px] px-2 text-[10px] ${saveMode ? 'glow-on bg-ink text-ground' : 'border border-edge text-ink'}`}
+                data-tip={saveMode ? 'Save mode is on: the next click on a scene saves the current macros into it. Click again to leave it' : 'Switch on, then click a scene to save the current macros into it (Shift + ⏎ does it from the keyboard)'}
+                onClick={() => setSaveMode(!saveMode)}
+              >
                 Save mode
               </button>
             </>
@@ -197,6 +205,8 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
               return (
                 <button
                   key={s.index}
+                  data-hint="scene"
+                  data-tip={s.exists ? `Scene ${s.index + 1}: ${s.name ?? ''}` : `Scene ${s.index + 1} is empty: Shift + ⏎ saves the current macros into it`}
                   onClick={() => {
                     select(id)
                     sceneAction(s.index, saveMode)
@@ -218,17 +228,27 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
 
       {/* right column; in the single-column layout scene and audio share one row */}
       <div className="grid min-w-0 grid-cols-2 gap-1.5 wide:flex wide:min-h-0 wide:flex-col">
-        <Section index="04" title="Scene" right={<span className="text-ink">{state?.preset}</span>} bodyClassName="p-2.5">
+        <Section
+          index="04"
+          title="Scene"
+          right={<span className="text-ink">{state?.preset}</span>}
+          bodyClassName="p-2.5"
+          tip="The scene: the animated mask the fixtures sample, the strobo / idle state, and the two output colours of groups A and B"
+        >
           <Preview preview={preview} state={state} />
           {/* one bar for both phases: strobo drains it from 1 to 0 after a peak, idle fills it back to 1 */}
-          <div className="mt-2.5 flex items-center gap-2.5 text-[11px]">
+          <div
+            className="mt-2.5 flex items-center gap-2.5 text-[11px]"
+            data-hint="info"
+            data-tip={inStrobo ? 'Strobo: after an audio peak the flash drains from 1 to 0 (Strobo Decay sets how long)' : 'Idle: after the strobo the idle brightness fades back in to 1 (Idle Attack sets how long)'}
+          >
             <span className={`lbl w-14 ${inStrobo ? 'text-glow' : 'text-dim'}`}>{inStrobo ? 'Strobo' : 'Idle'}</span>
             <SegmentBar value={phaseBar} />
             <span className="font-mono text-[13px]">{phaseBar.toFixed(2)}</span>
           </div>
           <div className="mt-2.5 grid grid-cols-2 gap-2.5">
             {(['A', 'B'] as const).map((g) => (
-              <div key={g} className="flex items-center gap-2.5 border border-edge px-2 py-1.5">
+              <div key={g} className="flex items-center gap-2.5 border border-edge px-2 py-1.5" data-hint="info" data-tip={`Output colour of group ${g} (hue shift in degrees, saturation): what its fixtures show`}>
                 <span
                   className="size-[30px] flex-none"
                   style={{
@@ -252,21 +272,22 @@ export function General({ engine, defs }: { engine: EngineConnection; defs: Reco
           title="Audio"
           className="min-h-0 flex-1"
           bodyClassName="p-2.5 gap-2"
+          tip="The audio input split into 32 bands (35 Hz to 10 kHz). A peak in the weighted bands triggers the strobo"
           right={
-            <span className="font-mono text-[12px] text-ink">
+            <span className="font-mono text-[12px] text-ink" data-hint="info" data-tip="Strobo trigger: weighted audio energy (0–1) and the number of strobo peaks since start">
               TRIG {(state?.trigger ?? 0).toFixed(2)} · {state?.peaks_total ?? 0} PEAKS
             </span>
           }
         >
           <div className="min-h-16 flex-1">
-            <BandMeter bands={state?.bands ?? []} peaks={state?.band_peaks} height="100%" />
+            <BandMeter bands={state?.bands ?? []} peaks={state?.band_peaks} height="100%" tip="Level of each frequency band, low to high; a bright top cell marks a band that is peaking" />
           </div>
           <div className="lbl flex justify-between font-mono text-[10px] text-dim">
             <span>35 Hz</span>
             <span>peaks map</span>
             <span>10 kHz</span>
           </div>
-          <BandMeter bands={state?.peaks_map ?? []} rows={4} height={22} />
+          <BandMeter bands={state?.peaks_map ?? []} rows={4} height={22} tip="Peaks map: which bands peaked recently; it shapes the idle mask (Audio Reactivity)" />
         </Section>
       </div>
     </div>

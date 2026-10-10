@@ -51,3 +51,63 @@ def test_pitchpls_v2_packet():
     assert max(pkt[:-1]) == 254  # 255 is reserved for the terminator
     assert pkt[57] == 10 and pkt[114] == 0  # missing strips are black
     assert pkt[-2:] == bytes([1, 255])
+
+
+# -- several Enttec interfaces
+
+
+def test_single_enttec_settings_migrate_to_a_list():
+    from pitchcontrol.config.models import OutputSettings
+
+    o = OutputSettings.model_validate({"enttec": {"enabled": True, "universe": 3, "device": {"serial_number": "A"}}})
+    assert len(o.enttec) == 1 and o.enttec[0].universe == 3 and o.enttec[0].device.serial_number == "A"
+    assert OutputSettings().enttec == []
+    assert OutputSettings.model_validate(o.model_dump()).enttec == o.enttec  # saved form loads again
+
+
+def test_at_most_four_enttec_interfaces():
+    import pytest
+    from pydantic import ValidationError
+
+    from pitchcontrol.config.models import OutputSettings
+
+    OutputSettings.model_validate({"enttec": [{}] * 4})
+    with pytest.raises(ValidationError):
+        OutputSettings.model_validate({"enttec": [{}] * 5})
+
+
+class _FakeWorker:
+    def __init__(self):
+        self.frames = []
+
+    def submit(self, frame):
+        self.frames.append(frame)
+
+    def status(self):
+        return {"connected": True, "error": None, "frames": len(self.frames)}
+
+
+def test_each_enttec_interface_sends_its_own_universe():
+    from pitchcontrol.config.models import OutputSettings
+    from pitchcontrol.io.outputs import OutputManager
+
+    m = OutputManager(OutputSettings.model_validate({"enttec": [{"enabled": True, "universe": 0}, {"enabled": False, "universe": 1}, {"enabled": True, "universe": 2}]}))
+    m.enttec = [_FakeWorker(), None, _FakeWorker()]
+    m.send({0: bytearray([10] * 512), 1: bytearray([11] * 512), 2: bytearray([12] * 512)}, [])
+    assert m.enttec[0].frames[0][5] == 10 and m.enttec[2].frames[0][5] == 12
+    status = m.status()["enttec"]
+    assert [x is not None for x in status] == [True, False, True]
+
+
+def test_two_interfaces_cannot_share_a_device():
+    from pitchcontrol.config.models import OutputSettings
+    from pitchcontrol.io.outputs import OutputManager
+
+    dev = {"serial_number": "ENP1"}
+    m = OutputManager(OutputSettings.model_validate({"enttec": [{"enabled": True, "device": dev}, {"enabled": True, "device": dev, "universe": 1}]}))
+    m.start()
+    try:
+        assert m.enttec[0] is not None and m.enttec[1] is None
+        assert "interface 1" in m.status()["enttec"][1]["error"]
+    finally:
+        m.stop()

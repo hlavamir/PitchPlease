@@ -44,7 +44,9 @@ class ArtNetWorker(LatestFrameWorker):
 class OutputManager:
     def __init__(self, settings: OutputSettings):
         self.settings = settings
-        self.enttec: SerialWorker | None = None
+        # parallel to settings.enttec; None = disabled
+        self.enttec: list[SerialWorker | None] = []
+        self._enttec_errors: dict[int, str] = {}  # interfaces that were not started, and why
         self.artnet: ArtNetWorker | None = None
         self.v2: SerialWorker | None = None
         self._sequence = 0
@@ -53,9 +55,22 @@ class OutputManager:
 
     def start(self) -> None:
         s = self.settings
-        if s.enttec.enabled:
-            self.enttec = SerialWorker(s.enttec.device, ENTTEC_BAUD, "enttec")
-            self.enttec.start()
+        self.enttec, self._enttec_errors = [], {}
+        taken: dict[str, int] = {}  # device -> interface that uses it
+        for i, e in enumerate(s.enttec):
+            worker = None
+            if e.enabled:
+                key = e.device.serial_number or e.device.port
+                if key and key in taken:
+                    # two writers on one port would garble both streams
+                    self._enttec_errors[i] = f"same device as interface {taken[key] + 1}"
+                    log.warning("enttec%d: %s, not started", i + 1, self._enttec_errors[i])
+                else:
+                    if key:
+                        taken[key] = i
+                    worker = SerialWorker(e.device, ENTTEC_BAUD, f"enttec{i + 1}")
+                    worker.start()
+            self.enttec.append(worker)
         if s.artnet.enabled:
             self.artnet = ArtNetWorker()
             self.artnet.start()
@@ -64,10 +79,11 @@ class OutputManager:
             self.v2.start()
 
     def stop(self) -> None:
-        for w in (self.enttec, self.artnet, self.v2):
+        for w in (*self.enttec, self.artnet, self.v2):
             if w is not None:
                 w.stop()
-        self.enttec = self.artnet = self.v2 = None
+        self.enttec, self._enttec_errors = [], {}
+        self.artnet = self.v2 = None
 
     def restart(self, settings: OutputSettings) -> None:
         self.stop()
@@ -76,8 +92,9 @@ class OutputManager:
 
     def send(self, universes: dict[int, bytearray], v2_strips: list[list[int]]) -> None:
         s = self.settings
-        if self.enttec is not None:
-            self.enttec.submit(enttec_pro_packet(universes.get(s.enttec.universe, bytes(512))))
+        for worker, e in zip(self.enttec, s.enttec):
+            if worker is not None:
+                worker.submit(enttec_pro_packet(universes.get(e.universe, bytes(512))))
         if self.artnet is not None and s.artnet.targets:
             self._sequence = self._sequence % 255 + 1
             packets = []
@@ -96,7 +113,15 @@ class OutputManager:
 
     def status(self) -> dict:
         return {
-            "enttec": self.enttec.status() if self.enttec else None,
+            # one entry per configured interface, None where it is off
+            "enttec": [self._enttec_status(i, w) for i, w in enumerate(self.enttec)],
             "artnet": self.artnet.status() if self.artnet else None,
             "pitchpls_v2": self.v2.status() if self.v2 else None,
         }
+
+    def _enttec_status(self, i: int, worker: SerialWorker | None) -> dict | None:
+        if worker is not None:
+            return worker.status()
+        if i in self._enttec_errors:
+            return {"connected": False, "error": self._enttec_errors[i], "frames": 0}
+        return None

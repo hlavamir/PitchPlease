@@ -84,7 +84,11 @@ export function Preview({ preview, state, showFixtures = true, highlight, classN
   const corner = 'pointer-events-none absolute size-3.5 border-ink'
   return (
     // never wider than half the window, so it doesn't take over a single-column page
-    <div className={`relative mx-auto aspect-square w-full max-w-[calc(var(--win-w,100vw)*0.5)] ${className ?? ''}`}>
+    <div
+      data-hint="info"
+      data-tip="The scene: the mask in grey with every fixture pixel in the colour it sends. A fixture's first pixel is outlined"
+      className={`relative mx-auto aspect-square w-full max-w-[calc(var(--win-w,100vw)*0.5)] ${className ?? ''}`}
+    >
       <canvas ref={canvasRef} width={764} height={764} className="block size-full bg-ground" />
       <div className={`${corner} top-2 left-2 border-t border-l`} />
       <div className={`${corner} top-2 right-2 border-t border-r`} />

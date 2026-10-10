@@ -4,12 +4,12 @@ Audio-reactive light control for PitchPlease, a cross-platform (macOS / Windows)
 The design and the reverse-engineered vvvv logic are documented in the wiki: [PitchControl design](../docs/wiki/port-design.md) and [vvvv patch logic](../docs/wiki/vvvv-patch-logic.md).
 
 - **Backend** (`backend/`, Python): the engine, which runs at 40 FPS in its own thread and owns audio, MIDI and all outputs. It keeps running if the browser is closed.
-- **Frontend** (`frontend/`, Vite + React + TypeScript + Tailwind): the pages General, Dimmers, Fixtures, Inputs, Outputs, Fog, Settings and Control Desk. It talks to the backend over HTTP and a WebSocket.
+- **Frontend** (`frontend/`, Vite + React + TypeScript + Tailwind): the pages General, Dimmers, Fixtures, Rig, Inputs, Outputs, Fog, Settings and Control Desk. It talks to the backend over HTTP and a WebSocket.
 - **Config** (`config/`): plain JSON, edited from the UI or by hand.
 
 ## Pages
 
-Keys 1–9 switch between the pages. Everything can be operated from the keyboard (see [Using the UI](#using-the-ui)). The screenshots were taken at the 1512 × 915 design size with amber ink, without hardware connected (so audio, MIDI and the Enttec show as off), with a synthetic techno loop feeding the audio analysis.
+Keys 1–9 switch between the pages. Everything can be operated from the keyboard (see [Using the UI](#using-the-ui)). The screenshots were taken at the 1512 × 915 design size with amber ink, without hardware connected (so audio, MIDI and the Enttec show as off), with a synthetic techno loop feeding the audio analysis. The footer at the bottom of every page shows the keys for the control under the mouse and a short explanation of it; the screenshots show it without a hovered control. On a first start the macros begin with the values of scene 1.
 
 ### 1 · General
 
@@ -46,7 +46,7 @@ Edits apply to the lights right away and mark the type unsaved; Save writes the 
 The rig: the fixtures of one event and everything that differs per fixture.
 - **Rig:** load, save, revert, rename, duplicate, create or delete rig files, and edit the description. Unsaved changes are flagged, and loading another rig asks first.
 - **Fixtures:** the list of fixtures with Add / Duplicate / Remove. Shift + click selects several to edit them together.
-- **Fixture editor:** name, type (with a summary and an "edit type" link), group, DMX universe and address, placement (position, rotation, length), dimmer, whether it reacts to strobo, colour sources and idle remap. Number fields step with ↑ / ↓ or a right-mouse drag.
+- **Fixture editor:** name, type (with a summary and an "edit type" link), group, DMX universe (a dropdown of 0–3) and address, placement (position, rotation, length), dimmer, whether it reacts to strobo, colour sources and idle remap. Number fields step with ↑ / ↓ or a right-mouse drag.
 - **Fixture type values:** gamma, the strobo colour and the named constant channels can be overridden per fixture. The checkbox switches an override on. Switched off, the field is greyed out but keeps its value, so switching it on again restores it; "default" shows the type's value, and ↺ goes back to it.
 - **Placement:** the selected fixtures highlighted in the scene preview, their live output colours and, with "show channel values", a table of the DMX channels they write.
 
@@ -61,13 +61,13 @@ The rig: the fixtures of one event and everything that differs per fixture.
 
 ![Outputs page](screenshots/outputs.png)
 
-The Enttec DMX USB Pro (device and universe), Art-Net targets (universe → IP), and the PitchPlease V2 serial output (device, baud rate, mirror mode). Live output on the right shows what every fixture sends: pixel colours and, with "show channel values", the channel table.
+Up to four Enttec DMX USB Pro interfaces (Add interface / Remove; each with its own device and universe), Art-Net targets (the app's universe 0–3 → IP, with the Art-Net universe 0–15 on the wire), and the PitchPlease V2 serial output (device, baud rate, mirror mode). Live output on the right shows what every fixture sends: pixel colours and, with "show channel values", the channel table.
 
 ### 7 · Fog
 
 ![Fog page](screenshots/fog.png)
 
-One panel per fog machine: DMX universe and channel, on / off values, a timer ("every … for … seconds"), and whether the Fog button on the General page (or the controller) fires it by hand. The header shows when it is fogging.
+One panel per fog machine: a timer ("every 60 s for 4 s"), DMX universe and channel, on / off values, and whether the Fog button on the General page (or the controller) fires it by hand. The header shows when it is fogging.
 
 ### 8 · Settings
 
@@ -76,6 +76,7 @@ One panel per fog machine: DMX universe and channel, on / off values, a timer ("
 - **Appearance:** ink colour (grey, amber, phosphor), glow, UI brightness for a dark booth, UI scale (with "Fit window" for small screens) and the key-hint footer. All of it is saved and restored next session.
 - **Keyboard:** the complete keyboard reference.
 - **App** (desktop app only): open the UI in a browser, open the data folder, start in full screen.
+- **About:** the version (with the number of commits since the last release and whether the source was modified) and links to the project and its releases.
 
 ### 9 · Control Desk
 
@@ -93,7 +94,7 @@ Ready-to-run builds for macOS (Apple Silicon) and Windows are on the [Releases p
 
 **Windows:** double-click `run.bat` — same behaviour (uses `uv` if installed, otherwise `py -3` / `python`).
 
-Manual setup — requirements: Python ≥ 3.11 with [uv](https://docs.astral.sh/uv/), and Node ≥ 20 (only to build the UI).
+Manual setup — requirements: Python ≥ 3.11 with [uv](https://docs.astral.sh/uv/), and Node 20.19 or newer, or 22.12 or newer (only to build the UI; Vite 8 refuses older versions).
 
 ```bash
 cd pitch_control/backend
@@ -120,7 +121,7 @@ Tests: `cd backend && .venv/bin/python -m pytest`.
 `packaging/` builds a self-contained app (no Python or Node needed on the target machine). It must be built on the target OS:
 
 - **macOS:** double-click `packaging/build_macos.command` (or run it from Terminal); it produces `dist/PitchControl.app` and `dist/PitchControl-macos-<arch>.zip` (about 46 MB, 22 MB zipped). An Apple Silicon build runs only on Apple Silicon Macs.
-- **Windows:** `packaging\build_windows.bat` produces `dist\PitchControl\PitchControl.exe` and a zip.
+- **Windows:** double-click `packaging\build_windows.bat` (needs Node.js 20.19+ or 22.12+, and Python 3.11 or 3.12: `python-rtmidi` has no Windows wheels for newer Pythons, so the script picks 3.12 / 3.11 even when a newer one is installed too); it produces `dist\PitchControl\PitchControl.exe` and a zip. The window shows the steps and stays open at the end; everything the steps print goes to `pitch_control\build-windows.log` (gitignored), which is what to send when a build fails.
 - **Both, on GitHub:** Actions → "PitchControl app" → Run workflow (`.github/workflows/pitchcontrol-app.yml`), then download the zips from the run.
 
 The app shows the UI in its own window. "Open in browser" and "Open data folder" are in Settings → App. Closing the window stops the engine.
@@ -155,7 +156,7 @@ The UI is monochrome (Settings → Appearance: grey, amber or phosphor ink, glow
 
 The layout is made for a 1512 × 915 px window (14" MacBook at its default display setting). On smaller screens, down to 1280 × 720, use Settings → Appearance → UI scale → **Fit window**: it picks the largest scale at which every page fits without scrolling (about 70 % on 1280 × 720). Pixel sizes are CSS pixels, which macOS and Windows scale with the display setting. Colour only appears where it carries information: the hue/saturation scales and the output colours.
 
-Everything works without a mouse — one control is always selected:
+Everything works without a mouse — one control is always selected. The footer lists the keys and mouse actions for the control under the mouse, with the keyboard focus (Tab) or selected with the navigation keys, with a short explanation of what it does. Every control, label, status indicator and panel has one; a control without its own tip shows the one of its row or panel:
 
 | Key | Action |
 |---|---|
@@ -167,6 +168,7 @@ Everything works without a mouse — one control is always selected:
 | 1 – 9 | switch page |
 | Q / E | previous / next subpage (Control Desk) |
 | F | full screen on / off (desktop app; on a MacBook it also covers the camera-notch strip) |
+| ⌘ / Ctrl + + − 0 | UI scale up / down (`=` works as `+`, no Shift needed), 0 = 100 % (⌘ on macOS, Ctrl on Windows) |
 
 Number fields apply on Enter and keep the focus, so you can type the next value right away (Escape reverts). ↑ / ↓ or dragging up / down with the right mouse button changes the value in steps (Shift = fine steps): integers 1, floats 0.1 / 0.01, fixture rotation 15° / 1°.
 
@@ -182,12 +184,12 @@ Hue and saturation apply on mouse release, or once keys / the MIDI knob rest; un
 
 | Path | Content |
 |---|---|
-| `settings.json` | outputs (Enttec, Art-Net, v2 serial), audio input, fog machines, Auto Color palette, engine options |
+| `settings.json` | outputs (up to 4 Enttec interfaces, Art-Net, v2 serial), audio input, fog machines, Auto Color palette, engine options |
 | `fixtures/types/*.json` | one file per fixture model (edited on the Fixtures page); all files are loaded on startup, missing keys get defaults |
 | `rigs/<name>.json` | fixture instances for one event (edited on the Rig page): type, group A/B, universe/address, UV placement (rotation in degrees), dimmer, colour sources, overrides of type values as `{"enabled": …, "value": …}`; the dimmer names (`dimmer_names`) |
 | `controllers/*.json` | MIDI controller mappings (CC → macro) |
 | `scenes/scene_N.json` | the 8 scenes (macro name → control value) |
-| `state/macros.json` | auto-saved macro values for crash recovery (not in git) |
+| `state/macros.json` | auto-saved macro values, restored on start (not in git); without it (first start) the macros start with the values of scene 1 |
 | `state/overrides.json` | Control Desk channel overrides, restored on start (not in git) |
 
 Unknown keys (typos) and broken files are reported in `logs/YYMMDD_hhmmss.log` (one file per start) and never stop the engine. Keys starting with `_` (e.g. `_note`) are annotations and are ignored.
@@ -220,6 +222,6 @@ Working and covered by tests:
 
 The UI runs against the engine at 40 FPS in no-hardware mode.
 
-Verified by Miro on macOS: audio input and analysis (microphone test), the LCXL3 MIDI controller, and DMX output through the Enttec DMX USB Pro to one Cameo pinspot (2026-10-07). **Not yet verified on hardware:** Art-Net and v2 serial output, and the Windows build. Fixture details and the LCXL3 mapping were confirmed by Miro on 2026-10-05.
+Verified by Miro on macOS: audio input and analysis (microphone test), the LCXL3 MIDI controller, and DMX output through the Enttec DMX USB Pro to one Cameo pinspot (2026-10-07). On a Windows laptop the app builds and starts (Miro, 2026-10-09). **Not yet verified on hardware:** Art-Net and v2 serial output, several Enttec interfaces at once, and the Windows build with hardware connected. Fixture details and the LCXL3 mapping were confirmed by Miro on 2026-10-05.
 
 The masks match the vvvv look so far, except that Back and Forth rotates in 45° steps (vvvv: 90°); left as is for now.

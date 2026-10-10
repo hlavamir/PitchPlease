@@ -72,7 +72,7 @@ export interface EngineState {
   fog: Record<string, boolean>
   overrides?: Record<string, Record<string, number>> // Control Desk: universe → channel (1–512) → value
   io: {
-    outputs: { enttec: IoStatus | null; artnet: IoStatus | null; pitchpls_v2: IoStatus | null }
+    outputs: { enttec: (IoStatus | null)[]; artnet: IoStatus | null; pitchpls_v2: IoStatus | null }
     audio: IoStatus | null
     midi: IoStatus | null
   }
@@ -136,7 +136,7 @@ export interface Settings {
     [key: string]: unknown
   }
   outputs: {
-    enttec: { enabled: boolean; device: DeviceRef; universe: number }
+    enttec: { enabled: boolean; device: DeviceRef; universe: number }[] // up to 4 USB DMX interfaces
     artnet: { enabled: boolean; targets: { universe: number; ip: string; artnet_universe?: number | null }[] }
     pitchpls_v2: { enabled: boolean; device: DeviceRef; baudrate: number; mode: number; strips: number; pixels_per_strip: number }
   }

@@ -1,5 +1,41 @@
-import { useRef, useState, type PointerEvent } from 'react'
+import { useLayoutEffect, useRef, useState, type PointerEvent } from 'react'
 import type { MacroDef } from '../api'
+import { macroHint, macroTip } from '../hints'
+
+const MIN_LABEL_PX = 8 // below this a label is cut off with an ellipsis instead of shrinking further
+
+/**
+ * A label that always stays on one line: when the text is wider than the room it gets tighter letter
+ * spacing and then a smaller font (down to MIN_LABEL_PX), so the full name stays readable.
+ * It fills the room it is given (flex-1), so put it in a flex row.
+ */
+export function FitLabel({ text, className = '' }: { text: string; className?: string }) {
+  const ref = useRef<HTMLSpanElement>(null)
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const fit = () => {
+      el.style.fontSize = ''
+      el.style.letterSpacing = ''
+      const room = el.clientWidth
+      if (el.scrollWidth <= room) return
+      el.style.letterSpacing = '0.02em'
+      const width = el.scrollWidth
+      if (width <= room) return
+      const base = parseFloat(getComputedStyle(el).fontSize)
+      el.style.fontSize = `${Math.max(MIN_LABEL_PX, (base * room) / width)}px`
+    }
+    fit()
+    const ro = new ResizeObserver(fit)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [text])
+  return (
+    <span ref={ref} className={`min-w-0 flex-1 truncate whitespace-nowrap ${className}`}>
+      {text}
+    </span>
+  )
+}
 
 /** HSV (0..1, hue wraps) → CSS rgb(). */
 export function hsvCss(h: number, s: number, v: number): string {
@@ -93,7 +129,7 @@ export function MacroControl(props: Props) {
   } ${selected ? 'glow-sel' : ''}`
   const content = (
     <>
-      <span className="truncate">{def.label}</span>
+      <FitLabel text={def.label} />
       {tag && <span className="font-mono text-[10px] opacity-70">{tag}</span>}
     </>
   )
@@ -102,6 +138,8 @@ export function MacroControl(props: Props) {
     return (
       <button
         className={cls}
+        data-hint="hold"
+        data-tip={macroTip(def)}
         onPointerDown={() => {
           onSelect?.()
           setMacro(def.name, 1)
@@ -119,7 +157,7 @@ export function MacroControl(props: Props) {
     else toggleMacro(def.name)
   }
   return (
-    <button className={cls} onClick={press}>
+    <button className={cls} onClick={press} data-hint={macroHint(def)} data-tip={macroTip(def)}>
       {content}
     </button>
   )
@@ -249,15 +287,16 @@ function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, o
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerUp}
       onDoubleClick={() => !disabled && setMacro(def.name, def.default)}
-      title={
+      data-hint={disabled ? 'dimmer-off' : macroHint(def)}
+      data-tip={
         disabled
-          ? 'No fixture uses this dimmer (Rig → Dimmer) · double-click the name to rename'
-          : `Drag up/down · Shift = fine · double-click = reset${onRename ? ' · double-click the name = rename' : ''}${def.deferred ? ' · applied on release' : ''}`
+          ? 'No fixture uses this dimmer, so it is disabled and ignores MIDI'
+          : macroTip(def)
       }
     >
       <div
         ref={headRef}
-        className={`lbl flex h-[30px] flex-none items-center gap-2 overflow-hidden px-2.5 text-[11px] whitespace-nowrap ${
+        className={`lbl flex h-[30px] flex-none items-center gap-1.5 overflow-hidden px-2 text-[11px] whitespace-nowrap ${
           selected && !disabled && draft === null ? 'bg-ink text-ground' : 'border-b border-seam'
         } ${onRename ? 'cursor-text' : ''}`}
         onDoubleClick={(e) => {
@@ -286,7 +325,7 @@ function Fader({ def, value, applied, setMacro, colorTrack, pending, selected, o
             onBlur={() => finishRename(true)}
           />
         ) : (
-          <span className={`truncate ${disabled ? 'text-dim' : ''}`}>{def.label}</span>
+          <FitLabel text={def.label} className={disabled ? 'text-dim' : ''} />
         )}
       </div>
       <div className="flex min-h-0 flex-1 gap-1.5 py-2 pr-2.5 pl-2">
